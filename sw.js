@@ -1,7 +1,7 @@
-/* EFClaudian.tec — sw.js (v2.53.0): guarda a TELA do app no aparelho para abrir sem internet.
+/* EFClaudian — sw.js (v2.53.0): guarda a TELA do app no aparelho para abrir sem internet.
    Os DADOS não passam por aqui: o Firestore já guarda o cache dele e sincroniza quando a conexão volta.
    Ao publicar uma versão nova do index.html, troque o número abaixo (o app avisa "Versão nova pronta"). */
-const VERSAO = 'efclaudian-v2.53.0';
+const VERSAO = 'efclaudian-v2.74.0';
 const TELA = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 const FORA = [
   'https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js',
