@@ -9,7 +9,7 @@ Este pacote tem tudo o que vai para o endereço do app:
 | `manifest.webmanifest` | nome, cores e ícones para **instalar** como app |
 | `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`, `apple-touch-icon.png` | ícones do EFClaudian (lupa com broto) |
 
-Os seis arquivos precisam ficar **juntos, na mesma pasta**, num endereço **https**.
+Os sete arquivos precisam ficar **juntos, na mesma pasta**, num endereço **https**.
 
 ---
 
@@ -20,7 +20,7 @@ Os seis arquivos precisam ficar **juntos, na mesma pasta**, num endereço **http
    - O app não guarda senha nem dados no código. Os dados ficam no Firebase, protegidos pelas regras.
    - As chaves do Firebase que aparecem no código são públicas por natureza.
 3. Na página do repositório, toque em **Add file** › **Upload files**.
-   - Escolha os **seis arquivos** deste pacote e toque em **Commit changes**.
+   - Escolha os **sete arquivos** deste pacote e toque em **Commit changes**.
 4. Toque em **Settings** › **Pages**. Em **Branch**, escolha `main` e `/ (root)` e toque em **Save**.
 5. Espere 1 a 2 minutos. O endereço aparece no topo da página, no formato `https://SEU-USUARIO.github.io/efclaudian/`.
 6. **Autorize o endereço no Firebase**, senão o login não funciona:
@@ -41,7 +41,7 @@ Os seis arquivos precisam ficar **juntos, na mesma pasta**, num endereço **http
 ## Outros caminhos (precisam de computador)
 
 - **Firebase Hosting** (mesmo projeto do Firebase, endereço `docseliasflorencio.web.app`, sem autorizar domínio): precisa do programa `firebase-tools` num computador (`firebase init hosting` e `firebase deploy`).
-- **Netlify Drop** (app.netlify.com/drop): arraste a pasta com os seis arquivos. O endereço gerado também precisa ser autorizado no Firebase (passo 6).
+- **Netlify Drop** (app.netlify.com/drop): arraste a pasta com os sete arquivos. O endereço gerado também precisa ser autorizado no Firebase (passo 6).
 
 ## Conferir depois de publicar
 

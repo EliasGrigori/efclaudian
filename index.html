@@ -2240,7 +2240,7 @@ table.t th{position:sticky;top:0;z-index:2}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.83.2 · Solicitações sem materiais: Pedir equipamento novo de volta';
+const APP_VERSION = 'v2.84.0 · Sem internet: salvar sem travar e abrir sem sinal';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -2431,6 +2431,20 @@ const Data = (function () {
     for (let i = 0; i < p.length - 1; i++) o = (o[p[i]] = o[p[i]] || {});
     o[p[p.length - 1]] = val;
   }
+  /* v2.84.0: leitura que não pendura sem internet — tenta a nuvem por até 4 s; sem resposta, usa a cópia guardada no aparelho */
+  const fbDoc = d => d && d.exists ? Object.assign({ id: d.id }, d.data()) : null;
+  function fbGet(ref) {
+    const cache = () => ref.get({ source: 'cache' }).then(fbDoc).catch(() => undefined);
+    const srv = () => ref.get().then(fbDoc);
+    if (navigator.onLine === false) return cache().then(x => x !== undefined ? x : srv());
+    let t = null;
+    const lim = new Promise(r => { t = setTimeout(() => r({ lento: true }), 4000); });
+    return Promise.race([srv().then(x => ({ x: x }), e => ({ e: e })), lim]).then(r => {
+      clearTimeout(t);
+      if ('x' in r) return r.x;
+      return cache().then(x => { if (x !== undefined) return x; if (r.e) throw r.e; return srv(); });
+    });
+  }
   function col(name) {
     if (DEMO) {
       return {
@@ -2443,6 +2457,8 @@ const Data = (function () {
         add(obj) { const a = dLoad(name); const id = uid(); a.push(Object.assign({ id: id }, clean(obj))); dSave(name, a); dNotify(name); return Promise.resolve(id); },
         set(id, obj) { const a = dLoad(name).filter(x => x.id !== id); a.push(Object.assign({ id: id }, clean(obj))); dSave(name, a); dNotify(name); return Promise.resolve(id); },
         update(id, patch) { const a = dLoad(name); const it = a.find(x => x.id === id); if (!it) return Promise.reject(new Error('nf')); Object.keys(patch).forEach(k => setPath(it, k, clean({ v: patch[k] }).v)); dSave(name, a); dNotify(name); return Promise.resolve(); },
+        /* v2.84.0: acrescenta um item numa lista do registro sem regravar a lista inteira (ninguém apaga o passo do outro) */
+        push(id, campo, item, extra) { const a = dLoad(name); const it = a.find(x => x.id === id); if (!it) return Promise.reject(new Error('nf')); it[campo] = (Array.isArray(it[campo]) ? it[campo] : []).concat([clean({ v: item }).v]); Object.keys(extra || {}).forEach(k => setPath(it, k, clean({ v: extra[k] }).v)); dSave(name, a); dNotify(name); return Promise.resolve(); },
         get(id) { return Promise.resolve(dLoad(name).find(x => x.id === id) || null); },
         all() { return Promise.resolve(dLoad(name)); }
       };
@@ -2458,13 +2474,16 @@ const Data = (function () {
       },
       add(obj) {
         const ref = fdb.collection(name).doc();
-        return ref.set(Object.assign(clean(obj), { srv: firebase.firestore.FieldValue.serverTimestamp() })).then(() => ref.id);
+        const p = ref.set(Object.assign(clean(obj), { srv: firebase.firestore.FieldValue.serverTimestamp() })).then(() => ref.id);
+        p.docId = ref.id; return p; /* v2.84.0: o número do registro já existe antes de a nuvem confirmar */
       },
       set(id, obj) {
-        return fdb.collection(name).doc(id).set(Object.assign(clean(obj), { srv: firebase.firestore.FieldValue.serverTimestamp() })).then(() => id);
+        const p = fdb.collection(name).doc(id).set(Object.assign(clean(obj), { srv: firebase.firestore.FieldValue.serverTimestamp() })).then(() => id);
+        p.docId = id; return p;
       },
       update(id, patch) { return fdb.collection(name).doc(id).update(patch); },
-      get(id) { return fdb.collection(name).doc(id).get().then(d => d.exists ? Object.assign({ id: d.id }, d.data()) : null); },
+      push(id, campo, item, extra) { const p = Object.assign({}, extra || {}); p[campo] = firebase.firestore.FieldValue.arrayUnion(clean({ v: item }).v); return fdb.collection(name).doc(id).update(p); },
+      get(id) { return fbGet(fdb.collection(name).doc(id)); },
       all() { return fdb.collection(name).get().then(q => q.docs.map(d => Object.assign({ id: d.id }, d.data()))); }
     };
   }
@@ -2544,12 +2563,18 @@ const Data = (function () {
       firebase.initializeApp(fbConfigAtual());
       fdb = firebase.firestore(); fauth = firebase.auth(); try { fauth.languageCode = 'pt'; } catch (e) {}
       try { await fauth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); } catch (e) {} /* v2.76.0: o aparelho guarda a sessão; ao abrir, o app pede a senha (funciona sem internet) */
-      try { await fdb.enablePersistence({ synchronizeTabs: true }); } catch (e) { console.warn('Sem cache offline:', e.code); }
+      try { await fdb.enablePersistence({ synchronizeTabs: true }); } catch (e) { console.warn('Sem cache offline:', e.code); S._semCache = (e && e.code) || 'erro'; } /* v2.84.0: avisa na tela */
     },
     async setupDone() {
       if (DEMO) return Store.get('sv2demo_setup') === '1';
-      const d = await fdb.collection('sv2_meta').doc('setup').get();
-      return d.exists;
+      const d = await fbGet(fdb.collection('sv2_meta').doc('setup'));
+      if (d) Store.set('sv2-setup', '1'); /* v2.84.0: o aparelho lembra (o login aparece na hora, mesmo sem internet) */
+      return !!d;
+    },
+    /* v2.84.0: a nuvem responde? (um documento pequeno, escutado com a marca "veio do aparelho") */
+    conexao(cb) {
+      if (DEMO || !fdb) return () => {};
+      try { return fdb.collection('sv2_meta').doc('setup').onSnapshot({ includeMetadataChanges: true }, s => cb(!s.metadata.fromCache), () => cb(null)); } catch (e) { return () => {}; }
     },
     /* grava o perfil Principal e a marca "instalado" juntos */
     /* v2.53.0: ambiente de teste — grava a cópia de um backup no armazenamento do modo demo */
@@ -2582,23 +2607,45 @@ const Sync = (function () {
   let fila = [];   /* {k, col, op, doc, ts, st: 'pend' | 'antes' | 'erro', erro} */
   function salvar() { try { Store.set(KEY, JSON.stringify(fila.slice(-300))); } catch (e) {} }
   function mudou() { salvar(); try { pintar(); } catch (e) {} }
+  /* v2.84.0: a gravação "termina" quando fica guardada no aparelho. Com a nuvem respondendo, espera a confirmação
+     (até 2,5 s) e o erro chega como antes; sem internet (ou nuvem lenta), devolve logo e o Firestore envia sozinho depois.
+     Se a nuvem recusar depois disso, o registro aparece em "Não foram para a nuvem" e um aviso sobe na tela. */
+  let avisoOff = 0, avisoErro = 0;
   function track(col, op, args, p) {
     if (!p || typeof p.then !== 'function') return p;
     const it = { k: uid(), col: col, op: op, doc: op === 'add' ? '' : String((args && args[0]) || ''), ts: nowISO(), st: 'pend' };
     fila.push(it);
+    let devolvido = false;
     p.then(() => { fila = fila.filter(x => x !== it); mudou(); },
-      e => { it.st = 'erro'; it.erro = String((e && (e.code || e.message)) || 'erro'); mudou(); });
+      e => { it.st = 'erro'; it.erro = String((e && (e.code || e.message)) || 'erro'); mudou();
+        if (devolvido && Date.now() - avisoErro > 5000) { avisoErro = Date.now(); try { toast('Um registro de ' + nomeCol(col) + ' não foi para a nuvem (' + (it.erro === 'permission-denied' ? 'sem permissão' : it.erro) + '). Toque na nuvem, no alto, para ver.', 'err'); } catch (x) {} } });
     mudou();
-    return p;   /* devolve a MESMA promessa: quem gravou continua recebendo o resultado/erro de sempre */
+    if (DEMO) return p;
+    const val = op === 'add' ? p.docId : op === 'set' ? String((args && args[0]) || '') : undefined;
+    return new Promise((res, rej) => {
+      const off = navigator.onLine === false || servidor === false;
+      const t = setTimeout(() => {
+        if (devolvido) return; devolvido = true; res(val);
+        if (Date.now() - avisoOff > 60000) { avisoOff = Date.now(); try { toast('Sem conexão: guardado neste aparelho. Vai para a nuvem sozinho quando o sinal voltar.'); } catch (x) {} }
+      }, off ? 300 : 2500);
+      p.then(v => { clearTimeout(t); if (!devolvido) { devolvido = true; res(v); } }, e => { clearTimeout(t); if (!devolvido) { devolvido = true; rej(e); } });
+    });
+  }
+  /* v2.84.0: a nuvem responde? (internet ligada nem sempre quer dizer que o Firestore está alcançável) */
+  let servidor = null, tSrv = null;
+  function setServidor(v) {
+    if (v === false) { if (tSrv || servidor === false) return; tSrv = setTimeout(() => { tSrv = null; servidor = false; mudou(); }, 5000); return; }
+    clearTimeout(tSrv); tSrv = null; if (servidor !== v) { servidor = v; mudou(); }
   }
   function estado() {
     const erros = fila.filter(x => x.st === 'erro').length;
-    return { erros: erros, pend: fila.length - erros, on: navigator.onLine !== false, demo: DEMO };
+    const rede = navigator.onLine !== false;
+    return { erros: erros, pend: fila.length - erros, on: rede && (DEMO || servidor !== false), rede: rede, demo: DEMO };
   }
   function rotulo(e) {
     if (e.erros) return e.erros + ' registro(s) não gravado(s)';
-    if (e.pend) return e.pend + ' envio(s) aguardando' + (e.on ? '' : ' · sem internet');
-    if (!e.on) return 'Sem internet · nada pendente';
+    if (e.pend) return e.pend + ' envio(s) aguardando' + (e.on ? '' : e.rede ? ' · sem conexão com a nuvem' : ' · sem internet');
+    if (!e.on) return e.rede ? 'Sem conexão com a nuvem · tentando de novo' : 'Sem internet · nada pendente';
     return e.demo ? 'Demonstração: tudo neste aparelho' : 'Tudo sincronizado';
   }
   function botaoHTML() {
@@ -2625,7 +2672,8 @@ const Sync = (function () {
     if (an.length) h += '<div class="sec">De antes de fechar o app</div>' + an.map(x => '<div class="sync-grp"><b>' + esc(nomeCol(x.col)) + ' · ' + x.n + '</b><span>desde ' + esc(fmtDT(x.desde)) + '</span></div>').join('') +
       '<p class="sync-nota">Guardados neste aparelho. Saem da lista sozinhos quando a nuvem confirmar.</p>';
     if (!er.length && !pe.length && !an.length) h += '<p class="sync-nota">' + (e.demo ? 'Na demonstração não há envio para a nuvem: tudo fica só neste aparelho.' : 'Tudo o que foi lançado neste aparelho já está na nuvem.') + '</p>';
-    if (!e.on) h += '<p class="sync-nota"><b>Sem internet agora.</b> Pode continuar lançando: fica guardado neste aparelho e é enviado sozinho quando a conexão voltar. Não limpe os dados do navegador antes disso.</p>';
+    if (!e.on && e.rede) h += '<p class="sync-nota"><b>A internet está ligada, mas a nuvem não está respondendo.</b> Pode continuar lançando: fica guardado neste aparelho e é enviado sozinho quando a conexão voltar.</p>';
+    if (!e.rede) h += '<p class="sync-nota"><b>Sem internet agora.</b> Pode continuar lançando: fica guardado neste aparelho e é enviado sozinho quando a conexão voltar. Não limpe os dados do navegador antes disso.</p>';
     return h;
   }
   function pintar() {
@@ -2649,14 +2697,15 @@ const Sync = (function () {
       try { firebase.firestore().waitForPendingWrites().then(() => { fila = fila.filter(x => x.st !== 'antes'); mudou(); }).catch(() => {}); } catch (e) {}
     }
   }
-  return { track: track, estado: estado, botaoHTML: botaoHTML, pintar: pintar, abrir: abrir, limparErros: limparErros, retomar: retomar, lista: () => fila.slice() };
+  return { track: track, estado: estado, botaoHTML: botaoHTML, pintar: pintar, abrir: abrir, limparErros: limparErros, retomar: retomar, lista: () => fila.slice(),
+    servidor: setServidor, texto: () => rotulo(estado()) };
 })();
 /* envolve só add/set/update devolvidos por Data.col; leitura (watch/get) não passa por aqui */
 (function () {
   const orig = Data.col;
   Data.col = function (name) {
     const c = orig(name);
-    ['add', 'set', 'update'].forEach(op => { const f = c[op]; c[op] = function () { return Sync.track(name, op, arguments, f.apply(c, arguments)); }; });
+    ['add', 'set', 'update', 'push'].forEach(op => { const f = c[op]; if (f) c[op] = function () { return Sync.track(name, op, arguments, f.apply(c, arguments)); }; });
     return c;
   };
 })();
@@ -15892,7 +15941,15 @@ async function lockOk() {
 }
 function lockAcao(act) {
   if (act === 'lock-ok') { lockOk(); return true; }
-  if (act === 'lock-sair') { lockFechar(); doLogout(); return true; }
+  if (act === 'lock-sair') {
+    /* v2.84.0: sem internet, sair deixa a pessoa sem acesso até ter sinal — pede um segundo toque */
+    if (!DEMO && navigator.onLine === false && !(S.lkSairOk && Date.now() - S.lkSairOk < 15000)) {
+      S.lkSairOk = Date.now(); const m = $('#lock-msg');
+      if (m) m.innerHTML = '<div class="msg">Sem internet: se sair agora, você só consegue entrar de novo com sinal. Toque de novo para sair mesmo assim.</div>';
+      return true;
+    }
+    S.lkSairOk = 0; lockFechar(); doLogout(); return true;
+  }
   return false;
 }
 ['pointerdown', 'keydown', 'touchstart', 'wheel', 'input', 'click'].forEach(t => document.addEventListener(t, lockAtividade, { passive: true, capture: true }));
@@ -16252,6 +16309,7 @@ function lockFechar() {
 }
 async function lockOk() {
   const i = $('#lock-senha'), m = $('#lock-msg'), b = $('[data-action="lock-ok"]'); if (!i || S.lockOcupado) return;
+  const tv = lkTravaAte(); if (tv) { if (m) m.innerHTML = '<div class="msg">Muitas senhas erradas. Por segurança, tente de novo às ' + esc(tv) + '.</div>'; return; } /* v2.84.0 */
   const rot = S.lockModo === 'abrir' ? 'Entrar' : 'Desbloquear';
   const senha = i.value; if (!senha) { if (m) m.innerHTML = '<div class="msg">Digite a sua senha.</div>'; return; }
   S.lockOcupado = true; if (b) { b.disabled = true; b.textContent = 'Conferindo…'; }
@@ -16262,6 +16320,12 @@ async function lockOk() {
   if (ok) { if (!LOCK_HASH) await lockGuardar(senha); else if (S.user) lkSalvar(S.user.id); const ab = S.lockModo === 'abrir'; lockFechar(); if (ab) Audit.log({ acao: 'login', entidade: 'sessao', resumo: S.user.nome + ' abriu o app (senha conferida' + (navigator.onLine === false ? ' sem internet' : '') + ')' }); return; }
   if (erro) { if (m) m.innerHTML = '<div class="msg">' + esc(erro) + '</div>'; return; }
   S.lockErros++; i.value = '';
+  if (S.lockErros >= LOCK_TENT && navigator.onLine === false) { /* v2.84.0: sem internet não sai da conta (senão ficaria sem acesso em campo): trava 15 min neste aparelho */
+    Store.set('sv2-lk-trava', String(Date.now() + LK_TRAVA_MS)); S.lockErros = 0;
+    try { Audit.log({ acao: 'bloqueio_senha_errada', entidade: 'sessao', resumo: S.user.nome + ': ' + LOCK_TENT + ' senhas erradas sem internet — travado 15 min neste aparelho' }); } catch (e) {}
+    if (m) m.innerHTML = '<div class="msg">' + LOCK_TENT + ' senhas erradas. Por segurança, este aparelho fica travado até as ' + esc(lkTravaAte()) + '.</div>';
+    return;
+  }
   if (S.lockErros >= LOCK_TENT) { try { Audit.log({ acao: 'bloqueio_senha_errada', entidade: 'sessao', resumo: S.user.nome + ': ' + LOCK_TENT + ' senhas erradas na tela ' + (S.lockModo === 'abrir' ? 'de abrir o app' : 'bloqueada') + ' — saiu do app' }); } catch (e) {} lockFechar(); doLogout(); return; }
   if (m) m.innerHTML = '<div class="msg">Senha errada. ' + (LOCK_TENT - S.lockErros) + ' tentativa(s) antes de sair do app.</div>';
 }
@@ -16978,7 +17042,7 @@ function viewBugs() {
   const l = todos.filter(b => f === 'todos' ? true : f === 'meus' ? b.porId === S.user.id : f === 'abertos' ? bugAberto(b) : b.status === f);
   const n = k => todos.filter(b => k === 'meus' ? b.porId === S.user.id : k === 'abertos' ? bugAberto(b) : b.status === k).length;
   const chip = (k, t) => '<button class="chip-f' + (f === k ? ' on' : '') + '" data-action="bug-f" data-id="' + k + '">' + t + ' <b>' + (k === 'todos' ? todos.length : n(k)) + '</b></button>';
-  const linhas = l.map(b => '<tr data-action="bug-open" data-id="' + esc(b.id) + '" class="click"><td>' + esc(String(b.numero || '')) + '</td><td><span class="chip ' + BUG_TIPOS[b.tipo || 'bug'][1] + '">' + BUG_TIPOS[b.tipo || 'bug'][0] + '</span></td>' +
+  const linhas = l.map(b => '<tr data-action="bug-open" data-id="' + esc(b.id) + '" class="click"><td>' + esc(bugNum(b)) + '</td><td><span class="chip ' + BUG_TIPOS[b.tipo || 'bug'][1] + '">' + BUG_TIPOS[b.tipo || 'bug'][0] + '</span></td>' +
     '<td><b>' + esc(b.titulo) + '</b>' + (b.foto ? ' <span class="bug-clip" title="Com foto">' + icoI('camera') + '</span>' : '') + '</td><td>' + esc(bugAreaNome(b.area)) + '</td><td>' + esc(b.porNome || '') + '</td><td>' + esc(fmtD(diaLocal(b.ts))) + '</td>' +
     '<td><span class="chip ' + BUG_SIT[b.status || 'novo'][1] + '">' + BUG_SIT[b.status || 'novo'][0] + (b.status === 'resolvido' && b.versaoResolvido ? ' · ' + esc(b.versaoResolvido) : '') + '</span></td></tr>').join('');
   return '<div class="bug-top"><button class="btn primary" data-action="bug-novo" data-id="bug">Reportar um problema</button><button class="btn" data-action="bug-novo" data-id="sugestao">Sugerir uma melhoria</button>' +
@@ -17030,7 +17094,7 @@ function openBug(id) {
   const b = (S.bugs || []).find(x => x.id === id); if (!b) return;
   const pode = isPrincipal(S.user), sit = BUG_SIT[b.status || 'novo'];
   const hist = (b.hist || []).map(h => '<li><b>' + esc(BUG_SIT[h.status] ? BUG_SIT[h.status][0] : h.status) + '</b> · ' + esc(fmtDT(h.ts)) + ' · ' + esc(h.porNome || '') + (h.texto ? '<br><span>' + esc(h.texto) + '</span>' : '') + '</li>').join('');
-  openSheet('<h3>Nº ' + esc(String(b.numero || '')) + ' · ' + esc(b.titulo) + '</h3><div class="sub"><span class="chip ' + BUG_TIPOS[b.tipo || 'bug'][1] + '">' + BUG_TIPOS[b.tipo || 'bug'][0] + '</span> <span class="chip ' + sit[1] + '">' + sit[0] + '</span></div>' +
+  openSheet('<h3>Nº ' + esc(bugNum(b)) + ' · ' + esc(b.titulo) + '</h3><div class="sub"><span class="chip ' + BUG_TIPOS[b.tipo || 'bug'][1] + '">' + BUG_TIPOS[b.tipo || 'bug'][0] + '</span> <span class="chip ' + sit[1] + '">' + sit[0] + '</span></div>' +
     '<p class="bug-desc">' + esc(b.descricao) + '</p>' + (/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(String(b.foto || '')) ? '<a class="bug-img" href="' + esc(b.foto) + '" target="_blank" rel="noopener"><img src="' + esc(b.foto) + '" alt="Imagem anexada"></a>' : '') +
     keyval([['Quem', b.porNome || '—'], ['Quando', fmtDT(b.ts)], ['Parte do app', bugAreaNome(b.area) + (b.tela ? ' (' + b.tela + ')' : '')], ['Versão', b.versao || '—'], ['Aparelho', b.aparelho || '—']].concat(b.versaoResolvido ? [['Resolvido na versão', b.versaoResolvido]] : [])) +
     '<div class="sec">Histórico</div><ul class="bug-hist">' + hist + '</ul><div id="bug-msg"></div>' +
@@ -17042,17 +17106,24 @@ function openBug(id) {
       (b.status !== 'resolvido' ? '<button class="btn primary" data-action="bug-sit" data-id="' + esc(b.id) + '" data-s="resolvido">Resolvido</button>' : '') +
       (!bugAberto(b) ? '<button class="btn" data-action="bug-sit" data-id="' + esc(b.id) + '" data-s="analise">Reabrir</button>' : '') : '') + '</div>');
 }
+/* v2.84.0: dois envios ao mesmo tempo (ou um sem internet) podem pegar o mesmo número: o mais novo aparece como 12-b */
+function bugNum(b) {
+  const n = Number(b && b.numero) || 0; if (!n) return '';
+  const mesmos = (S.bugs || []).filter(x => (Number(x.numero) || 0) === n).sort((x, y) => String(x.ts || '').localeCompare(String(y.ts || '')) || String(x.id).localeCompare(String(y.id)));
+  const k = mesmos.findIndex(x => x.id === b.id);
+  return String(n) + (k > 0 ? '-' + String.fromCharCode(97 + Math.min(k, 25)) : '');
+}
 async function bugMudar(id, st) {
   const b = (S.bugs || []).find(x => x.id === id); if (!b || !isPrincipal(S.user) || !BUG_SIT[st]) return;
   const m = $('#bug-msg'), txt = String(($('#bug-txt') || {}).value || '').trim(), ver = String(($('#bug-ver') || {}).value || '').trim();
   if (st === 'naoprocede' && !txt) { if (m) m.innerHTML = '<div class="msg">Escreva o motivo de não proceder.</div>'; return; }
   if (st === 'resolvido' && !ver) { if (m) m.innerHTML = '<div class="msg">Diga em qual versão foi resolvido.</div>'; return; }
-  const ts = nowISO(), h = (b.hist || []).concat([{ ts: ts, porNome: S.user.nome, status: st, texto: txt + (st === 'resolvido' ? (txt ? ' · ' : '') + 'versão ' + ver : '') }]);
-  const p = { status: st, hist: h, atualizadoEm: ts, atualizadoPor: S.user.nome }; if (st === 'resolvido') p.versaoResolvido = ver;
+  const ts = nowISO(), passo = { ts: ts, porNome: S.user.nome, status: st, texto: txt + (st === 'resolvido' ? (txt ? ' · ' : '') + 'versão ' + ver : '') };
+  const p = { status: st, atualizadoEm: ts, atualizadoPor: S.user.nome }; if (st === 'resolvido') p.versaoResolvido = ver;
   try {
-    await Data.col('sv2_bugs').update(b.id, p); Object.assign(b, p);
-    if (b.porId && b.porId !== S.user.id) Notif.send({ nivel: 'info', titulo: (b.tipo === 'sugestao' ? 'Sua sugestão' : 'Seu problema reportado') + ' nº ' + b.numero + ': ' + BUG_SIT[st][0], texto: b.titulo + (txt ? ' — ' + txt : '') + (st === 'resolvido' ? ' (versão ' + ver + ')' : ''), para: [b.porId], refTipo: 'bug', refId: b.id });
-    Audit.log({ acao: 'bug_situacao', entidade: 'bug', entidadeId: b.id, resumo: 'Nº ' + b.numero + ' → ' + BUG_SIT[st][0] + (txt ? ' (' + txt + ')' : ''), antes: { status: b.status }, depois: { status: st } });
+    await Data.col('sv2_bugs').push(b.id, 'hist', passo, p); Object.assign(b, p, { hist: (b.hist || []).concat([passo]) }); /* v2.84.0: acrescenta o passo, não regrava a lista */
+    if (b.porId && b.porId !== S.user.id) Notif.send({ nivel: 'info', titulo: (b.tipo === 'sugestao' ? 'Sua sugestão' : 'Seu problema reportado') + ' nº ' + bugNum(b) + ': ' + BUG_SIT[st][0], texto: b.titulo + (txt ? ' — ' + txt : '') + (st === 'resolvido' ? ' (versão ' + ver + ')' : ''), para: [b.porId], refTipo: 'bug', refId: b.id });
+    Audit.log({ acao: 'bug_situacao', entidade: 'bug', entidadeId: b.id, resumo: 'Nº ' + bugNum(b) + ' → ' + BUG_SIT[st][0] + (txt ? ' (' + txt + ')' : ''), antes: { status: b.status }, depois: { status: st } });
     toast('Situação atualizada.', 'ok'); openBug(b.id); if (curArea().id === 'qualidade') renderView();
   } catch (e) { if (m) m.innerHTML = '<div class="msg">' + esc(errMsg(e)) + '</div>'; }
 }
@@ -17892,8 +17963,8 @@ function openGear() {
     '<div class="tema-grupos" id="tema-grupos" hidden>' + (meus.length ? '<div class="ap-hint" style="margin-top:0">Exclusivo do seu nível · ' + esc(NIVEL_NOME[nivelDe(u)] || '') + '</div><div class="themes">' + meus.map(thB).join('') + '</div>' : '') + '<div class="ap-hint"' + (meus.length ? '' : ' style="margin-top:0"') + '>Limpos</div><div class="themes">' + THEMES.filter(t => !t.grupo).map(thB).join('') + '</div><div class="ap-hint">Com fundo (um desenho discreto atrás das telas)</div><div class="themes">' + THEMES.filter(t => t.grupo === 'fundo').map(thB).join('') + '</div></div></div>';
   const adm = isPrincipal(u) ? '<div class="sec">Administração</div><button class="menu-btn" data-action="users">Usuários<span>›</span></button><button class="menu-btn" data-action="emp-open">Empresa (nome, unidades e endereços)<span>›</span></button><button class="menu-btn" data-action="dc-open">Documento controlado (cabeçalho das impressões)<span>›</span></button><button class="menu-btn" data-action="teste-open">Ambiente de teste' + (fbTesteAtivo() ? ' <span class="chip warn">em teste</span>' : '') + '<span>›</span></button><button class="menu-btn" data-action="arq-open" data-id="novo">Arquivo por ano' + (arqCfg().ateAno ? ' <small>fechado até ' + arqCfg().ateAno + '</small>' : '') + '<span>›</span></button><button class="menu-btn" data-action="v75-teste">Registros de teste<span>›</span></button><button class="menu-btn" data-action="bk-open">Backup e exportação' + (bkAtrasado() ? ' <span class="chip warn">fazer</span>' : '') + '<span>›</span></button><button class="menu-btn" data-action="alert-test">Testar alerta crítico neste aparelho<span>›</span></button>' : '';
   openSheet('<h3 class="op-h">Opções</h3><button class="menu-btn mp-linha" data-action="meu-perfil">' + avatarHTML(u, 40) + '<span><b>' + nomeFmt(u) + '</b><small>' + esc((u.cargo ? u.cargo + ' · ' : '') + perfilLabel(u)) + ' · Meu perfil</small></span><span>›</span></button><button class="menu-btn mp-linha cnq-menu" data-action="cnq-open">' + cnqCoroa(3, 'ouro') + '<span><b>Conquistas</b><small>As suas, as da equipe e as dos colegas · sem ranking</small></span><span>›</span></button><div class="sec">Tema</div>' + th + tabletMenuHTML() + adm +
-    (DEMO ? '<div class="sec">Modo teste</div>' + (testeOrigem() ? '<button class="menu-btn" data-action="teste-open">Ambiente de teste (cópia)<span>›</span></button>' : '') + '<button class="menu-btn" data-action="demo-off">Sair da demonstração e voltar para a nuvem<span>›</span></button>' : '') + '' + (rsPode(u) ? '<div class="sec">Relatórios</div><button class="menu-btn" data-action="rs-open">Relatórios da semana<span>›</span></button>' : '') + pwaMenuHTML() + '<div class="sec">Sobre</div>' + keyval([['Versão', APP_VERSION], ['Dados', Data.mode === 'demo' ? 'Demonstração (só neste aparelho)' : 'Nuvem, sincronizado'], ['Conexão', navigator.onLine ? 'Online' : 'Offline']]) +
-    '<div class="row-actions"><button class="btn danger" data-action="logout">Sair</button><button class="btn primary" data-action="close">Fechar</button></div>');
+    (DEMO ? '<div class="sec">Modo teste</div>' + (testeOrigem() ? '<button class="menu-btn" data-action="teste-open">Ambiente de teste (cópia)<span>›</span></button>' : '') + '<button class="menu-btn" data-action="demo-off">Sair da demonstração e voltar para a nuvem<span>›</span></button>' : '') + '' + (rsPode(u) ? '<div class="sec">Relatórios</div><button class="menu-btn" data-action="rs-open">Relatórios da semana<span>›</span></button>' : '') + pwaMenuHTML() + '<div class="sec">Sobre</div>' + keyval([['Versão', APP_VERSION], ['Dados', Data.mode === 'demo' ? 'Demonstração (só neste aparelho)' : 'Nuvem, sincronizado'], ['Conexão', Sync.texto()]]) +
+    '<div class="row-actions"><button class="btn danger" data-action="logout">Sair</button><button class="btn" data-action="bloquear">Bloquear</button><button class="btn primary" data-action="close">Fechar</button></div>');
 }
 /* v2.14.1 — os temas saem de dentro da bolinha para os lugares deles (e voltam ao tocar de novo) */
 function temaAbrir() {
@@ -18040,7 +18111,8 @@ async function showLogin(msg) {
   S.user = null; $('#app').hidden = true; $('#boot').hidden = true; $('#banner-host').innerHTML = '';
   const host = $('#auth'); host.hidden = false;
   let setup = true, note = '';
-  try { setup = await Data.setupDone(); } catch (e) { note = e && e.code === 'permission-denied' ? 'As regras do Firestore ainda não foram publicadas. Siga o passo a passo do arquivo de regras.' : (navigator.onLine ? '' : 'Sem conexão. Conecte-se para entrar.'); }
+  if (!DEMO && Store.get('sv2-setup') === '1') { setup = true; Data.setupDone().catch(() => {}); } /* v2.84.0: não espera a internet */
+  else try { setup = await Data.setupDone(); } catch (e) { note = e && e.code === 'permission-denied' ? 'As regras do Firestore ainda não foram publicadas. Siga o passo a passo do arquivo de regras.' : (navigator.onLine ? '' : 'Sem conexão. Conecte-se para entrar.'); }
   const m = (msg ? '<div class="msg">' + esc(msg) + '</div>' : '') + (note ? '<div class="msg info">' + esc(note) + '</div>' : '');
   if (!setup) {
     host.innerHTML = lgFundoHTML() + '<div class="auth lg-auth">' + lgTopoHTML() + authCard('<h2>Primeiro acesso</h2><p class="lead">Crie a conta Principal. Ela terá acesso total e poderá criar os outros usuários.</p>' + m + '<form data-form="setup" autocomplete="off"><div id="f-msg"></div>' +
@@ -18113,6 +18185,8 @@ async function onAuth(id) {
   } catch (e) { console.error(e); S.loginPending = false; await showLogin('Não foi possível carregar seu perfil. ' + (navigator.onLine ? errMsg(e) : 'Sem conexão.')); }
 }
 function startSession() {
+  S.unsub.push(Data.conexao(v => Sync.servidor(v))); /* v2.84.0 */
+  if (S._semCache && !S._semCacheAvisado) { S._semCacheAvisado = true; setTimeout(() => toast('Atenção: neste navegador o app não guarda os dados para usar sem internet (' + S._semCache + '). Use o app instalado pelo Chrome e feche outras abas do EFClaudian.', 'err'), 1500); }
   S.unsub.push(Data.col('sv2_users').watch(list => {
     S.users = list;
     const me = list.find(x => x.id === S.user.id); if (!me) return;
@@ -18180,6 +18254,20 @@ function startSession() {
     S.audit = list;
     const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && (t.id === 'atividade' || t.id === 'semana')) renderView();
   }, { order: 'ts', limit: 1000 }));
+}
+/* v2.84.0: "Sair" × "Bloquear". Sair apaga a senha guardada no aparelho; sem internet, quem sai só entra de novo com sinal. */
+const LK_TRAVA_MS = 15 * 60 * 1000;
+function lkTravaAte() { const t = Number(Store.get('sv2-lk-trava') || 0); if (!t || t <= Date.now()) return ''; const d = new Date(t); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }
+function sairPedir() {
+  if (DEMO || navigator.onLine !== false) { doLogout(); return; }
+  openSheet('<h3>Sair sem internet?</h3><div class="sub">Se sair agora, você só consegue entrar de novo quando tiver sinal. Para deixar o app protegido e continuar usando sem internet, toque em Bloquear: ele pede a sua senha para abrir.</div>' +
+    '<div class="row-actions"><button class="btn danger" data-action="sair-sim">Sair mesmo assim</button><button class="btn primary" data-action="bloquear">Bloquear</button></div>', { noFocus: true });
+}
+function lockManual() {
+  if (!S.user || S.lockado) return;
+  if (!LOCK_HASH && navigator.onLine === false && !DEMO) { toast('Ainda não dá para bloquear sem internet neste aparelho: entre uma vez com internet primeiro.', 'err'); return; }
+  lockAtivar('bloqueio');
+  const p = $('#lock .lock-c p'); if (p) p.textContent = lkNome() + ', digite a sua senha para continuar de onde parou.';
 }
 async function doLogout() {
   closeSheet(); lkApagar(); /* v2.76.0: sair de verdade apaga a senha guardada no aparelho */
@@ -18387,7 +18475,9 @@ document.addEventListener('click', e => {
     case 'md-ir': { if (String(id || '') === 'bk:') { openBackup(); break; } if (String(id || '') === 'pc:') { procIrTela(); break; } if (String(id || '').indexOf('ac:') === 0) { openAcao(String(id).slice(3)); break; } const p = String(id || '').split('/'); S.area = p[0]; if (p[1]) S.tabs[p[0]] = p[1]; renderShell(); renderView(); window.scrollTo(0, 0); break; }
     case 'theme': applyTheme(id); Data.col('sv2_users').update(S.user.id, { tema: id }).catch(() => {}); openGear(); break;
     case 'tablet-toggle': tabletToggle(); break;
-    case 'logout': doLogout(); break;
+    case 'logout': sairPedir(); break;
+    case 'bloquear': closeSheet(); lockManual(); break; /* v2.84.0 */
+    case 'sair-sim': doLogout(); break;
     case 'users': if (!isPrincipal(S.user)) break; openUsers(); break;
     case 'user-new': if (!isPrincipal(S.user)) break; openNewUser(); break;
     case 'user-save': if (!isPrincipal(S.user)) break; saveNewUser(); break;
