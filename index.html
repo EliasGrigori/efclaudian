@@ -2266,6 +2266,9 @@ table.t th{position:sticky;top:0;z-index:2}
 .grecaptcha-badge{visibility:hidden!important}
 .rc-nota{margin:10px 0 0;font-size:11px;color:var(--text-muted);text-align:center}.rc-nota a{color:inherit}
 .input.campo-erro{border-color:var(--crit);box-shadow:0 0 0 2px color-mix(in srgb,var(--crit) 25%,transparent)}
+
+/* v2.89.0 — conta de teste */
+.ut-teste{margin:0 0 12px;border:1px dashed var(--warn)}
 </style></head>
 <body data-theme="dark">
 <div id="boot" class="boot">Carregando…</div>
@@ -2277,7 +2280,7 @@ table.t th{position:sticky;top:0;z-index:2}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.88.0 · App Check (Fraud Defense) ligado, ainda sem aplicar';
+const APP_VERSION = 'v2.89.0 · notificações só de quem é · conta de teste';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -2351,7 +2354,7 @@ function slugLogin(s) {
 }
 const emailOf = login => slugLogin(login) + '@efclaudian.app';
 const clean = o => JSON.parse(JSON.stringify(o));
-const perfilLabel = u => !u ? '' : (PERFIS[u.perfil] || u.perfil) + (u.perfil === 'secundario' && u.estrela ? ' ★' : '');
+const perfilLabel = u => !u ? '' : (PERFIS[u.perfil] || u.perfil) + (u.perfil === 'secundario' && u.estrela ? ' ★' : '') + (u.contaTeste ? ' · conta de teste' : ''); /* v2.89.0 */
 /* ============ MEU PERFIL (v2.17.0) ============
    Cargo: texto da própria pessoa. Status: Ativo, Em campo, Em treinamento, Ausente/férias (a pessoa escolhe);
    Inativo = bloqueado (só o Principal). Foto: um registro por pessoa em sv2_avatar/{id}; trocar sobrescreve
@@ -2458,6 +2461,7 @@ const Data = (function () {
   function dView(n, o) {
     let a = dLoad(n);
     if (o && o.desde && o.order) a = a.filter(x => String(x[o.order] || '') >= o.desde);
+    if (o && o.contem) a = a.filter(x => Array.isArray(x[o.contem[0]]) && x[o.contem[0]].indexOf(o.contem[1]) >= 0); /* v2.89.0 */
     if (o && o.order) a = a.slice().sort((x, y) => String(y[o.order]).localeCompare(String(x[o.order])));
     if (o && o.limit) a = a.slice(0, o.limit);
     return a;
@@ -2505,6 +2509,7 @@ const Data = (function () {
         o = o || {};
         let q = fdb.collection(name);
         if (o.desde && o.order) q = q.where(o.order, '>=', o.desde);
+        if (o.contem) q = q.where(o.contem[0], 'array-contains', o.contem[1]); /* v2.89.0 */
         if (o.order) q = q.orderBy(o.order, 'desc');
         if (o.limit) q = q.limit(o.limit);
         return q.onSnapshot(s => cb(s.docs.map(d => Object.assign({ id: d.id }, d.data()))), e => { console.error(name, e); if (o.onError) o.onError(e); });
@@ -2601,7 +2606,7 @@ const Data = (function () {
       appCheckLigar(); /* v2.88.0: antes do Firestore e do login */
       fdb = firebase.firestore(); fauth = firebase.auth(); try { fauth.languageCode = 'pt'; } catch (e) {}
       try { await fauth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); } catch (e) {} /* v2.76.0: o aparelho guarda a sessão; ao abrir, o app pede a senha (funciona sem internet) */
-      try { await fdb.enablePersistence({ synchronizeTabs: true }); } catch (e) { console.warn('Sem cache offline:', e.code); S._semCache = (e && e.code) || 'erro'; } /* v2.84.0: avisa na tela */
+      try { await fdb.enablePersistence({ synchronizeTabs: true }); } catch (e) { console.warn('Sem cache offline:', e.code); S._semCache = (e && (e.name === 'QuotaExceededError' ? 22 : e.code)) || 'erro'; } /* v2.84.0: avisa na tela */
     },
     async setupDone() {
       if (DEMO) return Store.get('sv2demo_setup') === '1';
@@ -2729,6 +2734,7 @@ const Sync = (function () {
   function pintar() {
     const b = document.getElementById('sync-btn'); if (b) b.outerHTML = botaoHTML();
     const l = document.getElementById('sync-lista'); if (l) l.innerHTML = listaHTML();
+    const sb = document.getElementById('sync-sobre'); if (sb) sb.textContent = rotulo(estado()); /* v2.89.0: Opções › Sobre ao vivo */
     const lb = document.getElementById('sync-limpar'); if (lb) lb.hidden = !estado().erros;
   }
   function abrir() {
@@ -2760,6 +2766,64 @@ const Sync = (function () {
   };
   const lt = Data.lote; Data.lote = ops => Sync.track((ops[0] && ops[0].col) || 'lote', 'lote', [], lt.call(Data, ops)); /* v2.85.0 */
 })();
+
+/* ============ CONTA DE TESTE (v2.89.0 · nº 9) ============
+   O Principal marca "Conta de teste" no usuário (sv2_users.contaTeste). Tudo o que essa conta grava leva testeConta:true e
+   (campo próprio: "teste" já é o "Registros de teste" da v2.75, que o Principal marca e desfaz)
+   SÓ ELA vê: os outros aparelhos ignoram esses registros (não entram em listas, relatórios, rateios nem pendências).
+   Ela não altera registro real (só os que ela mesma lançou). Ao Sair, a conta fica bloqueada até o Principal liberar.
+   As regras do Firestore (v2.89) exigem o mesmo no servidor. */
+const TESTE_LIVRE = ['sv2_users', 'sv2_notifs', 'sv2_alm_pref', 'sv2_avatar', 'sv2_login', 'sv2_meta', 'sv2_recup']; /* o que é da própria pessoa (perfil, "lido", preferências) */
+const Teste = { ids: {}, vistos: {} };
+const contaTeste = () => !!(S.user && S.user.contaTeste);
+function testeRecusa() { const e = new Error('Conta de teste: só altera o que ela mesma lançou.'); e.code = 'conta-teste'; return Promise.reject(e); }
+(function () {
+  const orig = Data.col;
+  const grupo = (m, n) => (m[n] = m[n] || new Set());
+  Data.col = function (name) {
+    const c = orig(name), livre = TESTE_LIVRE.indexOf(name) >= 0, ids = grupo(Teste.ids, name), vistos = grupo(Teste.vistos, name);
+    const w = c.watch;
+    if (w) c.watch = function (cb, o) {
+      return w.call(c, list => {
+        list.forEach(x => { vistos.add(x.id); if (x.testeConta === true) ids.add(x.id); });
+        cb(contaTeste() ? list : list.filter(x => x.testeConta !== true)); /* registros de teste: só a conta de teste vê */
+      }, o);
+    };
+    const anota = p => { Promise.resolve(p).then(id => { if (id) ids.add(String(id)); }, () => {}); return p; };
+    ['add', 'set', 'update', 'push'].forEach(op => {
+      const f = c[op]; if (!f) return;
+      c[op] = function () {
+        if (!contaTeste()) return f.apply(c, arguments);
+        if (name === 'sv2_conquistas') return Promise.resolve(null); /* conquistas não contam teste */
+        const a = Array.prototype.slice.call(arguments);
+        if (op === 'add') { a[0] = Object.assign({}, a[0], { testeConta: true }); return anota(f.apply(c, a)); }
+        if (livre) return f.apply(c, a);
+        const id = String(a[0]);
+        if (op === 'set') { if (vistos.has(id) && !ids.has(id)) return testeRecusa(); a[1] = Object.assign({}, a[1], { testeConta: true }); ids.add(id); return f.apply(c, a); }
+        if (!ids.has(id)) return testeRecusa();
+        return f.apply(c, a);
+      };
+    });
+    return c;
+  };
+  const lt = Data.lote;
+  Data.lote = function (ops) {
+    if (!contaTeste()) return lt.call(Data, ops);
+    const out = [];
+    for (const o of ops) {
+      if (o.col === 'sv2_conquistas') continue;
+      const ids = grupo(Teste.ids, o.col), vistos = grupo(Teste.vistos, o.col), livre = TESTE_LIVRE.indexOf(o.col) >= 0;
+      if (o.tipo === 'set') { if (!livre && vistos.has(o.id) && !ids.has(o.id)) return testeRecusa(); out.push(Object.assign({}, o, { dados: livre ? o.dados : Object.assign({}, o.dados, { testeConta: true }) })); if (!livre) ids.add(o.id); }
+      else { if (!livre && !ids.has(o.id)) return testeRecusa(); out.push(o); }
+    }
+    return out.length ? lt.call(Data, out) : Promise.resolve(0);
+  };
+})();
+/* ao Sair: a conta de teste se bloqueia (a regra só deixa ela mesma pôr bloqueado = true; tirar, só o Principal) */
+async function testeBloquearAoSair() {
+  if (!contaTeste()) return;
+  try { await Promise.race([Data.col('sv2_users').update(S.user.id, { bloqueado: true, bloqueadoEm: nowISO(), motivoBloqueio: 'Conta de teste: saiu do app (o Principal libera de novo)' }), new Promise(r => setTimeout(r, 2500))]); } catch (e) { console.warn('teste bloquear', e && e.code); }
+}
 
 /* ============ MEU DIA (v2.15.0) ============
    Só LÊ o que já existe. Cada bloco só aparece se a pessoa tem a caixinha daquela área
@@ -3092,10 +3156,54 @@ const Audit = {
 };
 
 /* ============ NOTIFICAÇÕES ============ */
+/* v2.89.0 (G6) — "dest": a lista de chaves de quem pode ver ('todos', o id da pessoa, 'sup' = líderes ★ e Principal,
+   'principal'). Cada aparelho escuta só as próprias chaves; a regra do Firestore confere a mesma coisa. */
+function notifDest(para) {
+  if (Array.isArray(para)) return para.filter(Boolean).map(String);
+  if (para === 'superiores') return ['sup'];
+  if (para === 'principal') return ['principal'];
+  return [String(para || 'todos')];
+}
+function notifChaves(u) { return !u ? [] : ['todos', u.id].concat(isSup(u) ? ['sup'] : []).concat(isPrincipal(u) ? ['principal'] : []); }
+function notifChegou() {
+  const m = {}; Object.keys(S._notifPartes || {}).forEach(k => (S._notifPartes[k] || []).forEach(n => { m[n.id] = n; }));
+  S.notifs = Object.keys(m).map(id => m[id]).sort((a, b) => String(b.ts || '').localeCompare(String(a.ts || '')));
+  renderBell(); Alerts.check();
+  const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && t.id === 'notif') renderView();
+}
+function notifDesligar() { (S._notifUn || []).forEach(f => { try { f(); } catch (e) {} }); S._notifUn = []; S._notifChaves = ''; }
+function notifLigar() {
+  if (!S.user) return;
+  const ch = notifChaves(S.user), chave = S._notifModo === 'antigo' ? 'antigo' : ch.join('|');
+  if (S._notifChaves === chave && (S._notifUn || []).length) return;
+  notifDesligar(); S._notifChaves = chave; S._notifPartes = {};
+  const antigo = () => { /* sem o índice criado ainda: escuta como antes (as últimas 300) */
+    if (S._notifModo === 'antigo') return; S._notifModo = 'antigo'; notifDesligar(); S._notifChaves = 'antigo'; S._notifPartes = {};
+    S._notifUn.push(Data.col('sv2_notifs').watch(list => { S._notifPartes = { antigo: list }; notifChegou(); }, { order: 'ts', limit: 300 }));
+  };
+  if (S._notifModo === 'antigo') { S._notifModo = ''; antigo(); return; }
+  ch.forEach(k => S._notifUn.push(Data.col('sv2_notifs').watch(list => { S._notifPartes[k] = list; notifChegou(); },
+    { contem: ['dest', k], order: 'ts', limit: 300, onError: e => { console.warn('notificações (' + k + '):', e && e.code); if (e && e.code === 'failed-precondition') antigo(); } })));
+}
+/* os avisos de antes da v2.89 não têm "dest": o Principal completa (uma vez; fica marcado em sv2_cfg/notifmig) */
+async function notifMigrar() {
+  if (!S.user || contaTeste() || !(DEMO || isPrincipal(S.user)) || S._notifMigFeito || (S._cfgLista || []).some(x => x.id === 'notifmig')) return;
+  if (!DEMO && navigator.onLine === false) return;
+  S._notifMigFeito = true;
+  try {
+    const falta = ((await Data.col('sv2_notifs').all()) || []).filter(n => !Array.isArray(n.dest));
+    for (let i = 0; i < falta.length; i += 400) await Data.lote(falta.slice(i, i + 400).map(n => ({ tipo: 'update', col: 'sv2_notifs', id: n.id, dados: { dest: notifDest(n.para) } })));
+    await Data.col('sv2_cfg').set('notifmig', { feitoEm: nowISO(), porId: S.user.id, porNome: S.user.nome, avisos: falta.length });
+    if (falta.length) { Audit.log({ acao: 'notif_dest', entidade: 'notificacao', resumo: 'Avisos antigos com destinatário gravado: ' + falta.length }); toast('Avisos antigos atualizados (' + falta.length + '): cada um vai só para quem é.', 'ok'); }
+  } catch (e) {
+    console.warn('notifMigrar', e && e.code);
+    if (e && e.code === 'permission-denied') toast('Avisos antigos: publique as regras da v2.89 (passo 1) no Firebase para eles voltarem a aparecer para todos.', 'err');
+  }
+}
 const Notif = {
   send(n) {
     const o = {
-      ts: nowISO(), nivel: n.nivel || 'info', titulo: n.titulo, texto: n.texto || '', para: n.para || 'todos',
+      ts: nowISO(), nivel: n.nivel || 'info', titulo: n.titulo, texto: n.texto || '', para: n.para || 'todos', dest: notifDest(n.para || 'todos'), /* v2.89.0 */
       origem: S.user ? S.user.nome : 'Sistema', refTipo: n.refTipo || '', refId: n.refId || '', lidaPor: {}, confirmadaPor: {}
     };
     return Data.col('sv2_notifs').add(o);
@@ -3343,6 +3451,7 @@ function runPrint(bodyHTML, titulo, orient, filtros, chave) {
   const root = $('#print-root');
   let st = $('#page-style'); if (!st) { st = document.createElement('style'); st.id = 'page-style'; document.head.appendChild(st); }
   st.textContent = '@page{size:A4 landscape;margin:6mm}'; /* sempre na horizontal */
+  if (S.user && S.user.contaTeste) titulo = 'TESTE (sem valor) · ' + titulo; /* v2.89.0: impresso pela conta de teste */
   root.innerHTML = dcPaginar(bodyHTML, titulo, filtros, chave);
   setTimeout(() => prevAbrir(), 60); /* v2.52.0: abre a pré-visualização (Imprimir / Baixar / Compartilhar) */
 }
@@ -5472,7 +5581,7 @@ function openRzEdit(id) {
   const tipos = cfgCol().tipos.filter(t => t.ativo !== false && !pgSoComposto(t.nome)), ano = Number(hojeISO().slice(0, 4));
   const tp = r ? r.tipo : (tipos[0] || {}).nome;
   /* v2.37.0: plano novo começa com a frequência em branco (tem de escolher); "Coleta única" é a primeira da lista */
-  S.rzEd = { id: id || '', tipo: tp, freq: r ? r.freq : '', ano: r ? String(r.ano) : String(ano), areas: new Set(r ? r.areas : rzSugeridas(tp)), ans: new Set(r ? r.analiseIds : []), inicio: (r && r.inicio) || (r ? rzSegunda(hojeISO()) : ''), prazo: (r && r.prazo) || '',
+  S.rzEd = { id: id || '', tipo: tp, apelido: (r && r.apelido) || '', freq: r ? r.freq : '', ano: r ? String(r.ano) : String(ano), areas: new Set(r ? r.areas : rzSugeridas(tp)), ans: new Set(r ? r.analiseIds : []), inicio: (r && r.inicio) || (r ? rzSegunda(hojeISO()) : ''), prazo: (r && r.prazo) || '',
     lotes: r && pgSoComposto(r.tipo) ? (r.areas || []).map(a => ({ l: a, f: (r.fabr || {})[a] || '' })) : [{ l: '', f: '' }] };
   rzEdRender();
 }
@@ -5511,7 +5620,7 @@ function rzEdRender() {
       (U || !e.freq ? (cultHTML ? '<div class="ap-chips rz-anocult">' + cultHTML + '</div>' : '') : '<div class="ap-chips rz-anocult">' + chip('ano', String(ano), String(ano), e.ano === String(ano)) + chip('ano', String(ano + 1), String(ano + 1), e.ano === String(ano + 1)) + cultHTML + '</div>') +
     ondeHTML +
     passo(4, 'Análises', 'Vêm do cadastro, com o laboratório de cada uma.') + '<div class="fl-list" style="max-height:none">' + gera.map(g => '<div class="rz-g">' + esc(TIPO_ANALISE_TXT[g]) + '</div>' + analisesDoMaterial(g).map(a => '<label class="fl-item"><input type="checkbox" class="rz-an" value="' + esc(a.id) + '"' + (e.ans.has(a.id) ? ' checked' : '') + '><span>' + esc(a.nome) + '</span><span class="n">' + esc(a.lab || '—') + '</span></label>').join('')).join('') + '</div>' +
-    passo(5, 'Conferir') + '<div class="rz-res" id="rz-res">' + esc(res) + '</div>' +
+    passo(5, 'Conferir', 'Nome opcional: para diferenciar planos do mesmo material (vai junto do nome automático).') + '<div class="fm-row"><div><label class="fm-l">Nome do plano (opcional)</label><input class="input" id="rz-apelido" maxlength="40" autocomplete="off" placeholder="Ex.: REPOSIÇÃO PIVÔ 2" value="' + esc(e.apelido || '') + '"></div></div>' + '<div class="rz-res" id="rz-res">' + esc(res) + '</div>' +
     '</div><div class="row-actions">' + (e.id ? '<button class="btn" data-action="rz-desat" data-id="' + esc(e.id) + '">Desativar</button>' : '') + '<button class="btn" data-action="close">Cancelar</button><button class="btn primary" data-action="rz-save">Salvar</button></div>', { noFocus: true });
   const s2 = $('.sheet'); if (s2) s2.scrollTop = top;
 }
@@ -5519,6 +5628,7 @@ function rzEdLer() {
   const e = S.rzEd; if (!e) return;
   const fq = $('#rz-freq'), fi = $('#rz-ini'), fp = $('#rz-prazo');
   if (fq) e.freq = fq.value; if (fi && fi.value) e.inicio = rzSegunda(fi.value); if (fp) e.prazo = fp.value;
+  const fa = $('#rz-apelido'); if (fa) e.apelido = fa.value.trim().toUpperCase().slice(0, 40); /* v2.89.0 */
   if ($('#rz-lotes')) e.lotes = $$('#rz-lotes .pg-lote-r').map(r => ({ l: (r.querySelector('.pgl-l').value || '').trim().toUpperCase(), f: r.querySelector('.pgl-f').value || '' }));
   $$('.rz-area').forEach(x => { if (x.checked) e.areas.add(x.value); else e.areas.delete(x.value); });
   $$('.rz-an').forEach(x => { if (x.checked) e.ans.add(x.value); else e.ans.delete(x.value); });
@@ -5557,7 +5667,7 @@ async function rzSalvar() {
   const conflito = rzAtivos().filter(r => r.id !== e.id && String(r.ano) === ano && tipoGera(r.tipo).some(g => gera.indexOf(g) >= 0) && !(r.freq === 'U' && r.fechados && Object.keys(r.fechados).length)).map(r => ({ r: r, a: (r.areas || []).filter(a => areas.indexOf(a) >= 0) })).filter(x => x.a.length);
   if (conflito.length) return msg('Já estão no plano de coleta "' + conflito[0].r.nome + '": ' + conflito[0].a.join(', ') + '. Uma área não pode estar em dois planos de coleta do mesmo material ao mesmo tempo (para coletar de novo, use a Recoleta do plano).');
   const o = { inicio: e.freq === 'Q' ? rzSegunda(e.inicio || hojeISO()) : U ? inicioU : '', prazo: U ? e.prazo : '', tipo: e.tipo, freq: e.freq, ano: ano, areas: cpx ? areas : areas.sort(cmpTalhao), analiseIds: ans,
-    nome: e.tipo + ' · ' + (U ? 'coleta única · até ' + fmtD(e.prazo) : RZ_FREQ[e.freq].toLowerCase() + ' · ' + ano), ativo: true };
+    nome: e.tipo + ' · ' + (U ? 'coleta única · até ' + fmtD(e.prazo) : RZ_FREQ[e.freq].toLowerCase() + ' · ' + ano) + (e.apelido ? ' · ' + e.apelido : ''), apelido: e.apelido || '', ativo: true }; /* v2.89.0: nome opcional */
   if (cpx) { o.fabr = {}; lotes.forEach(x => { o.fabr[x.l] = x.f; }); }
   try {
     if (e.id) {
@@ -14089,6 +14199,7 @@ function fbLerConfig(txt) {
   return o;
 }
 function testeFaixa() {
+  if (S.user && S.user.contaTeste) return 'CONTA DE TESTE · só você vê o que lança · bloqueia ao sair'; /* v2.89.0 */
   if (DEMO) { const o = testeOrigem(); return o ? 'AMBIENTE DE TESTE · cópia do backup de ' + fmtD(diaLocal(o.geradoEm)) + ' · nada aqui mexe nos dados reais' : 'Demonstração: os dados ficam só neste aparelho'; }
   if (fbTesteAtivo()) return 'AMBIENTE DE TESTE · projeto ' + fbTesteCfg().projectId + ' · não são os dados reais';
   return '';
@@ -18153,6 +18264,7 @@ function openUserEdit(id) {
     '<div class="field"><label>Nome completo</label><input class="input" id="ue-nome" value="' + esc(x.nome) + '" autocomplete="off"></div>' +
     '<div class="field"><label>Login</label><div class="tl-linha"><b>' + esc(x.login) + '</b><button type="button" class="btn sm" data-action="tl-open" data-id="' + esc(x.id) + '">Trocar o login</button></div></div>' +
     '<div class="field"><label>Perfil</label><select class="input" id="ue-perfil">' + opts + '</select></div>' +
+    '<label class="fl-item ut-teste"><input type="checkbox" id="ue-teste"' + (x.contaTeste ? ' checked' : '') + '><span>Conta de teste</span><span class="n">o que ela lança só ela vê · ao sair, fica bloqueada</span></label>' +
     '<div id="atrib-box">' + atribForm(atribLegado(x) ? atribTodas(true) : x.atrib) + '</div>' +
     '<div class="sec">Superiores desta pessoa</div>' + lista +
     '<div class="row-actions"><button class="btn" data-action="user-open" data-id="' + esc(x.id) + '">Voltar</button><button class="btn primary" data-action="user-save-edit" data-id="' + esc(x.id) + '">Salvar</button></div>');
@@ -18194,7 +18306,7 @@ function openGear() {
     '<div class="tema-grupos" id="tema-grupos" hidden>' + (meus.length ? '<div class="ap-hint" style="margin-top:0">Exclusivo do seu nível · ' + esc(NIVEL_NOME[nivelDe(u)] || '') + '</div><div class="themes">' + meus.map(thB).join('') + '</div>' : '') + '<div class="ap-hint"' + (meus.length ? '' : ' style="margin-top:0"') + '>Limpos</div><div class="themes">' + THEMES.filter(t => !t.grupo).map(thB).join('') + '</div><div class="ap-hint">Com fundo (um desenho discreto atrás das telas)</div><div class="themes">' + THEMES.filter(t => t.grupo === 'fundo').map(thB).join('') + '</div></div></div>';
   const adm = isPrincipal(u) ? '<div class="sec">Administração</div><button class="menu-btn" data-action="users">Usuários<span>›</span></button><button class="menu-btn" data-action="emp-open">Empresa (nome, unidades e endereços)<span>›</span></button><button class="menu-btn" data-action="dc-open">Documento controlado (cabeçalho das impressões)<span>›</span></button><button class="menu-btn" data-action="teste-open">Ambiente de teste' + (fbTesteAtivo() ? ' <span class="chip warn">em teste</span>' : '') + '<span>›</span></button><button class="menu-btn" data-action="arq-open" data-id="novo">Arquivo por ano' + (arqCfg().ateAno ? ' <small>fechado até ' + arqCfg().ateAno + '</small>' : '') + '<span>›</span></button><button class="menu-btn" data-action="v75-teste">Registros de teste<span>›</span></button><button class="menu-btn" data-action="bk-open">Backup e exportação' + (bkAtrasado() ? ' <span class="chip warn">fazer</span>' : '') + '<span>›</span></button><button class="menu-btn" data-action="alert-test">Testar alerta crítico neste aparelho<span>›</span></button>' : '';
   openSheet('<h3 class="op-h">Opções</h3><button class="menu-btn mp-linha" data-action="meu-perfil">' + avatarHTML(u, 40) + '<span><b>' + nomeFmt(u) + '</b><small>' + esc((u.cargo ? u.cargo + ' · ' : '') + perfilLabel(u)) + ' · Meu perfil</small></span><span>›</span></button><button class="menu-btn mp-linha cnq-menu" data-action="cnq-open">' + cnqCoroa(3, 'ouro') + '<span><b>Conquistas</b><small>As suas, as da equipe e as dos colegas · sem ranking</small></span><span>›</span></button><div class="sec">Tema</div>' + th + tabletMenuHTML() + adm +
-    (DEMO ? '<div class="sec">Modo teste</div>' + (testeOrigem() ? '<button class="menu-btn" data-action="teste-open">Ambiente de teste (cópia)<span>›</span></button>' : '') + '<button class="menu-btn" data-action="demo-off">Sair da demonstração e voltar para a nuvem<span>›</span></button>' : '') + '' + (rsPode(u) ? '<div class="sec">Relatórios</div><button class="menu-btn" data-action="rs-open">Relatórios da semana<span>›</span></button>' : '') + pwaMenuHTML() + '<div class="sec">Sobre</div>' + (DEMO ? '' : RC_NOTA) + keyval([['Versão', APP_VERSION], ['Dados', Data.mode === 'demo' ? 'Demonstração (só neste aparelho)' : 'Nuvem, sincronizado'], ['Conexão', Sync.texto()]]) +
+    (DEMO ? '<div class="sec">Modo teste</div>' + (testeOrigem() ? '<button class="menu-btn" data-action="teste-open">Ambiente de teste (cópia)<span>›</span></button>' : '') + '<button class="menu-btn" data-action="demo-off">Sair da demonstração e voltar para a nuvem<span>›</span></button>' : '') + '' + (rsPode(u) ? '<div class="sec">Relatórios</div><button class="menu-btn" data-action="rs-open">Relatórios da semana<span>›</span></button>' : '') + pwaMenuHTML() + '<div class="sec">Sobre</div>' + (DEMO ? '' : RC_NOTA) + keyval([['Versão', APP_VERSION], ['Dados', Data.mode === 'demo' ? 'Demonstração (só neste aparelho)' : 'Nuvem, sincronizado'], ['Conexão', Sync.texto()]]).replace('<span>Conexão</span><b>', '<span>Conexão</span><b id="sync-sobre">') +
     '<div class="row-actions"><button class="btn danger" data-action="logout">Sair</button><button class="btn" data-action="bloquear">Bloquear</button><button class="btn primary" data-action="close">Fechar</button></div>');
 }
 /* v2.14.1 — os temas saem de dentro da bolinha para os lugares deles (e voltam ao tocar de novo) */
@@ -18219,6 +18331,7 @@ function openNewUser() {
     '<div class="field"><label>Nome completo</label><input class="input" id="nu-nome" autocomplete="off"></div>' +
     '<div class="field"><label>Login</label><input class="input" id="nu-login" autocomplete="off" autocapitalize="none"></div>' +
     '<div class="field"><label>Perfil</label><select class="input" id="nu-perfil"><option value="secundario">Secundário</option><option value="secundario_e">Secundário ★ (líder)</option><option value="visitante">Visitante (só visualiza)</option><option value="principal_temp">Principal temporário</option><option value="principal">Principal</option></select></div>' +
+    '<label class="fl-item ut-teste"><input type="checkbox" id="nu-teste"><span>Conta de teste</span><span class="n">o que ela lança só ela vê · ao sair, fica bloqueada</span></label>' +
     '<div class="field"><label>Senha temporária (mínimo 6 dígitos; 8 para Principal)</label><input class="input" id="nu-senha" type="password" autocomplete="new-password"></div>' +
     '<p class="fm-dica">No primeiro login a pessoa é obrigada a confirmar o nome completo, cadastrar um e-mail válido e trocar esta senha.</p>' +
     '<div id="atrib-box">' + atribForm(atribTodas(false)) + '</div>' +
@@ -18326,6 +18439,7 @@ function renderBell() {
 
 /* ============ ENTRAR / PRIMEIRO ACESSO ============ */
 const ERR = {
+  'conta-teste': 'Conta de teste: só altera o que ela mesma lançou.', /* v2.89.0 */
   'auth/invalid-credential': 'Login ou senha incorretos.', 'auth/wrong-password': 'Login ou senha incorretos.', 'auth/user-not-found': 'Login ou senha incorretos.', 'auth/invalid-email': 'Login inválido.',
   'auth/too-many-requests': 'Muitas tentativas. Aguarde alguns minutos e tente de novo.', 'auth/network-request-failed': 'Sem conexão. Conecte-se à internet para entrar.',
   'auth/operation-not-allowed': 'O login por e-mail e senha ainda não foi ativado no Firebase.', 'auth/email-already-in-use': 'Esse login já existe.', 'auth/weak-password': 'Senha curta demais (mínimo 6).',
@@ -18428,28 +18542,34 @@ async function onAuth(id) {
     if (S.loginPending) { S.loginPending = false; Audit.log({ acao: 'login', entidade: 'sessao', resumo: p.nome + ' entrou no app' }); }
   } catch (e) { console.error(e); S.loginPending = false; await showLogin('Não foi possível carregar seu perfil. ' + (navigator.onLine ? errMsg(e) : 'Sem conexão.')); }
 }
+/* v2.89.0: o aviso diz a causa (22 = o navegador está sem espaço para guardar) */
+function semCacheTxt(c) {
+  const ini = 'Atenção: neste navegador o app não guarda os dados para usar sem internet';
+  if (c === 22 || c === '22' || c === 'QuotaExceededError') return ini + ': o navegador está sem espaço para guardar (22). Libere espaço no aparelho (ou limpe dados de outros sites) e abra de novo; o app instalado pelo Chrome costuma ter mais espaço.';
+  if (c === 'failed-precondition') return ini + ': o EFClaudian está aberto em outra aba ou janela. Feche as outras e abra de novo.';
+  if (c === 'unimplemented') return ini + ': este navegador não tem esse recurso (janela anônima ou navegador antigo). Use o Chrome ou o app instalado.';
+  return ini + ' (' + c + '). Use o app instalado pelo Chrome e feche outras abas do EFClaudian.';
+}
 function startSession() {
   S.unsub.push(Data.conexao(v => Sync.servidor(v))); /* v2.84.0 */
-  if (S._semCache && !S._semCacheAvisado) { S._semCacheAvisado = true; setTimeout(() => toast('Atenção: neste navegador o app não guarda os dados para usar sem internet (' + S._semCache + '). Use o app instalado pelo Chrome e feche outras abas do EFClaudian.', 'err'), 1500); }
+  if (S._semCache && !S._semCacheAvisado) { S._semCacheAvisado = true; setTimeout(() => toast(semCacheTxt(S._semCache), 'err'), 1500); }
   S.unsub.push(Data.col('sv2_users').watch(list => {
     S.users = list;
     const me = list.find(x => x.id === S.user.id); if (!me) return;
     if (me.bloqueado) { cleanupSession(); Data.auth.signOut(); return; }
-    if (me.perfil !== S.user.perfil || !!me.estrela !== !!S.user.estrela || me.nome !== S.user.nome || JSON.stringify(me.atrib || null) !== JSON.stringify(S.user.atrib || null)) { S.user = me; renderShell(); renderView(); } else S.user = me;
+    if (me.perfil !== S.user.perfil || !!me.estrela !== !!S.user.estrela || me.nome !== S.user.nome || !!me.contaTeste !== !!S.user.contaTeste || JSON.stringify(me.atrib || null) !== JSON.stringify(S.user.atrib || null)) { S.user = me; renderShell(); renderView(); notifLigar(); } else S.user = me;
   }));
   S.unsub.push(Data.col('sv2_cloro_falta').watch(list => { const m = {}; list.forEach(x => { m[x.id] = x; }); S.cloroFaltas = m; const a = curArea(), t = curTab(a); if (a.id === 'inspecoes' && t.id === 'cloro') renderView(); }));
   S.unsub.push(Data.col('sv2_avatar').watch(list => { const m = {}; list.forEach(a => { if (a.img) m[a.id] = a.img; }); S.avatars = m; pintarAvatares(); }));
-  S.unsub.push(Data.col('sv2_notifs').watch(list => {
-    S.notifs = list; renderBell(); Alerts.check();
-    const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && t.id === 'notif') renderView();
-  }, { order: 'ts', limit: 300 }));
+  S._notifModo = ''; S._notifMigFeito = false; notifLigar(); S.unsub.push(notifDesligar); /* v2.89.0 (G6): só os avisos desta pessoa */
+  setTimeout(() => { notifMigrar(); }, 3000);
   const naArea = id => curArea().id === id;
   S.unsub.push(Data.col('sv2_docs').watch(list => { S.docs = list; if (naArea('documentos')) renderView(); }));
   S.unsub.push(Data.col('sv2_caixas').watch(list => { S.caixas = list; if (naArea('documentos') || naArea('inspecoes')) renderView(); }));
   const reColetas = () => { if ((naArea('coletas') || naArea('rateios')) && !$('#ov')) renderView(); };
   S.unsub.push(Data.col('sv2_talhoes').watch(list => { S.talhoes = list; reColetas(); }));
   S.unsub.push(Data.col('sv2_analises').watch(list => { S.analises = list; reColetas(); }));
-  S.unsub.push(Data.col('sv2_cfg').watch(list => { S.cfgCol = list.find(x => x.id === 'coletas') || null; S.cfgAp = list.find(x => x.id === 'apont') || null; S.cfgAlm = list.find(x => x.id === 'almox') || null; S.cfgAgua = list.find(x => x.id === 'agua') || null; S.cfgDoc = list.find(x => x.id === 'doccontrole') || null; S.cfgBk = list.find(x => x.id === 'backup') || null; S.cfgArq = list.find(x => x.id === 'arquivo') || null; S.cfgEmp = list.find(x => x.id === 'empresa') || null; S.cfgTf = list.find(x => x.id === 'tarefas') || null; try { empMudou(); } catch (e) {} try { arqCfgMudou(); } catch (e) {} reColetas(); if (curArea().id === 'almox') renderView(); }));
+  S.unsub.push(Data.col('sv2_cfg').watch(list => { S._cfgLista = list; S.cfgCol = list.find(x => x.id === 'coletas') || null; S.cfgAp = list.find(x => x.id === 'apont') || null; S.cfgAlm = list.find(x => x.id === 'almox') || null; S.cfgAgua = list.find(x => x.id === 'agua') || null; S.cfgDoc = list.find(x => x.id === 'doccontrole') || null; S.cfgBk = list.find(x => x.id === 'backup') || null; S.cfgArq = list.find(x => x.id === 'arquivo') || null; S.cfgEmp = list.find(x => x.id === 'empresa') || null; S.cfgTf = list.find(x => x.id === 'tarefas') || null; try { empMudou(); } catch (e) {} try { arqCfgMudou(); } catch (e) {} reColetas(); if (curArea().id === 'almox') renderView(); }));
   const reAlm = () => { if (curArea().id === 'almox') renderView(); };
   /* motivos do login: só o próprio documento (a regra do Firestore não deixa listar os dos outros) */
   Data.col('sv2_alm_pref').get(S.user.id).then(d => { if (d && S.user && d.id === S.user.id) S.almPref = d; }).catch(() => {});
@@ -18516,6 +18636,7 @@ function lockManual() {
 async function doLogout() {
   closeSheet(); lkApagar(); /* v2.76.0: sair de verdade apaga a senha guardada no aparelho */
   await Promise.race([Audit.log({ acao: 'logout', entidade: 'sessao', resumo: S.user.nome + ' saiu do app' }), new Promise(r => setTimeout(r, 2500))]);
+  await testeBloquearAoSair(); /* v2.89.0 */
   cleanupSession(); await Data.auth.signOut();
 }
 
@@ -18533,6 +18654,7 @@ async function saveNewUser() {
   try {
     const id = await Data.auth.createAccount(login, senha);
     const p = { id: id, nome: nome, login: login, perfil: perfil, estrela: estrela, bloqueado: false, tema: TEMA_INICIAL, criadoEm: nowISO(), criadoPor: S.user.id, precisaCompletar: true, email: '', emailOk: false };
+    if (perfil.indexOf('principal') !== 0 && ($('#nu-teste') || {}).checked) p.contaTeste = true; /* v2.89.0 */
     if (perfil.indexOf('principal') !== 0) p.atrib = atribLer();
     await Data.col('sv2_users').set(id, p);
     await cadMapa(login, { uid: id, email: emailOf(login), emailNovo: '' }); /* v2.74.0 */
@@ -18559,10 +18681,11 @@ async function saveUserEdit(id) {
   const sups = $$('.sup-ck').filter(c => c.checked).map(c => c.value);
   if (sups.indexOf(id) >= 0) return msg('Uma pessoa não pode ser superior dela mesma.');
   if (x.id === S.user.id && perfil.indexOf('principal') !== 0) return msg('Você não pode tirar o seu próprio perfil Principal. Peça a outro Principal.');
-  const patch = { nome: nome, perfil: perfil, estrela: estrela, superiores: sups };
+  const ct = perfil.indexOf('principal') !== 0 && !!($('#ue-teste') || {}).checked; /* v2.89.0: Principal nunca é conta de teste */
+  const patch = { nome: nome, perfil: perfil, estrela: estrela, superiores: sups, contaTeste: ct };
   if (perfil.indexOf('principal') !== 0) patch.atrib = atribLer();
-  const antes = { nome: x.nome, perfil: x.perfil, estrela: !!x.estrela, superiores: (x.superiores || []).map(nomeDe).join(', '), atribuicoes: atribNomes(x).join(', ') || 'nenhuma' };
-  const depois = { nome: nome, perfil: perfil, estrela: estrela, superiores: sups.map(nomeDe).join(', '), atribuicoes: patch.atrib ? (ATRIB.filter(a => patch.atrib[a.id]).map(a => a.nome).join(', ') || 'nenhuma') : 'tudo' };
+  const antes = { contaTeste: !!x.contaTeste, nome: x.nome, perfil: x.perfil, estrela: !!x.estrela, superiores: (x.superiores || []).map(nomeDe).join(', '), atribuicoes: atribNomes(x).join(', ') || 'nenhuma' };
+  const depois = { contaTeste: ct, nome: nome, perfil: perfil, estrela: estrela, superiores: sups.map(nomeDe).join(', '), atribuicoes: patch.atrib ? (ATRIB.filter(a => patch.atrib[a.id]).map(a => a.nome).join(', ') || 'nenhuma') : 'tudo' };
   const btn = $('[data-action=user-save-edit]'); if (btn) { btn.disabled = true; btn.textContent = 'Salvando…'; }
   try {
     await Data.col('sv2_users').update(id, patch);

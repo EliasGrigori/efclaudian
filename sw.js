@@ -5,7 +5,7 @@
             (2) com sinal fraco, espera a internet no máximo 3,5 s e abre a tela guardada;
             (3) a fonte passa a ser guardada; (4) a instalação só vale se a tela foi guardada,
             e o que faltou (Firebase, ícones) é guardado de novo nas próximas aberturas. */
-const VERSAO = 'efclaudian-v2.88.0';
+const VERSAO = 'efclaudian-v2.89.0';
 const ESSENCIAIS = ['./index.html'];
 const TELA = ['./', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 const FORA = [
