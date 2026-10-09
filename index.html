@@ -1692,7 +1692,7 @@ body[data-tablet="1"] .nrm-r{min-width:60px;min-height:52px;font-size:14.5px}
 .lg-som{position:fixed;z-index:3;top:calc(12px + env(safe-area-inset-top));right:12px;width:40px;height:40px;border-radius:50%;border:1px solid color-mix(in srgb,var(--border) 70%,transparent);background:color-mix(in srgb,var(--surface) 70%,transparent);backdrop-filter:blur(6px);color:var(--text);display:flex;align-items:center;justify-content:center}
 .lg-som svg{width:20px;height:20px}
 .lg-clarao{position:absolute;inset:0;background:var(--surface);opacity:0;pointer-events:none}
-.lg-clarao.on{animation:lgClarao .9s ease-out}@keyframes lgClarao{0%,30%{opacity:0}8%,36%{opacity:.75}}
+.lg-clarao.on{animation:lgClarao .9s ease-out}@keyframes lgClarao{0%,30%{opacity:0}8%,36%{opacity:.4}}
 @media(min-width:860px){
   .lg-auth{flex-direction:row;flex-wrap:wrap;align-items:flex-start;justify-content:center;column-gap:72px;padding:max(7vh,48px) 48px 24px}
   .lg-esq{align-items:flex-start;gap:18px;max-width:440px}.lg-marca{flex-direction:column;align-items:flex-start;gap:14px}
@@ -2186,6 +2186,175 @@ table.t.rl-t{min-width:0;table-layout:auto}.rl-t td:last-child,.rl-t th:last-chi
 }
 @media(min-width:760px){.tf-mt .tf-fl{display:none}}
 @media(prefers-reduced-motion:reduce){.tf *{transition:none!important}}
+/* ===== v2.94.0 — Meu dia + Tarefas: visual limpo (só tokens) ===== */
+.md2 .tf-hd{margin:0 0 10px;align-items:center}.md2 .tf-hd h2{font-size:19px}
+.md2 .tf-sub .md-res{display:inline;padding:0;border:0;border-radius:0;background:none;font-size:12.5px;font-weight:600}
+.md2 .tf-seg{background:var(--surface);padding:0;border-radius:4px;overflow:hidden;gap:0}
+.md2 .tf-seg button{border-radius:0;height:34px;padding:0 16px;border-right:1px solid var(--border);font-weight:500}
+.md2 .tf-seg button:last-child{border-right:0}
+.md2 .tf-seg button.on{background:var(--primary-soft);color:var(--primary);font-weight:600;box-shadow:none}
+.md2 .tf-seg button b{margin-left:4px;font-weight:700}
+.md2-relb,.md2 .tf-nw{height:34px;border-radius:4px;gap:6px}
+.md2-relb{background:var(--surface);border:1px solid var(--border);color:var(--text);font-weight:600;box-shadow:none}.md2-relb:hover{background:var(--surface-2)}
+.md2 .md-card header{border:0;margin:0;min-height:0}.md2 .md-card header::after{display:none}
+.md2 .tf-pn .md-card header h3{border:0;padding:0;display:block;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tf-fx .md2-rep{grid-column:1/-1;padding:7px 14px;border-bottom:1px solid var(--border);border-right:0}
+.tf-fx .md2-rep select{width:100%}
+.md2 .tf-wk{border-radius:4px;margin-bottom:10px}
+.md2 .tf-d{display:flex;align-items:center;gap:8px;padding:0 12px;height:46px;white-space:nowrap;min-width:0}
+.md2 .tf-dn{font-size:24px;line-height:1;font-weight:700;letter-spacing:-.02em}
+.md2 .tf-dw{font-size:13px;font-weight:600;color:var(--text);text-transform:none}
+.md2 .tf-dc{font-size:12.5px;color:var(--text-muted);overflow:hidden;text-overflow:ellipsis}.md2 .tf-dc.vz{color:var(--text-dim)}
+.md2 .tf-d.hj .tf-dw{color:var(--primary)}
+.md2 .tf-d.sel::after{display:none}
+.md2 .tf-main{margin-top:0}
+@media(min-width:1000px){.md2 .tf-main.com-lado{grid-template-columns:minmax(0,1.45fr) minmax(340px,1fr)}}
+.md2 .tf-box,.md2 .tf-pn,.md2 .tf-dp{border-radius:4px}
+.md2-cab{display:flex;align-items:center;gap:8px;padding:8px 10px 8px 14px;border-bottom:1px solid var(--border)}
+.md2-cab .tf-seg button{height:30px;padding:0 14px}
+.md2-busca{display:flex;align-items:center;gap:6px;height:30px;width:160px;border:1px solid var(--border);border-radius:4px;padding:0 8px;color:var(--text-dim);background:var(--surface)}
+.md2-busca input{flex:1;min-width:0;border:0;background:none;outline:0;font:inherit;font-size:13px;color:var(--text)}
+.md2-busca input::-webkit-search-cancel-button{display:none}
+.md2-busca kbd{font:600 10.5px/1 ui-monospace,monospace;border:1px solid var(--border-light);border-radius:3px;padding:2px 4px;color:var(--text-muted)}
+.md2-esc{height:30px;border:1px solid var(--border);border-radius:4px;background:var(--surface);color:var(--text);font:inherit;font-size:13px;padding:0 6px}
+.md2 .tf-add{flex-wrap:wrap;height:auto;min-height:44px;padding:0 8px 0 14px;row-gap:0}
+.md2 .tf-add input{height:42px}
+.md2 .tf-add small#tf-prev{order:3;width:100%;display:flex;flex-wrap:wrap;gap:4px;padding:0 0 8px 28px;white-space:normal}
+.md2 .tf-add small#tf-prev:empty{display:none}
+.md2 .tf-add small#tf-prev i{font-style:normal;font-size:11.5px;font-weight:600;padding:1px 6px;border:1px solid var(--primary);color:var(--primary);border-radius:3px}
+.md2 .tf-add small#tf-prev i.u{border-color:var(--crit);color:var(--crit)}
+.md2 .tf-add small#tf-prev em{font-style:normal;font-size:11.5px;color:var(--text-dim);margin-left:4px;align-self:center}
+.md2-inf{width:28px;height:28px;flex:none;display:grid;place-items:center;border:0;background:none;color:var(--text-dim);border-radius:4px;padding:0;cursor:pointer}
+.md2-inf:hover{color:var(--primary);background:var(--primary-soft)}.md2-inf svg{width:17px;height:17px}.md2-inf0{width:28px}
+.md2 .tf-gh{height:30px;padding:0 14px;background:var(--surface-2);color:var(--text);font-size:12.5px;font-weight:700}
+.md2 .tf-gh em{font-weight:600;font-size:11.5px;color:var(--text-muted);background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:0 6px;line-height:17px}
+.md2 .tf-gh.r em{color:var(--crit);border-color:var(--crit)}
+.md2 .tf-t{grid-template-columns:auto 1fr auto auto auto;gap:10px;padding:8px 8px 8px 14px;min-height:52px}
+.md2 .tf-t::before{display:none}
+.md2 .tf-ck{border-radius:3px;border:1.6px solid var(--border-light)}.md2 .tf-t:hover .tf-ck{border-color:var(--ok)}
+.md2 .tf-ck0{width:20px}
+.md2 .tf-t.cn .tf-tt{text-decoration:line-through;color:var(--text-dim)}
+.md2 .tf-mt{flex-wrap:nowrap;white-space:nowrap;overflow:hidden;gap:0}.md2 .tf-mt>span{overflow:hidden;text-overflow:ellipsis}
+.md2-sep{font-style:normal;color:var(--text-dim);margin:0 6px}
+.md2 .tf-pz.ok{color:var(--ok)}.md2-s.w{color:var(--warn)}.md2-s.ok{color:var(--ok)}.md2-s.r{color:var(--crit)}
+.md2 .tf-urgc{min-width:0}.md2 .tf-urgc.tf-u-n,.md2 .tf-urgc.tf-u-b{display:none}
+.md2 .tf-side{gap:0;border:1px solid var(--border);border-radius:4px;background:var(--surface);overflow:hidden;align-self:start}
+.md2 .tf-side>.tf-pn{border:0;border-radius:0}.md2 .tf-side>.tf-pn+.tf-pn{border-top:1px solid var(--border)}
+.md2 .tf-side>.tf-dp{border:0}
+.md2 .tf-pn h3{padding:12px 14px;font-size:14px;justify-content:flex-start;gap:8px}
+.md2 .tf-pn h3 span{font-size:12.5px;font-weight:500}
+.md2 .tf-pl{border-top:1px solid var(--border);padding:8px 8px 8px 14px}
+.md2 .tf-x small.ok{color:var(--ok);font-weight:600}
+.md2-prec-mob{display:none}
+.md2 .md-sec{margin:0}
+.md2 .md-sec-t{display:flex;align-items:center;gap:8px;height:30px;margin:0;padding:0 14px;background:var(--surface-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);font-size:12.5px;font-weight:700;letter-spacing:0;text-transform:none;color:var(--text)}
+.md2 .md-sec.crit .md-sec-t{color:var(--crit)}.md2 .md-sec.warn .md-sec-t{color:var(--warn)}
+.md2 .md-sec-t em{font-style:normal;font-weight:600;font-size:11.5px;color:var(--text-muted);background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:0 6px;line-height:17px}
+.md2 .md-card{display:block;border:0;border-bottom:1px solid var(--border);border-radius:0;background:none;box-shadow:none;padding:0;margin:0}
+.md2 .md-card:last-child{border-bottom:0}
+.md2 .md-card header{display:flex;align-items:center;gap:8px;padding:8px 10px 2px 14px}
+.md2 .md-card header h3{flex:1;min-width:0;font-size:12px;font-weight:600;color:var(--text-muted);margin:0}
+.md2 .md-card .md-ic{width:16px;height:16px;background:none;color:var(--text-dim)}.md2 .md-card .md-ic svg{width:14px;height:14px}
+.md2 .md-n{min-width:0;height:auto;background:none!important;color:var(--text-dim)!important;font-size:12px;font-weight:600;padding:0}
+.md2-abr{border:0;background:none;color:var(--text-muted);font:inherit;font-size:12px;font-weight:600;padding:2px 6px;border-radius:4px;cursor:pointer}.md2-abr:hover{background:var(--surface-2);color:var(--text)}
+.md2 .md-li{flex-direction:row;align-items:center;gap:6px;padding:6px 8px 6px 14px;border:0;border-top:1px solid var(--border)}
+.md2 .md-card header+.md-li{border-top:0}
+.md2-x{flex:1;min-width:0}.md2-x b{display:block;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.md2-x small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.md2-prg,.md2-prog{border:0;background:none;font:inherit;font-size:12.5px;font-weight:600;padding:5px 8px;border-radius:4px;white-space:nowrap;cursor:pointer}
+.md2-prg{color:var(--primary)}.md2-prg:hover{background:var(--primary-soft)}
+.md2-prog{color:var(--ok);max-width:150px;overflow:hidden;text-overflow:ellipsis}.md2-prog:hover{background:var(--surface-2)}
+.md2 .md-mais{display:block;width:100%;text-align:left;border:0;border-top:1px solid var(--border);background:none;padding:6px 14px;font:inherit;font-size:12px;color:var(--text-muted);cursor:pointer}
+.md2 .md-mais:hover{color:var(--text)}
+.md2-ori{display:flex;align-items:center;gap:10px;margin:8px 14px;padding:7px 10px;border:1px solid var(--border);border-radius:4px;background:var(--surface-2);font-size:12.5px}
+.md2-ori>span{flex:1;min-width:0}.md2-ori b{display:block;font-weight:600}.md2-ori small{display:block;color:var(--text-muted)}
+.md2-ori.res{border-color:var(--ok);background:var(--ok-soft)}
+.md2-ori svg{width:16px;height:16px;flex:none}
+.sheet .md2-ori{margin:0 0 12px}
+.md2-rp{display:flex;flex-direction:column;gap:6px}
+.md2-dsm{display:flex;flex-wrap:wrap;gap:3px}
+.md2-dsm button{width:30px;height:28px;border:1px solid var(--border-light);background:var(--surface);border-radius:3px;font:inherit;font-size:12px;font-weight:600;color:var(--text-muted);padding:0;cursor:pointer}
+.md2-dsm button.on{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.md2-dsm .pre{width:auto;padding:0 8px;font-weight:500;border-style:dashed;white-space:nowrap}
+.md2 .tf-fx .md2-rep select{width:100%}
+.md2-quem{margin-left:auto;font-size:11px;color:var(--text-dim);white-space:nowrap}
+.md2-chs{display:flex;flex-wrap:wrap;gap:5px}
+.md2-ch{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 11px;border:1px solid var(--border-light);background:var(--surface);border-radius:4px;font:inherit;font-size:13px;color:var(--text);cursor:pointer}
+.md2-ch.on{border-color:var(--primary);background:var(--primary-soft);color:var(--primary);font-weight:600}
+.md2-ch .avatar,.md2-ch img{width:18px!important;height:18px!important;font-size:8.5px!important}
+.md2-dh{margin-top:6px}
+.md2-ficha h3{margin:0 0 10px}
+.md2-kv{display:grid;grid-template-columns:120px 1fr;border:1px solid var(--border);border-radius:4px;overflow:hidden;font-size:13px}
+.md2-kv>span{padding:7px 10px;border-bottom:1px solid var(--border);min-width:0}
+.md2-kv>span:nth-last-child(-n+2){border-bottom:0}
+.md2-kv>span.k{background:var(--surface-2);color:var(--text-muted);font-size:12px}
+.md2-kv small{color:var(--text-muted)}.md2-kv .w{color:var(--warn)}.md2-kv .r{color:var(--crit)}.md2-kv .ok{color:var(--ok)}
+.md2-kv .tf-it{padding:2px 0}
+.md2-aj>span{display:flex;flex-wrap:wrap;align-items:center;gap:5px}.md2-aj>span.k{font-weight:600;color:var(--text);font-size:12.5px}
+.md2-aj code,.md2-ex code{font:600 12px/1 ui-monospace,Consolas,monospace;padding:4px 6px;border:1px solid var(--border-light);background:var(--surface-2);border-radius:3px;color:var(--primary)}
+.md2-ex{display:flex;flex-direction:column;gap:5px;margin-top:10px}.md2-ex code{align-self:flex-start;padding:7px 9px}
+.md2-wg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--border);border-radius:4px;background:var(--surface);overflow:hidden;min-height:360px}
+.md2-wd{border-right:1px solid var(--border);display:flex;flex-direction:column;min-width:0}.md2-wd:last-child{border-right:0}
+.md2-wdh{display:flex;align-items:baseline;gap:6px;padding:8px 10px;border-bottom:1px solid var(--border);white-space:nowrap;overflow:hidden}
+.md2-wdh b{font-size:20px}.md2-wd.hj .md2-wdh{color:var(--primary)}
+.md2-wdb{display:flex;flex-direction:column;gap:6px;padding:6px}
+.md2-wc{border:1px solid var(--border);background:var(--surface);border-radius:3px;padding:6px 8px;text-align:left;font:inherit;font-size:12.5px;color:var(--text);cursor:pointer}
+.md2-wc.sel{border-color:var(--primary);background:var(--primary-soft)}.md2-wc b{display:block;font-weight:600;line-height:1.3}.md2-wc small{display:block;font-size:11.5px;color:var(--text-muted);margin-top:2px}
+.md2-wc small.r{color:var(--crit)}.md2-wc small.w{color:var(--warn)}
+.md2-livre{color:var(--text-dim);padding:4px}
+.md2-mseg{display:none}
+.md2-limpa{margin:8px 14px}
+@media(max-width:999px){
+  .md2-mseg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);border-radius:4px;overflow:hidden;background:var(--surface);margin-bottom:8px}
+  .md2-mseg button{border:0;border-right:1px solid var(--border);background:none;height:40px;font:inherit;font-weight:600;color:var(--text-muted);cursor:pointer}
+  .md2-mseg button:last-child{border-right:0}.md2-mseg button.on{background:var(--primary-soft);color:var(--primary)}
+  .md2-mseg b.r{color:var(--crit)}
+  .md2 .md2-main .tf-side{display:none}
+  .md2 .md2-main.mob-sis .tf-side{display:block;position:static}
+  .md2 .md2-main.mob-sis .tf-box,.md2 .md2-main.mob-sis .md2-wg{display:none}
+  .md2 .md2-main.mob-sis .md2-prec{display:none}
+  .md2-prec-mob{display:block}.md2-prec-mob .tf-pn{border:0;border-bottom:1px solid var(--border);border-radius:0}
+  .md2-wg{grid-template-columns:1fr;min-height:0}.md2-wd{border-right:0;border-bottom:1px solid var(--border)}
+}
+@media(max-width:759px){
+  .md2 .tf-hd{flex-wrap:wrap}.md2 .tf-hd>div:first-child{flex:1 1 100%}.md2 .tf-hd .tf-sp{display:none}.md2 .md2-vis{order:3;flex:1;width:auto}.md2 .md2-vis button{flex:1;padding:0 6px}.md2 .md2-relb{order:4;width:40px;padding:0}
+  .md2-relb span{display:none}
+  .md2 .tf-d{flex-direction:column;justify-content:center;gap:0;padding:0;height:52px}
+  .md2 .tf-dn{font-size:20px;order:2}.md2 .tf-dw,.md2 .tf-dc{display:none}
+  .md2-cab{flex-wrap:wrap}.md2-busca{flex:1;width:auto}
+  .md2 .tf-t{grid-template-columns:auto 1fr auto auto;padding:10px 4px 10px 12px;min-height:58px}.md2 .tf-t .tf-urgc{display:none}
+  .md2-inf{width:40px;height:40px}.md2-inf0{width:40px}
+  .md2-prg,.md2-prog{padding:10px 8px}
+  .md2-dsm button{width:38px;height:36px}.md2-ch{height:38px}
+  .md2 .md2-busca kbd{display:none}
+}
+@media print{
+  #print-root .rs2{font-family:Arial,Helvetica,sans-serif;color:#1d1d29;font-variant-numeric:tabular-nums}
+  #print-root .rs2-p1{break-inside:avoid;page-break-inside:avoid}
+  #print-root .rs2-meta{display:grid;grid-template-columns:1.3fr 1.3fr 1fr 1fr;border:0.3mm solid #b9b9c6;margin-bottom:2mm}
+  #print-root .rs2-meta>div{padding:1.2mm 2.5mm;border-right:0.3mm solid #b9b9c6;font-size:9pt}#print-root .rs2-meta>div:last-child{border-right:0}
+  #print-root .rs2 .lb{display:block;text-transform:uppercase;font-size:6.5pt;letter-spacing:.06em;color:#6a6a7e}
+  #print-root .rs2-num{display:grid;grid-template-columns:repeat(6,1fr);border:0.3mm solid #b9b9c6;margin-bottom:2.5mm}
+  #print-root .rs2-num>div{padding:1.2mm 2.5mm;border-right:0.3mm solid #b9b9c6}#print-root .rs2-num>div:last-child{border-right:0}
+  #print-root .rs2-num b{display:block;font-size:15pt;line-height:1.15}
+  #print-root .rs2-lados{display:grid;grid-template-columns:1.12fr 1fr;gap:3mm}
+  #print-root .rs2-bx{border:0.3mm solid #b9b9c6;overflow:hidden}
+  #print-root .rs2-h{margin:0;font-size:7.5pt;text-transform:uppercase;letter-spacing:.07em;background:#f0f0f4;padding:1.2mm 2.5mm;border-bottom:0.3mm solid #b9b9c6;display:flex;justify-content:space-between;break-after:avoid;page-break-after:avoid}
+  #print-root .rs2-h span{font-weight:500;letter-spacing:0;text-transform:none;color:#5a5a6e}
+  #print-root .rs2-h.n2{border-top:0.3mm solid #b9b9c6}
+  #print-root table.rs2-t{width:100%;border-collapse:collapse;table-layout:fixed}
+  #print-root table.rs2-t th{text-align:left;font-size:6.5pt;text-transform:uppercase;letter-spacing:.05em;color:#6a6a7e;font-weight:600;border-bottom:0.3mm solid #b9b9c6;padding:0.8mm 2.5mm}
+  #print-root table.rs2-t td{font-size:8pt;border-bottom:0.2mm solid #e6e6ec;padding:0.8mm 2.5mm;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;vertical-align:top}
+  #print-root table.rs2-t tr:last-child td{border-bottom:0}
+  #print-root table.rs2-t .c{text-align:center}#print-root table.rs2-t td.ar{font-weight:700}
+  #print-root table.rs2-t td.vz{color:#8b8b9a;font-style:italic}#print-root table.rs2-t td.mais{color:#5a5a6e;font-style:italic;text-align:right}
+  #print-root .rs2 .r2{color:#b04a4a;font-weight:700}#print-root .rs2 .w2{color:#9a6b1f;font-weight:700}#print-root .rs2 .ok2{color:#2f8566;font-weight:700}
+  #print-root .rs2-obs{padding:1.5mm 2.5mm;min-height:8mm;font-size:8.5pt;white-space:pre-wrap}
+  #print-root .rs2-cont{border:0.3mm solid #b9b9c6;margin-top:3mm}
+  #print-root .rs2-qb{break-before:page;page-break-before:always;margin-top:0}
+  #print-root .rs2-ass{display:grid;grid-template-columns:1fr 1fr;gap:20mm;padding:9mm 14mm 0;break-inside:avoid;page-break-inside:avoid}
+  #print-root .rs2-ass>div{border-top:0.3mm solid #1d1d29;padding-top:1mm;text-align:center;font-size:8.5pt}
+}
+
 
 /* v2.82: apresentacao — limpo no celular, janela util no PC, Salvar sempre a vista */
 @media (max-width:859px){
@@ -2225,11 +2394,11 @@ table.t th{position:sticky;top:0;z-index:2}
 [data-lg-re]{transform-box:fill-box;transform-origin:50% 100%}
 .lg-empina{animation:lgEmpina .7s ease-in-out 1}
 @keyframes lgEmpina{40%{transform:translateY(-10px) rotate(-8deg)}100%{transform:none}}
-.lg-olha-tela{animation:lgOlha .8s ease-in-out 1}
-@keyframes lgOlha{40%{transform:scale(1.08)}100%{transform:none}}
+.lg-olha-tela{animation:lgOlhaTela .8s ease-in-out 1}
+@keyframes lgOlhaTela{40%{transform:scale(1.08)}100%{transform:none}} /* v2.90.0 (A1): nome próprio (o lgOlha é o giro de cabeça da v2.78) */
 .lg-foge{transition:transform 1.1s ease-in}
 .lg-abanar .lg-rabo{animation-duration:.28s}
-.lg-viu{position:fixed;left:12px;bottom:12px;z-index:2;font-size:12px;font-weight:600;color:var(--text-muted);background:color-mix(in srgb,var(--surface) 88%,transparent);border:1px solid var(--border);border-radius:8px;padding:6px 10px;pointer-events:none}
+.lg-viu{position:fixed;left:12px;bottom:12px;z-index:10002;font-size:12px;font-weight:600;color:var(--text-muted);background:color-mix(in srgb,var(--surface) 88%,transparent);border:1px solid var(--border);border-radius:8px;padding:6px 10px;pointer-events:none}
 @media (prefers-reduced-motion:reduce){
   .lg-root,.lg-root *{animation:none!important;transition:none!important}
 }
@@ -2269,6 +2438,28 @@ table.t th{position:sticky;top:0;z-index:2}
 
 /* v2.89.0 — conta de teste */
 .ut-teste{margin:0 0 12px;border:1px dashed var(--warn)}
+
+/* v2.89.1 */
+.nu-senha-l{display:flex;gap:8px;align-items:center}.nu-senha-l .input{flex:1}
+
+/* v2.90.0 — tela de entrar */
+.lg-galinha .lg-bica{animation-delay:var(--atr,0s)} /* A2 */
+.lg-auth button,.lg-auth a,.lg-auth input,.lg-auth select,.lg-auth textarea,.lg-auth label,.lg-auth [data-action]{pointer-events:auto} /* A13 */
+.lg-card-in{animation:lgCardIn .22s ease-out}@keyframes lgCardIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.lg-escondido{opacity:0!important;transition:opacity .4s ease}
+.lg-leve .lg-auth .auth-card,.lg-leve .lg-saud,body.lg-leve-on .lg-auth .auth-card,body.lg-leve-on .lg-saud{backdrop-filter:none;-webkit-backdrop-filter:none}
+body.lg-leve-on .lg-auth .auth-card{background:color-mix(in srgb,var(--surface) 94%,transparent)}
+.lg-ver{position:fixed;z-index:3;top:calc(12px + env(safe-area-inset-top));right:60px;height:40px;padding:0 12px;display:flex;align-items:center;gap:6px;border:1px solid color-mix(in srgb,var(--border) 70%,transparent);border-radius:8px;background:color-mix(in srgb,var(--surface) 70%,transparent);color:var(--text);font:600 12.5px Inter,system-ui,sans-serif;cursor:pointer}
+.lg-ver svg{width:18px;height:18px}
+#lock .lg-ver{z-index:10001}
+@media (max-width:859px){.lg-ver{top:auto;right:12px;bottom:calc(14px + env(safe-area-inset-bottom));width:40px;padding:0;justify-content:center;border-radius:50%}.lg-ver span{display:none}body.lg-so-cena .lg-ver{width:auto;padding:0 14px;border-radius:8px}body.lg-so-cena .lg-ver span{display:inline}} /* celular: no canto de baixo, só o ícone */
+.lg-auth,.lock-c{transition:opacity .3s ease,visibility .3s}
+body.lg-so-cena .lg-auth,body.lg-so-cena .lock-c{opacity:0;visibility:hidden;pointer-events:none}
+body.lg-so-cena .lg-ver{background:var(--primary);color:#fff;border-color:transparent}
+@media (prefers-reduced-motion:reduce){.lg-card-in{animation:none}.lg-auth,.lock-c{transition:none}}
+
+/* v2.90.1 */
+html.lk-on,html.lk-on body{overflow:hidden}
 </style></head>
 <body data-theme="dark">
 <div id="boot" class="boot">Carregando…</div>
@@ -2280,7 +2471,7 @@ table.t th{position:sticky;top:0;z-index:2}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.89.0 · notificações só de quem é · conta de teste';
+const APP_VERSION = 'v2.94.0 · Meu dia e Tarefas juntos, programar pendências, relatório semanal';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -2501,6 +2692,7 @@ const Data = (function () {
         /* v2.84.0: acrescenta um item numa lista do registro sem regravar a lista inteira (ninguém apaga o passo do outro) */
         push(id, campo, item, extra) { const a = dLoad(name); const it = a.find(x => x.id === id); if (!it) return Promise.reject(new Error('nf')); it[campo] = (Array.isArray(it[campo]) ? it[campo] : []).concat([clean({ v: item }).v]); Object.keys(extra || {}).forEach(k => setPath(it, k, clean({ v: extra[k] }).v)); dSave(name, a); dNotify(name); return Promise.resolve(); },
         get(id) { return Promise.resolve(dLoad(name).find(x => x.id === id) || null); },
+        fresco(id) { return Promise.resolve(dLoad(name).find(x => x.id === id) || null); }, /* v2.89.1 */
         all() { return Promise.resolve(dLoad(name)); }
       };
     }
@@ -2526,6 +2718,7 @@ const Data = (function () {
       update(id, patch) { return fdb.collection(name).doc(id).update(patch); },
       push(id, campo, item, extra) { const p = Object.assign({}, extra || {}); p[campo] = firebase.firestore.FieldValue.arrayUnion(clean({ v: item }).v); return fdb.collection(name).doc(id).update(p); },
       get(id) { return fbGet(fdb.collection(name).doc(id)); },
+      fresco(id) { return fdb.collection(name).doc(id).get({ source: 'server' }).then(fbDoc); }, /* v2.89.1: direto do servidor */
       all() { return fdb.collection(name).get().then(q => q.docs.map(d => Object.assign({ id: d.id }, d.data()))); }
     };
   }
@@ -2656,7 +2849,7 @@ const Data = (function () {
    A promessa do Firestore (add/set/update) só termina quando o servidor confirma;
    sem sinal, ela fica aberta e o dado fica guardado no aparelho até a conexão voltar.
    A fila é guardada no aparelho (sv2-fila) para sobreviver a fechar o app sem sinal. */
-const SYNC_NOMES = { sv2_tarefas: 'Tarefas', sv2_bugs: 'Bugs e sugestões', sv2_users: 'Usuários', sv2_notifs: 'Notificações', sv2_audit: 'Registro de atividade', sv2_aprov: 'Pedidos de autorização', sv2_resumos: 'Resumo da semana', sv2_docs: 'Documentos', sv2_caixas: 'Caixas d’água', sv2_lanc: 'Lançamentos de documentos', sv2_bebs: 'Bebedouros', sv2_cloro: 'Verificações de cloro', sv2_talhoes: 'Talhões', sv2_analises: 'Análises e preços', sv2_cfg: 'Configurações', sv2_etqmodelos: 'Modelos de etiqueta', sv2_prog: 'Programação de coletas', sv2_coletas: 'Coletas', sv2_aguacol: 'Coletas de água', sv2_apont: 'Apontamentos', sv2_fotos: 'Fotos dos apontamentos', sv2_alm_itens: 'Materiais do almoxarifado', sv2_alm_mov: 'Movimentações do almoxarifado', sv2_alm_sol: 'Solicitações ao almoxarifado', sv2_alm_pref: 'Seus motivos guardados', sv2_avatar: 'Foto de perfil', sv2_cloro_falta: 'Justificativas de cloro', sv2_cloro_foto: 'Fotos do clorímetro', sv2_agua_foto: 'Fotos das ações corretivas', sv2_rodizio: 'Planos de coleta', sv2_aguaproj: 'Projetos de coleta de água', sv2_aguaponto: 'Pontos de água', sv2_proc: 'Procedimentos de coleta', sv2_alm_equip: 'Equipamentos', sv2_alm_cal: 'Solicitações de calibração', sv2_alm_inv: 'Inventários', sv2_alm_equip_foto: 'Fotos dos equipamentos', sv2_alm_transf: 'Transferências', sv2_alm_foto: 'Fotos do almoxarifado', sv2_rnc: 'Auditorias internas (RNC)', sv2_rnc_foto: 'Fotos das RNC', sv2_chat: 'Conversas', sv2_meta: 'Instalação', sv2_conquistas: 'Conquistas', sv2_normas: 'Normas da auditoria', sv2_normas_ed: 'Editais das normas', sv2_login: 'Login → e-mail', sv2_recup: 'Pedidos de recuperação de senha' };
+const SYNC_NOMES = { sv2_bugs_foto: 'Fotos dos bugs', sv2_tarefas: 'Tarefas', sv2_bugs: 'Bugs e sugestões', sv2_users: 'Usuários', sv2_notifs: 'Notificações', sv2_audit: 'Registro de atividade', sv2_aprov: 'Pedidos de autorização', sv2_resumos: 'Resumo da semana', sv2_docs: 'Documentos', sv2_caixas: 'Caixas d’água', sv2_lanc: 'Lançamentos de documentos', sv2_bebs: 'Bebedouros', sv2_cloro: 'Verificações de cloro', sv2_talhoes: 'Talhões', sv2_analises: 'Análises e preços', sv2_cfg: 'Configurações', sv2_etqmodelos: 'Modelos de etiqueta', sv2_prog: 'Programação de coletas', sv2_coletas: 'Coletas', sv2_aguacol: 'Coletas de água', sv2_apont: 'Apontamentos', sv2_fotos: 'Fotos dos apontamentos', sv2_alm_itens: 'Materiais do almoxarifado', sv2_alm_mov: 'Movimentações do almoxarifado', sv2_alm_sol: 'Solicitações ao almoxarifado', sv2_alm_pref: 'Seus motivos guardados', sv2_avatar: 'Foto de perfil', sv2_cloro_falta: 'Justificativas de cloro', sv2_cloro_foto: 'Fotos do clorímetro', sv2_agua_foto: 'Fotos das ações corretivas', sv2_rodizio: 'Planos de coleta', sv2_aguaproj: 'Projetos de coleta de água', sv2_aguaponto: 'Pontos de água', sv2_proc: 'Procedimentos de coleta', sv2_alm_equip: 'Equipamentos', sv2_alm_cal: 'Solicitações de calibração', sv2_alm_inv: 'Inventários', sv2_alm_equip_foto: 'Fotos dos equipamentos', sv2_alm_transf: 'Transferências', sv2_alm_foto: 'Fotos do almoxarifado', sv2_rnc: 'Auditorias internas (RNC)', sv2_rnc_foto: 'Fotos das RNC', sv2_chat: 'Conversas', sv2_meta: 'Instalação', sv2_conquistas: 'Conquistas', sv2_normas: 'Normas da auditoria', sv2_normas_ed: 'Editais das normas', sv2_login: 'Login → e-mail', sv2_recup: 'Pedidos de recuperação de senha' };
 const Sync = (function () {
   const KEY = 'sv2-fila';
   let fila = [];   /* {k, col, op, doc, ts, st: 'pend' | 'antes' | 'erro', erro} */
@@ -2914,16 +3107,7 @@ function meuDiaBlocos() {
   const peso = { crit: 0, warn: 1, info: 2 };
   return B.sort((a, b) => peso[a.nivel] - peso[b.nivel]);
 }
-function viewMeuDia() {
-  const u = S.user, B = meuDiaBlocos(), hoje = new Date();
-  const h = hoje.getHours(), saud = h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite';
-  const total = B.reduce((a, b) => a + b.itens.length, 0), crit = B.reduce((a, b) => a + (b.urg || 0), 0);
-  const dataTxt0 = hoje.toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' }), dataTxt = dataTxt0.charAt(0).toUpperCase() + dataTxt0.slice(1);
-  const topo = '<div class="md-topo"><div class="md-eu">' + avatarHTML(u, 44) + '<div><h2>' + esc(saud + ', ' + String(u.nome || '').split(' ')[0]) + '</h2><small>' + esc(dataTxt) + (u.cargo ? ' · ' + esc(u.cargo) : '') + '</small></div></div>' +
-    '<div class="md-res' + (crit ? ' crit' : total ? ' warn' : ' ok') + '">' + (total ? '<b>' + total + '</b> pendência(s)' + (crit ? ' · <b>' + crit + '</b> urgente(s)' : '') : '✓ Tudo em dia') + '</div></div>';
-  if (!B.length) return topo + '<div class="empty"><div class="empty-ic">' + ico('check') + '</div><h2>Nada pendente para você agora</h2><p>Aqui aparecem só as áreas marcadas para você. Quando surgir algo, aparece sozinho.</p></div>';
-  return topo + mdSecoesHTML(B);
-}
+function viewMeuDia() { return tfTela(); } /* v2.94.0: Meu dia e Tarefas são uma tela só (tfTela) */
 
 /* ============ ÍCONES ============ */
 const ICONS = {
@@ -2939,6 +3123,8 @@ const ICONS = {
   print: '<path d="M7 9V3h10v6M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><rect x="7" y="14" width="10" height="7" rx="1"/>'
 };
 ICONS.camera = '<path d="M4 8h3l1.6-2.2h6.8L17 8h3v11H4z"/><circle cx="12" cy="13.2" r="3.6"/>';
+ICONS.lupa = '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>'; /* v2.94.0 */
+ICONS.info = '<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.6v.4"/>';
 /* v2.24.0 — ícones no lugar dos emojis */
 ICONS.alerta = '<path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 10v4.5M12 17.3v.2"/>';
 ICONS.tijolo = '<rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3 9.7h18M3 14.3h18M9 5v4.7M15 9.7v4.6M9 14.3V19"/>';
@@ -3000,7 +3186,6 @@ const AREAS = [
   ] },
   { id: 'qualidade', nome: 'Qualidade', titulo: 'Gestão da Qualidade', icon: 'shield', tabs: [
     { id: 'meudia', nome: 'Meu dia', pronto: true },
-    { id: 'tarefas', nome: 'Tarefas', pronto: true }, /* v2.81.0 */
     { id: 'atividade', nome: 'Atividade', pronto: true },
     { id: 'notif', nome: 'Notificações', pronto: true },
     { id: 'chat', nome: 'Conversas', pronto: true },
@@ -3139,7 +3324,8 @@ function openSheet(html, opts) {
   return ov.firstChild;
 }
 function closeSheet() { const o = $('#ov'); if (o) o.parentNode.removeChild(o); }
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && !S.lockado) closeSheet(); }); /* v2.87.0: com a tela bloqueada, Esc não mexe no que está por baixo */
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !S.lockado) closeSheet(); });
+document.addEventListener('input', e => { if (e.target && e.target.id === 'rz-apelido') rzResAtu(); }); /* v2.89.1 */ /* v2.87.0: com a tela bloqueada, Esc não mexe no que está por baixo */
 document.addEventListener('keydown', e => { const t = e.target; if (t && t.classList && t.classList.contains('os-in') && (e.key === 'Enter' || (e.key === 'Tab' && !e.shiftKey))) { e.preventDefault(); osProximo(t); } });
 
 /* ============ AUDITORIA (só acréscimo) ============ */
@@ -3167,9 +3353,11 @@ function notifDest(para) {
 function notifChaves(u) { return !u ? [] : ['todos', u.id].concat(isSup(u) ? ['sup'] : []).concat(isPrincipal(u) ? ['principal'] : []); }
 function notifChegou() {
   const m = {}; Object.keys(S._notifPartes || {}).forEach(k => (S._notifPartes[k] || []).forEach(n => { m[n.id] = n; }));
-  S.notifs = Object.keys(m).map(id => m[id]).sort((a, b) => String(b.ts || '').localeCompare(String(a.ts || '')));
+  const visto = {}; /* v2.89.1: conquista repetida (mesmo título para a mesma pessoa) aparece uma vez */
+  S.notifs = Object.keys(m).map(id => m[id]).sort((a, b) => String(b.ts || '').localeCompare(String(a.ts || '')))
+    .filter(n => { if (n.refTipo !== 'cnq') return true; const k = n.titulo + '|' + (n.refId || '') + '|' + JSON.stringify(n.dest || n.para || ''); if (visto[k]) return false; visto[k] = 1; return true; });
   renderBell(); Alerts.check();
-  const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && t.id === 'notif') renderView();
+  const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && t.id === 'notif') renderDados(); /* v2.92.0 */
 }
 function notifDesligar() { (S._notifUn || []).forEach(f => { try { f(); } catch (e) {} }); S._notifUn = []; S._notifChaves = ''; }
 function notifLigar() {
@@ -3451,7 +3639,7 @@ function runPrint(bodyHTML, titulo, orient, filtros, chave) {
   const root = $('#print-root');
   let st = $('#page-style'); if (!st) { st = document.createElement('style'); st.id = 'page-style'; document.head.appendChild(st); }
   st.textContent = '@page{size:A4 landscape;margin:6mm}'; /* sempre na horizontal */
-  if (S.user && S.user.contaTeste) titulo = 'TESTE (sem valor) · ' + titulo; /* v2.89.0: impresso pela conta de teste */
+  if (S.user && S.user.contaTeste) { chave = chave || dcChaveDoTitulo(titulo); titulo = 'TESTE (sem valor) · ' + titulo; } /* v2.89.0: impresso pela conta de teste (v2.89.1: o código do documento sai do título original) */
   root.innerHTML = dcPaginar(bodyHTML, titulo, filtros, chave);
   setTimeout(() => prevAbrir(), 60); /* v2.52.0: abre a pré-visualização (Imprimir / Baixar / Compartilhar) */
 }
@@ -4057,6 +4245,14 @@ function fotoImg(url) {
 function fotoJPEG(c, maxBytes, q0) {
   let q = q0 || 0.85, out = c.toDataURL('image/jpeg', q);
   while (out.length > maxBytes && q > 0.3) { q -= 0.1; out = c.toDataURL('image/jpeg', q); }
+  /* v2.91.0 (G10): ainda grande demais com a qualidade mínima? diminui a imagem até caber (o Firebase recusa acima do limite) */
+  let cv = c;
+  for (let i = 0; i < 12 && out.length > maxBytes && Math.max(cv.width, cv.height) > 240; i++) {
+    const n = document.createElement('canvas'); n.width = Math.max(1, Math.round(cv.width * 0.8)); n.height = Math.max(1, Math.round(cv.height * 0.8));
+    const x = n.getContext && n.getContext('2d'); if (!x) break;
+    x.fillStyle = '#fff'; x.fillRect(0, 0, n.width, n.height); x.drawImage(cv, 0, 0, n.width, n.height); cv = n;
+    out = cv.toDataURL('image/jpeg', 0.6);
+  }
   return out;
 }
 function fotoLer(file, maxLado) {
@@ -5602,7 +5798,8 @@ function rzEdRender() {
   const vis = sug.concat(tals.filter(t => !sug.some(s => s.codigo === t.codigo))), outros = Array.from(e.areas).filter(a => !talhaoDe(a));
   const nSel = cpx ? e.lotes.filter(x => x.l).length : e.areas.size;
   const quando = U ? (e.prazo ? 'coleta única até ' + fmtD(e.prazo) : 'coleta única') : e.freq ? RZ_FREQ[e.freq].toLowerCase() + ' · ' + e.ano : 'frequência a escolher';
-  const res = e.tipo + ' · ' + quando + ' · ' + nSel + (cpx ? ' lote(s)' : ' área(s)') + ' · ' + Array.from(e.ans).map(id => (S.analises.find(a => a.id === id) || {}).lab).filter(Boolean).filter((v, i, a) => a.indexOf(v) === i).join(', ');
+  const resBase = e.tipo + ' · ' + quando; /* v2.89.1: a prévia mostra o nome do plano */
+  const res = e.tipo + ' · ' + quando + (e.apelido ? ' · ' + e.apelido : '') + ' · ' + nSel + (cpx ? ' lote(s)' : ' área(s)') + ' · ' + Array.from(e.ans).map(id => (S.analises.find(a => a.id === id) || {}).lab).filter(Boolean).filter((v, i, a) => a.indexOf(v) === i).join(', ');
   const sh = $('.sheet'), top = sh ? sh.scrollTop : 0;
   const ondeHTML = cpx
     ? passo(3, 'Lotes', 'Composto: o lote (pilha) e a fabricação de cada um.') + '<div id="rz-lotes">' + e.lotes.map(x => '<div class="fm-row pg-lote-r"><div><label class="fm-l">Lote (pilha)</label><input class="input pgl-l" value="' + esc(x.l) + '" autocomplete="off" placeholder="Ex.: PILHA 07"></div><div><label class="fm-l">Fabricação</label><input class="input pgl-f" type="date" value="' + esc(x.f) + '"></div></div>').join('') + '</div><button type="button" class="fm-link" data-action="rz-ed" data-g="lote" data-id="">+ outro lote</button>'
@@ -5620,7 +5817,7 @@ function rzEdRender() {
       (U || !e.freq ? (cultHTML ? '<div class="ap-chips rz-anocult">' + cultHTML + '</div>' : '') : '<div class="ap-chips rz-anocult">' + chip('ano', String(ano), String(ano), e.ano === String(ano)) + chip('ano', String(ano + 1), String(ano + 1), e.ano === String(ano + 1)) + cultHTML + '</div>') +
     ondeHTML +
     passo(4, 'Análises', 'Vêm do cadastro, com o laboratório de cada uma.') + '<div class="fl-list" style="max-height:none">' + gera.map(g => '<div class="rz-g">' + esc(TIPO_ANALISE_TXT[g]) + '</div>' + analisesDoMaterial(g).map(a => '<label class="fl-item"><input type="checkbox" class="rz-an" value="' + esc(a.id) + '"' + (e.ans.has(a.id) ? ' checked' : '') + '><span>' + esc(a.nome) + '</span><span class="n">' + esc(a.lab || '—') + '</span></label>').join('')).join('') + '</div>' +
-    passo(5, 'Conferir', 'Nome opcional: para diferenciar planos do mesmo material (vai junto do nome automático).') + '<div class="fm-row"><div><label class="fm-l">Nome do plano (opcional)</label><input class="input" id="rz-apelido" maxlength="40" autocomplete="off" placeholder="Ex.: REPOSIÇÃO PIVÔ 2" value="' + esc(e.apelido || '') + '"></div></div>' + '<div class="rz-res" id="rz-res">' + esc(res) + '</div>' +
+    passo(5, 'Conferir', 'Nome opcional: para diferenciar planos do mesmo material (vai junto do nome automático).') + '<div class="fm-row"><div><label class="fm-l">Nome do plano (opcional)</label><input class="input" id="rz-apelido" maxlength="40" autocomplete="off" placeholder="Ex.: REPOSIÇÃO PIVÔ 2" value="' + esc(e.apelido || '') + '"></div></div>' + '<div class="rz-res" id="rz-res" data-base="' + esc(resBase) + '">' + esc(res) + '</div>' +
     '</div><div class="row-actions">' + (e.id ? '<button class="btn" data-action="rz-desat" data-id="' + esc(e.id) + '">Desativar</button>' : '') + '<button class="btn" data-action="close">Cancelar</button><button class="btn primary" data-action="rz-save">Salvar</button></div>', { noFocus: true });
   const s2 = $('.sheet'); if (s2) s2.scrollTop = top;
 }
@@ -6380,6 +6577,8 @@ function rzColAbrir(rid, pk, area) {
 function rzResAtu() {
   const e = S.rzEd, r = $('#rz-res'); if (!e || !r) return;
   const labs = Array.from(e.ans || []).map(id => (S.analises.find(a => a.id === id) || {}).lab).filter(Boolean).filter((v, i, a) => a.indexOf(v) === i).join(', ');
+  const fa = $('#rz-apelido'), base = r.getAttribute('data-base'); if (fa) e.apelido = fa.value.trim().toUpperCase().slice(0, 40);
+  if (base && !pgSoComposto(e.tipo)) { r.textContent = base + (e.apelido ? ' · ' + e.apelido : '') + ' · ' + e.areas.size + ' área(s) · ' + labs; return; } /* v2.89.1 */
   r.textContent = r.textContent.replace(/· \d+ área\(s\) · .*$/, '· ' + e.areas.size + ' área(s) · ' + labs);
 }
 function openRzHist(id) {
@@ -10008,7 +10207,7 @@ function viewAlmMov() {
   const seg = '<div class="seg3">' + [['mes', 'Este mês'], ['ant', 'Mês passado'], ['tudo', 'Tudo']].map(o => '<button class="btn sm' + (f.per === o[0] ? ' on' : '') + '" data-action="al-movper" data-id="' + o[0] + '">' + o[1] + '</button>').join('') + '<span style="width:8px"></span>' +
     [['', 'Todas'], ['saida', 'Saídas'], ['entrada', 'Entradas'], ['ajuste', 'Ajustes'], ['crit', 'Produto crítico']].map(o => '<button class="btn sm' + (f.tipo === o[0] ? ' on' : '') + '" data-action="al-movtipo" data-id="' + o[0] + '">' + o[1] + '</button>').join('') + '</div>';
   const kpi = '<div class="kpis" style="grid-template-columns:repeat(2,1fr)"><div class="kpi"><b style="font-size:17px">' + brl(val) + '</b><span>Saídas no período</span></div><div class="kpi"><b style="font-size:17px">' + brl(ent) + '</b><span>Entradas no período</span></div></div>';
-  const sit = m => m.anulada ? 'Anulada' : alCritPendMov(m) ? 'Aguardando confirmação' : m.critico && m.critico.st === 'nao_confere' ? 'Não confere' : (m.historico && m.historico.length ? 'Corrigida' : '');
+  const sit = m => m.anulada ? 'Anulada' : alCritPendMov(m) ? 'Aguardando confirmação' : alCorrPend(m) ? 'Correção pendente' : /* v2.90.1 */ m.critico && m.critico.st === 'nao_confere' ? 'Não confere' : (m.historico && m.historico.length ? 'Corrigida' : '');
   return alMovAvisoHTML() + seg + kpi + tableHTML({ id: 'alm_mov', title: 'Movimentações', rows: rows, onRow: r => openAlMov(r.id), docHeader: true, cols: [
     { key: 'data', label: 'Data', type: 'date', get: r => r.data, fmt: r => fmtD(r.data) },
     { key: 'tipo', label: 'Tipo', get: r => AL_TIPO[r.tipo] || r.tipo, html: r => '<span class="chip ' + (r.tipo === 'saida' ? 'warn' : r.tipo === 'ajuste' ? 'info' : 'ok') + '">' + esc(AL_TIPO[r.tipo] || r.tipo) + '</span>' },
@@ -10832,6 +11031,8 @@ function alPressCancelar() { if (S._alPress) { clearTimeout(S._alPress); S._alPr
 
 /* ---------- hierarquia: o secundário pede, o superior decide ---------- */
 const AL_ACAO_TXT = { item_novo: 'Cadastrar item', item_edit: 'Editar item', item_desat: 'Desativar item', item_reativar: 'Reativar item', ajuste: 'Ajuste pela contagem', corrigir_mov: 'Corrigir movimentação', anular_mov: 'Anular movimentação', prazo_aberto: 'Prazo depois de aberto', saida_crit_venc: 'Lote vencido de produto crítico' };
+/* v2.90.1: pedido de corrigir/anular esta movimentação esperando o superior */
+function alCorrPend(m) { return !m ? null : (alPedidoPendente('corrigir_mov', m.id) || alPedidoPendente('anular_mov', m.id) || null); }
 function alPedidoPendente(acao, refId, titulo) {
   return S.aprov.find(a => a.tipo === 'almox' && a.status === 'pendente' && a.payload && a.payload.acao === acao && (a.payload.refId === refId || (titulo && a.titulo === titulo)));
 }
@@ -12198,7 +12399,7 @@ function openAlMov(id) {
   const hist = h.length ? '<div class="ap-sec">Correções</div><div class="list">' + h.map(x => '<div class="li"><span class="dot aviso"></span><span><span class="t">' + esc(Object.keys(x.depois || {}).map(k => k + ': ' + (x.antes[k] === '' || x.antes[k] == null ? '—' : x.antes[k]) + ' → ' + (x.depois[k] === '' || x.depois[k] == null ? '—' : x.depois[k])).join(' · ')) + '</span><br><span class="d">Motivo: ' + esc(x.motivo) + '</span><div class="meta">' + fmtDT(x.ts) + ' · ' + esc(x.por) + '</div></span></div>').join('') + '</div>' : '';
   const pode = alPodeCorrigir(m), cons = (m.tipo === 'entrada' || m.tipo === 'inicial') ? alConsumido(m) : 0;
   const decide = alCritPendMov(m) && alCtrl(S.user);
-  openSheet('<h3>' + esc(AL_TIPO[m.tipo]) + (m.anulada ? ' (anulada)' : '') + '</h3><div class="sub">' + esc(m.itemNome) + '</div>' + alCritBloco(m) +
+  openSheet('<h3>' + esc(AL_TIPO[m.tipo]) + (m.anulada ? ' (anulada)' : '') + '</h3><div class="sub">' + esc(m.itemNome) + (alCorrPend(m) ? ' <span class="chip warn">Correção pendente · aguardando ' + esc((alCorrPend(m).paraIds || []).map(nomeDe).join(', ') || 'o superior') + '</span>' : '') + '</div>' + alCritBloco(m) +
     keyval([['Data', fmtD(m.data)], ['Quantidade', alQ(m.qtd) + ' ' + ((i && i.un) || '')], ['Lote', m.lote || '—'], ['Validade', m.validade ? fmtD(m.validade) : '—'], ['Valor unit.', brl(m.preco)], ['Valor total', brl((Number(m.qtd) || 0) * (Number(m.preco) || 0))], [m.tipo === 'entrada' ? 'Documento' : 'Motivo', m.tipo === 'entrada' ? (m.doc || '—') : (m.motivo || '—') + (m.kit ? ' (kit ' + m.kit + ')' : '')], ['Registrado por', (m.porNome || '') + ' · ' + fmtDT(m.criadoEm)]]
       .concat(m.obs ? [['Observação', m.obs]] : []).concat(m.vencidoMotivo ? [['Lote vencido usado porque', m.vencidoMotivo]] : []).concat(m.anulada ? [['Anulada por', m.anuladaPor + ' — ' + m.anuladaMotivo]] : []).concat(cons ? [['Já saiu deste lote', alQ(cons)]] : [])) +
     (m.fotos && m.fotos.length ? '<div class="ap-sec">Foto</div>' + alFotosHTML(m.fotos, m.fotosApagadas, m.criadoEm) : '') + hist +
@@ -13272,7 +13473,8 @@ const DC_RELS = [
   ['transf', 'Transferências do laboratório', 'REL 0012 MPG CQA', /^Transferências do laboratório/],
   ['almox_apre', 'Apresentação do almoxarifado', 'REL 0013 MPG CQA', /^Almoxarifado do laboratório/],
   ['rnc', 'Relatório de Não Conformidade (RNC)', 'REL 0014 MPG CQA', null],
-  ['rnc_cl', 'Checklist da auditoria interna', 'REL 0015 MPG CQA', /^Checklist da auditoria interna/]
+  ['rnc_cl', 'Checklist da auditoria interna', 'REL 0015 MPG CQA', /^Checklist da auditoria interna/],
+  ['tf_semana', 'Relatório semanal de atividades', 'REL 0016 MPG CQA', /^Relatório semanal de atividades/] /* v2.94.0 */
 ];
 const DC_LISTAS = [
   ['docs', 'Catálogo de documentos'], ['lanc', 'Lançamentos'], ['corr', 'Correções de lançamento'], ['caixas', 'Caixas d’água'],
@@ -13373,8 +13575,8 @@ function dcMedir(bodyHTML, casca) {
       if (!cabe() && usados) { no.parentNode.removeChild(no); novaFolha(); alvo.appendChild(no); }
       usados++; return;
     }
-    if (usados && quebraAntes(no)) novaFolha();
     alvo.appendChild(no);
+    if (usados && quebraAntes(no)) { no.parentNode.removeChild(no); novaFolha(); alvo.appendChild(no); } /* v2.94.0: lido já na folha */
     if (cabe()) {
       if (usados && titulo(no) && resta() < 16 * PX) { no.parentNode.removeChild(no); novaFolha(); alvo.appendChild(no); }
       usados++; return;
@@ -13593,7 +13795,7 @@ function apFotoMeuDia(u, add) {
    Registro em sv2_cfg/backup {ultimo, hist} e na auditoria. */
 const BK_DIAS = 7;
 const BK_APP_IDS = ['EFClaudian.tec', 'EFClaudian']; /* v2.71.0: o arquivo continua gravando 'EFClaudian.tec' (versões antigas abrem) */
-const BK_FOTOS = ['sv2_fotos', 'sv2_avatar', 'sv2_cloro_foto', 'sv2_agua_foto', 'sv2_alm_equip_foto', 'sv2_alm_foto', 'sv2_rnc_foto', 'sv2_proc_pag'];
+const BK_FOTOS = ['sv2_bugs_foto', 'sv2_fotos', 'sv2_avatar', 'sv2_cloro_foto', 'sv2_agua_foto', 'sv2_alm_equip_foto', 'sv2_alm_foto', 'sv2_rnc_foto', 'sv2_proc_pag'];
 function bkColecoes(fotos) {
   const l = Object.keys(SYNC_NOMES).concat(['sv2_proc_pag', 'appdata']).filter((c, i, a) => a.indexOf(c) === i);
   return l.filter(c => fotos || BK_FOTOS.indexOf(c) < 0);
@@ -14094,7 +14296,8 @@ function prevNomeArquivo(titulo) {
 }
 function prevAbrir() {
   const root = $('#print-root'); if (!root || !root.innerHTML.trim()) return;
-  const pagina = ($('#page-style') || {}).textContent || '', titulo = prevTitulo(root), n = prevFolhas(root);
+  const pagina = ($('#page-style') || {}).textContent || '', n = prevFolhas(root);
+  let titulo = prevTitulo(root); if (S.user && S.user.contaTeste && !/^TESTE/i.test(titulo)) titulo = 'TESTE (sem valor) · ' + titulo; /* v2.89.1: nome do arquivo */
   const html = root.innerHTML.replace(/<script[\s\S]*?<\/script>/gi, '');
   S._printDoc = { html: prevDoc(html, pagina, titulo, false), titulo: titulo, nome: prevNomeArquivo(titulo) };
   prevFechar(true);
@@ -15107,6 +15310,8 @@ function cnqJuntar(ant, novo, defs, rdefs) {
 }
 function cnqAvisar(u, subiu, novasR, equipe) {
   const para = [u.id], todos = S.users.filter(x => !x.bloqueado && x.perfil !== 'visitante' && (!u || x.id !== u.id)).map(x => x.id);
+  const jaTem = t => (S.notifs || []).some(n => n.refTipo === 'cnq' && n.titulo === t); /* v2.89.1: dois aparelhos ao mesmo tempo não repetem o aviso */
+  subiu = subiu.filter(s => !jaTem((equipe ? 'Conquista da equipe: ' : 'Conquista: ') + s.c.nome + ' — ' + cnqTier(s.nivel).nome));
   subiu.forEach(s => { const t = cnqTier(s.nivel); Notif.send({ nivel: 'info', titulo: (equipe ? 'Conquista da equipe: ' : 'Conquista: ') + s.c.nome + ' — ' + t.nome, texto: 'Nível ' + s.nivel + ' de 10. ' + (equipe ? 'Resultado de todos.' : 'Continue no seu ritmo: só conta o que é válido.'), para: equipe ? todos.concat([u.id]) : para, refTipo: 'cnq', refId: equipe ? 'equipe' : u.id }).catch(() => {}); });
   novasR.forEach(c => {
     Notif.send({ nivel: c.r === 'rara' ? 'info' : 'aviso', titulo: '✦ Conquista ' + CNQ_RAR[c.r].toUpperCase() + (equipe ? ' da equipe' : '') + ': ' + c.nome, texto: c.desc, para: equipe ? todos.concat([u.id]) : para, refTipo: 'cnq', refId: equipe ? 'equipe' : u.id }).catch(() => {});
@@ -16005,14 +16210,44 @@ const LG_FIG = {
    No máximo 3 coisas ao mesmo tempo (as crianças contam como uma; a família também). Animações lentas; bichos pastando
    parados e, de vez em quando, andando devagar para pastar em outro lugar. */
 const LG_MAX = 3;
-function lgT(fn, ms) { const L = S.lg; if (!L) return null; const t = setTimeout(() => { if (S.lg === L && L.ativo) fn(); }, ms); L.timers.push(t); return t; }
-function lgEl(svg, camada) { const c = document.getElementById(camada); if (!c) return null; const g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); g.innerHTML = svg; c.appendChild(g); return g; }
+/* v2.90.0: (A8) com "reduzir movimento", nada se mexe; (A7) com a aba escondida, espera voltar (a lógica e o desenho andam
+   juntos); (A12) o que já rodou sai da lista */
+const lgParado = () => !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+function lgT(fn, ms) {
+  const L = S.lg; if (!L || lgParado()) return null;
+  const vai = () => { if (S.lg === L && L.ativo) fn(); };
+  const t = setTimeout(() => {
+    L.timers = L.timers.filter(x => x !== t);
+    if (!document.hidden) return vai();
+    const volta = () => { if (document.hidden) return; document.removeEventListener('visibilitychange', volta); vai(); };
+    document.addEventListener('visibilitychange', volta);
+  }, ms);
+  L.timers.push(t); return t;
+}
+/* v2.93.0 — PROFUNDIDADE. O tamanho segue a distância: lgEsc(y) vai de 0,45 no horizonte (y 500) a 1,5 na frente (y 880).
+   LG_TAM = tamanho real (adulto = 56); LG_ALT = altura do desenho com escala 1 (medida no Chromium, v2.92). */
+const LG_TAM = { adulto: 56, mulher: 53, jovem: 46, cavalo: 60, boi: 44, cachorro: 20, raposa: 18, lobo: 26, capivara: 16, seriema: 30, tucano: 12, galinha: 11, gato: 12, jacare: 7, trator: 40 };
+const LG_ALT = { adulto: 53.6, mulher: 55.8, jovem: 55.8, cavalo: 66.7, boi: 50.4, cachorro: 38.4, raposa: 30.4, lobo: 31, capivara: 31.4, seriema: 48.3, tucano: 16, galinha: 13.8, gato: 27.8, jacare: 11, trator: 39 };
+function lgEsc(y) { return Math.max(0.4, Math.min(1.6, 0.45 + (y - 500) * 1.05 / 380)); }
+function lgE(fig, y, alt) { return +(lgEsc(y) * (LG_TAM[fig] || 56) / (alt || LG_ALT[fig] || 56)).toFixed(3); }
+/* quem fica num lugar reserva o espaço (x de onde pode andar, altura do corpo); os próximos desviam */
+function lgCaixa(x0, x1, y0, y1) { const L = S.lg; if (L) (L.caixas = L.caixas || []).push([x0, x1, y0, y1]); }
+function lgEl(svg, camada) {
+  const c = document.getElementById(camada); if (!c) return null;
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g'); g.innerHTML = svg;
+  /* v2.93.0: dentro da camada, quem está mais perto (y maior) é desenhado por cima */
+  const m = /translate\(\s*-?[\d.]+[ ,]+(-?[\d.]+)\s*\)/.exec(svg), y = m ? Number(m[1]) : 0; g.setAttribute('data-y', y);
+  const depois = Array.from(c.children).find(e => Number(e.getAttribute('data-y') || 0) > y);
+  if (depois) c.insertBefore(g, depois); else c.appendChild(g);
+  return g;
+}
 function lgAtivos() { const L = S.lg; return L ? L.presentes.length + L.viagens.length : 0; }
 /* bicho (ou pessoa) que fica num lugar e de vez em quando anda devagar para outro */
 function lgBicho(fig, camada, x, y, esc, xmin, xmax, olhaEsq) {
   const g = lgEl('<g class="lg-pos lg-parado" style="transform:translateX(' + x.toFixed(0) + 'px)"><g transform="translate(0 ' + y + ')"><ellipse class="lg-sombra" cx="0" cy="3" rx="' + (22 * esc).toFixed(0) + '" ry="3.4"/><g class="lg-dir" transform="scale(' + (olhaEsq ? -esc : esc) + ' ' + esc + ')">' + fig + '</g></g></g>', camada);
   if (g && S._lgMarca) { g.setAttribute('data-lg-re', S._lgMarca); g.style.cursor = 'pointer'; S._lgMarca = ''; }
   if (!g) return null; const pos = g.firstChild; let atual = x;
+  lgCaixa(Math.min(xmin, x) - 26 * esc, Math.max(xmax, x) + 26 * esc, y - 62 * esc, y + 4); /* v2.93.0 */
   const passeio = () => {
     let alvo = lgR(xmin, xmax); if (Math.abs(alvo - atual) < 60) alvo = atual + (alvo > atual ? 60 : -60); alvo = Math.max(xmin, Math.min(xmax, alvo));
     const dur = Math.abs(alvo - atual) / 9; /* bem devagar: ~9 unidades por segundo */
@@ -16084,13 +16319,13 @@ const LG_PRESENTES = [
   ['Cachorro caramelo', 3, 'dia', 'cao frente', () => lgBicho(LG_FIG.cachorro, 'lg-ev-meio', lgR(570, 640), 662, 1.25, 520, 720)],
   ['Mãe no varal', 3, 'dia', 'mae', () => lgEl(lgVaraL() + '<g transform="translate(452 664) scale(-1.1 1.1)" class="lg-varal-mae">' + lgGente({ h: 56, roupa: 'var(--lg-vestido)', saia: 1, cabelo: 'coque', braco: 'acena' }) + '</g>', 'lg-ev-casa')],
   ['Crianças brincando', 2.5, 'dia', 'filhos frente', () => lgEl(
-    '<g transform="translate(560 668) scale(1.2)"><g>' + lgGente({ h: 54, roupa: 'var(--info)', cabelo: 'curto', feliz: 1, braco: 'pipa' }) + '</g>' +
+    '<g transform="translate(560 668) scale(' + lgE('jovem', 668) + ')"><g>' + lgGente({ h: 54, roupa: 'var(--info)', cabelo: 'curto', feliz: 1, braco: 'pipa' }) + '</g>' +
     '<path d="M-10 -62 Q-40 -120 -110 -170" stroke="var(--lg-sil)" stroke-width="1" fill="none"/><g transform="translate(-110 -170)"><g class="lg-pipa"><path d="M0 -16 L12 0 L0 16 L-12 0Z" fill="var(--primary)"/><path d="M0 16 q5 12 -2 24 q-6 10 2 20" stroke="var(--primary)" stroke-width="1.6" fill="none"/></g></g>' +
     '<g class="lg-vaivem" style="--vx:44px;--d:7s"><g transform="translate(46 0)">' + LG_FAM.moca14() + '</g></g>' +
     '<g class="lg-vaivem" style="--vx:-38px;--d:6s;animation-delay:-2s"><g transform="translate(96 0)">' + LG_FAM.menina10() + '</g></g>' +
     '<g transform="translate(-34 0)"><g class="lg-pula">' + LG_FAM.menina5() + '</g></g></g>', 'lg-ev-meio')],
   ['Família reunida', 1.3, 'dia', 'filhos mae frente', () => lgEl(
-    '<g transform="translate(520 656) scale(1.15)"><g transform="translate(0 0)">' + lgGente({ h: 56, roupa: 'var(--lg-vestido)', saia: 1, cabelo: 'coque', feliz: 1, braco: 'acena' }) + '</g>' +
+    '<g transform="translate(520 656) scale(' + lgE('mulher', 656, 57.8) + ')"><g transform="translate(0 0)">' + lgGente({ h: 56, roupa: 'var(--lg-vestido)', saia: 1, cabelo: 'coque', feliz: 1, braco: 'acena' }) + '</g>' +
     '<g transform="translate(26 0)">' + lgGente({ h: 54, roupa: 'var(--info)', cabelo: 'curto', feliz: 1, braco: 'acena' }) + '</g>' +
     '<g transform="translate(50 0)">' + LG_FAM.moca14() + '</g>' +
     '<g transform="translate(72 0)"><g class="lg-pula" style="animation-duration:1.4s">' + LG_FAM.menina10() + '</g></g>' +
@@ -16145,8 +16380,25 @@ function lgSomIcone() { return LG_SOM ? '<svg viewBox="0 0 24 24" fill="none" st
 function lgFundoHTML() {
   const P = lgPeriodo();
   return '<div class="lg-root lg-p-' + P + '" id="lg-root"><svg id="lg-cena" viewBox="0 0 1200 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true"></svg><div class="lg-clarao" id="lg-clarao"></div></div>' +
-    '<button type="button" class="lg-som" data-action="lg-som" title="Som da cena" aria-label="Som da cena">' + lgSomIcone() + '</button>';
+    '<button type="button" class="lg-som" data-action="lg-som" title="Som da cena" aria-label="Som da cena">' + lgSomIcone() + '</button>' +
+    '<button type="button" class="lg-ver" data-action="lg-ver" aria-pressed="false" aria-label="Ver a paisagem" title="Ver a paisagem">' + lgVerTxt(false) + '</button>'; /* v2.90.0 (nº 11) */
 }
+function lgSomAria() { $$('.lg-som').forEach(b => { b.setAttribute('aria-pressed', LG_SOM ? 'true' : 'false'); b.setAttribute('aria-label', 'Som da cena: ' + (LG_SOM ? 'ligado' : 'desligado')); b.title = b.getAttribute('aria-label'); }); } /* v2.90.1 */
+function lgVerTxt(on) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + (on ? '<rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 10h18"/>' : '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>') + '</svg><span>' + (on ? 'Mostrar o quadro' : 'Ver a paisagem') + '</span>'; }
+function lgVer(on) {
+  const estava = document.body.classList.contains('lg-so-cena');
+  on = on == null ? !estava : !!on;
+  document.body.classList.toggle('lg-so-cena', on);
+  $$('.lg-ver').forEach(b => { b.innerHTML = lgVerTxt(on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); });
+  if (estava && !on) setTimeout(lgVerFoco, 60); /* v2.90.1: depois de o quadro aparecer */
+}
+/* v2.90.1: o cursor volta para onde a pessoa digita a senha */
+function lgVerFoco() {
+  const lk = $('#lock #lock-senha'), lg = $('#auth:not([hidden]) #l-login'), ls = $('#auth:not([hidden]) #l-senha');
+  const f = lk || (lg && ls ? (lg.value.trim() ? ls : lg) : null) || Array.from($$('#auth:not([hidden]) .lg-auth input')).find(i => !i.value) || $('#auth:not([hidden]) .lg-auth input');
+  if (f) try { f.focus({ preventScroll: true }); } catch (e) {}
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.body.classList.contains('lg-so-cena')) { e.stopPropagation(); lgVer(false); } }, true);
 function lgTopoHTML() {
   const P = lgPeriodo();
   return '<div class="lg-esq"><div class="lg-marca">' + lgLogoSVG(lgLogoDoDia()) + '<div><b>EFClaudian</b><small>' + esc('Controle de qualidade' + (empNomeLogin() ? ' · ' + empNomeLogin() : '')) + '</small></div></div>' +
@@ -16156,8 +16408,12 @@ function lgIniciar() {
   lgParar();
   const P = lgPeriodo(), svg = $('#lg-cena'); if (!svg) return;
   document.body.setAttribute('data-theme', P === 'noite' ? 'dark' : 'light'); /* só a tela de login segue a hora; não grava a escolha do aparelho */
+  lgMetaCor(); /* v2.90.0 (A6) */
   try { LG_SOM = Store.get('sv2-som-login') !== '0'; } catch (e) {}
   const L = S.lg = { ativo: true, P: P, timers: [], presentes: [], viagens: [], ocup: new Set() };
+  document.body.classList.toggle('lg-leve-on', lgFraco()); /* v2.90.0 (A12) */
+  lgFixarAltura(true); /* v2.90.0 (A10) */
+  lgSomAria(); /* v2.90.1 */
   /* o que já está na tela: quase sempre 2 coisas, às vezes 3 */
   const n = Math.random() < .7 ? 2 : 3, esc1 = [];
   for (let i = 0; i < n; i++) { const e = lgSorteia(LG_PRESENTES.filter(x => esc1.indexOf(x) < 0), P, L.ocup); if (!e) break; esc1.push(e); lgOcupa(L, e); L.presentes.push({ n: e[0], e: e }); }
@@ -16166,7 +16422,7 @@ function lgIniciar() {
   if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   lgT(lgViagem, lgR(20, 40) * 1000); lgT(lgRajada, lgR(10, 20) * 1000);
 }
-function lgParar() { try { $$('.lg-viu').forEach(x => x.remove()); } catch (e) {} const L = S.lg; if (!L) return; L.ativo = false; L.timers.forEach(clearTimeout); S.lg = null; }
+function lgParar() { try { $$('.lg-viu').forEach(x => x.remove()); document.body.classList.remove('lg-so-cena', 'lg-leve-on'); } catch (e) {} const L = S.lg; if (!L) return; L.ativo = false; L.timers.forEach(clearTimeout); S.lg = null; }
 function lgTransicao(p) {
   try {
     const d = document.createElement('div'); d.className = 'lg-entrando';
@@ -16175,9 +16431,10 @@ function lgTransicao(p) {
   } catch (e) {}
 }
 function lgAcao(act) {
+  if (act === 'lg-ver') { lgVer(); return true; } /* v2.90.0 (nº 11) */
   if (act !== 'lg-som') return false;
   LG_SOM = !LG_SOM; try { Store.set('sv2-som-login', LG_SOM ? '1' : '0'); } catch (e) {}
-  const b = $('.lg-som'); if (b) b.innerHTML = lgSomIcone(); return true;
+  const b = $('.lg-som'); if (b) b.innerHTML = lgSomIcone(); lgSomAria(); return true;
 }
 ['pointerdown', 'keydown'].forEach(t => document.addEventListener(t, () => { LG_AUDIO_OK = true; }, { passive: true }));
 
@@ -16282,6 +16539,8 @@ setInterval(lockChecar, 10000);
 const CAD_LIVRE = DEMO && Store.get('sv2-cad-livre') === '1'; /* só para os testes automáticos antigos no modo demonstração */
 const CAD_ERROS_MAX = 5, CAD_TRAVA_MS = 15 * 60 * 1000;
 const emailValido = e => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(e || '').trim());
+/* v2.89.1: a senha nova já foi gravada numa tentativa anterior (o e-mail é que falhou) */
+function cadSenhaJa(p) { return !!p && !!p.senhaTrocadaEm && String(p.senhaTrocadaEm) > String(p.liberadoEm || p.criadoEm || ''); }
 function cadPrecisa(p) { return !CAD_LIVRE && !!p && (p.precisaCompletar === true || !p.email); }
 const cadMin = p => p && String(p.perfil || '').indexOf('principal') === 0 ? 8 : 6;
 async function cadMapa(login, o) { try { await Data.col('sv2_login').set(slugLogin(login), Object.assign({ login: slugLogin(login) }, o, { em: nowISO() })); } catch (e) { console.warn('sv2_login', e && e.code); } }
@@ -16315,6 +16574,7 @@ function cadRecBotao(forte) { const b = $('[data-action="cad-rec"]'); if (b) b.c
 /* ---------- recuperar senha (tela de login, sem estar logado) ---------- */
 function openCadRec() {
   const host = $('#auth'); const card = host && $('.auth-card', host); if (!card) return;
+  lgCardTroca(card); /* v2.90.0 (A5) */
   card.innerHTML = '<h2>Recuperar senha</h2><p class="lead">Digite o e-mail que você cadastrou. Chega um link para você criar uma senha nova.</p><div id="f-msg"></div>' +
     '<div class="field"><label for="rec-email">E-mail cadastrado</label><input class="input" id="rec-email" type="email" autocomplete="email" autocapitalize="none"></div>' +
     '<button class="btn primary block" type="button" data-action="cad-rec-ok">Mandar o link</button>' +
@@ -16329,6 +16589,7 @@ async function cadRecOk() {
   try { await Data.auth.recuperar(e); } catch (er) { if (!/user-not-found|invalid-email/.test(er && er.code || '')) { if (b) { b.disabled = false; b.textContent = 'Mandar o link'; } formMsg(errMsg(er)); return; } }
   try { await Data.col('sv2_recup').add({ email: e, ts: nowISO() }); } catch (er) {} /* aviso ao Principal */
   const card = $('#auth .auth-card');
+  lgCardTroca(card);
   if (card) card.innerHTML = '<h2>Pronto</h2><p class="lead">Se esse e-mail estiver cadastrado, o link chega em alguns minutos. Olhe também o spam. Depois de criar a senha nova, entre normalmente.' + (DEMO ? ' <b>(No modo demonstração nenhum e-mail é enviado.)</b>' : '') + '</p><button class="btn primary block" type="button" data-action="cad-rec-voltar">Voltar para o login</button>';
 }
 /* Principal: cada pedido de recuperação vira aviso */
@@ -16345,14 +16606,14 @@ function cadRecAvisar(list) {
 /* ---------- completar o cadastro (obrigatório) ---------- */
 function cadTela(p, msg) {
   const host = $('#auth'); $('#app').hidden = true; host.hidden = false;
-  host.innerHTML = '<div class="auth">' + authCard('<h2>Complete o seu cadastro</h2><p class="lead">' + (p.precisaCompletar ? 'Você entrou com uma senha temporária. ' : '') + 'Antes de usar o app, confirme o seu nome completo, cadastre um e-mail válido (é por ele que você recupera a senha) e crie a sua senha.</p>' +
+  lgQuadro(host, authCard('<h2>Complete o seu cadastro</h2><p class="lead">' + (p.precisaCompletar ? 'Você entrou com uma senha temporária. ' : '') + 'Antes de usar o app, confirme o seu nome completo, cadastre um e-mail válido (é por ele que você recupera a senha) e crie a sua senha.</p>' +
     '<div id="f-msg">' + (msg ? '<div class="msg">' + esc(msg) + '</div>' : '') + '</div><form data-form="cad">' +
     '<div class="field"><label for="cad-nome">Nome completo</label><input class="input" id="cad-nome" autocomplete="name" value="' + esc(p.nome || '') + '"></div>' +
     '<div class="field"><label for="cad-email">E-mail</label><input class="input" id="cad-email" type="email" autocomplete="email" autocapitalize="none" value="' + esc(p.emailPendente || '') + '"></div>' +
     '<div class="field"><label for="cad-email2">Repita o e-mail</label><input class="input" id="cad-email2" type="email" autocomplete="off" autocapitalize="none"></div>' +
-    pwField('cad-senha', 'Senha nova (mínimo ' + cadMin(p) + ' caracteres)') + pwField('cad-senha2', 'Repita a senha nova') +
+    (cadSenhaJa(p) ? '<p class="fm-dica">A senha nova já foi gravada. Falta só confirmar o nome e o e-mail.</p>' : pwField('cad-senha', 'Senha nova (mínimo ' + cadMin(p) + ' caracteres)') + pwField('cad-senha2', 'Repita a senha nova')) +
     '<button class="btn primary block" type="button" data-action="cad-ok">Salvar e entrar</button></form>' +
-    '<button class="btn block" type="button" data-action="cad-sair" style="margin-top:8px">Sair</button>') + '</div>';
+    '<button class="btn block" type="button" data-action="cad-sair" style="margin-top:8px">Sair</button>')); /* v2.90.0 (A15): dentro da paisagem */
   $$('#auth input[type=password]').forEach(i => i.setAttribute('autocomplete', 'new-password'));
 }
 async function cadOk() {
@@ -16364,13 +16625,28 @@ async function cadOk() {
   if (email !== email2) return formMsg('Os dois e-mails não são iguais.');
   let todos = S.users; if (!todos.length) { try { todos = await Data.col('sv2_users').all(); } catch (e) { todos = []; } }
   if (todos.some(u => u.id !== p.id && !u.bloqueado && [u.email, u.emailPendente].map(x => String(x || '').toLowerCase()).indexOf(email) >= 0)) return formMsg('Esse e-mail já é de outra pessoa do app.');
-  if (s1.length < cadMin(p)) return formMsg('A senha nova precisa de no mínimo ' + cadMin(p) + ' caracteres.');
-  if (s1 !== s2) return formMsg('As senhas novas não são iguais.');
-  try { if (await lockConfere(s1)) return formMsg('A senha nova precisa ser diferente da que você usou para entrar.'); } catch (e) {}
+  const senhaJa = cadSenhaJa(p); /* v2.89.1 */
+  if (!senhaJa) {
+    if (s1.length < cadMin(p)) return formMsg('A senha nova precisa de no mínimo ' + cadMin(p) + ' caracteres.');
+    if (s1 !== s2) return formMsg('As senhas novas não são iguais.');
+    try { if (await lockConfere(s1)) return formMsg('A senha nova precisa ser diferente da que você usou para entrar.'); } catch (e) {}
+  }
   const b = $('[data-action="cad-ok"]'); if (b) { b.disabled = true; b.textContent = 'Salvando…'; }
   try {
-    await Data.auth.trocarSenha(s1); lockGuardar(s1);
-    const confirmado = await Data.auth.definirEmail(email); /* demo: na hora; Firebase: manda o link de confirmação */
+    if (!senhaJa) {
+      await Data.auth.trocarSenha(s1); lockGuardar(s1);
+      p.senhaTrocadaEm = nowISO(); p.nome = nome; /* v2.89.1: fica registrado na hora (se o e-mail falhar, não pede a senha de novo) */
+      try { await Data.col('sv2_users').update(p.id, { nome: nome, senhaTrocadaEm: p.senhaTrocadaEm }); } catch (e) { console.warn('cad senha', e && e.code); }
+    }
+    let confirmado;
+    try { confirmado = await Data.auth.definirEmail(email); } /* demo: na hora; Firebase: manda o link de confirmação */
+    catch (er) {
+      if (er && (er.code === 'auth/email-already-in-use' || er.code === 'auth/requires-recent-login' || er.code === 'auth/invalid-email')) throw er;
+      p.nome = nome; p.emailPendente = email; /* v2.89.1: guarda o que foi digitado e deixa tentar só o e-mail de novo */
+      try { await Data.col('sv2_users').update(p.id, { nome: nome, emailPendente: email }); } catch (e) {}
+      cadTela(p, 'A senha nova já foi gravada. O link de confirmação do e-mail não saiu (' + errMsg(er) + '). Confira a internet e toque em Salvar e entrar de novo.');
+      return;
+    }
     const patch = { nome: nome, email: email, emailPendente: confirmado ? '' : email, emailOk: !!confirmado, precisaCompletar: false, completadoEm: nowISO(), senhaTrocadaEm: nowISO() };
     await Data.col('sv2_users').update(p.id, patch);
     await cadMapa(p.login, confirmado ? { uid: p.id, email: email, emailNovo: '' } : { uid: p.id, email: Data.auth.emailAtual() || emailOf(p.login), emailNovo: email });
@@ -16599,6 +16875,7 @@ async function lockConfere(senha) {
 }
 /* v2.87.0: com a tela bloqueada, tudo o que está por baixo (app, janelas abertas) fica inerte: Tab e Enter não chegam lá */
 function lkInerte(on) {
+  document.documentElement.classList.toggle('lk-on', !!on); /* v2.90.1: a página de baixo não rola nem mostra a barra */
   Array.from(document.body.children).forEach(el => {
     if (on) { if (el.id === 'lock' || el.id === 'toast-host' || el.tagName === 'SCRIPT' || el.inert) return; el.inert = true; el.setAttribute('data-lk-inerte', '1'); }
     else if (el.getAttribute('data-lk-inerte')) { el.inert = false; el.removeAttribute('data-lk-inerte'); }
@@ -16610,7 +16887,7 @@ function lockAtivar(modo) {
   S.lockado = true; S.lockErros = 0; S.lockModo = modo === 'abrir' ? 'abrir' : 'bloqueio';
   try { if (document.activeElement && document.activeElement.blur) document.activeElement.blur(); } catch (e) {}
   /* a cena do login vem para trás do cartão (o login fica guardado e é redesenhado quando precisar) */
-  ['#auth #lg-root', '#auth .lg-som'].forEach(q => { const x = $(q); if (x) x.remove(); });
+  ['#auth #lg-root', '#auth .lg-som', '#auth .lg-ver'].forEach(q => { const x = $(q); if (x) x.remove(); }); lgVer(false); /* v2.90.0 */
   const abrir = S.lockModo === 'abrir', viva = typeof lgFundoHTML === 'function';
   const d = document.createElement('div'); d.id = 'lock'; d.className = 'lock' + (viva ? ' lock-viva' : '') + (abrir ? ' lock-ja' : ''); /* v2.87.0: ao abrir, sem fade */ d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true');
   d.innerHTML = (viva ? lgFundoHTML() : '') + '<div class="lock-c">' + (typeof lgLogoSVG === 'function' ? lgLogoSVG(lgLogoDoDia(), 'lock-logo') : '') +
@@ -16762,6 +17039,7 @@ function lgVisZonas() {
 /* maior faixa livre em x para algo que ocupa a altura y0..y1 e mede w de cada lado do ponto dos pés */
 function lgFaixa(xmin, xmax, y0, y1, minW, w) {
   const V = lgVisZonas(), vis = V.vis; w = w || 0;
+  V.zs = V.zs.concat((S.lg && S.lg.caixas) || []); /* v2.93.0: desvia de quem já está na cena */
   if (y1 < vis[2] + 8 || y0 > vis[3] - 4) return null;
   let ivs = [[Math.max(xmin - w, vis[0] + 12), Math.min(xmax + w, vis[1] - 12)]];
   V.zs.filter(z => z[2] < y1 && z[3] > y0).forEach(z => {
@@ -17014,19 +17292,19 @@ const LG_FIG2 = {
 };
 const LG_PRES2 = [
   ['Capinando e enxugando o suor', 6, 'dia', 'roca', lgCapinar],
-  ['Arando com o boi', 5, 'dia', 'palha', lgArar],
+  ['Arando com o boi', 5, 'dia', 'palha arado', lgArar], /* v2.90.0 (nº 10): um arado só */
   ['Plantando árvores', 5, 'dia', 'prado', lgPlantar],
   ['Colhendo mamão', 4, 'dia', 'mamao', lgMamao],
   ['Tratando as galinhas', 4, 'dia', 'quintal frente', lgGalinhas],
   ['Regando a horta', 3, 'dia', 'horta', lgRegar],
   ['Colhendo acerola', 2.5, 'dia', 'acerola', lgAcerolaCena],
   ['Cortando lenha', 2.5, 'dia', 'lenha', lgLenha],
-  ['Boi pastando', 3, 'dia', 'boi', () => { const f = lgFaixa(430, 620, 680, 722, 60, 34); return f && lgMarca('boi', () => lgBicho(LG_FIG.boi, 'lg-ev-meio', lgR(f[0], f[1]), 720, 1, f[0], f[1])); }],
-  ['Cavalo pastando', 2, 'dia', 'cavalo', () => { const f = lgFaixa(600, 800, 640, 694, 60, 40); return f && lgMarca('cavalo', () => lgBicho(LG_FIG.cavalo, 'lg-ev-meio', lgR(f[0], f[1]), 692, .9, f[0], f[1], true)); }],
-  ['Cachorro caramelo', 2, 'dia', 'cao frente', () => { const f = lgFaixa(520, 720, 630, 664, 60, 22); return f && lgBicho(LG_FIG.cachorro, 'lg-ev-meio', lgR(f[0], f[1]), 662, 1.25, f[0], f[1]); }],
+  ['Boi pastando', 3, 'dia', 'boi', () => { const f = lgFaixa(430, 560, 680, 722, 60, 34) /* v2.90.1: não encosta no cavalo */; return f && lgMarca('boi', () => lgBicho(LG_FIG.boi, 'lg-ev-meio', lgR(f[0], f[1]), 720, lgE('boi', 720), f[0], f[1])); }],
+  ['Cavalo pastando', 2, 'dia', 'cavalo', () => { const f = lgFaixa(640, 800, 640, 694, 60, 40); return f && lgMarca('cavalo', () => lgBicho(LG_FIG.cavalo, 'lg-ev-meio', lgR(f[0], f[1]), 692, lgE('cavalo', 692), f[0], f[1], true)); }],
+  ['Cachorro caramelo', 2, 'dia', 'cao frente', () => { const f = lgFaixa(60, 520, 836, 866, 50, 16); return f && lgBicho(LG_FIG.cachorro, 'lg-ev-perto', lgR(f[0], f[1]), 862, lgE('cachorro', 862), f[0], f[1]); /* v2.93.0: quintal da frente */ }],
   ['Mãe no varal', 2, 'dia', 'mae', () => lgLivre(395, 500, 590, 666) && lgEl(lgVaraL() + '<g transform="translate(452 664) scale(-1.1 1.1)" class="lg-varal-mae">' + lgGente({ h: 56, roupa: 'var(--lg-vestido)', saia: 1, cabelo: 'coque', braco: 'acena' }) + '</g>', 'lg-ev-casa')],
-  ['Crianças brincando', 1, 'dia', 'filhos frente quintal', () => lgLivre(400, 690, 470, 672) && LG_PRESENTES.find(e => e[0] === 'Crianças brincando')[4]()],
-  ['Família reunida', .6, 'dia', 'filhos mae frente quintal', () => lgLivre(500, 640, 585, 660) && LG_PRESENTES.find(e => e[0] === 'Família reunida')[4]()],
+  ['Crianças brincando', 1, 'dia', 'filhos frente quintal', () => lgLivre(400, 690, 470, 672) && LG_PRESENTES.find(e => e[0] === 'Crianças brincando')[4]() && (lgCaixa(518, 652, 616, 674), true)],
+  ['Família reunida', .6, 'dia', 'filhos mae frente quintal', () => lgLivre(500, 640, 585, 660) && LG_PRESENTES.find(e => e[0] === 'Família reunida')[4]() && (lgCaixa(504, 616, 606, 660), true)],
   ['Patos no açude', 1.5, 'dia', 'acude', lgPatos],
   ['Borboletas', .8, 'dia', 'borb', () => { const f = lgFaixa(430, 760, 660, 790, 40, 30); return f && lgEl('<g transform="translate(' + lgR(f[0], f[1]).toFixed(0) + ' ' + lgR(730, 780).toFixed(0) + ')">' + [0, 1].map(i => '<g class="lg-vaga" style="--vx:' + lgR(-40, 40).toFixed(0) + 'px;--vy:' + lgR(-40, -10).toFixed(0) + 'px;--d:' + lgR(6, 9).toFixed(1) + 's"><g transform="translate(' + i * 26 + ' ' + i * 12 + ')"><path class="lg-asa" d="M0 0 q-8 -10 -10 0 q2 6 10 0 q8 -10 10 0 q-2 6 -10 0" fill="var(--lg-flor-' + (i + 2) + ')"/></g></g>').join('') + '</g>', 'lg-ev-perto'); }],
   ['Fumaça da chaminé', 1, 'dia noite', 'fumaca', () => lgLivre(535, 600, 360, 512) && LG_PRESENTES.find(e => e[0] === 'Fumaça da chaminé')[4]()],
@@ -17040,17 +17318,17 @@ const LG_PRES2 = [
 const LG_VIAG2 = [
   ['Carrinho de mão com mamões', 4, 'dia', 'gente', () => lgCruza(LG_FIG2.carrinho(), 'lg-ev-meio', 708, 1.1, 56, 80)],
   ['Mulher com o balaio na cabeça', 2.5, 'dia', 'gente', () => lgCruza(LG_FIG2.balaio(), 'lg-ev-meio', 702, 1.05, 72, 90)],
-  ['Vaqueiro tocando o gado', 2.5, 'dia', 'cavalo boi', () => lgCruza(LG_FIG2.vaqueiro(), 'lg-ev-meio', 696, .85, 90, 120)],
-  ['Trator arando ao longe', 3, 'dia', '', () => lgCruza(LG_FIG2.trator(), 'lg-ev-longe', 524, .8, 40, 160)],
+  ['Vaqueiro tocando o gado', 2.5, 'dia', 'cavalo boi', () => lgCruza(LG_FIG2.vaqueiro(), 'lg-ev-meio', 696, lgE('cavalo', 696), 90, 120)],
+  ['Trator arando ao longe', 3, 'dia', 'arado', () => lgCruza(LG_FIG2.trator(), 'lg-ev-longe', 524, lgE('trator', 524), 40, 160)],
   ['Pássaros pretos', 1.5, 'dia', '', () => { let h = ''; for (let i = 0; i < 5; i++) h += '<g transform="translate(' + (i * 34 - (i % 2) * 14) + ' ' + (i % 3) * 16 + ')"><path class="lg-asa" style="animation-delay:-' + (i * .15).toFixed(2) + 's" d="M-12 0 Q-6 -8 0 -1 Q6 -8 12 0" stroke="var(--text)" stroke-width="3" fill="none" stroke-linecap="round"/></g>';
     const V = lgVisZonas(); for (let k = 0; k < 6; k++) { const y = lgR(Math.max(120, V.vis[2] + 20), 360); if (lgBandaLivre(y - 12, y + 44)) { const v = lgLado(); return lgAtravessa(h, 'lg-ev-ceu', y, 1, 48, v ? -260 : 1460, v ? 1460 : -260); } } return 0; }],
-  ['Cachorro correndo', 1, 'dia', 'cao', () => lgCruza('<g class="lg-pula">' + LG_FIG.cachorro + '</g>', 'lg-ev-perto', 852, 1.4, 34, 34)],
-  ['Crianças correndo', .5, 'dia', 'filhos frente', () => lgCruza('<g>' + LG_FAM.rapaz() + '</g><g transform="translate(-28 0)"><g class="lg-pula">' + LG_FAM.moca14() + '</g></g><g transform="translate(-52 0)"><g class="lg-pula" style="animation-delay:-.3s">' + LG_FAM.menina10() + '</g></g>', 'lg-ev-meio', 668, 1, 60, 60)],
+  ['Cachorro correndo', 1, 'dia', 'cao', () => lgCruza('<g class="lg-pula">' + LG_FIG.cachorro + '</g>', 'lg-ev-perto', 852, lgE('cachorro', 852), 34, 34)],
+  ['Crianças correndo', .5, 'dia', 'filhos frente', () => lgCruza('<g>' + LG_FAM.rapaz() + '</g><g transform="translate(-28 0)"><g class="lg-pula">' + LG_FAM.moca14() + '</g></g><g transform="translate(-52 0)"><g class="lg-pula" style="animation-delay:-.3s">' + LG_FAM.menina10() + '</g></g>', 'lg-ev-meio', 668, lgE('jovem', 668), 60, 60)],
   ['Nuvem com forma', .7, 'dia noite', '', () => { const k = lgPick(Object.keys(LG_NUV)); return lgAtravessa(LG_NUV[k], 'lg-ev-ceu', lgR(220, 330), lgR(.8, 1.1), 160, -200, 1400, 'lg-nuvem-anda'); }],
   ['Chuva', .8, 'dia', 'tempo', () => lgChuva(false)],
   ['Redemoinho', .4, 'dia', 'tempo', () => LG_VIAGENS.find(e => e[0] === 'Redemoinho')[4]()],
   ['Voltando para casa com o lampião', 4, 'noite', 'gente', () => lgCruza(LG_FIG2.lampiao(), 'lg-ev-meio', 702, 1.05, 60, 90)],
-  ['Raposa', 2, 'noite', '', () => lgCruza(LG_FIG.raposa, 'lg-ev-meio', 702, 1.2, 30, 70)],
+  ['Raposa', 2, 'noite', '', () => lgCruza(LG_FIG.raposa, 'lg-ev-meio', 702, lgE('raposa', 702), 30, 70)],
   ['Morcegos', 1.5, 'noite', '', () => LG_VIAGENS.find(e => e[0] === 'Morcegos')[4]()],
   ['Estrela cadente', 1.5, 'noite', '', () => LG_VIAGENS.find(e => e[0] === 'Estrela cadente')[4]()],
   ['Tempestade', .7, 'noite', 'tempo', () => lgChuva(true)]
@@ -17071,8 +17349,12 @@ function lgIniciar() {
   lgParar();
   const P = lgPeriodo(), svg = $('#lg-cena'); if (!svg) return;
   document.body.setAttribute('data-theme', P === 'noite' ? 'dark' : 'light'); /* só a tela de login segue a hora; não grava a escolha do aparelho */
+  lgMetaCor(); /* v2.90.0 (A6) */
   try { LG_SOM = Store.get('sv2-som-login') !== '0'; } catch (e) {}
   const L = S.lg = { ativo: true, P: P, timers: [], presentes: [], viagens: [], ocup: new Set() };
+  document.body.classList.toggle('lg-leve-on', lgFraco()); /* v2.90.0 (A12) */
+  lgFixarAltura(true); /* v2.90.0 (A10) */
+  lgSomAria(); /* v2.90.1 */
   const rt = $('#lg-root'); if (rt) rt.className = 'lg-root lg-p-' + P;
   svg.innerHTML = lgCenaFixa(P, P !== 'noite' && Math.random() < .1);
   /* o que já está na tela: quase sempre 2 coisas, às vezes 3 — só onde há lugar livre (fora do quadro de entrar) */
@@ -17095,6 +17377,22 @@ function lgIniciar() {
    sorteio da cena (respeitam "no máximo 3 coisas" e "ninguém atrás do quadro de entrar"); balões aparecem em cima do
    bicho (antes saíam no canto da tela, fora da vista); o toque funciona de novo depois de sair e voltar ao login;
    o aviso "Você viu" some sozinho e não fica por cima do app. */
+/* v2.90.0 — A6: cor da barra do celular igual à cena; A12: aparelho fraco = modo leve; A10: teclado e giro de tela */
+function lgMetaCor() { try { const m = $('meta[name="theme-color"]'); if (m) m.setAttribute('content', getComputedStyle(document.body).getPropertyValue('--bg').trim() || '#13131c'); } catch (e) {} }
+function lgFraco() { try { return window.innerWidth < 860 || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || (navigator.deviceMemory && navigator.deviceMemory <= 4); } catch (e) { return false; } }
+function lgFixarAltura(novo) {
+  const w = window.innerWidth, h = window.innerHeight;
+  if (novo || !S._lgTam || Math.abs(S._lgTam[0] - w) > 40) S._lgTam = [w, h]; /* largura mudou = girou a tela; só a altura = teclado: mantém */
+  $$('.lg-root').forEach(r => { r.style.bottom = 'auto'; r.style.height = S._lgTam[1] + 'px'; });
+}
+function lgAjustarTela() {
+  if (!S.lg || !S.lg.ativo) return;
+  lgFixarAltura(false);
+  const qs = ['.lg-auth .auth-card', '.lg-auth .lg-saud', '#lock .lock-c'].map(q => $(q)).filter(e => e && e.getBoundingClientRect().width).map(e => e.getBoundingClientRect());
+  $$('#lg-cena g[id^="lg-ev-"] > g').forEach(g => { const r = g.getBoundingClientRect(); if (!r.width) return; g.classList.toggle('lg-escondido', qs.some(c => r.left < c.right && r.right > c.left && r.top < c.bottom && r.bottom > c.top)); });
+}
+let lgTamT = null;
+window.addEventListener('resize', () => { clearTimeout(lgTamT); lgTamT = setTimeout(lgAjustarTela, 350); });
 function lgHoraFortaleza() {
   try {
     const p = new Intl.DateTimeFormat('en-GB', { timeZone: 'America/Fortaleza', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date());
@@ -17144,7 +17442,8 @@ function lgMarca(tipo, fn) { S._lgMarca = tipo; try { return fn(); } finally { S
 /* bicho novo num lugar livre (fora do quadro de entrar e visível); alt = altura do desenho, larg = meia largura */
 function lgBichoLivre(marca, fig, camada, xmin, xmax, y, alt, larg, esc, olhaEsq) {
   const f = lgFaixa(xmin, xmax, y - alt, y + 4, 30, larg); if (!f) return null;
-  return lgMarca(marca, () => lgBicho(fig, camada, lgR(f[0], f[1]), y, esc, f[0], f[1], olhaEsq));
+  const x = lgR(f[0], f[1]), a0 = Math.max(f[0], x - 90), a1 = Math.min(f[1], x + 90); /* v2.93.0: anda perto de onde está (deixa lugar para os outros) */
+  return lgMarca(marca, () => lgBicho(fig, camada, x, y, esc, a0, a1, olhaEsq));
 }
 const LG_FIG3 = {
   capivara: '<g class="lg-corpo"><ellipse cx="0" cy="-16" rx="22" ry="10" fill="var(--lg-terra)"/><ellipse cx="16" cy="-24" rx="8" ry="6" fill="var(--lg-terra)"/>' + lgPernas([-14, -6, 8, 14], -8, 8, 'var(--lg-terra)') + '</g>',
@@ -17158,13 +17457,13 @@ const LG_FIG3 = {
 /* bichos novos da v2.83, no mesmo formato do sorteio da cena: [nome, peso, períodos, ocupa, desenha] */
 function lgExtras() {
   return [
-    ['Mulher no campo', 2, 'dia', 'mulher', () => { const g = lgBichoLivre('mulher', lgGente({ h: 54, roupa: 'var(--lg-vestido)', saia: 1, cabelo: 'solto' }), 'lg-ev-campo', 600, 900, 830, 60, 14, 1.15); if (g && S.lg) S.lg.mulher = g; return g; }],
-    ['Capivara', 2, 'dia noite', 'capivara', () => lgBichoLivre('capivara', LG_FIG3.capivara, 'lg-ev-meio', 440, 700, 730, 34, 30, 1.1)],
-    ['Seriema', 1.5, 'dia', 'seriema', () => lgBichoLivre('passaro', LG_FIG3.seriema, 'lg-ev-campo', 640, 980, 820, 60, 16, 1.2)],
-    ['Tucano', 1.5, 'dia', 'tucano', () => lgBichoLivre('tucano', LG_FIG3.tucano, 'lg-ev-meio', 400, 560, 560, 24, 32, 1.3)],
-    ['Galinhas ciscando', 1.5, 'dia', 'quintal', () => lgBichoLivre('galinha', LG_FIG3.galinhas(), 'lg-ev-perto', 520, 760, 840, 26, 40, 1.4)],
-    ['Cachorro no terreiro', 1, 'dia noite', 'cao', () => lgBichoLivre('cachorro', LG_FIG.cachorro, 'lg-ev-perto', 560, 820, 850, 34, 34, 1.3)],
-    ['Gato', 1.5, 'dia noite', 'gato', () => lgBichoLivre('gato', LG_FIG3.gato, 'lg-ev-casa', 480, 620, 640, 22, 24, 1.1)],
+    ['Mulher no campo', 2, 'dia', 'mulher', () => { const g = lgBichoLivre('mulher', lgGente({ h: 54, roupa: 'var(--lg-vestido)', saia: 1, cabelo: 'solto' }), 'lg-ev-campo', 600, 900, 830, 60, 14, lgE('mulher', 830)); if (g && S.lg) S.lg.mulher = g; return g; }],
+    ['Capivara', 2, 'dia noite', 'capivara', () => lgBichoLivre('capivara', LG_FIG3.capivara, 'lg-ev-meio', 90, 330, 700, 20, 18, lgE('capivara', 700)) /* v2.93.0: beira do açude */],
+    ['Seriema', 1.5, 'dia', 'seriema', () => lgBichoLivre('passaro', LG_FIG3.seriema, 'lg-ev-campo', 640, 980, 820, 44, 12, lgE('seriema', 820))],
+    ['Tucano', 1.5, 'dia', 'tucano', () => lgBichoLivre('tucano', LG_FIG3.tucano, 'lg-ev-meio', 340, 520, 740, 16, 16, lgE('tucano', 740))],
+    ['Galinhas ciscando', 1.5, 'dia', 'quintal', () => lgBichoLivre('galinha', LG_FIG3.galinhas(), 'lg-ev-perto', 60, 520, 846, 22, 30, lgE('galinha', 846)) /* v2.93.0: quintal da frente */],
+    ['Cachorro no terreiro', 1, 'dia noite', 'cao', () => lgBichoLivre('cachorro', LG_FIG.cachorro, 'lg-ev-perto', 60, 520, 856, 28, 18, lgE('cachorro', 856))],
+    ['Gato', 1.5, 'dia noite', 'gato', () => lgBichoLivre('gato', LG_FIG3.gato, 'lg-ev-perto', 60, 520, 840, 18, 14, lgE('gato', 840))],
     ['Borboleta', 1, 'dia', 'borb', () => { const f = lgFaixa(500, 760, 640, 770, 20, 20); if (!f) return null;
       const g = lgEl('<g transform="translate(' + lgR(f[0], f[1]).toFixed(0) + ' ' + lgR(660, 760).toFixed(0) + ')"><g class="lg-vaga" style="--vx:40px;--d:7s"><path class="lg-asa" d="M0 0 q-8 -10 -10 0 q2 6 10 0 q8 -10 10 0 q-2 6 -10 0" fill="var(--lg-flor-1)"/></g></g>', 'lg-ev-perto');
       if (g) { g.setAttribute('data-lg-re', 'passaro'); g.style.cursor = 'pointer'; } return g; }]
@@ -17181,8 +17480,8 @@ function lgEventoRaro(fase) {
   const L = S.lg; if (!L) return;
   const noite = fase === 'noite';
   const lista = [
-    ['lobo-guará', 0.01, noite || fase === 'entardecer', () => lgBandaLivre(530, 570) && lgAtravessa(LG_FIG3.lobo, 'lg-ev-longe', 560, .7, 40, -80, 1280)],
-    ['jacaré', 0.03, L.presentes.length < LG_MAX, () => { const g = lgBichoLivre('jacare', LG_FIG3.jacare, 'lg-ev-meio', 300, 520, 700, 14, 32, 1); if (g) L.presentes.push({ n: 'Jacaré', e: ['Jacaré', 0, '', 'jacare'] }); return g; }],
+    ['lobo-guará', 0.01, noite || fase === 'entardecer', () => lgBandaLivre(530, 570) && lgAtravessa(LG_FIG3.lobo, 'lg-ev-longe', 560, lgE('lobo', 560), 40, -80, 1280)],
+    ['jacaré', 0.03, L.presentes.length < LG_MAX, () => { const g = lgBichoLivre('jacare', LG_FIG3.jacare, 'lg-ev-meio', 100, 320, 690, 10, 22, lgE('jacare', 690)); if (g) L.presentes.push({ n: 'Jacaré', e: ['Jacaré', 0, '', 'jacare'] }); return g; }],
     ['estrela cadente', 0.05, noite, () => LG_VIAGENS.find(e => e[0] === 'Estrela cadente')[4]()],
     ['revoada', 0.08, !noite, () => LG_VIAG2.find(e => e[0] === 'Pássaros pretos')[4]()],
     ['arco-íris', 0.10, !noite, () => lgEl('<g opacity=".8"><path d="M180 430 A220 160 0 0 1 620 430" fill="none" stroke="var(--lg-flor-1)" stroke-width="8"/><path d="M200 430 A200 140 0 0 1 600 430" fill="none" stroke="var(--lg-flor-2)" stroke-width="8"/><path d="M220 430 A180 120 0 0 1 580 430" fill="none" stroke="var(--info)" stroke-width="8"/></g>', 'lg-ev-ceu')]
@@ -17366,7 +17665,7 @@ function viewBugs() {
   const n = k => todos.filter(b => k === 'meus' ? b.porId === S.user.id : k === 'abertos' ? bugAberto(b) : b.status === k).length;
   const chip = (k, t) => '<button class="chip-f' + (f === k ? ' on' : '') + '" data-action="bug-f" data-id="' + k + '">' + t + ' <b>' + (k === 'todos' ? todos.length : n(k)) + '</b></button>';
   const linhas = l.map(b => '<tr data-action="bug-open" data-id="' + esc(b.id) + '" class="click"><td>' + esc(bugNum(b)) + '</td><td><span class="chip ' + BUG_TIPOS[b.tipo || 'bug'][1] + '">' + BUG_TIPOS[b.tipo || 'bug'][0] + '</span></td>' +
-    '<td><b>' + esc(b.titulo) + '</b>' + (b.foto ? ' <span class="bug-clip" title="Com foto">' + icoI('camera') + '</span>' : '') + '</td><td>' + esc(bugAreaNome(b.area)) + '</td><td>' + esc(b.porNome || '') + '</td><td>' + esc(fmtD(diaLocal(b.ts))) + '</td>' +
+    '<td><b>' + esc(b.titulo) + '</b>' + (b.foto || b.temFoto ? ' <span class="bug-clip" title="Com foto">' + icoI('camera') + '</span>' : '') + '</td><td>' + esc(bugAreaNome(b.area)) + '</td><td>' + esc(b.porNome || '') + '</td><td>' + esc(fmtD(diaLocal(b.ts))) + '</td>' +
     '<td><span class="chip ' + BUG_SIT[b.status || 'novo'][1] + '">' + BUG_SIT[b.status || 'novo'][0] + (b.status === 'resolvido' && b.versaoResolvido ? ' · ' + esc(b.versaoResolvido) : '') + '</span></td></tr>').join('');
   /* v2.86.0 (nº 8): os dois botões lado a lado (também no celular), filtros numa linha própria e "Relatório PDF" */
   return '<div class="bug-top"><div class="bug-bts"><button class="btn primary" data-action="bug-novo" data-id="bug">Reportar problema</button><button class="btn" data-action="bug-novo" data-id="sugestao">Sugerir melhoria</button>' +
@@ -17398,6 +17697,25 @@ async function bugFotoEscolhida(input) {
     const p = $('#bug-foto-prev'); if (p) p.innerHTML = '<img src="' + S._bugFoto + '" alt="Imagem anexada"><button type="button" class="btn sm" data-action="bug-foto-tirar">Tirar</button>';
   } catch (e) { const m = $('#bug-msg'); if (m) m.innerHTML = '<div class="msg">Não consegui ler essa imagem.</div>'; }
 }
+/* v2.92.0 (G10): a foto vai para sv2_bugs_foto/{id}; o bug guarda temFoto. Sem a regra nova, grava como antes. */
+async function bugGravar(o) {
+  if (!o.foto) return Data.col('sv2_bugs').add(o);
+  const id = Data.novoId('sv2_bugs'), foto = o.foto;
+  try {
+    await Data.col('sv2_bugs_foto').set(id, { bugId: id, dataUrl: foto, porId: S.user.id, ts: o.ts });
+    (S._bugFotos = S._bugFotos || {})[id] = foto;
+    o = Object.assign({}, o, { foto: '', temFoto: true });
+  } catch (e) { if (!(e && e.code === 'permission-denied')) throw e; console.warn('sv2_bugs_foto sem regra: foto dentro do bug'); }
+  await Data.col('sv2_bugs').set(id, o);
+  return id;
+}
+/* foto do bug: dentro (antigos) ou à parte (temFoto), baixada só quando precisa */
+function bugFotoDe(b) { const f = String((b && (b.foto || (S._bugFotos || {})[b.id])) || ''); return /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(f) ? f : ''; }
+async function bugFotosCarregar(lista) {
+  S._bugFotos = S._bugFotos || {};
+  const falta = (lista || []).filter(b => b && b.temFoto && !b.foto && !S._bugFotos[b.id]);
+  await Promise.all(falta.map(b => Data.col('sv2_bugs_foto').get(b.id).then(d => { if (d && d.dataUrl) S._bugFotos[b.id] = d.dataUrl; }).catch(() => {})));
+}
 async function bugEnviar() {
   const g = id => String(($('#' + id) || {}).value || '').trim(), m = $('#bug-msg');
   const tipo = g('bug-tipo') === 'sugestao' ? 'sugestao' : 'bug', tit = g('bug-tit'), desc = g('bug-desc'), area = g('bug-area') || 'geral';
@@ -17408,7 +17726,7 @@ async function bugEnviar() {
     versao: String(APP_VERSION).split(' ')[0], tela: S._rotaAntes || S._rota || '', aparelho: (window.innerWidth < 860 ? 'celular' : 'computador') + ' · ' + window.innerWidth + '×' + window.innerHeight,
     porId: S.user.id, porNome: S.user.nome, ts: ts, hist: [{ ts: ts, porNome: S.user.nome, status: 'novo', texto: 'Enviado' }] };
   try {
-    const id = await Data.col('sv2_bugs').add(o); S._bugFoto = '';
+    const id = await bugGravar(o); S._bugFoto = ''; /* v2.92.0: foto à parte */
     Notif.send({ nivel: tipo === 'bug' ? 'aviso' : 'info', titulo: (tipo === 'bug' ? 'Problema reportado' : 'Sugestão nova') + ' · nº ' + numero, texto: S.user.nome + ': ' + tit, para: S.users.filter(u => isPrincipal(u) && u.id !== S.user.id).map(u => u.id), refTipo: 'bug', refId: id });
     Audit.log({ acao: tipo === 'bug' ? 'bug_reportar' : 'sugestao_enviar', entidade: 'bug', entidadeId: id, resumo: 'Nº ' + numero + ' · ' + tit });
     closeSheet(); toast(tipo === 'bug' ? 'Problema enviado. Obrigado!' : 'Sugestão enviada. Obrigado!', 'ok');
@@ -17417,10 +17735,11 @@ async function bugEnviar() {
 }
 function openBug(id) {
   const b = (S.bugs || []).find(x => x.id === id); if (!b) return;
+  if (b.temFoto && !bugFotoDe(b)) bugFotosCarregar([b]).then(() => { const h = document.getElementById('bug-img-' + b.id), f = bugFotoDe(b); if (h) h.outerHTML = f ? '<a class="bug-img" href="' + esc(f) + '" target="_blank" rel="noopener"><img src="' + esc(f) + '" alt="Imagem anexada"></a>' : '<small class="fm-dica">Não deu para carregar a imagem agora.</small>'; }); /* v2.92.0 */
   const pode = isPrincipal(S.user), sit = BUG_SIT[b.status || 'novo'];
   const hist = (b.hist || []).map(h => '<li><b>' + esc(BUG_SIT[h.status] ? BUG_SIT[h.status][0] : h.status) + '</b> · ' + esc(fmtDT(h.ts)) + ' · ' + esc(h.porNome || '') + (h.texto ? '<br><span>' + esc(h.texto) + '</span>' : '') + '</li>').join('');
   openSheet('<h3>Nº ' + esc(bugNum(b)) + ' · ' + esc(b.titulo) + '</h3><div class="sub"><span class="chip ' + BUG_TIPOS[b.tipo || 'bug'][1] + '">' + BUG_TIPOS[b.tipo || 'bug'][0] + '</span> <span class="chip ' + sit[1] + '">' + sit[0] + '</span></div>' +
-    '<p class="bug-desc">' + esc(b.descricao) + '</p>' + (/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(String(b.foto || '')) ? '<a class="bug-img" href="' + esc(b.foto) + '" target="_blank" rel="noopener"><img src="' + esc(b.foto) + '" alt="Imagem anexada"></a>' : '') +
+    '<p class="bug-desc">' + esc(b.descricao) + '</p>' + (bugFotoDe(b) ? '<a class="bug-img" href="' + esc(bugFotoDe(b)) + '" target="_blank" rel="noopener"><img src="' + esc(bugFotoDe(b)) + '" alt="Imagem anexada"></a>' : b.temFoto ? '<div class="bug-img" id="bug-img-' + esc(b.id) + '"><small class="fm-dica">Carregando a imagem…</small></div>' : '') +
     keyval([['Quem', b.porNome || '—'], ['Quando', fmtDT(b.ts)], ['Parte do app', bugAreaNome(b.area) + (b.tela ? ' (' + b.tela + ')' : '')], ['Versão', b.versao || '—'], ['Aparelho', b.aparelho || '—']].concat(b.versaoResolvido ? [['Resolvido na versão', b.versaoResolvido]] : [])) +
     '<div class="sec">Histórico</div><ul class="bug-hist">' + hist + '</ul><div id="bug-msg"></div>' +
     (pode ? '<div class="field"><label for="bug-txt">Resposta / motivo (vai para quem reportou)</label><textarea class="input" id="bug-txt" rows="2"></textarea></div>' +
@@ -17439,10 +17758,11 @@ function bugNum(b) {
   return String(n) + (k > 0 ? '-' + String.fromCharCode(97 + Math.min(k, 25)) : '');
 }
 /* v2.86.0 (nº 8): relatório em PDF (A4 deitado) com os itens do filtro atual — para mandar para a IA avaliar e corrigir */
-function bugPDF() {
+async function bugPDF() {
   const f = bugFiltro(), todos = (S.bugs || []).slice().sort((a, b) => String(b.ts).localeCompare(String(a.ts)));
   const l = todos.filter(b => f === 'todos' ? true : f === 'meus' ? b.porId === S.user.id : f === 'abertos' ? bugAberto(b) : b.status === f);
   if (!l.length) { toast('Nada para imprimir neste filtro.'); return; }
+  if (l.some(b => b.temFoto && !bugFotoDe(b))) { toast('Carregando as imagens…'); await bugFotosCarregar(l); } /* v2.92.0 */
   const nomeF = { abertos: 'Abertos', resolvido: 'Resolvidos', naoprocede: 'Não procede', meus: 'Meus', todos: 'Todos' }[f] || f;
   const kv = (k, v) => v ? '<tr><th>' + esc(k) + '</th><td>' + esc(v) + '</td></tr>' : '';
   const corpo = '<div class="bp-res"><b>' + l.length + ' item(ns)</b> · filtro: ' + esc(nomeF) + ' · gerado em ' + esc(fmtDT(nowISO())) + ' · ' + esc(String(APP_VERSION).split(' ')[0]) + '</div>' +
@@ -17450,7 +17770,7 @@ function bugPDF() {
       '<div class="bp-c"><table class="bp-kv">' + kv('Tela', bugAreaNome(b.area)) + kv('Data', fmtDT(b.ts)) + kv('Quem', b.porNome) + kv('Versão', b.versao) + kv('Aparelho', b.aparelho) + kv('Resolvido na', b.versaoResolvido) + '</table>' +
       '<div class="bp-d"><p>' + esc(b.descricao || '').replace(/\n/g, '<br>') + '</p>' +
       ((b.hist || []).length > 1 ? '<ul>' + b.hist.map(h => '<li>' + esc(fmtDT(h.ts) + ' · ' + (h.porNome || '') + ' · ' + ((BUG_SIT[h.status] || [h.status || ''])[0]) + (h.texto ? ' — ' + h.texto : '')) + '</li>').join('') + '</ul>' : '') + '</div>' +
-      (/^data:image\/(jpeg|png|webp);base64,/.test(String(b.foto || '')) ? '<img class="bp-f" src="' + b.foto + '" alt="">' : '') + '</div></div>').join('');
+      (bugFotoDe(b) ? '<img class="bp-f" src="' + bugFotoDe(b) + '" alt="">' : '') + '</div></div>').join('');
   Audit.log({ acao: 'imprimir', entidade: 'bug', entidadeId: 'relatorio', resumo: 'Relatório PDF de Bugs e sugestões (' + nomeF + ': ' + l.length + ' itens)' });
   runPrint(corpo, 'EFClaudian · Bugs e sugestões · ' + fmtD(hojeISO()), 'landscape', 'Filtro: ' + nomeF);
 }
@@ -17535,15 +17855,15 @@ document.addEventListener('change', e => { if (e.target && e.target.classList &&
    • Quadro (arrastar no computador), Equipe (carga de cada liderado) e Rotinas (as atividades periódicas; importar da planilha).
    • Nada se apaga: tarefa sai da lista por "Cancelar" com motivo. Coleção nova sv2_tarefas; as rotinas ficam em sv2_cfg/tarefas. */
 const TF_URG = { u: ['Urgente', 'Resolver hoje'], a: ['Alta', 'Nos próximos dias'], n: ['Normal', 'No prazo combinado'], b: ['Baixa', 'Quando der'] };
-const TF_ST = { todo: 'A fazer', doing: 'Fazendo', review: 'Para conferir', done: 'Feito', cancelada: 'Cancelada' };
-const TF_REP = [['', 'Não repete'], ['diaria', 'Diária', 1, 'd'], ['semanal', 'Semanal', 7, 'd'], ['quinzenal', 'Quinzenal', 14, 'd'], ['mensal', 'Mensal', 1, 'm'], ['bimestral', 'Bimestral', 2, 'm'], ['trimestral', 'Trimestral', 3, 'm'], ['semestral', 'Semestral', 6, 'm'], ['anual', 'Anual', 12, 'm']];
+const TF_ST = { todo: 'A fazer', doing: 'Em execução', review: 'Aguardando conferência', done: 'Concluída', cancelada: 'Cancelada' }; /* v2.94.0: textos técnicos */
+const TF_REP = [['', 'Não repete'], ['diaria', 'Diária', 1, 'd'], ['dias', 'Em dias da semana…', 0, 'w'] /* v2.94.0 */, ['semanal', 'Semanal', 7, 'd'], ['quinzenal', 'Quinzenal', 14, 'd'], ['mensal', 'Mensal', 1, 'm'], ['bimestral', 'Bimestral', 2, 'm'], ['trimestral', 'Trimestral', 3, 'm'], ['semestral', 'Semestral', 6, 'm'], ['anual', 'Anual', 12, 'm']];
 const tfRepNome = k => (TF_REP.find(r => r[0] === k) || TF_REP[0])[1];
 const TF_SEM = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
 const TF_CK = '<svg viewBox="0 0 24 24" fill="none" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
 const TF_IR = '<svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a3 3 0 0 1 3-3h15"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a3 3 0 0 1-3 3H3"/></svg>';
 const TF_CHV = '<svg class="tf-chv" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>';
 const TF_OKI = '<svg class="tf-oki" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
-function tfE() { S.tf = S.tf || { vista: 'lista', esc: 'minhas', ct: 'abertas', dia: '', sel: '', abre: {} }; return S.tf; }
+function tfE() { S.tf = S.tf || { vista: 'lista', esc: 'minhas', ct: 'aberto', dia: '', sel: '', abre: {}, mob: 'tarefas', busca: '', mdAbre: {} }; return S.tf; }
 const tfTodas = () => (S.tarefas || []).filter(x => x.status !== 'cancelada');
 const tfAb = x => x.status !== 'done' && x.status !== 'cancelada';
 const tfAtr = x => tfAb(x) && x.prazo && x.prazo < hojeISO();
@@ -17562,40 +17882,24 @@ const tfPosso = x => tfPodeVer(x);
 function tfPz(x) {
   if (!x.prazo) return { t: 'Sem prazo', c: '' };
   const d = tfDif(x.prazo), h = x.hora ? ' ' + x.hora : '';
-  if (d < 0 && tfAb(x)) return { t: d === -1 ? 'Venceu ontem' : 'Venceu há ' + (-d) + ' dias', c: 'atr' };
+  if (d < 0 && tfAb(x)) return { t: 'Atrasada ' + (-d) + (d === -1 ? ' dia' : ' dias'), c: 'atr' }; /* v2.94.0 */
   if (d === 0) return { t: 'Hoje' + h, c: 'hj' }; if (d === 1) return { t: 'Amanhã' + h, c: '' };
   const D = new Date(x.prazo + 'T12:00:00'); return { t: TF_SEM[D.getDay()] + ' ' + fmtD(x.prazo).slice(0, 5) + h, c: '' };
 }
-function tfEscopo() {
-  const e = tfE(), lid = tfLid();
-  return tfTodas().filter(x => e.esc === 'minhas' ? x.respId === S.user.id : e.esc === 'passei' ? (x.porId === S.user.id && x.respId !== S.user.id) : (x.respId === S.user.id || lid.indexOf(x.respId) >= 0));
-}
+function tfEscF(x, lid) { const e = tfE(); return e.esc === 'minhas' ? x.respId === S.user.id : e.esc === 'passei' ? (x.porId === S.user.id && x.respId !== S.user.id) : (x.respId === S.user.id || lid.indexOf(x.respId) >= 0); }
+function tfEscopo() { const lid = tfLid(); return tfTodas().filter(x => tfEscF(x, lid)); }
 const TF_CT = [['abertas', 'Abertas', tfAb, ''], ['atrasadas', 'Atrasadas', tfAtr, 'r'], ['hoje', 'Hoje', x => tfAb(x) && x.prazo === hojeISO(), ''], ['conferir', 'Para conferir', x => x.status === 'review', 'w'], ['naoviu', 'Não viram', x => tfAb(x) && x.porId !== x.respId && !x.ciente, 'w'], ['feitas', 'Feitas', x => x.status === 'done', '']];
 const tfOrd = { u: 0, a: 1, n: 2, b: 3 };
 const tfSrt = (a, b) => tfOrd[a.urg || 'n'] - tfOrd[b.urg || 'n'] || String(a.hora || '99').localeCompare(String(b.hora || '99')) || String(a.criadoEm).localeCompare(String(b.criadoEm));
 
 /* ---------- tela ---------- */
-function viewTarefas() {
-  const e = tfE(), hoje = hojeISO(), lider = tfSouLider();
-  if ((e.vista === 'equipe' && !lider) || (e.vista === 'rotinas' && !isSup(S.user))) e.vista = 'lista';
-  if (!lider && e.esc !== 'minhas') e.esc = 'minhas';
-  const m = tfTodas().filter(x => x.respId === S.user.id && tfAb(x)), nh = m.filter(x => x.prazo === hoje).length, na = m.filter(tfAtr).length;
-  const D = new Date(hoje + 'T12:00:00'), dia = D.toLocaleDateString('pt-BR', { weekday: 'long' });
-  const vs = [['lista', 'Lista'], ['quadro', 'Quadro']].concat(lider ? [['equipe', 'Equipe']] : []).concat(isSup(S.user) ? [['rotinas', 'Rotinas']] : []) /* rotinas: líder ★ ou Principal (é quem grava sv2_cfg) */;
-  const vh = '<div class="tf-seg">' + vs.map(v => '<button class="' + (e.vista === v[0] ? 'on' : '') + '" data-action="tf-vista" data-id="' + v[0] + '">' + v[1] + '</button>').join('') + '</div>';
-  let h = '<div class="tf"><div class="tf-hd"><div><h2>Tarefas</h2><div class="tf-sub">' + esc(tfCurto(S.user.id) + ', ' + dia + ' ' + fmtD(hoje).slice(0, 5) + ' · ' + nh + ' para hoje' + (na ? ', ' + na + ' atrasada' + (na > 1 ? 's' : '') : '')) + '</div></div><span class="tf-sp"></span>' + vh + '<button class="btn primary tf-nw" data-action="tf-nova">+ Nova tarefa</button></div>';
-  if (e.vista !== 'rotinas' && e.vista !== 'equipe') h += tfSemana();
-  if (e.vista === 'lista' || e.vista === 'quadro') h += tfFiltros();
-  h += '<div class="tf-main' + (e.vista === 'lista' ? ' com-lado' : '') + '">' + (e.vista === 'quadro' ? tfQuadro() : e.vista === 'equipe' ? tfEquipe() : e.vista === 'rotinas' ? tfRotinas() : tfLista()) + '</div></div>';
-  return h + '<button class="tf-fab" data-action="tf-nova" aria-label="Nova tarefa">+</button>';
-}
+function viewTarefas() { return tfTela(); } /* v2.94.0: a aba Tarefas saiu; o que existia aqui está em tfTela */
 function tfSemana() {
   const e = tfE(), hoje = hojeISO(), base = tfEscopo(); let w = '<div class="tf-wk">';
   for (let i = 0; i < 7; i++) {
     const d = addDias(hoje, i), D = new Date(d + 'T12:00:00'), L = base.filter(x => tfAb(x) && (x.prazo === d || (i === 0 && tfAtr(x))));
-    const bars = ['u', 'a', 'n', 'b'].map(u => { const n = L.filter(x => (x.urg || 'n') === u).length; return n ? '<i class="tf-u-' + u + '" style="flex:' + n + '"></i>' : ''; }).join('');
-    const wd = i === 0 ? 'hoje' : i === 1 ? 'amanhã' : D.toLocaleDateString('pt-BR', { weekday: 'long' }).replace('-feira', '');
-    w += '<button class="tf-d' + (i === 0 ? ' hj' : '') + (e.dia === d ? ' sel' : '') + (D.getDay() === 0 ? ' fds' : '') + '" data-action="tf-dia" data-id="' + d + '"><span class="tf-dn">' + String(D.getDate()).padStart(2, '0') + '</span><span class="tf-dw">' + wd + '</span><span class="tf-ds">' + (i === 0 ? 'hoje' : TF_SEM[D.getDay()]) + '</span><span class="tf-dc">' + (L.length ? '<b>' + L.length + '</b> tarefa' + (L.length > 1 ? 's' : '') : 'livre') + '</span><span class="tf-bars">' + bars + '</span></button>';
+    const wd = i === 0 ? 'Hoje' : i === 1 ? 'Amanhã' : TF_SEMD[D.getDay()]; /* v2.94.0: número grande, nome e quantidade na mesma linha */
+    w += '<button class="tf-d' + (i === 0 ? ' hj' : '') + (e.dia === d ? ' sel' : '') + (D.getDay() === 0 ? ' fds' : '') + '" data-action="tf-dia" data-id="' + d + '" aria-pressed="' + (e.dia === d) + '" title="' + esc(TF_SEMD[D.getDay()] + ', ' + fmtD(d)) + '"><span class="tf-dn">' + String(D.getDate()).padStart(2, '0') + '</span><span class="tf-dw">' + wd + '</span><span class="tf-ds">' + (i === 0 ? 'hoje' : TF_SEM[D.getDay()]) + '</span><span class="tf-dc' + (L.length ? '' : ' vz') + '">· ' + (L.length ? L.length : 'livre') + '</span></button>';
   }
   return w + '</div>';
 }
@@ -17607,46 +17911,48 @@ function tfFiltros() {
   return f ? '<div class="tf-fb">' + f + '</div>' : '';
 }
 function tfLinha(x) {
-  const p = tfPz(x), ok = x.status === 'done', mt = [], u = x.urg || 'n', it = x.itens || [];
-  if (u === 'u' || u === 'a') mt.push('<span class="tf-fl">' + TF_URG[u][0] + '</span>');
-  mt.push('<span class="tf-pz ' + p.c + '">' + p.t + '</span>');
-  if (x.status === 'review') mt.push('<span class="tf-rv">Para conferir</span>'); else if (x.status === 'doing') mt.push('<span>Fazendo</span>');
-  if (it.length) mt.push('<span>' + it.filter(i => i.ok).length + '/' + it.length + ' passos</span>');
-  if (x.rep) mt.push('<span>' + TF_IR + tfRepNome(x.rep) + '</span>');
-  if ((x.com || []).length) mt.push('<span>' + x.com.length + ' msg</span>');
-  if (x.respId === S.user.id && x.porId !== S.user.id) mt.push('<span class="tf-de">de ' + esc(tfCurto(x.porId)) + '</span>');
-  if (x.porId === S.user.id && x.respId !== S.user.id && !x.ciente && tfAb(x)) mt.push('<span class="tf-nv">não viu</span>');
-  return '<div class="tf-row"><div class="tf-sw">Concluir</div><div class="tf-t tf-u-' + u + (ok ? ' ok' : '') + (x.status === 'review' ? ' rv' : '') + (tfE().sel === x.id ? ' sel' : '') + '" data-action="tf-abrir" data-id="' + esc(x.id) + '">' +
-    '<button class="tf-ck" data-action="tf-feito" data-id="' + esc(x.id) + '" aria-label="Concluir">' + TF_CK + '</button>' +
-    '<div class="tf-tx"><div class="tf-tt">' + esc(x.titulo) + '</div><div class="tf-mt">' + mt.join('') + '</div></div>' +
-    '<span class="tf-urgc tf-u-' + u + '">' + TF_URG[u][0] + '</span>' + (x.respId !== S.user.id ? tfAv(x.respId) : '<span class="tf-avv"></span>') + '</div></div>';
+  /* v2.94.0: prazo + UMA situação em texto técnico; o resto fica na ficha (ⓘ) */
+  const p = tfPz(x), ok = x.status === 'done', u = x.urg || 'n', st = tfSit(x);
+  const pz = ok ? { t: 'Concluída ' + fmtD(x.feitoEm || '').slice(0, 5), c: 'ok' } : x.status === 'cancelada' ? { t: 'Cancelada', c: '' } : p;
+  const mt = ['<span class="tf-pz ' + pz.c + '">' + pz.t + '</span>'];
+  if (st) mt.push('<span class="md2-s ' + st.c + '">' + esc(st.t) + '</span>'); else if (x.rep) mt.push('<span>Repete ' + esc(tfRepTxt(x)) + '</span>');
+  const mais = !!(x.origem || x.porId !== x.respId || (x.itens || []).length || (x.com || []).length || x.rep || x.status === 'cancelada');
+  return '<div class="tf-row"><div class="tf-sw">Concluir</div><div class="tf-t tf-u-' + u + (ok ? ' ok' : '') + (x.status === 'review' ? ' rv' : '') + (x.status === 'cancelada' ? ' cn' : '') + (tfE().sel === x.id ? ' sel' : '') + '" data-action="tf-abrir" data-id="' + esc(x.id) + '">' +
+    (x.status === 'cancelada' ? '<span class="tf-ck0"></span>' : '<button class="tf-ck" data-action="tf-feito" data-id="' + esc(x.id) + '" aria-label="' + (ok ? 'Reabrir' : 'Concluir') + ': ' + esc(x.titulo) + '">' + TF_CK + '</button>') +
+    '<div class="tf-tx"><div class="tf-tt">' + esc(x.titulo) + '</div><div class="tf-mt">' + mt.join('<i class="md2-sep">·</i>') + '</div></div>' +
+    '<span class="tf-urgc tf-u-' + u + '">' + (tfAb(x) && (u === 'u' || u === 'a') ? TF_URG[u][0] : '') + '</span>' + (x.respId !== S.user.id ? tfAv(x.respId) : '<span class="tf-avv"></span>') +
+    (mais ? '<button class="md2-inf" data-action="tf-ficha" data-id="' + esc(x.id) + '" aria-label="Detalhes: ' + esc(x.titulo) + '" title="Detalhes">' + icoI('info') + '</button>' : '<span class="md2-inf0"></span>') + '</div></div>';
 }
 function tfLista() {
-  const e = tfE(), f = TF_CT.find(c => c[0] === e.ct)[2], hoje = hojeISO();
-  const L = tfEscopo().filter(f).filter(x => !e.dia || x.prazo === e.dia || (e.dia === hoje && tfAtr(x)));
-  let h = '<div class="tf-box"><label class="tf-add"><span>+</span><input id="tf-nova" placeholder="Nova tarefa' + (tfSouLider() ? ' — use @nome para passar' : '') + '" autocomplete="off" enterkeyhint="done"><small id="tf-prev">amanhã · sex · 14h · !urgente · toda semana</small></label>';
-  if (e.ct === 'abertas' && !e.dia) {
-    const G = [['atr', 'Atrasadas', L.filter(tfAtr), 'r', true], ['hoje', 'Hoje', L.filter(x => x.prazo === hoje), '', true], ['amanha', 'Amanhã', L.filter(x => x.prazo && tfDif(x.prazo) === 1)], ['sete', 'Próximos 7 dias', L.filter(x => x.prazo && tfDif(x.prazo) > 1 && tfDif(x.prazo) <= 7)], ['depois', 'Mais para frente', L.filter(x => x.prazo && tfDif(x.prazo) > 7)], ['sem', 'Sem prazo', L.filter(x => !x.prazo)]];
-    G.forEach(g => { if (!g[2].length) return; const aberto = g[4] || !!e.abre[g[0]];
-      h += (g[4] ? '<div class="tf-gh ' + (g[3] || '') + '">' + g[1] + ' <em>' + g[2].length + '</em></div>' : '<button class="tf-gh tf-gb' + (aberto ? ' on' : '') + '" data-action="tf-grupo" data-id="' + g[0] + '">' + TF_CHV + g[1] + ' <em>' + g[2].length + '</em></button>') +
-        (aberto ? g[2].sort(tfSrt).map(tfLinha).join('') : ''); });
-  } else h += L.sort(tfSrt).map(tfLinha).join('');
-  if (!L.length) h += '<div class="tf-vazio">' + (e.ct === 'abertas' ? 'Nada em aberto. Escreva acima para criar uma tarefa.' : 'Nada nesta lista.') + '</div>';
+  const e = tfE(), hoje = hojeISO(), lid = tfLid(), q = tfNorm(e.busca || ''), bq = x => !q || tfNorm(x.titulo).indexOf(q) >= 0;
+  const Esc = tfTodas().filter(x => tfEscF(x, lid) && bq(x)), naDia = x => !e.dia || x.prazo === e.dia || (e.dia === hoje && tfAtr(x));
+  const ab = Esc.filter(tfAb), fe = Esc.filter(x => x.status === 'done'), ca = (S.tarefas || []).filter(x => x.status === 'cancelada' && tfEscF(x, lid) && bq(x));
+  const seg0 = addDias(hoje, -((new Date(hoje + 'T12:00:00').getDay() + 6) % 7));
+  let h = '<div class="tf-box">' +
+    '<div class="md2-cab"><div class="tf-seg md2-ct" role="tablist" aria-label="Situação">' + [['aberto', 'Em aberto', ab.length], ['concluido', 'Concluídas', fe.length]].map(c => '<button role="tab" aria-selected="' + (e.ct === c[0]) + '" class="' + (e.ct === c[0] ? 'on' : '') + '" data-action="tf-ct" data-id="' + c[0] + '">' + c[1] + ' <b>' + c[2] + '</b></button>').join('') + '</div>' +
+    '<span class="tf-sp"></span><label class="md2-busca">' + icoI('lupa') + '<input id="tf-busca" type="search" placeholder="Buscar" value="' + esc(e.busca || '') + '" aria-label="Buscar tarefa" autocomplete="off"><kbd>/</kbd></label>' +
+    (tfSouLider() ? '<select class="md2-esc" data-tf="esc" aria-label="De quem">' + [['minhas', 'Minhas'], ['passei', 'Que passei'], ['equipe', 'Equipe']].map(o => '<option value="' + o[0] + '"' + (e.esc === o[0] ? ' selected' : '') + '>' + o[1] + '</option>').join('') + '</select>' : '') + '</div>' +
+    '<label class="tf-add"><span>+</span><input id="tf-nova" placeholder="Nova tarefa' + (tfSouLider() ? '  ·  digite @ para passar a alguém' : '') + '" autocomplete="off" enterkeyhint="done"><button type="button" class="md2-inf" data-action="tf-ajuda" aria-label="Como escrever rápido" title="Como escrever rápido">' + icoI('info') + '</button><small id="tf-prev"></small></label>' +
+    '<div class="md2-prec-mob">' + tfPrecisaHTML() + '</div>';
+  let n = 0;
+  const grp = (id, tit, L, cls, fixo, lim) => { if (!L.length) return; n += L.length; const aberto = fixo || !!e.abre[id] || !!q; /* buscando: tudo aberto */
+    h += (fixo ? '<div class="tf-gh ' + (cls || '') + '">' + tit + ' <em>' + L.length + '</em></div>' : '<button class="tf-gh tf-gb' + (aberto ? ' on' : '') + (cls ? ' ' + cls : '') + '" data-action="tf-grupo" data-id="' + id + '" aria-expanded="' + aberto + '">' + TF_CHV + tit + ' <em>' + L.length + '</em></button>') +
+      (aberto ? L.slice(0, lim || 400).map(tfLinha).join('') + (L.length > (lim || 400) ? '<div class="tf-vazio">Mostrando as ' + lim + ' mais recentes.</div>' : '') : ''); };
+  if (e.ct === 'aberto') {
+    const L = ab.filter(naDia).sort(tfSrt);
+    if (e.dia) { grp('dia', (e.dia === hoje ? 'Hoje' : TF_SEMD[new Date(e.dia + 'T12:00:00').getDay()] + ', ' + fmtD(e.dia).slice(0, 5)), L, '', true); h += '<button class="btn sm tf-q md2-limpa" data-action="tf-dia" data-id="' + e.dia + '">Mostrar todos os dias</button>'; }
+    else { grp('atr', 'Atrasadas', L.filter(tfAtr), 'r', true); grp('hoje', 'Hoje', L.filter(x => x.prazo === hoje), '', true); grp('amanha', 'Amanhã', L.filter(x => x.prazo && tfDif(x.prazo) === 1));
+      grp('sete', 'Próximos 7 dias', L.filter(x => x.prazo && tfDif(x.prazo) > 1 && tfDif(x.prazo) <= 7)); grp('depois', 'Mais para frente', L.filter(x => x.prazo && tfDif(x.prazo) > 7)); grp('sem', 'Sem prazo', L.filter(x => !x.prazo)); }
+  } else {
+    const fd = x => String(x.feitoEm || '').slice(0, 10), F = fe.sort((a, b) => fd(b).localeCompare(fd(a)));
+    grp('fsem', 'Nesta semana', F.filter(x => fd(x) >= seg0), '', true); grp('fant', 'Antes', F.filter(x => fd(x) < seg0), '', false, 200); grp('canc', 'Canceladas', ca.sort((a, b) => String(b.canceladaEm || '').localeCompare(String(a.canceladaEm || ''))), '', false, 200);
+  }
+  if (!n) h += '<div class="tf-vazio">' + (q ? 'Nada com "' + esc(e.busca) + '".' : e.ct === 'aberto' ? 'Nada em aberto. Escreva acima para criar uma tarefa.' : 'Nada concluído ainda.') + '</div>';
   h += '</div>';
   const sel = tfTodas().concat((S.tarefas || []).filter(x => x.status === 'cancelada')).find(x => x.id === e.sel);
-  return h + '<aside class="tf-side">' + (sel && window.innerWidth >= 1000 ? tfDet(sel) : tfResumo()) + '</aside>';
+  return h + '<aside class="tf-side">' + (sel && window.innerWidth >= 1000 ? tfDet(sel) : tfPrecisaHTML() + mdSisHTML()) + '</aside>';
 }
-function tfResumo() {
-  const e = tfE(), B = tfEscopo().filter(tfAb), n = f => B.filter(f).length, hoje = hojeISO();
-  const ub = ['u', 'a', 'n', 'b'].map(u => n(x => (x.urg || 'n') === u) ? '<i class="tf-u-' + u + '" style="flex:' + n(x => (x.urg || 'n') === u) + '"></i>' : '').join('');
-  let h = '<div class="tf-pn"><h3>Resumo <span>' + (e.esc === 'minhas' ? 'minhas' : e.esc === 'passei' ? 'que passei' : 'equipe') + '</span></h3><div class="tf-kp"><div><b>' + B.length + '</b><small>abertas</small></div><div><b class="r">' + n(tfAtr) + '</b><small>atrasadas</small></div><div><b>' + n(x => x.prazo === hoje) + '</b><small>hoje</small></div><div><b class="w">' + n(x => x.status === 'review') + '</b><small>conferir</small></div></div><div class="tf-ub">' + ub + '</div></div>';
-  const lid = tfLid();
-  const pv = tfTodas().filter(x => tfAb(x) && ((lid.indexOf(x.respId) >= 0 && x.porId === S.user.id && (x.status === 'review' || !x.ciente || tfAtr(x))) || (x.respId === S.user.id && x.porId !== S.user.id && !x.ciente)));
-  h += '<div class="tf-pn"><h3>Precisa de você <span>' + pv.length + '</span></h3>' + (pv.length ? pv.slice(0, 12).map(x => {
-    const why = x.status === 'review' ? '<small class="w">Terminou, conferir</small>' : x.respId === S.user.id ? '<small class="w">Nova, de ' + esc(tfCurto(x.porId)) + '</small>' : tfAtr(x) ? '<small class="r">' + tfPz(x).t + '</small>' : '<small>Ainda não viu</small>';
-    return '<button class="tf-pl" data-action="tf-abrir" data-id="' + esc(x.id) + '">' + tfAv(x.respId) + '<span class="tf-x"><b>' + esc(x.titulo) + '</b>' + why + '</span></button>'; }).join('') : '<div class="tf-vazio" style="padding:16px">Nada pendente.</div>') + '</div>';
-  return h;
-}
+function tfResumo() { return tfPrecisaHTML(); } /* v2.94.0: o resumo antigo virou "Precisa de você" */
 /* ---------- detalhe ---------- */
 function tfDet(x) {
   const eu = x.respId === S.user.id, posso = tfPosso(x), lider = tfSouLider(), ab = tfAb(x), u = x.urg || 'n', it = x.itens || [];
@@ -17660,13 +17966,14 @@ function tfDet(x) {
   if (x.status === 'done' && posso) ac += '<button class="btn tf-f" data-action="tf-feito" data-id="' + esc(x.id) + '">Reabrir</button>';
   const log = []; if (x.porId !== x.respId) { log.push(esc(tfCurto(x.porId)) + ' passou para ' + esc(tfCurto(x.respId))); log.push(x.ciente ? 'ciente em ' + esc(fmtDT(x.ciente)) : 'ainda não viu'); }
   const dis = posso && x.status !== 'cancelada' ? '' : ' disabled';
-  return '<div class="tf-dp"><div class="tf-dh"><span class="tf-s"><b>' + TF_ST[x.status] + '</b>' + (x.rep ? ' · repete ' + tfRepNome(x.rep).toLowerCase() : '') + '</span>' + (posso && ab ? '<button class="btn sm tf-q" data-action="tf-cancelar" data-id="' + esc(x.id) + '">Cancelar</button>' : '') + '<button class="btn sm tf-q" data-action="tf-fechar">Fechar</button></div>' +
-    '<input class="tf-ti" value="' + esc(x.titulo) + '" data-tf="titulo" data-id="' + esc(x.id) + '"' + (dis ? ' readonly' : '') + '>' +
+  return '<div class="tf-dp"><div class="tf-dh"><span class="tf-s"><b>' + TF_ST[x.status] + '</b>' + (x.rep ? ' · repete ' + esc(tfRepTxt(x)) : '') + '</span>' + (posso && ab ? '<button class="btn sm tf-q" data-action="tf-cancelar" data-id="' + esc(x.id) + '">Cancelar</button>' : '') + '<button class="btn sm tf-q" data-action="tf-fechar">Fechar</button></div>' +
+    '<input class="tf-ti" value="' + esc(x.titulo) + '" data-tf="titulo" data-id="' + esc(x.id) + '"' + (dis ? ' readonly' : '') + '>' + tfOrigemHTML(x) +
     '<div class="tf-fx"><button class="tf-fl2" data-action="tf-menu" data-m="resp" data-id="' + esc(x.id) + '"' + (lider && posso && ab ? '' : ' disabled') + '><small>Responsável</small><span class="tf-vv">' + tfAv(x.respId) + '<b>' + (eu ? 'Eu' : esc(tfNome(x.respId))) + '</b>' + (lider && posso && ab ? TF_CHV : '') + '</span></button>' +
     '<button class="tf-fl2 tf-u-' + u + '" data-action="tf-menu" data-m="urg" data-id="' + esc(x.id) + '"' + dis + '><small>Urgência</small><span class="tf-vv"><i class="tf-sq"></i><b class="tf-uc">' + TF_URG[u][0] + '</b>' + (dis ? '' : TF_CHV) + '</span></button>' +
     '<label><small>Prazo</small><input type="date" value="' + esc(x.prazo || '') + '" data-tf="prazo" data-id="' + esc(x.id) + '"' + dis + '></label><label><small>Hora</small><input type="time" value="' + esc(x.hora || '') + '" data-tf="hora" data-id="' + esc(x.id) + '"' + dis + '></label>' +
-    '<label class="tf-l2"><small>Repetir</small><select data-tf="rep" data-id="' + esc(x.id) + '"' + dis + '>' + TF_REP.map(r => '<option value="' + r[0] + '"' + ((x.rep || '') === r[0] ? ' selected' : '') + '>' + r[1] + '</option>').join('') + '</select></label></div>' +
-    '<div class="tf-bk"><h5><span>Passos</span><span>' + (it.length ? it.filter(i => i.ok).length + '/' + it.length : '') + '</span></h5>' + it.map((i, k) => '<label class="tf-it' + (i.ok ? ' ok' : '') + '"><input type="checkbox" data-tf="item" data-id="' + esc(x.id) + '" data-i="' + k + '"' + (i.ok ? ' checked' : '') + dis + '><span>' + esc(i.t) + '</span></label>').join('') + (dis ? '' : '<input class="tf-inl" placeholder="+ passo (Enter)" data-tf="novo-item" data-id="' + esc(x.id) + '">') + '</div>' +
+    '<div class="tf-l2 md2-rep"><small>Repetir</small>' + tfRepHTML('x', x.id, x.rep, x.dias, !!dis) + '</div>' +
+    '<label class="tf-l2"><small>Área</small><select data-tf="area" data-id="' + esc(x.id) + '"' + dis + '>' + TF_AREAS.map(a => '<option' + (tfAreaDe(x) === a ? ' selected' : '') + '>' + a + '</option>').join('') + '</select></label></div>' +
+    '<div class="tf-bk"><h5><span>Passos</span><span>' + (it.length ? it.filter(i => i.ok).length + '/' + it.length : '') + '</span></h5>' + it.map((i, k) => tfPassoHTML(x, i, k, dis)).join('') + (dis ? '' : '<input class="tf-inl" placeholder="Adicionar passo e apertar Enter" data-tf="novo-item" data-id="' + esc(x.id) + '">') + '</div>' +
     '<div class="tf-bk"><h5><span>Mensagens</span></h5>' + (log.length ? '<div class="tf-lg">' + log.join(', ') + '</div>' : '') + (x.com || []).slice(-3).map(c => '<div class="tf-ms"><b>' + esc(c.porNome ? c.porNome.split(' ')[0] : '') + ':</b> ' + esc(c.t) + '<small>' + esc(fmtDT(c.ts)) + '</small></div>').join('') + (posso && x.status !== 'cancelada' ? '<input class="tf-inl" placeholder="Escrever (Enter)" data-tf="novo-com" data-id="' + esc(x.id) + '">' : '') + '</div>' +
     (x.porId !== x.respId && !eu && posso && ab ? '<label class="tf-cf"><input type="checkbox" data-tf="confere" data-id="' + esc(x.id) + '"' + (x.confere ? ' checked' : '') + '>Conferir quando terminar</label>' : '') +
     (x.status === 'cancelada' ? '<div class="tf-lg" style="padding:8px 14px">Cancelada por ' + esc(x.canceladaPor || '') + ': ' + esc(x.canceladaMotivo || '') + '</div>' : '') +
@@ -17715,7 +18022,8 @@ async function tfCriar(o) {
   Audit.log({ acao: 'tarefa_criar', entidade: 'tarefa', entidadeId: id, resumo: doc.titulo + (doc.respId !== S.user.id ? ' → ' + tfNome(doc.respId) : '') });
   return x;
 }
-function tfProxData(d, rep) {
+function tfProxData(d, rep, dias) {
+  if (rep === 'dias') { const L = (dias || []).map(Number); if (!L.length) return ''; for (let k = 1; k <= 7; k++) { const n = addDias(d, k); if (L.indexOf(new Date(n + 'T12:00:00').getDay()) >= 0) return n; } return ''; } /* v2.94.0 */
   const r = TF_REP.find(z => z[0] === rep); if (!r || !r[2]) return '';
   if (r[3] === 'd') return addDias(d, r[2]);
   const p = d.split('-').map(Number), alvo = new Date(Date.UTC(p[0], p[1] - 1 + r[2], 1)), ult = new Date(Date.UTC(alvo.getUTCFullYear(), alvo.getUTCMonth() + 1, 0)).getUTCDate();
@@ -17723,8 +18031,8 @@ function tfProxData(d, rep) {
 }
 async function tfRepetir(x) {
   if (!x.rep || x.proximaId) return;
-  let d = tfProxData(x.prazo || hojeISO(), x.rep); while (d && d < hojeISO()) d = tfProxData(d, x.rep);
-  const n = await tfCriar({ titulo: x.titulo, urg: x.urg, prazo: d, hora: x.hora || '', respId: x.respId, porId: x.porId, rep: x.rep, itens: (x.itens || []).map(i => ({ t: i.t, ok: false })), confere: !!x.confere, rotinaId: x.rotinaId || '', anteriorId: x.id, ciente: x.porId === x.respId ? nowISO() : x.ciente || '' });
+  let d = tfProxData(x.prazo || hojeISO(), x.rep, x.dias); while (d && d < hojeISO()) d = tfProxData(d, x.rep, x.dias);
+  const n = await tfCriar({ titulo: x.titulo, urg: x.urg, prazo: d, hora: x.hora || '', respId: x.respId, porId: x.porId, rep: x.rep, dias: (x.dias || []).slice(), area: x.area || '', origem: x.origem || null, itens: (x.itens || []).map(i => ({ t: i.t, ok: false })), confere: !!x.confere, rotinaId: x.rotinaId || '', anteriorId: x.id, ciente: x.porId === x.respId ? nowISO() : x.ciente || '' });
   await Data.col('sv2_tarefas').update(x.id, { proximaId: n.id }); x.proximaId = n.id;
 }
 async function tfConcluir(x) {
@@ -17748,16 +18056,29 @@ function tfEntender(txt) {
   const um = s.match(/\s!(urgente|alta|normal|baixa)(?=\s)/i); if (um) { r.urg = { urgente: 'u', alta: 'a', normal: 'n', baixa: 'b' }[um[1].toLowerCase()]; s = s.replace(um[0], ' '); }
   const pm = s.match(/\s@([^\s]+)/); if (pm) { const q = tfNorm(pm[1]); const k = tfPessoasMencao().find(id => tfApelido(id) === q) || tfPessoasMencao().find(id => tfApelido(id).indexOf(q) === 0 || tfNorm(tfNome(id)).split(' ').some(w => w.indexOf(q) === 0)); if (k) { r.respId = k; s = s.replace(pm[0], ' '); } }
   const hm = s.match(/\s(\d{1,2})(?:h|:)(\d{2})?(?=\s)/); if (hm && Number(hm[1]) < 24) { r.hora = hm[1].padStart(2, '0') + ':' + (hm[2] || '00'); s = s.replace(hm[0], ' '); }
+  /* v2.94.0: repetir em dias da semana (antes do dia solto, que pegaria o "seg" de "seg a sex") */
+  let diasRep = null; const tira = m => { s = s.slice(0, m.index) + ' ' + s.slice(m.index + m[0].length); };
+  { const m = tfNorm(s).match(/\s(seg a sex|dias uteis)(?=\s)/); if (m) { diasRep = [1, 2, 3, 4, 5]; tira(m); } }
+  { const m = tfNorm(s).match(/\stod[ao]s?\s+((?:dom|seg|ter|qua|qui|sex|sab)[a-z-]*(?:\s*(?:,|\se\s)\s*(?:dom|seg|ter|qua|qui|sex|sab)[a-z-]*)*)(?=\s)/);
+    if (m) { diasRep = m[1].split(/\s*(?:,|\se\s)\s*/).map(w => ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'].indexOf(w.trim().slice(0, 3))).filter(k => k >= 0); tira(m); } }
   if (/\samanh[aã](?=\s)/i.test(s)) { r.prazo = addDias(hoje, 1); s = s.replace(/\samanh[aã](?=\s)/i, ' '); }
   else if (/\shoje(?=\s)/i.test(s)) { r.prazo = hoje; s = s.replace(/\shoje(?=\s)/i, ' '); }
   else { const dm = s.match(/\s(seg|ter|qua|qui|sex|s[aá]b|dom)\S*(?=\s)/i); if (dm) { const a = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sab'].indexOf(tfNorm(dm[1])); let d = hoje; for (let i = 1; i <= 7; i++) { d = addDias(hoje, i); if (new Date(d + 'T12:00:00').getDay() === a) break; } r.prazo = d; s = s.replace(dm[0], ' '); } }
   const rm = s.match(/\s(todo dia|toda semana|todo m[eê]s)(?=\s)/i); if (rm) { r.rep = { 'todo dia': 'diaria', 'toda semana': 'semanal', 'todo mes': 'mensal', 'todo mês': 'mensal' }[rm[1].toLowerCase()]; s = s.replace(rm[0], ' '); }
+  if (diasRep && diasRep.length) { r.rep = 'dias'; r.dias = diasRep; if (!/\s(amanh|hoje|seg|ter|qua|qui|sex|s[aá]b|dom)/i.test(' ' + txt.replace(/(seg a sex|dias [uú]teis|tod[ao]s?\s+\S+(\s*(,|\se\s)\s*\S+)*)/i, '') + ' ')) { for (let k = 0; k < 7; k++) { const d = addDias(hoje, k); if (diasRep.indexOf(new Date(d + 'T12:00:00').getDay()) >= 0) { r.prazo = d; break; } } } }
   r.titulo = s.replace(/\s+/g, ' ').trim(); r.titulo = r.titulo.charAt(0).toUpperCase() + r.titulo.slice(1); return r;
 }
 function tfPrev() {
+  /* v2.94.0: o que o app entendeu vira avisos numa linha embaixo do campo (não cobre o ⓘ) */
   const i = $('#tf-nova'), e = $('#tf-prev'); if (!i || !e) return; const v = i.value.trim();
-  if (!v) { e.textContent = 'amanhã · sex · 14h · !urgente · toda semana'; return; }
-  const r = tfEntender(v); e.innerHTML = '<b>' + (r.respId === S.user.id ? 'Eu' : esc(tfCurto(r.respId))) + '</b> · ' + tfPz({ prazo: r.prazo, hora: r.hora, status: 'todo' }).t + ' · ' + TF_URG[r.urg][0] + (r.rep ? ' · ' + tfRepNome(r.rep).toLowerCase() : '') + ' · Enter';
+  if (!v) { e.innerHTML = ''; return; }
+  const r = tfEntender(v), c = [];
+  c.push('<i>' + esc(r.prazo ? tfPz({ prazo: r.prazo, hora: '', status: 'todo' }).t : 'sem prazo') + '</i>');
+  if (r.hora) c.push('<i>' + esc(r.hora) + '</i>');
+  if (r.urg !== 'n') c.push('<i class="' + (r.urg === 'u' ? 'u' : '') + '">' + TF_URG[r.urg][0] + '</i>');
+  if (r.rep) c.push('<i>repete ' + esc(tfRepTxt(r)) + '</i>');
+  if (r.respId !== S.user.id) c.push('<i>para ' + esc(tfCurto(r.respId)) + '</i>');
+  e.innerHTML = c.join('') + '<em>Enter para criar</em>';
 }
 /* lista do @ (como no WhatsApp): só quem tem conta e está ligado a você */
 const TFM = { i: 0, L: [] };
@@ -17785,10 +18106,12 @@ function tfAbrirMenu(btn) {
 }
 function tfAbrir(id) {
   const e = tfE(); e.sel = id; const x = tfDe(id); if (!x) return;
-  if (window.innerWidth >= 1000 && e.vista === 'lista') { renderView(); return; }
+  if (window.innerWidth >= 1000 && (e.vista === 'lista' || e.vista === 'semana')) { renderView(); return; }
   openSheet('<div class="tf-sheet">' + tfDet(x) + '</div>', { noFocus: true });
 }
-function tfRedesenha() { const e = tfE(), x = tfDe(e.sel); if (x && $('.sheet .tf-sheet')) { const sh = $('.sheet .tf-sheet'); sh.innerHTML = tfDet(x); } renderView(); }
+function tfRedesenha() { const e = tfE(), x = tfDe(e.sel); if (x && $('.sheet .tf-sheet')) { const sh = $('.sheet .tf-sheet'); sh.innerHTML = tfDet(x); }
+  { const fi = $('.sheet .md2-ficha'), y = fi && tfDe(fi.getAttribute('data-id')); if (y) fi.outerHTML = tfFichaHTML(y); } /* v2.94.0 */
+  renderView(); }
 async function tfRotLigar(id) {
   const L = tfRots().map(r => Object.assign({}, r)), r = L.find(z => z.id === id); if (!r) return;
   if (!r.ativa && !r.respId) { toast('Escolha para quem é a rotina antes de ligar.'); return; }
@@ -17817,7 +18140,7 @@ async function tfRotImportar(input) {
 function openTfRotNova() {
   openSheet('<h3>Nova rotina</h3><div class="sub">Atividade que se repete. Depois de criar, escolha para quem é e ligue.</div><div id="tfr-msg"></div>' +
     '<div class="field"><label for="tfr-a">Atividade</label><input class="input" id="tfr-a" autocomplete="off"></div>' +
-    '<div class="field"><label for="tfr-p">Frequência</label><select class="input" id="tfr-p">' + TF_REP.slice(1).map(r => '<option value="' + r[0] + '"' + (r[0] === 'semanal' ? ' selected' : '') + '>' + r[1] + '</option>').join('') + '</select></div>' +
+    '<div class="field"><label for="tfr-p">Frequência</label><select class="input" id="tfr-p">' + TF_REP.slice(1).filter(r => r[0] !== 'dias').map(r => '<option value="' + r[0] + '"' + (r[0] === 'semanal' ? ' selected' : '') + '>' + r[1] + '</option>').join('') + '</select></div>' +
     '<div class="field"><label for="tfr-c">Categoria (opcional)</label><input class="input" id="tfr-c" autocomplete="off"></div>' +
     '<div class="row-actions"><button class="btn" data-action="close">Cancelar</button><button class="btn primary" data-action="tf-rot-criar">Criar</button></div>');
 }
@@ -17826,7 +18149,8 @@ function tfAcao(act, id, t) {
   if (act === 'tf-vista') { e.vista = id; e.sel = ''; renderView(); return true; }
   if (act === 'tf-esc') { e.esc = id; e.sel = ''; renderView(); return true; }
   if (act === 'tf-ct') { e.ct = id; renderView(); return true; }
-  if (act === 'tf-dia') { e.dia = e.dia === id ? '' : id; if (e.vista !== 'quadro') e.vista = 'lista'; e.ct = 'abertas'; renderView(); return true; }
+  if (act === 'tf-dia') { e.dia = e.dia === id ? '' : id; if (e.vista !== 'quadro') e.vista = 'lista'; e.ct = 'aberto'; e.mob = 'tarefas'; renderView(); return true; }
+  if (tfAcao2(act, id, t)) return true; /* v2.94.0 */
   if (act === 'tf-grupo') { e.abre[id] = !e.abre[id]; renderView(); return true; }
   if (act === 'tf-abrir') { if (S._tfSwiped) { S._tfSwiped = false; return true; } tfAbrir(id); return true; }
   if (act === 'tf-fechar') { e.sel = ''; closeSheet(); renderView(); return true; }
@@ -17844,7 +18168,7 @@ function tfAcao(act, id, t) {
     else if (x.respId !== v) eqUmaVez(async () => { await tfSalvar(x, { respId: v, porId: S.user.id, ciente: v === S.user.id ? nowISO() : '', confere: v !== S.user.id }, 'passada para ' + tfNome(v)); if (v !== S.user.id) { tfAvisar(v, 'Tarefa nova de ' + tfCurto(S.user.id), x.titulo, x); toast('Passada para ' + tfCurto(v) + '. Aviso enviado.'); } tfRedesenha(); });
     return true; }
   if (act === 'tf-ment') { tfEscolherMencao(id); return true; }
-  if (act === 'tf-nova') { if (e.vista !== 'lista') { e.vista = 'lista'; renderView(); } const n = $('#tf-nova'); if (n) { n.focus(); n.scrollIntoView({ block: 'center' }); } return true; }
+  if (act === 'tf-nova') { if (e.vista !== 'lista' || e.mob !== 'tarefas') { e.vista = 'lista'; e.mob = 'tarefas'; renderView(); } const n = $('#tf-nova'); if (n) { n.focus(); if (n.scrollIntoView) n.scrollIntoView({ block: 'center' }); } return true; }
   if (act === 'tf-passar') { e.vista = 'lista'; e.esc = 'passei'; e.sel = ''; renderView(); const n = $('#tf-nova'); if (n) { n.value = '@' + tfApelido(id) + ' '; n.focus(); n.setSelectionRange(n.value.length, n.value.length); tfPrev(); } return true; }
   if (act === 'tf-rot-liga') { eqUmaVez(() => tfRotLigar(id)); return true; }
   if (act === 'tf-rot-nova') { openTfRotNova(); return true; }
@@ -17858,14 +18182,29 @@ document.addEventListener('change', ev => {
   const el = ev.target; if (!el || !el.getAttribute) return;
   if (el.classList && el.classList.contains('tf-rot-in')) { tfRotImportar(el); return; }
   const k = el.getAttribute('data-tf'); if (!k) return; const id = el.getAttribute('data-id');
+  if (k === 'esc') { tfE().esc = el.value; tfE().sel = ''; renderView(); return; } /* v2.94.0 */
   if (k === 'rot-resp') { const L = tfRots().map(r => Object.assign({}, r)), r = L.find(z => z.id === id); if (r) { r.respId = el.value; eqUmaVez(() => tfRotSalvar(L, 'Rotina ' + r.a + ' → ' + (el.value ? tfNome(el.value) : 'ninguém'))); } return; }
   const x = tfDe(id); if (!x) return;
   if (k === 'titulo') { const v = el.value.trim(); if (v && v !== x.titulo) eqUmaVez(() => tfSalvar(x, { titulo: v }, 'título').then(() => renderView())); }
-  else if (k === 'prazo' || k === 'hora' || k === 'rep') { const p = {}; p[k] = el.value; eqUmaVez(() => tfSalvar(x, p, k === 'prazo' ? 'prazo ' + fmtD(el.value) : k === 'hora' ? 'hora ' + el.value : 'repete ' + tfRepNome(el.value)).then(tfRedesenha)); }
-  else if (k === 'item') { const it = (x.itens || []).map(i => Object.assign({}, i)), i = Number(el.getAttribute('data-i')); if (it[i]) { it[i].ok = el.checked; eqUmaVez(() => tfSalvar(x, { itens: it }).then(tfRedesenha)); } }
+  else if (k === 'prazo' || k === 'hora' || k === 'rep') { const p = {}; p[k] = el.value; if (k === 'rep' && el.value === 'dias' && !(x.dias || []).length) p.dias = [new Date((x.prazo || hojeISO()) + 'T12:00:00').getDay()]; /* v2.94.0 */
+    eqUmaVez(() => tfSalvar(x, p, k === 'prazo' ? 'prazo ' + fmtD(el.value) : k === 'hora' ? 'hora ' + el.value : 'repete ' + tfRepTxt(Object.assign({}, x, p))).then(tfRedesenha)); }
+  else if (k === 'area') eqUmaVez(() => tfSalvar(x, { area: el.value }, 'área ' + el.value).then(tfRedesenha));
+  else if (k === 'item') { const it = (x.itens || []).map(i => Object.assign({}, i)), i = Number(el.getAttribute('data-i')); if (it[i]) { it[i].ok = el.checked;
+    if (el.checked) { it[i].por = S.user.id; it[i].em = nowISO(); } else { delete it[i].por; delete it[i].em; } /* v2.94.0: quem marcou e quando */
+    eqUmaVez(() => tfSalvar(x, { itens: it }, (el.checked ? 'passo feito: ' : 'passo desmarcado: ') + it[i].t).then(tfRedesenha)); } }
   else if (k === 'confere') eqUmaVez(() => tfSalvar(x, { confere: el.checked }, el.checked ? 'conferir ao terminar' : 'sem conferência').then(tfRedesenha));
 });
-document.addEventListener('input', ev => { if (ev.target && ev.target.id === 'tf-nova') { TFM.i = 0; tfPrev(); tfMencao(); } });
+document.addEventListener('input', ev => { if (ev.target && ev.target.id === 'tf-nova') { TFM.i = 0; tfPrev(); tfMencao(); }
+  if (ev.target && ev.target.id === 'tf-busca') { const c = ev.target.selectionStart; tfE().busca = ev.target.value; renderView(); const b = $('#tf-busca'); if (b) { b.focus(); try { b.setSelectionRange(c, c); } catch (e) {} } } /* v2.94.0 */
+  if (ev.target && ev.target.id === 'pg-o' && S._pg) S._pg.obs = ev.target.value; });
+/* v2.94.0: atalhos no Meu dia (computador): N = nova tarefa, / = buscar */
+document.addEventListener('keydown', ev => {
+  if (ev.ctrlKey || ev.metaKey || ev.altKey || !S.user || $('#ov') || $('#prev')) return; const el = ev.target;
+  if (el && /INPUT|TEXTAREA|SELECT/.test(el.tagName)) return;
+  const a = curArea(), t = a && curTab(a); if (!a || a.id !== 'qualidade' || !t || t.id !== 'meudia') return;
+  if (ev.key === 'n' || ev.key === 'N') { ev.preventDefault(); tfAcao('tf-nova', '', null); }
+  else if (ev.key === '/') { const b = $('#tf-busca'); if (b) { ev.preventDefault(); b.focus(); } }
+});
 document.addEventListener('keydown', ev => {
   const el = ev.target; if (!el) return;
   const mn = $('#tf-menu');
@@ -17876,7 +18215,7 @@ document.addEventListener('keydown', ev => {
   }
   if (ev.key !== 'Enter') return;
   if (el.id === 'tf-nova') { ev.preventDefault(); const r = tfEntender(el.value); if (!r.titulo) return; el.value = ''; tfPrev();
-    eqUmaVez(async () => { await tfCriar({ titulo: r.titulo, urg: r.urg, prazo: r.prazo, hora: r.hora, respId: r.respId, rep: r.rep, confere: r.respId !== S.user.id }); toast(r.respId === S.user.id ? 'Tarefa criada.' : 'Passada para ' + tfCurto(r.respId) + '. Aviso enviado.', 'ok'); renderView(); const n = $('#tf-nova'); if (n) n.focus(); });
+    eqUmaVez(async () => { await tfCriar({ titulo: r.titulo, urg: r.urg, prazo: r.prazo, hora: r.hora, respId: r.respId, rep: r.rep, dias: r.dias || [], confere: r.respId !== S.user.id }); toast(r.respId === S.user.id ? 'Tarefa criada.' : 'Passada para ' + tfCurto(r.respId) + '. Aviso enviado.', 'ok'); renderView(); const n = $('#tf-nova'); if (n) n.focus(); });
     return; }
   const k = el.getAttribute && el.getAttribute('data-tf'); if (k !== 'novo-item' && k !== 'novo-com') return; ev.preventDefault();
   const x = tfDe(el.getAttribute('data-id')), v = el.value.trim(); if (!x || !v) return;
@@ -17897,6 +18236,307 @@ document.addEventListener('click', ev => { const mn = $('#tf-menu'); if (mn && !
     if (x && tfPosso(x) && x.status !== st) eqUmaVez(async () => { if (st === 'done') await tfConcluir(x); else { await tfSalvar(x, { status: st }, TF_ST[st]); renderView(); } }); });
   document.addEventListener('dragend', () => { S._tfDrag = null; $$('.tf-cl.drop').forEach(z => z.classList.remove('drop')); });
 })();
+
+/* ============ v2.94.0 — MEU DIA + TAREFAS JUNTOS ============
+   Uma tela só: à esquerda as tarefas, à direita "Precisa de você" e "Do sistema" (as pendências que o Meu dia já
+   juntava; ele continua só LENDO). Cada pendência pode virar tarefa (Programar): a tarefa guarda a origem e quem
+   programou vê "Resolvido na origem" quando a pendência some. Repetir em dias da semana. Relatório semanal (REL 0016). */
+const TF_SEMD = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+const TF_SEM1 = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+const TF_AREAS = ['Cloro', 'Coletas', 'Documentos', 'Almoxarifado', 'Calibração', 'Não conformidades', 'Qualidade', 'Rateios', 'Backup', 'Geral'];
+function tfRepTxt(x) {
+  if (!x || !x.rep) return '';
+  if (x.rep === 'dias') { const d = (x.dias || []).map(Number).sort((a, b) => ((a + 6) % 7) - ((b + 6) % 7)); if (!d.length) return 'em dias da semana'; if (d.join() === '1,2,3,4,5') return 'seg a sex'; if (d.length === 7) return 'todo dia'; return d.map(k => TF_SEM[k]).join(', '); }
+  return tfRepNome(x.rep).toLowerCase();
+}
+/* área: a escolhida; sem ela, deduzida pelo título */
+function tfAreaPalpite(t) {
+  t = tfNorm(t);
+  if (/clor/.test(t)) return 'Cloro';
+  if (/calibr|phmetro|balanca|termometro|equipamento/.test(t)) return 'Calibração';
+  if (/\bnc\b|nao conformidade|apontamento|auditoria interna|rnc/.test(t)) return 'Não conformidades';
+  if (/almox|estoque|reagente|invent|contagem|compra|luva/.test(t)) return 'Almoxarifado';
+  if (/colet|laudo|amostra|talhao|solo|folha|fruta|agua|laboratorio/.test(t)) return 'Coletas';
+  if (/\bfor\b|\bpop\b|documento|registro|procedimento|caixa d/.test(t)) return 'Documentos';
+  if (/rateio/.test(t)) return 'Rateios';
+  if (/backup/.test(t)) return 'Backup';
+  if (/auditoria|certifica|global ?g\.?a\.?p|ecocert|fair for life|qualidade/.test(t)) return 'Qualidade';
+  return 'Geral';
+}
+const tfAreaDe = x => (x && x.area && TF_AREAS.indexOf(x.area) >= 0) ? x.area : tfAreaPalpite(x && x.titulo);
+function mdAreaDeBloco(b) {
+  const id = b.id || '', ir = String(b.ir || '');
+  if (/^cloro/.test(id)) return 'Cloro'; if (id === 'eq-cal') return 'Calibração'; if (/^(nc|apont|rnc)/.test(id)) return 'Não conformidades';
+  if (id === 'docs' || id === 'caixas') return 'Documentos'; if (/^(al-|inv|cnt|v44)/.test(id) || /^almox/.test(ir)) return 'Almoxarifado';
+  if (/^bk/.test(id) || ir === 'bk:') return 'Backup'; if (/^rateios/.test(ir)) return 'Rateios';
+  if (/^(coletas|pc:|ac:)/.test(ir)) return 'Coletas'; return 'Qualidade';
+}
+/* chave de uma pendência do sistema (o mesmo item gera a mesma chave enquanto existir) */
+const mdChave = (b, x) => b.id + '|' + tfNorm(x.t);
+function mdBlocosSis() { return meuDiaBlocos().filter(b => b.id !== 'tf-atr' && b.id !== 'tf-hoje'); }
+function mdChavesAgora() {
+  if (S._mdCh && Date.now() - S._mdChT < 1500) return S._mdCh;
+  const set = new Set(); try { mdBlocosSis().forEach(b => b.itens.forEach(x => set.add(mdChave(b, x)))); } catch (e) {}
+  S._mdCh = set; S._mdChT = Date.now(); return set;
+}
+/* "Resolvido na origem": só para quem programou (ele via a pendência; outra pessoa pode não ter aquela área) */
+const tfOrigemResolvida = x => !!(x && x.origem && x.origem.chave && tfAb(x) && x.porId === S.user.id && !mdChavesAgora().has(x.origem.chave));
+const tfDaOrigem = ch => (S.tarefas || []).find(x => x.origem && x.origem.chave === ch && tfAb(x));
+/* situação em texto técnico (uma só, a mais importante) */
+function tfSit(x) {
+  const eu = S.user.id;
+  if (x.status === 'cancelada') return { t: 'Motivo: ' + (x.canceladaMotivo || '—'), c: '' };
+  if (tfOrigemResolvida(x)) return { t: 'Resolvido na origem · pode concluir', c: 'ok' };
+  if (x.respId === eu && x.porId !== eu && !x.ciente && tfAb(x)) return { t: 'Recebida de ' + tfCurto(x.porId) + ' · confirme a ciência', c: 'w' };
+  if (x.porId === eu && x.respId !== eu && !x.ciente && tfAb(x)) return { t: 'Aguardando ciência de ' + tfCurto(x.respId), c: 'w' };
+  if (x.status === 'review') return { t: x.respId === eu ? 'Aguardando conferência de ' + tfCurto(x.porId) : 'Concluída por ' + tfCurto(x.respId) + ' · aguardando sua conferência', c: 'w' };
+  if (x.status === 'doing') { const it = x.itens || []; return { t: 'Em execução' + (it.length ? ' · ' + it.filter(i => i.ok).length + ' de ' + it.length + ' passos' : ''), c: '' }; }
+  return null;
+}
+const tfQuando = x => !x.prazo ? 'sem prazo' : tfAtr(x) ? 'atrasada' : tfDif(x.prazo) === 0 ? 'hoje' : tfDif(x.prazo) === 1 ? 'amanhã' : fmtD(x.prazo).slice(0, 5);
+
+/* ---------- a tela ---------- */
+function tfTela() {
+  const u = S.user, e = tfE(), lider = tfSouLider(), hoje = hojeISO();
+  if (['lista', 'semana', 'quadro', 'equipe', 'rotinas'].indexOf(e.vista) < 0) e.vista = 'lista';
+  if ((e.vista === 'equipe' && !lider) || (e.vista === 'rotinas' && !isSup(u))) e.vista = 'lista';
+  if (!lider && e.esc !== 'minhas') e.esc = 'minhas';
+  if (e.ct !== 'aberto' && e.ct !== 'concluido') e.ct = 'aberto';
+  e.mdAbre = e.mdAbre || {}; e.mob = e.mob === 'sis' ? 'sis' : 'tarefas';
+  const B = mdBlocosSis(); S._mdBl = B; S._mdCh = new Set(); B.forEach(b => b.itens.forEach(x => S._mdCh.add(mdChave(b, x)))); S._mdChT = Date.now();
+  const tot = B.reduce((a, b) => a + b.itens.length, 0), crit = B.reduce((a, b) => a + (b.urg || 0), 0);
+  const hr = new Date().getHours(), saud = hr < 12 ? 'Bom dia' : hr < 18 ? 'Boa tarde' : 'Boa noite';
+  const D0 = new Date(hoje + 'T12:00:00'), dt = TF_SEMD[D0.getDay()] + ', ' + fmtD(hoje).slice(0, 5);
+  const vs = [['lista', 'Lista'], ['semana', 'Semana'], ['quadro', 'Quadro']].concat(lider ? [['equipe', 'Equipe']] : []).concat(isSup(u) ? [['rotinas', 'Rotinas']] : []);
+  const nAb = tfEscopo().filter(tfAb).length;
+  let h = '<div class="tf md2"><div class="tf-hd md-topo"><div><h2>Meu dia</h2><small class="tf-sub">' + esc(saud + ', ' + String(u.nome || '').split(' ')[0]) + ' · ' + esc(dt) + (u.cargo ? ' · ' + esc(u.cargo) : '') +
+    ' · <span class="md-res' + (crit ? ' crit' : tot ? ' warn' : ' ok') + '">' + (tot ? tot + ' pendência(s) do sistema' + (crit ? ' · ' + crit + ' urgente(s)' : '') : 'Tudo em dia no sistema') + '</span></small></div><span class="tf-sp"></span>' +
+    '<div class="tf-seg md2-vis" role="tablist" aria-label="Visão">' + vs.map(v => '<button role="tab" aria-selected="' + (e.vista === v[0]) + '" class="' + (e.vista === v[0] ? 'on' : '') + '" data-action="tf-vista" data-id="' + v[0] + '">' + v[1] + '</button>').join('') + '</div>' +
+    '<button class="btn md2-relb" data-action="tf-rel" title="Relatório semanal de atividades">' + icoI('print') + '<span>Relatório</span></button><button class="btn primary tf-nw" data-action="tf-nova" title="Atalho: N">+ Nova tarefa</button></div>';
+  if (e.vista === 'lista' || e.vista === 'semana') h += '<div class="md2-mseg" role="tablist"><button role="tab" aria-selected="' + (e.mob === 'tarefas') + '" class="' + (e.mob === 'tarefas' ? 'on' : '') + '" data-action="tf-mob" data-id="tarefas">Tarefas <b>' + nAb + '</b></button><button role="tab" aria-selected="' + (e.mob === 'sis') + '" class="' + (e.mob === 'sis' ? 'on' : '') + '" data-action="tf-mob" data-id="sis">Do sistema <b class="' + (crit ? 'r' : '') + '">' + tot + '</b></button></div>';
+  if (e.vista !== 'rotinas' && e.vista !== 'equipe') h += tfSemana();
+  if (e.vista === 'quadro') h += tfFiltros();
+  const lado = e.vista === 'lista' || e.vista === 'semana';
+  h += '<div class="tf-main' + (lado ? ' com-lado md2-main' + (e.mob === 'sis' ? ' mob-sis' : '') : '') + '">' + (e.vista === 'quadro' ? tfQuadro() : e.vista === 'equipe' ? tfEquipe() : e.vista === 'rotinas' ? tfRotinas() : e.vista === 'semana' ? tfSemanaGrade() : tfLista()) + '</div></div>';
+  return h + '<button class="tf-fab" data-action="tf-nova" aria-label="Nova tarefa">+</button>';
+}
+function tfSemanaGrade() {
+  const e = tfE(), hoje = hojeISO(), L = tfEscopo().filter(tfAb);
+  let h = '<div class="md2-wg">';
+  for (let i = 0; i < 7; i++) {
+    const d = addDias(hoje, i), D = new Date(d + 'T12:00:00'), I = L.filter(x => x.prazo === d || (i === 0 && tfAtr(x))).sort(tfSrt);
+    h += '<div class="md2-wd' + (i ? '' : ' hj') + '"><div class="md2-wdh"><b>' + String(D.getDate()).padStart(2, '0') + '</b><span>' + (i === 0 ? 'hoje' : TF_SEM[D.getDay()]) + '</span></div><div class="md2-wdb">' +
+      I.map(x => '<button class="md2-wc' + (e.sel === x.id ? ' sel' : '') + '" data-action="tf-abrir" data-id="' + esc(x.id) + '"><b>' + esc(x.titulo) + '</b><small class="' + (tfAtr(x) || x.urg === 'u' ? 'r' : x.urg === 'a' ? 'w' : '') + '">' + (tfAtr(x) ? 'Atrasada' : x.hora || TF_URG[x.urg || 'n'][0]) + (x.respId !== S.user.id ? ' · ' + esc(tfCurto(x.respId)) : '') + '</small></button>').join('') +
+      (I.length ? '' : '<small class="md2-livre">livre</small>') + '</div></div>';
+  }
+  const sel = tfTodas().find(x => x.id === e.sel);
+  return h + '</div><aside class="tf-side">' + (sel && window.innerWidth >= 1000 ? tfDet(sel) : tfPrecisaHTML() + mdSisHTML()) + '</aside>';
+}
+function tfPrecisaL() {
+  const lid = tfLid(), eu = S.user.id;
+  return tfTodas().filter(x => tfAb(x) && ((lid.indexOf(x.respId) >= 0 && x.porId === eu && (x.status === 'review' || !x.ciente || tfAtr(x))) || (x.respId === eu && x.porId !== eu && !x.ciente)));
+}
+function tfPrecisaHTML() {
+  const L = tfPrecisaL(); if (!L.length) return '';
+  return '<div class="tf-pn md2-prec"><h3>Precisa de você <span>' + L.length + '</span></h3>' + L.slice(0, 8).map(x => { const st = tfSit(x) || (tfAtr(x) ? { t: tfPz(x).t, c: 'r' } : { t: TF_ST[x.status], c: '' });
+    return '<div class="tf-pl" role="button" tabindex="0" data-action="tf-abrir" data-id="' + esc(x.id) + '">' + tfAv(x.respId) + '<span class="tf-x"><b>' + esc(x.titulo) + '</b><small class="' + st.c + '">' + esc(st.t) + '</small></span><button class="md2-inf" data-action="tf-ficha" data-id="' + esc(x.id) + '" aria-label="Detalhes: ' + esc(x.titulo) + '">' + icoI('info') + '</button></div>'; }).join('') +
+    (L.length > 8 ? '<div class="tf-vazio md2-mais8">e mais ' + (L.length - 8) + '</div>' : '') + '</div>';
+}
+/* "Do sistema": as pendências do Meu dia, agrupadas por prioridade; cada linha: Programar e ⓘ */
+function mdSisHTML() {
+  const B = S._mdBl || mdBlocosSis(), e = tfE(), tot = B.reduce((a, b) => a + b.itens.length, 0);
+  let h = '<div class="tf-pn md2-sis"><h3>Do sistema <span>' + (tot ? tot + ' pendência' + (tot > 1 ? 's' : '') : '') + '</span></h3>';
+  if (!B.length) return h + '<div class="tf-vazio"><b>Nada pendente para você agora</b><br>Aqui aparecem só as áreas marcadas para você. Quando surgir algo, aparece sozinho.</div></div>';
+  [['crit', 'Para agora'], ['warn', 'Hoje'], ['info', 'Acompanhar']].forEach(g => {
+    const G = B.filter(b => b.nivel === g[0]); if (!G.length) return;
+    h += '<div class="md-sec ' + g[0] + '"><h4 class="md-sec-t">' + g[1] + ' <em>' + G.reduce((a, b) => a + b.itens.length, 0) + '</em></h4>' + G.map(b => {
+      const todos = !!e.mdAbre[b.id], L = todos ? b.itens : b.itens.slice(0, 3);
+      return '<section class="md-card ' + b.nivel + '" data-md="' + esc(b.id) + '"><header><span class="md-ic">' + mdIcone(b.ir) + '</span><h3>' + esc(b.titulo) + '</h3><span class="md-n">' + b.itens.length + '</span><button class="md2-abr" data-action="md-ir" data-id="' + esc(b.ir) + '">Abrir</button></header>' +
+        L.map((x, i) => { const t = tfDaOrigem(mdChave(b, x));
+          return '<div class="md-li"><span class="md2-x"><b>' + esc(x.t) + '</b><small>' + esc(x.d || '') + '</small></span>' +
+            (t ? '<button class="md2-prog" data-action="tf-abrir" data-id="' + esc(t.id) + '" title="Abrir a tarefa">Programada · ' + esc(tfQuando(t)) + (t.respId !== S.user.id ? ' · ' + esc(tfCurto(t.respId)) : '') + '</button>'
+              : '<button class="md2-prg" data-action="tf-md-prog" data-id="' + esc(b.id) + '" data-i="' + i + '">Programar</button>') +
+            '<button class="md2-inf" data-action="tf-md-ficha" data-id="' + esc(b.id) + '" data-i="' + i + '" aria-label="Detalhes: ' + esc(x.t) + '">' + icoI('info') + '</button></div>'; }).join('') +
+        (b.itens.length > 3 ? '<button class="md-mais" data-action="tf-md-mais" data-id="' + esc(b.id) + '">' + (todos ? 'Mostrar menos' : 'e mais ' + (b.itens.length - 3)) + '</button>' : '') + '</section>'; }).join('') + '</div>';
+  });
+  return h + '</div>';
+}
+/* ---------- detalhe: origem, repetir, passos ---------- */
+function tfOrigemHTML(x) {
+  if (!x.origem) return '';
+  const ir = x.origem.ir || '', ar = tfAreaDe(x);
+  if (tfOrigemResolvida(x)) return '<div class="md2-ori res">' + icoI('check') + '<span><b>Resolvido na origem</b><small>' + esc(x.origem.titulo || '') + '</small></span>' + (tfPosso(x) ? '<button class="btn sm tf-g" data-action="tf-feito" data-id="' + esc(x.id) + '">Concluir</button>' : '') + '</div>';
+  return '<div class="md2-ori">' + mdIcone(ir) + '<span><b>Origem: ' + esc(ar) + '</b><small>' + esc(x.origem.titulo || '') + '</small></span>' + (ir ? '<button class="btn sm" data-action="tf-md-ir" data-id="' + esc(ir) + '">Abrir</button>' : '') + '</div>';
+}
+function tfRepHTML(pre, id, rep, dias, dis) {
+  const D = (dias || []).map(Number);
+  return '<div class="md2-rp"><select' + (pre === 'x' ? '' : ' class="input"') + ' data-tf="' + (pre === 'x' ? 'rep' : 'pg-rep') + '" data-id="' + esc(id) + '"' + (dis ? ' disabled' : '') + ' aria-label="Repetir"' + (pre === 'x' ? '' : ' id="pg-rep"') + '>' + TF_REP.map(r => '<option value="' + r[0] + '"' + ((rep || '') === r[0] ? ' selected' : '') + '>' + r[1] + '</option>').join('') + '</select>' +
+    '<div class="md2-dsm" role="group" aria-label="Dias da semana"' + (rep === 'dias' ? '' : ' hidden') + '>' + [1, 2, 3, 4, 5, 6, 0].map(k => '<button type="button" data-action="' + (pre === 'x' ? 'tf-dsm' : 'tf-pg-dsm') + '" data-id="' + esc(id) + '" data-v="' + k + '" class="' + (D.indexOf(k) >= 0 ? 'on' : '') + '" aria-pressed="' + (D.indexOf(k) >= 0) + '" title="' + TF_SEMD[k] + '"' + (dis ? ' disabled' : '') + '>' + TF_SEM1[k] + '</button>').join('') +
+    '<button type="button" class="pre" data-action="' + (pre === 'x' ? 'tf-dsmpre' : 'tf-pg-dsmpre') + '" data-id="' + esc(id) + '"' + (dis ? ' disabled' : '') + '>Seg a sex</button></div></div>';
+}
+function tfPassoHTML(x, i, k, dis) {
+  return '<label class="tf-it' + (i.ok ? ' ok' : '') + '"><input type="checkbox" data-tf="item" data-id="' + esc(x.id) + '" data-i="' + k + '"' + (i.ok ? ' checked' : '') + (dis || '') + '><span>' + esc(i.t) + '</span>' +
+    (i.ok && i.por ? '<small class="md2-quem">' + esc(tfCurto(i.por)) + (i.em ? ' · ' + esc(fmtDT(i.em)) : '') + '</small>' : '') + '</label>';
+}
+/* ---------- ficha (ⓘ) ---------- */
+function tfFichaHTML(x) {
+  const st = tfSit(x), it = x.itens || [], dis = tfPosso(x) && tfAb(x) ? '' : ' disabled';
+  const L = [['Situação', st && st.t.indexOf(TF_ST[x.status]) === 0 ? '<b>' + esc(st.t) + '</b>' : '<b>' + TF_ST[x.status] + '</b>' + (st ? '<br><small class="' + st.c + '">' + esc(st.t) + '</small>' : '')],
+    ['Prazo', x.prazo ? esc(TF_SEMD[new Date(x.prazo + 'T12:00:00').getDay()] + ', ' + fmtD(x.prazo)) + (x.hora ? ' às ' + esc(x.hora) : '') : 'Sem prazo'],
+    ['Urgência', TF_URG[x.urg || 'n'][0]], ['Responsável', esc(tfNome(x.respId))]];
+  if (x.porId !== x.respId) L.push(['Passada por', esc(tfNome(x.porId))], ['Ciência', x.ciente ? 'Confirmada em ' + esc(fmtDT(x.ciente)) : '<span class="w">Ainda não confirmou</span>']);
+  if (x.rep) L.push(['Repete', esc(tfRepTxt(x))]);
+  if (x.origem) L.push(['Origem', esc(x.origem.titulo || '') + (tfOrigemResolvida(x) ? '<br><small class="ok">Resolvido na origem</small>' : '')]);
+  if (it.length) L.push(['Passos<br><small>' + it.filter(i => i.ok).length + ' de ' + it.length + '</small>', it.map((i, k) => tfPassoHTML(x, i, k, dis)).join('')]);
+  if ((x.com || []).length) { const c = x.com[x.com.length - 1]; L.push(['Última mensagem', '<b>' + esc(String(c.porNome || '').split(' ')[0]) + ':</b> ' + esc(c.t) + ' <small>' + esc(fmtDT(c.ts)) + '</small>']); }
+  if (x.status === 'cancelada') L.push(['Cancelamento', esc((x.canceladaPor || '') + ': ' + (x.canceladaMotivo || ''))]);
+  L.push(['Área', esc(tfAreaDe(x))], ['Criada em', esc(fmtDT(x.criadoEm || ''))]);
+  return '<div class="md2-ficha" data-id="' + esc(x.id) + '"><h3>' + esc(x.titulo) + '</h3><div class="md2-kv">' + L.map(r => '<span class="k">' + r[0] + '</span><span>' + r[1] + '</span>').join('') + '</div>' +
+    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button><button class="btn primary" data-action="tf-ficha-abrir" data-id="' + esc(x.id) + '">Abrir a tarefa</button></div></div>';
+}
+function mdFichaSis(bid, i) {
+  const b = (S._mdBl || mdBlocosSis()).find(z => z.id === bid), x = b && b.itens[i]; if (!x) { toast('Essa pendência já foi resolvida.'); renderView(); return; }
+  const t = tfDaOrigem(mdChave(b, x));
+  const L = [['Área', esc(mdAreaDeBloco(b))], ['Pendência', esc(b.titulo)], ['Item', '<b>' + esc(x.t) + '</b>'], ['Detalhe', esc(x.d || '—')],
+    ['Prioridade', { crit: '<span class="r">Para agora</span>', warn: '<span class="w">Hoje</span>', info: 'Acompanhar' }[b.nivel]], ['Tarefa', t ? 'Programada para ' + esc(tfQuando(t)) + ' · ' + esc(tfCurto(t.respId)) : 'Ainda não programada']];
+  openSheet('<div class="md2-ficha"><h3>' + esc(x.t) + '</h3><div class="md2-kv">' + L.map(r => '<span class="k">' + r[0] + '</span><span>' + r[1] + '</span>').join('') + '</div><div class="fm-dica">Some sozinha quando o problema é resolvido na área de origem.</div>' +
+    '<div class="row-actions"><button class="btn" data-action="tf-md-ir" data-id="' + esc(b.ir) + '">Abrir na área</button>' + (t ? '<button class="btn primary" data-action="tf-ficha-abrir" data-id="' + esc(t.id) + '">Ver a tarefa</button>' : '<button class="btn primary" data-action="tf-md-prog" data-id="' + esc(b.id) + '" data-i="' + i + '">Programar</button>') + '</div></div>');
+}
+function mdIr(id) {
+  closeSheet(); id = String(id || '');
+  if (id === 'bk:') { openBackup(); return; } if (id === 'pc:') { procIrTela(); return; } if (id.indexOf('ac:') === 0) { openAcao(id.slice(3)); return; }
+  const p = id.split('/'); S.area = p[0]; if (p[1]) S.tabs[p[0]] = p[1]; renderShell(); renderView(); window.scrollTo(0, 0);
+}
+/* ---------- Programar (pendência → tarefa) ---------- */
+function mdProgAbrir(bid, i) {
+  const b = (S._mdBl || mdBlocosSis()).find(z => z.id === bid), x = b && b.itens[i]; if (!x) { toast('Essa pendência já foi resolvida.'); renderView(); return; }
+  const hoje = hojeISO(), urg = b.nivel === 'crit' ? 'u' : b.nivel === 'warn' ? 'a' : 'n', prazo = b.nivel === 'crit' ? hoje : addDias(hoje, 1);
+  S._pg = { chave: mdChave(b, x), titulo: b.titulo + ' · ' + x.t, ir: b.ir || '', area: mdAreaDeBloco(b), tipo: b.id, prazo: prazo, resp: S.user.id, urg: urg, rep: '', dias: [new Date(prazo + 'T12:00:00').getDay()] };
+  const dias = [[hoje, 'Hoje'], [addDias(hoje, 1), 'Amanhã']]; for (let k = 2; k < 6; k++) { const d = addDias(hoje, k); dias.push([d, TF_SEM[new Date(d + 'T12:00:00').getDay()] + ' ' + fmtD(d).slice(0, 5)]); } dias.push(['', 'Sem prazo']);
+  const pess = [S.user.id].concat(tfLid()), ch = (k, v, txt, on) => '<button type="button" class="md2-ch' + (on ? ' on' : '') + '" data-action="tf-pg-set" data-k="' + k + '" data-id="' + esc(v) + '" aria-pressed="' + !!on + '">' + txt + '</button>';
+  openSheet('<h3>Programar</h3><div class="md2-ori">' + mdIcone(b.ir) + '<span><b>' + esc(b.titulo) + '</b><small>' + esc(x.t + (x.d ? ' · ' + x.d : '')) + '</small></span></div><div id="pg-msg"></div>' +
+    '<div class="field"><label for="pg-t">O que fazer</label><input class="input" id="pg-t" autocomplete="off" value="' + esc(b.titulo + ': ' + x.t) + '"></div>' +
+    '<div class="field"><label>Quando</label><div class="md2-chs" data-k="prazo">' + dias.map(d => ch('prazo', d[0], d[1], d[0] === prazo)).join('') + '</div>' +
+    '<div class="fm-row md2-dh"><input class="input" type="date" id="pg-d" value="' + prazo + '" aria-label="Data"><input class="input" type="time" id="pg-h" aria-label="Hora"></div></div>' +
+    '<div class="field"><label>Repetir</label>' + tfRepHTML('pg', 'pg', '', S._pg.dias, false) + '</div>' +
+    '<div class="field"><label>Para quem</label><div class="md2-chs" data-k="resp">' + pess.map(k => ch('resp', k, tfAv(k) + (k === S.user.id ? 'Eu' : esc(tfCurto(k))), k === S.user.id)).join('') + '</div>' +
+    (pess.length > 1 ? '<div class="fm-dica">Aparecem só as pessoas ligadas a você.</div>' : '') + '</div>' +
+    '<div class="field"><label>Urgência</label><div class="md2-chs" data-k="urg">' + ['u', 'a', 'n', 'b'].map(k => ch('urg', k, TF_URG[k][0], k === urg)).join('') + '</div></div>' +
+    '<div class="field"><label for="pg-o">Observação</label><textarea class="input" id="pg-o" rows="2" placeholder="Opcional"></textarea></div>' +
+    '<div class="fm-dica">Quando o problema for resolvido na área de origem, a tarefa avisa "Resolvido na origem".</div>' +
+    '<div class="row-actions"><button class="btn" data-action="close">Cancelar</button><button class="btn primary" id="pg-ok" data-action="tf-pg-criar">Criar tarefa</button></div>', { noFocus: true });
+}
+async function mdProgCriar() {
+  const p = S._pg; if (!p) return; const v = id => String(($('#' + id) || {}).value || '').trim();
+  const titulo = v('pg-t'), msg = t => { const m = $('#pg-msg'); if (m) m.innerHTML = '<div class="msg">' + esc(t) + '</div>'; };
+  if (titulo.length < 3) return msg('Escreva o que fazer.');
+  const rep = v('pg-rep'), prazo = v('pg-d'), obs = v('pg-o');
+  if (rep === 'dias' && !p.dias.length) return msg('Marque pelo menos um dia da semana.');
+  const x = await tfCriar({ titulo: titulo, urg: p.urg, prazo: prazo, hora: v('pg-h'), respId: p.resp, rep: rep, dias: rep === 'dias' ? p.dias.slice() : [], area: p.area, confere: p.resp !== S.user.id,
+    origem: { tipo: p.tipo, chave: p.chave, titulo: p.titulo, ir: p.ir }, com: obs ? [{ porId: S.user.id, porNome: S.user.nome, t: 'Obs.: ' + obs, ts: nowISO() }] : [] });
+  S._pg = null; closeSheet(); toast(p.resp === S.user.id ? 'Tarefa programada.' : 'Programada e passada para ' + tfCurto(p.resp) + '. Aviso enviado.', 'ok');
+  const e = tfE(); if (window.innerWidth >= 1000) { e.sel = x.id; e.mob = 'tarefas'; } renderView();
+}
+/* ---------- escrever rápido: ajuda ---------- */
+function tfAjuda() {
+  const tk = a => a.map(w => '<code>' + esc(w) + '</code>').join(' ');
+  openSheet('<h3>Escrever rápido</h3><div class="md2-kv md2-aj">' + [['Prazo', tk(['hoje', 'amanhã', 'sex', 'seg'])], ['Hora', tk(['8h', '14:30'])], ['Urgência', tk(['!urgente', '!alta', '!baixa'])], ['Para quem', tk(['@nome'])], ['Repetir', tk(['todo dia', 'seg a sex', 'toda seg e qua', 'todo mês'])]].map(r => '<span class="k">' + r[0] + '</span><span>' + r[1] + '</span>').join('') + '</div>' +
+    '<div class="md2-ex"><small>Exemplo</small><code>verificar cloro PA 05 seg a sex 8h !alta @ana</code></div><div class="row-actions"><button class="btn primary" data-action="close">Entendi</button></div>');
+}
+/* ---------- relatório semanal de atividades (A4 deitado, REL 0016) ---------- */
+function tfRelDados(pid, sem) {
+  const hoje = hojeISO(), seg0 = addDias(hoje, -((new Date(hoje + 'T12:00:00').getDay() + 6) % 7));
+  const ini = addDias(seg0, sem * 7), fim = addDias(ini, 6), dentro = d => !!d && d >= ini && d <= fim, fd = x => String(x.feitoEm || '').slice(0, 10);
+  const M = (S.tarefas || []).filter(x => x.respId === pid), porPrazo = (a, b) => String(a.prazo).localeCompare(String(b.prazo));
+  const feitas = M.filter(x => x.status === 'done' && dentro(fd(x))).sort((a, b) => tfAreaDe(a).localeCompare(tfAreaDe(b)) || fd(a).localeCompare(fd(b)));
+  return { ini: ini, fim: fim, fd: fd, feitas: feitas, noPrazo: feitas.filter(x => !x.prazo || fd(x) <= x.prazo).length,
+    canc: M.filter(x => x.status === 'cancelada' && dentro(String(x.canceladaEm || x.prazo || '').slice(0, 10))),
+    andam: M.filter(x => x.status === 'doing' || x.status === 'review').sort(porPrazo),
+    atras: M.filter(x => tfAb(x) && x.prazo && x.prazo < hoje).sort(porPrazo),
+    pend: M.filter(x => tfAb(x) && x.status === 'todo' && x.prazo && x.prazo >= hoje && x.prazo <= addDias(fim, 7)).sort(porPrazo),
+    abertas: M.filter(tfAb) };
+}
+function tfRelHTML(pid, sem, obs, para) {
+  const u = userById(pid) || S.user, R = tfRelDados(pid, sem), pct = R.feitas.length ? Math.round(R.noPrazo * 100 / R.feitas.length) : 0, hoje = hojeISO();
+  const d5 = d => d ? fmtD(d).slice(0, 5) : '—', atrD = x => difDias(x.prazo, hoje);
+  const tab = (cols, L, lin, vazio, resto) => '<table class="rs2-t"><colgroup>' + cols.map(c => '<col style="width:' + c[1] + '">').join('') + '</colgroup><thead><tr>' + cols.map(c => '<th' + (c[2] ? ' class="c"' : '') + '>' + c[0] + '</th>').join('') + '</tr></thead><tbody>' +
+    (L.length ? L.map(lin).join('') : '<tr><td colspan="' + cols.length + '" class="vz">' + vazio + '</td></tr>') + (resto ? '<tr><td colspan="' + cols.length + '" class="mais">+ ' + resto + ' na continuação</td></tr>' : '') + '</tbody></table>';
+  let ult = '';
+  const linF = x => { const a = tfAreaDe(x), m = a !== ult ? a : ''; ult = a; const fora = x.prazo && R.fd(x) > x.prazo;
+    return '<tr><td class="ar">' + esc(m) + '</td><td>' + esc(x.titulo) + '</td><td class="c">' + d5(R.fd(x)) + '</td><td class="c">' + d5(x.prazo) + '</td><td class="c ' + (fora ? 'w2' : 'ok2') + '">' + (fora ? 'Fora do prazo' : 'No prazo') + '</td></tr>'; };
+  const c3 = (a, b) => [['Atividade', '58%'], [a, '21%', 1], [b, '21%', 1]];
+  const SEC = [
+    ['Atividades concluídas', R.feitas, [['Área', '18%'], ['Atividade', '38%'], ['Concluído', '13%', 1], ['Prazo', '11%', 1], ['Situação', '20%', 1]], linF, 14, 'e', 'Nada concluído no período.'],
+    ['Canceladas', R.canc, [['Atividade', '45%'], ['Motivo', '55%']], x => '<tr><td>' + esc(x.titulo) + '</td><td>' + esc(x.canceladaMotivo || '') + '</td></tr>', 3, 'e', 'Nenhuma.'],
+    ['Em andamento', R.andam, c3('Situação', 'Prazo'), x => '<tr><td>' + esc(x.titulo) + '</td><td class="c">' + (x.status === 'review' ? 'Em conferência' : (x.itens || []).length ? x.itens.filter(i => i.ok).length + ' de ' + x.itens.length + ' passos' : 'Em execução') + '</td><td class="c">' + d5(x.prazo) + '</td></tr>', 4, 'd', 'Nenhuma.'],
+    ['Atrasadas · onde preciso de ajuda', R.atras, c3('Prazo', 'Atraso'), x => '<tr><td>' + esc(x.titulo) + '</td><td class="c">' + d5(x.prazo) + '</td><td class="c r2">' + atrD(x) + (atrD(x) === 1 ? ' dia' : ' dias') + '</td></tr>', 5, 'd', 'Nenhuma.'],
+    ['Programadas para os próximos dias', R.pend, c3('Prazo', 'Urgência'), x => '<tr><td>' + esc(x.titulo) + '</td><td class="c">' + d5(x.prazo) + '</td><td class="c' + (x.urg === 'u' ? ' r2' : x.urg === 'a' ? ' w2' : '') + '">' + TF_URG[x.urg || 'n'][0] + '</td></tr>', 4, 'd', 'Nenhuma.']];
+  const caixa = lado => SEC.filter(c => c[5] === lado).map((c, k) => { ult = ''; const resto = Math.max(0, c[1].length - c[4]); return '<h3 class="rs2-h' + (k ? ' n2' : '') + '">' + c[0] + '<span>' + c[1].length + '</span></h3>' + tab(c[2], c[1].slice(0, c[4]), c[3], c[6], resto); }).join('');
+  let h = '<div class="rs2 rs2-p1"><div class="rs2-meta"><div><span class="lb">Nome</span><b>' + esc(u.nome) + '</b></div><div><span class="lb">Cargo</span>' + esc(u.cargo || perfilLabel(u)) + '</div><div><span class="lb">Período</span>' + fmtD(R.ini) + ' a ' + fmtD(R.fim) + '</div><div><span class="lb">Para</span>' + esc(para || '—') + '</div></div>' +
+    '<div class="rs2-num"><div><span class="lb">Concluídas</span><b class="ok2">' + R.feitas.length + '</b></div><div><span class="lb">No prazo</span><b>' + pct + '%</b></div><div><span class="lb">Em andamento</span><b>' + R.andam.length + '</b></div><div><span class="lb">Atrasadas</span><b class="' + (R.atras.length ? 'r2' : '') + '">' + R.atras.length + '</b></div><div><span class="lb">Canceladas</span><b>' + R.canc.length + '</b></div><div><span class="lb">Em aberto</span><b>' + R.abertas.length + '</b></div></div>' +
+    '<div class="rs2-lados"><div class="rs2-bx">' + caixa('e') + '</div><div class="rs2-bx">' + caixa('d') + '<h3 class="rs2-h n2">Observações</h3><div class="rs2-obs">' + (obs ? esc(obs) : '—') + '</div></div></div></div>';
+  let prim = true;
+  SEC.forEach(c => { if (c[1].length <= c[4]) return; ult = ''; h += '<div class="rs2 rs2-cont' + (prim ? ' rs2-qb' : '') + '"><h3 class="rs2-h">' + c[0] + ' (continuação)<span>' + c[1].length + ' no total</span></h3>' + tab(c[2], c[1].slice(c[4]), c[3], '') + '</div>'; prim = false; });
+  return h + '<div class="rs2 rs2-ass"><div>' + esc(u.nome) + '</div><div>' + esc(para || 'Superior') + ' · ciente</div></div>';
+}
+function tfRelPara(pid) { const u = userById(pid); return u ? supsOf(u).map(id => (userById(id) || {}).nome).filter(Boolean).join(', ') : ''; }
+function tfRelAbrir() {
+  const pess = [S.user.id].concat(tfLid());
+  openSheet('<h3>Relatório semanal de atividades</h3><div class="sub">A4 deitado, para anexar no e-mail. Concluídas contam pela data em que foram concluídas.</div>' +
+    '<div class="field"><label for="rl-sem">Período</label><select class="input" id="rl-sem"><option value="0">Esta semana</option><option value="-1">Semana passada</option></select></div>' +
+    (pess.length > 1 ? '<div class="field"><label for="rl-p">De quem</label><select class="input" id="rl-p" data-tf="rl-p">' + pess.map(k => '<option value="' + esc(k) + '">' + (k === S.user.id ? 'Eu (' + esc(tfNome(k)) + ')' : esc(tfNome(k))) + '</option>').join('') + '</select><div class="fm-dica">Você pode gerar o de um liderado para conferir.</div></div>' : '') +
+    '<div class="field"><label for="rl-para">Para (superior)</label><input class="input" id="rl-para" autocomplete="off" value="' + esc(tfRelPara(S.user.id)) + '"></div>' +
+    '<div class="field"><label for="rl-obs">Observações (vão no relatório)</label><textarea class="input" id="rl-obs" rows="3" placeholder="Ex.: auditoria Fair for Life na quinta"></textarea></div>' +
+    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button><button class="btn" data-action="tf-rel-copiar">Copiar resumo para o e-mail</button><button class="btn primary" data-action="tf-rel-pdf">' + icoI('print') + 'Gerar PDF</button></div>', { noFocus: true });
+}
+function tfRelLer() { const v = id => String(($('#' + id) || {}).value || '').trim(); return { pid: v('rl-p') || S.user.id, sem: Number(v('rl-sem') || 0), para: v('rl-para'), obs: v('rl-obs') }; }
+function tfRelResumo(o) {
+  const u = userById(o.pid) || S.user, R = tfRelDados(o.pid, o.sem), pct = R.feitas.length ? Math.round(R.noPrazo * 100 / R.feitas.length) : 0;
+  const L = ['Relatório semanal de atividades · ' + u.nome, 'Período: ' + fmtD(R.ini) + ' a ' + fmtD(R.fim), '', '• Concluídas: ' + R.feitas.length + ' (' + pct + '% no prazo)', '• Em andamento: ' + R.andam.length,
+    '• Atrasadas: ' + R.atras.length + (R.atras.length ? ' (' + R.atras.slice(0, 5).map(x => x.titulo).join('; ') + ')' : ''), '• Canceladas: ' + R.canc.length, ''];
+  if (R.pend.length) L.push('Próximos dias: ' + R.pend.slice(0, 4).map(x => x.titulo + ' (' + fmtD(x.prazo).slice(0, 5) + ')').join('; '));
+  if (o.obs) L.push('Observações: ' + o.obs);
+  L.push('', 'O relatório completo está no PDF em anexo.');
+  return L.join('\n');
+}
+/* ---------- ações novas ---------- */
+function tfAcao2(act, id, t) {
+  const e = tfE(), di = t && t.getAttribute ? Number(t.getAttribute('data-i')) : 0;
+  if (act === 'tf-mob') { e.mob = id === 'sis' ? 'sis' : 'tarefas'; renderView(); return true; }
+  if (act === 'tf-ficha') { const x = tfDe(id); if (x) openSheet(tfFichaHTML(x), { noFocus: true }); return true; }
+  if (act === 'tf-ficha-abrir') { closeSheet(); e.mob = 'tarefas'; if (e.vista !== 'lista' && e.vista !== 'semana') e.vista = 'lista'; tfAbrir(id); return true; }
+  if (act === 'tf-ajuda') { tfAjuda(); return true; }
+  if (act === 'tf-md-prog') { closeSheet(); mdProgAbrir(id, di); return true; }
+  if (act === 'tf-md-ficha') { mdFichaSis(id, di); return true; }
+  if (act === 'tf-md-mais') { e.mdAbre[id] = !e.mdAbre[id]; renderView(); return true; }
+  if (act === 'tf-md-ir') { mdIr(id); return true; }
+  if (act === 'tf-pg-set') { const p = S._pg; if (!p) return true; const k = t.getAttribute('data-k'); p[k] = id;
+    $$('.sheet .md2-chs[data-k="' + k + '"] .md2-ch').forEach(b => { const on = b.getAttribute('data-id') === id; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+    if (k === 'prazo') { const d = $('#pg-d'); if (d) d.value = id; }
+    if (k === 'resp') { const b = $('#pg-ok'); if (b) b.textContent = id === S.user.id ? 'Criar tarefa' : 'Criar e passar para ' + tfCurto(id); }
+    return true; }
+  if (act === 'tf-pg-dsm' || act === 'tf-pg-dsmpre') { const p = S._pg; if (!p) return true;
+    if (act === 'tf-pg-dsmpre') p.dias = [1, 2, 3, 4, 5]; else { const k = Number(t.getAttribute('data-v')), i = p.dias.indexOf(k); if (i >= 0) { if (p.dias.length > 1) p.dias.splice(i, 1); } else p.dias.push(k); }
+    $$('.sheet .md2-dsm [data-v]').forEach(b => { const on = p.dias.indexOf(Number(b.getAttribute('data-v'))) >= 0; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); }); return true; }
+  if (act === 'tf-pg-criar') { eqUmaVez(mdProgCriar); return true; }
+  if (act === 'tf-dsm' || act === 'tf-dsmpre') { const x = tfDe(id); if (!x || !tfPosso(x)) return true; let L = (x.dias || []).map(Number);
+    if (act === 'tf-dsmpre') L = [1, 2, 3, 4, 5]; else { const k = Number(t.getAttribute('data-v')), i = L.indexOf(k); if (i >= 0) { if (L.length > 1) L.splice(i, 1); } else L.push(k); }
+    eqUmaVez(() => tfSalvar(x, { rep: 'dias', dias: L }, 'repete ' + tfRepTxt({ rep: 'dias', dias: L })).then(tfRedesenha)); return true; }
+  if (act === 'tf-rel') { tfRelAbrir(); return true; }
+  if (act === 'tf-rel-copiar') { const txt = tfRelResumo(tfRelLer());
+    const ok = () => toast('Resumo copiado. Cole no corpo do e-mail e anexe o PDF.', 'ok');
+    try { navigator.clipboard.writeText(txt).then(ok, () => openSheet('<h3>Resumo para o e-mail</h3><div class="sub">Selecione e copie.</div><textarea class="input" rows="10" readonly>' + esc(txt) + '</textarea><div class="row-actions"><button class="btn primary" data-action="close">Fechar</button></div>')); } catch (er) { openSheet('<h3>Resumo para o e-mail</h3><textarea class="input" rows="10" readonly>' + esc(txt) + '</textarea><div class="row-actions"><button class="btn primary" data-action="close">Fechar</button></div>'); }
+    return true; }
+  if (act === 'tf-rel-pdf') { const o = tfRelLer(), u = userById(o.pid) || S.user; closeSheet();
+    Audit.log({ acao: 'imprimir', entidade: 'relatorio', entidadeId: 'tf_semana', resumo: 'Gerou o relatório semanal de atividades de ' + u.nome });
+    runPrint(tfRelHTML(o.pid, o.sem, o.obs, o.para), 'Relatório semanal de atividades — ' + u.nome, 'landscape', null, 'tf_semana'); return true; }
+  return false;
+}
+document.addEventListener('change', ev => {
+  const el = ev.target; if (!el || !el.getAttribute) return; const k = el.getAttribute('data-tf');
+  if (k === 'pg-rep') { const w = $('.sheet .md2-dsm'); if (w) w.hidden = el.value !== 'dias'; if (S._pg) S._pg.rep = el.value; }
+  if (k === 'rl-p') { const p = $('#rl-para'); if (p) p.value = tfRelPara(el.value); }
+});
 /* Meu dia: tarefas atrasadas e de hoje */
 function tfMeuDia() {
   const hoje = hojeISO(), m = tfTodas().filter(x => x.respId === S.user.id && tfAb(x));
@@ -18326,13 +18966,20 @@ function openUsers() {
     (x.id !== S.user.id ? '<span style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">' + (x.perfil === 'secundario' ? '<button class="btn sm" data-action="user-star" data-id="' + esc(x.id) + '">' + (x.estrela ? 'Tirar ★' : 'Dar ★') + '</button>' : '') + '<button class="btn sm" data-action="user-block" data-id="' + esc(x.id) + '">' + (x.bloqueado ? 'Desbloquear' : 'Bloquear') + '</button><button class="btn sm" data-action="user-edit" data-id="' + esc(x.id) + '">Editar</button></span>' : '<span class="chip">Você</span>') + '</div>').join('') + '</div>';
   openSheet('<h3>Usuários</h3><div class="sub">Ninguém é excluído: bloqueie para tirar o acesso.</div>' + lst + '<div class="row-actions"><button class="btn primary" data-action="user-new">Novo usuário</button><button class="btn" data-action="close">Fechar</button></div>');
 }
+/* v2.89.1: senha temporária gerada (8 caracteres, sem letras/números parecidos), aparece para o Principal anotar */
+function senhaGerar() {
+  const A = 'abcdefghjkmnpqrstuvwxyz23456789', v = new Uint32Array(8);
+  try { crypto.getRandomValues(v); } catch (e) { for (let i = 0; i < 8; i++) v[i] = Math.floor(Math.random() * 1e9); }
+  return Array.from(v).map(x => A[x % A.length]).join('');
+}
+function nuGerar() { const e = $('#nu-senha'); if (!e) return; e.value = senhaGerar(); e.type = 'text'; e.dispatchEvent(new Event('input', { bubbles: true })); toast('Senha temporária gerada: anote e passe para a pessoa.', 'ok'); }
 function openNewUser() {
   openSheet('<h3>Novo usuário</h3><div class="sub">O login é o nome que a pessoa digita para entrar.</div><div id="nu-msg"></div>' +
     '<div class="field"><label>Nome completo</label><input class="input" id="nu-nome" autocomplete="off"></div>' +
     '<div class="field"><label>Login</label><input class="input" id="nu-login" autocomplete="off" autocapitalize="none"></div>' +
     '<div class="field"><label>Perfil</label><select class="input" id="nu-perfil"><option value="secundario">Secundário</option><option value="secundario_e">Secundário ★ (líder)</option><option value="visitante">Visitante (só visualiza)</option><option value="principal_temp">Principal temporário</option><option value="principal">Principal</option></select></div>' +
     '<label class="fl-item ut-teste"><input type="checkbox" id="nu-teste"><span>Conta de teste</span><span class="n">o que ela lança só ela vê · ao sair, fica bloqueada</span></label>' +
-    '<div class="field"><label>Senha temporária (mínimo 6 dígitos; 8 para Principal)</label><input class="input" id="nu-senha" type="password" autocomplete="new-password"></div>' +
+    '<div class="field"><label>Senha temporária (mínimo 6 dígitos; 8 para Principal)</label><div class="nu-senha-l"><input class="input" id="nu-senha" type="password" autocomplete="new-password"><button type="button" class="btn sm" data-action="nu-gerar">Gerar</button></div></div>' +
     '<p class="fm-dica">No primeiro login a pessoa é obrigada a confirmar o nome completo, cadastrar um e-mail válido e trocar esta senha.</p>' +
     '<div id="atrib-box">' + atribForm(atribTodas(false)) + '</div>' +
     '<div class="row-actions"><button class="btn" data-action="users">Voltar</button><button class="btn primary" data-action="user-save">Criar usuário</button></div>');
@@ -18472,19 +19119,30 @@ async function showLogin(msg) {
   else try { setup = await Data.setupDone(); } catch (e) { note = e && e.code === 'permission-denied' ? 'As regras do Firestore ainda não foram publicadas. Siga o passo a passo do arquivo de regras.' : (navigator.onLine ? '' : 'Sem conexão. Conecte-se para entrar.'); }
   const m = (msg ? '<div class="msg">' + esc(msg) + '</div>' : '') + (note ? '<div class="msg info">' + esc(note) + '</div>' : '');
   if (!setup) {
-    host.innerHTML = lgFundoHTML() + '<div class="auth lg-auth">' + lgTopoHTML() + authCard('<h2>Primeiro acesso</h2><p class="lead">Crie a conta Principal. Ela terá acesso total e poderá criar os outros usuários.</p>' + m + '<form data-form="setup" autocomplete="off"><div id="f-msg"></div>' +
+    lgQuadro(host, authCard('<h2>Primeiro acesso</h2><p class="lead">Crie a conta Principal. Ela terá acesso total e poderá criar os outros usuários.</p>' + m + '<form data-form="setup" autocomplete="off"><div id="f-msg"></div>' +
       '<div class="field"><label for="s-nome">Nome completo</label><input class="input" id="s-nome" autocomplete="name"></div>' +
       '<div class="field"><label for="s-login">Login</label><input class="input" id="s-login" autocapitalize="none" autocomplete="username"></div>' +
       '<div class="field"><label for="s-email">E-mail (é por ele que você recupera a senha)</label><input class="input" id="s-email" type="email" autocapitalize="none" autocomplete="email"></div>' + pwField('s-senha', 'Senha (mínimo 8 dígitos)') + pwField('s-senha2', 'Repita a senha') +
-      '<button class="btn primary block" type="submit">Criar conta Principal</button></form>' + (DEMO ? '' : DEMO_BTN)) + '</div>';
+      '<button class="btn primary block" type="submit">Criar conta Principal</button></form>' + (DEMO ? '' : DEMO_BTN)));
   } else {
-    host.innerHTML = lgFundoHTML() + '<div class="auth lg-auth">' + lgTopoHTML() + authCard('<h2>Entrar</h2><p class="lead">Use o seu login (ou o seu e-mail) e a sua senha.</p>' + (DEMO && testeOrigem() ? '<div class="teste-senha">Ambiente de teste: entre com o seu login e a senha definida ao abrir a cópia.</div>' : '') + m + '<form data-form="login"><div id="f-msg"></div>' +
+    lgQuadro(host, authCard('<h2>Entrar</h2><p class="lead">Use o seu login (ou o seu e-mail) e a sua senha.</p>' + (DEMO && testeOrigem() ? '<div class="teste-senha">Ambiente de teste: entre com o seu login e a senha definida ao abrir a cópia.</div>' : '') + m + '<form data-form="login"><div id="f-msg"></div>' +
       '<div class="field"><label for="l-login">Login ou e-mail</label><input class="input" id="l-login" autocapitalize="none" autocomplete="username"></div>' + pwField('l-senha', 'Senha') +
-      '<button class="btn primary block" type="submit">Entrar</button></form><button type="button" class="cad-rec-link" data-action="cad-rec">Esqueci a senha</button>' + (DEMO ? '' : DEMO_BTN)) + '</div>';
+      '<button class="btn primary block" type="submit">Entrar</button></form><button type="button" class="cad-rec-link" data-action="cad-rec">Esqueci a senha</button>' + (DEMO ? '' : DEMO_BTN)));
   }
-  lgIniciar(); /* v2.72.0 */
   const f = $('input', host); if (f) f.focus();
 }
+/* v2.90.0 (A5, A15): se a cena já está na tela, troca só o quadro (a paisagem, a frase e o tema ficam) */
+function lgQuadro(host, cardHTML) {
+  const a = host.querySelector('.lg-auth .auth-card');
+  if (a && S.lg && S.lg.ativo && S.lg.P === lgPeriodo() && host.querySelector('#lg-root')) { /* mudou de manhã para tarde, etc.: redesenha */
+    const t = document.createElement('div'); t.innerHTML = cardHTML; const n = t.firstElementChild; if (n) { n.classList.add('lg-card-in'); a.replaceWith(n); }
+    document.body.setAttribute('data-theme', S.lg.P === 'noite' ? 'dark' : 'light'); lgMetaCor(); lgVer(false);
+    return false;
+  }
+  host.innerHTML = lgFundoHTML() + '<div class="auth lg-auth">' + lgTopoHTML() + cardHTML + '</div>';
+  lgIniciar(); return true;
+}
+function lgCardTroca(card) { if (!card) return; card.classList.remove('lg-card-in'); void card.offsetWidth; card.classList.add('lg-card-in'); }
 function formMsg(t) { const el = $('#f-msg'); if (el) el.innerHTML = t ? '<div class="msg">' + esc(t) + '</div>' : ''; }
 async function doLoginAte273() { /* v2.74.0: substituída pela doLogin do módulo de cadastro (login ou e-mail, 5 erros) */
   Alerts.unlock();
@@ -18525,11 +19183,13 @@ async function onAuth(id) {
   cleanupSession();
   if (!id) { await showLogin(); return; }
   try {
-    const p = await Data.col('sv2_users').get(id);
+    let p = await Data.col('sv2_users').get(id);
+    /* v2.89.1: a cópia do aparelho pode estar velha (acabou de ser desbloqueada): confere no servidor antes de recusar */
+    if (p && p.bloqueado && !DEMO && navigator.onLine !== false) { for (let i = 0; i < 2 && p && p.bloqueado; i++) { await new Promise(r => setTimeout(r, 700)); try { const f = await Data.col('sv2_users').fresco(id); if (f) p = f; } catch (e) {} } }
     if (!p) { await Data.auth.signOut(); await showLogin('Essa conta ainda não tem perfil. Fale com o Principal.'); return; }
     if (p.bloqueado) { S.loginPending = false; await Data.auth.signOut(); await showLogin('Conta bloqueada. Fale com o Principal.'); return; }
+    if (cadPrecisa(p)) { S.user = p; S.cadP = p; if (!S.lg) applyTheme(p.tema || Store.get('sv2-theme') || 'dark'); cadTela(p); return; } /* v2.74.0: cadastro obrigatório (v2.90.0: a cena continua) */
     lgParar();
-    if (cadPrecisa(p)) { S.user = p; S.cadP = p; applyTheme(p.tema || Store.get('sv2-theme') || 'dark'); cadTela(p); return; } /* v2.74.0: cadastro obrigatório */
     if (S.loginPending) lgTransicao(p); /* v2.72.0 */
     S.lockUlt = Date.now(); /* v2.73.0 */
     S.user = p; applyTheme(p.tema || Store.get('sv2-theme') || 'dark');
@@ -18550,6 +19210,14 @@ function semCacheTxt(c) {
   if (c === 'unimplemented') return ini + ': este navegador não tem esse recurso (janela anônima ou navegador antigo). Use o Chrome ou o app instalado.';
   return ini + ' (' + c + '). Use o app instalado pelo Chrome e feche outras abas do EFClaudian.';
 }
+/* v2.92.0 (G9): redesenho pedido pelas escutas (lançamento de OUTRA pessoa). Se a pessoa está digitando num campo da
+   tela, espera o campo perder o foco; senão redesenha na hora (a rolagem já é guardada pelo renderView). */
+function editandoNaTela() {
+  const e = document.activeElement, v = document.getElementById('view');
+  return !!(v && e && v.contains(e) && (e.tagName === 'TEXTAREA' || e.tagName === 'SELECT' || (e.tagName === 'INPUT' && !/^(checkbox|radio|button|submit|reset|file|range|color)$/i.test(e.type || ''))));
+}
+function renderDados() { if (editandoNaTela()) { S._renderPend = true; return; } S._renderPend = false; renderView(); }
+document.addEventListener('focusout', () => { if (!S._renderPend) return; setTimeout(() => { if (S._renderPend && !editandoNaTela() && S.user) { S._renderPend = false; renderView(); } }, 0); });
 function startSession() {
   S.unsub.push(Data.conexao(v => Sync.servidor(v))); /* v2.84.0 */
   if (S._semCache && !S._semCacheAvisado) { S._semCacheAvisado = true; setTimeout(() => toast(semCacheTxt(S._semCache), 'err'), 1500); }
@@ -18557,20 +19225,20 @@ function startSession() {
     S.users = list;
     const me = list.find(x => x.id === S.user.id); if (!me) return;
     if (me.bloqueado) { cleanupSession(); Data.auth.signOut(); return; }
-    if (me.perfil !== S.user.perfil || !!me.estrela !== !!S.user.estrela || me.nome !== S.user.nome || !!me.contaTeste !== !!S.user.contaTeste || JSON.stringify(me.atrib || null) !== JSON.stringify(S.user.atrib || null)) { S.user = me; renderShell(); renderView(); notifLigar(); } else S.user = me;
+    if (me.perfil !== S.user.perfil || !!me.estrela !== !!S.user.estrela || me.nome !== S.user.nome || !!me.contaTeste !== !!S.user.contaTeste || JSON.stringify(me.atrib || null) !== JSON.stringify(S.user.atrib || null)) { S.user = me; renderShell(); renderDados(); notifLigar(); } else S.user = me;
   }));
-  S.unsub.push(Data.col('sv2_cloro_falta').watch(list => { const m = {}; list.forEach(x => { m[x.id] = x; }); S.cloroFaltas = m; const a = curArea(), t = curTab(a); if (a.id === 'inspecoes' && t.id === 'cloro') renderView(); }));
+  S.unsub.push(Data.col('sv2_cloro_falta').watch(list => { const m = {}; list.forEach(x => { m[x.id] = x; }); S.cloroFaltas = m; const a = curArea(), t = curTab(a); if (a.id === 'inspecoes' && t.id === 'cloro') renderDados(); }));
   S.unsub.push(Data.col('sv2_avatar').watch(list => { const m = {}; list.forEach(a => { if (a.img) m[a.id] = a.img; }); S.avatars = m; pintarAvatares(); }));
   S._notifModo = ''; S._notifMigFeito = false; notifLigar(); S.unsub.push(notifDesligar); /* v2.89.0 (G6): só os avisos desta pessoa */
   setTimeout(() => { notifMigrar(); }, 3000);
   const naArea = id => curArea().id === id;
-  S.unsub.push(Data.col('sv2_docs').watch(list => { S.docs = list; if (naArea('documentos')) renderView(); }));
-  S.unsub.push(Data.col('sv2_caixas').watch(list => { S.caixas = list; if (naArea('documentos') || naArea('inspecoes')) renderView(); }));
-  const reColetas = () => { if ((naArea('coletas') || naArea('rateios')) && !$('#ov')) renderView(); };
+  S.unsub.push(Data.col('sv2_docs').watch(list => { S.docs = list; if (naArea('documentos')) renderDados(); }));
+  S.unsub.push(Data.col('sv2_caixas').watch(list => { S.caixas = list; if (naArea('documentos') || naArea('inspecoes')) renderDados(); }));
+  const reColetas = () => { if ((naArea('coletas') || naArea('rateios')) && !$('#ov')) renderDados(); };
   S.unsub.push(Data.col('sv2_talhoes').watch(list => { S.talhoes = list; reColetas(); }));
   S.unsub.push(Data.col('sv2_analises').watch(list => { S.analises = list; reColetas(); }));
-  S.unsub.push(Data.col('sv2_cfg').watch(list => { S._cfgLista = list; S.cfgCol = list.find(x => x.id === 'coletas') || null; S.cfgAp = list.find(x => x.id === 'apont') || null; S.cfgAlm = list.find(x => x.id === 'almox') || null; S.cfgAgua = list.find(x => x.id === 'agua') || null; S.cfgDoc = list.find(x => x.id === 'doccontrole') || null; S.cfgBk = list.find(x => x.id === 'backup') || null; S.cfgArq = list.find(x => x.id === 'arquivo') || null; S.cfgEmp = list.find(x => x.id === 'empresa') || null; S.cfgTf = list.find(x => x.id === 'tarefas') || null; try { empMudou(); } catch (e) {} try { arqCfgMudou(); } catch (e) {} reColetas(); if (curArea().id === 'almox') renderView(); }));
-  const reAlm = () => { if (curArea().id === 'almox') renderView(); };
+  S.unsub.push(Data.col('sv2_cfg').watch(list => { S._cfgLista = list; S.cfgCol = list.find(x => x.id === 'coletas') || null; S.cfgAp = list.find(x => x.id === 'apont') || null; S.cfgAlm = list.find(x => x.id === 'almox') || null; S.cfgAgua = list.find(x => x.id === 'agua') || null; S.cfgDoc = list.find(x => x.id === 'doccontrole') || null; S.cfgBk = list.find(x => x.id === 'backup') || null; S.cfgArq = list.find(x => x.id === 'arquivo') || null; S.cfgEmp = list.find(x => x.id === 'empresa') || null; S.cfgTf = list.find(x => x.id === 'tarefas') || null; try { empMudou(); } catch (e) {} try { arqCfgMudou(); } catch (e) {} reColetas(); if (curArea().id === 'almox') renderDados(); }));
+  const reAlm = () => { if (curArea().id === 'almox') renderDados(); };
   /* motivos do login: só o próprio documento (a regra do Firestore não deixa listar os dos outros) */
   Data.col('sv2_alm_pref').get(S.user.id).then(d => { if (d && S.user && d.id === S.user.id) S.almPref = d; }).catch(() => {});
   S.unsub.push(Data.col('sv2_alm_itens').watch(list => { S.almItens = list; alSolLigarItens(); reAlm(); }));
@@ -18578,45 +19246,45 @@ function startSession() {
   S.almMovErro = '';
   S.unsub.push(Data.col('sv2_alm_mov').watch(list => { S.almMov = list; S.almMovErro = ''; reAlm(); },
     { order: 'criadoEm', limit: ALM_MOV_LIM, onError: e => { S.almMovErro = 'Não foi possível carregar as movimentações (' + ((e && e.code) || 'erro') + '). Os saldos do estoque podem estar errados. Feche e abra o app; se continuar, avise o Principal.'; reAlm(); } }));
-  S.unsub.push(Data.col('sv2_alm_equip').watch(list => { S.almEq = list; eqSync(); reAlm(); }, { limit: 2000 }));
-  S.unsub.push(Data.col('sv2_alm_inv').watch(list => { S.almInv = list; reAlm(); }, { limit: 300 }));
-  S.unsub.push(Data.col('sv2_conquistas').watch(list => { S.conq = list; cnqAgendar(); }, { limit: 500 })); /* v2.62.0 */
-  S.unsub.push(Data.col('sv2_normas').watch(list => { S.normas = list; if (curArea().id === 'inspecoes') renderView(); }, { limit: 200 })); /* v2.70.0 */
-  S.unsub.push(Data.col('sv2_normas_ed').watch(list => { S.normasEd = list; }, { limit: 300 })); /* v2.70.0 */
+  S.unsub.push(Data.col('sv2_alm_equip').watch(list => { S.almEq = list; eqSync(); reAlm(); })); /* v2.91.0 (G7): sem limite */
+  S.unsub.push(Data.col('sv2_alm_inv').watch(list => { S.almInv = list; reAlm(); })); /* v2.91.0 (G7) */
+  S.unsub.push(Data.col('sv2_conquistas').watch(list => { S.conq = list; cnqAgendar(); })); /* v2.62.0 · v2.91.0 (G7) */
+  S.unsub.push(Data.col('sv2_normas').watch(list => { S.normas = list; if (curArea().id === 'inspecoes') renderDados(); })); /* v2.70.0 · v2.91.0 (G7) */
+  S.unsub.push(Data.col('sv2_normas_ed').watch(list => { S.normasEd = list; })); /* v2.70.0 · v2.91.0 (G7) */
   S.unsub.push(Data.col('sv2_tarefas').watch(list => { S.tarefas = list; const a = curArea(), t = curTab(a); if (a.id !== 'qualidade' || !t) return;
-    const foco = document.activeElement; if (t.id === 'tarefas' && foco && foco.closest && foco.closest('.tf') && /INPUT|TEXTAREA|SELECT/.test(foco.tagName)) return; /* não apaga o que a pessoa está escrevendo */
-    if (t.id === 'tarefas' || t.id === 'meudia') renderView(); }, { order: 'criadoEm', limit: 2000 })); /* v2.82: mais novas primeiro */
-  S.unsub.push(Data.col('sv2_bugs').watch(list => { S.bugs = list; const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && t && (t.id === 'bugs' || t.id === 'rel')) renderView(); }, { order: 'ts', limit: 500 })); /* v2.82 */
-  if (isPrincipal(S.user)) S.unsub.push(Data.col('sv2_recup').watch(list => cadRecAvisar(list), { limit: 100 })); /* v2.74.0 */
-  S.unsub.push(Data.col('sv2_rnc').watch(list => { S.rncTeste = list.filter(x => x.teste); S.rnc = list.filter(x => !x.teste); /* v2.75.0 */ if (curArea().id === 'inspecoes') renderView(); }, { limit: 500 }));
-  S.unsub.push(Data.col('sv2_alm_transf').watch(list => { S.almTransf = list; if (curArea().id === 'almox') renderView(); }, { limit: 1000 }));
-  S.unsub.push(Data.col('sv2_alm_cal').watch(list => { S.almCal = list; if (curArea().id === 'almox' || curArea().id === 'rateios') renderView(); }, { limit: 500 }));
+    const foco = document.activeElement; if ((t.id === 'tarefas' || t.id === 'meudia') && foco && foco.closest && foco.closest('.tf') && /INPUT|TEXTAREA|SELECT/.test(foco.tagName)) return; /* não apaga o que a pessoa está escrevendo */
+    if (t.id === 'tarefas' || t.id === 'meudia') renderDados(); }, { order: 'criadoEm', limit: 2000 })); /* v2.82: mais novas primeiro */
+  S.unsub.push(Data.col('sv2_bugs').watch(list => { S.bugs = list; const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && t && (t.id === 'bugs' || t.id === 'rel')) renderDados(); }, { order: 'ts', limit: 500 })); /* v2.82 */
+  if (isPrincipal(S.user)) S.unsub.push(Data.col('sv2_recup').watch(list => cadRecAvisar(list))); /* v2.74.0 · v2.91.0 (G7) */
+  S.unsub.push(Data.col('sv2_rnc').watch(list => { S.rncTeste = list.filter(x => x.teste); S.rnc = list.filter(x => !x.teste); /* v2.75.0 */ if (curArea().id === 'inspecoes') renderDados(); })); /* v2.91.0 (G7) */
+  S.unsub.push(Data.col('sv2_alm_transf').watch(list => { S.almTransf = list; if (curArea().id === 'almox') renderDados(); })); /* v2.91.0 (G7) */
+  S.unsub.push(Data.col('sv2_alm_cal').watch(list => { S.almCal = list; if (curArea().id === 'almox' || curArea().id === 'rateios') renderDados(); })); /* v2.91.0 (G7) */
   S.unsub.push(arqWatch('sv2_alm_sol', list => { S.almSol = list; reAlm(); }, { order: 'criadoEm', limit: 3000 }));
-  S.unsub.push(arqWatch('sv2_apont', list => { S.apontTeste = list.filter(x => x.teste); S.apont = list.filter(x => !x.teste); /* v2.75.0 */ const a = curArea(), t = curTab(a); if ((a.id === 'inspecoes' && t.id !== 'cloro') || (a.id === 'qualidade' && t.id === 'nc')) renderView(); }, { order: 'criadoEm', limit: 3000 }));
+  S.unsub.push(arqWatch('sv2_apont', list => { S.apontTeste = list.filter(x => x.teste); S.apont = list.filter(x => !x.teste); /* v2.75.0 */ const a = curArea(), t = curTab(a); if ((a.id === 'inspecoes' && t.id !== 'cloro') || (a.id === 'qualidade' && t.id === 'nc')) renderDados(); }, { order: 'criadoEm', limit: 3000 }));
   S.unsub.push(Data.col('sv2_etqmodelos').watch(list => { S.etqmodelos = list; reColetas(); }));
   S.unsub.push(arqWatch('sv2_prog', list => { S.prog = list; reColetas(); }, { order: 'criadoEm', limit: 3000 }));
-  S.unsub.push(Data.col('sv2_proc').watch(list => { S.procs = list; reColetas(); }, { limit: 50 }));
+  S.unsub.push(Data.col('sv2_proc').watch(list => { S.procs = list; reColetas(); })); /* v2.91.0 (G7) */
   S.unsub.push(Data.col('sv2_aguaproj').watch(list => { S.aguaproj = list; reColetas(); }, { order: 'criadoEm', limit: 300 }));
   S.unsub.push(Data.col('sv2_aguaponto').watch(list => { S.aguapontos = list; reColetas(); }, { order: 'criadoEm', limit: 300 }));
   S.unsub.push(Data.col('sv2_rodizio').watch(list => { S.rodizios = list; reColetas(); }, { order: 'criadoEm', limit: 500 }));
   S.unsub.push(arqWatch('sv2_coletas', list => { S.coletas = list; reColetas(); }, { order: 'criadoEm', limit: 5000 }));
   S.unsub.push(arqWatch('sv2_aguacol', list => { S.aguacol = list; reColetas(); }, { order: 'criadoEm', limit: 3000 }));
-  S.unsub.push(Data.col('sv2_bebs').watch(list => { S.bebs = list; if (naArea('inspecoes') && !$('#ov')) renderView(); }));
-  S.unsub.push(arqWatch('sv2_cloro', list => { S.cloro = list; checarBloqueios(); if (naArea('inspecoes') && !$('#ov')) renderView(); }, { order: 'ts', limit: 3000 }));
-  S.unsub.push(arqWatch('sv2_chat', list => { S.chat = list; try { chatAtualiza(); } catch (e) {} const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && t.id === 'chat' && !$('#ov')) renderView(); }, { order: 'ts', limit: 2000 }));
-  S.unsub.push(arqWatch('sv2_lanc', list => { S.lanc = list; if (naArea('documentos')) renderView(); }, { order: 'ts', limit: 3000 }));
+  S.unsub.push(Data.col('sv2_bebs').watch(list => { S.bebs = list; if (naArea('inspecoes') && !$('#ov')) renderDados(); }));
+  S.unsub.push(arqWatch('sv2_cloro', list => { S.cloro = list; checarBloqueios(); if (naArea('inspecoes') && !$('#ov')) renderDados(); }, { order: 'ts', limit: 3000 }));
+  S.unsub.push(arqWatch('sv2_chat', list => { S.chat = list; try { chatAtualiza(); } catch (e) {} const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && t.id === 'chat' && !$('#ov')) renderDados(); }, { order: 'ts', limit: 2000 }));
+  S.unsub.push(arqWatch('sv2_lanc', list => { S.lanc = list; if (naArea('documentos')) renderDados(); }, { order: 'ts', limit: 3000 }));
   S.unsub.push(Data.col('sv2_aprov').watch(list => {
     S.aprov = list;
-    const a = curArea(), t = curTab(a); if ((a.id === 'qualidade' && t.id === 'aprov') || (a.id === 'documentos' && t.id === 'corr')) renderView();
+    const a = curArea(), t = curTab(a); if ((a.id === 'qualidade' && t.id === 'aprov') || (a.id === 'documentos' && t.id === 'corr')) renderDados();
   }, { order: 'ts', limit: 400 }));
   if (isPrincipal(S.user)) S.unsub.push(Data.col('sv2_resumos').watch(list => {
     S.resumos = list;
-    const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && t.id === 'semana') renderView();
+    const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && t.id === 'semana') renderDados();
   }, { order: 'semana', limit: 200 }));
   { const quem = S.user && S.user.id; setTimeout(() => { if (!S.user || S.user.id !== quem) return; try { rsAviso(); } catch (e) {} try { trfAviso(); } catch (e) {} try { rzAviso(); } catch (e) {} try { rzUnicaAuto(); } catch (e) {} try { pjAviso(); } catch (e) {} try { laudoCorrAviso(); } catch (e) {} try { laudoAvisoSemana(); } catch (e) {} try { cloroFaltaAviso(); } catch (e) {} clFotoLimpar().catch(() => {}); acFotoLimpar().catch(() => {}); almFotoLimpar().catch(() => {}); apFotoLimpar().catch(() => {}); try { bkAviso(); } catch (e) {} try { rncAviso(); } catch (e) {} }, 4000); }   /* v2.18.0: aviso semanal de laudos esquecidos */
   if (isPrincipal(S.user)) S.unsub.push(Data.col('sv2_audit').watch(list => {
     S.audit = list;
-    const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && (t.id === 'atividade' || t.id === 'semana')) renderView();
+    const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && (t.id === 'atividade' || t.id === 'semana')) renderDados();
   }, { order: 'ts', limit: 1000 }));
 }
 /* v2.84.0: "Sair" × "Bloquear". Sair apaga a senha guardada no aparelho; sem internet, quem sai só entra de novo com sinal. */
@@ -18799,7 +19467,7 @@ document.addEventListener('click', e => {
   }
   const t = e.target.closest('[data-action]'); if (!t) return;
   const act = t.getAttribute('data-action'), id = t.getAttribute('data-id');
-  if (act === 'lg-som' && lgAcao(act)) return; /* v2.72.0 */
+  if ((act === 'lg-som' || act === 'lg-ver') && lgAcao(act)) return; /* v2.72.0 · v2.90.0 */
   if (act.slice(0, 5) === 'lock-' && lockAcao(act)) return; /* v2.73.0 */
   if (act.slice(0, 4) === 'cad-' && cadAcao(act, t)) return; /* v2.74.0 */
   if (act.slice(0, 3) === 'al-') { alAcao(act, id, t); return; }
@@ -18816,7 +19484,7 @@ document.addEventListener('click', e => {
   if ((act === 'rz-prog' || act.slice(0, 4) === 'prg-') && prgAcao(act, id, t)) return; /* v2.77.0 */
   if ((act.slice(0, 4) === 'emp-' || act.slice(0, 3) === 'tl-') && v79Acao(act, id)) return; /* v2.79.0 */
   if ((act.slice(0, 4) === 'bug-' || act.slice(0, 3) === 'rl-') && v80Acao(act, id, t)) return; /* v2.80.0 */
-  if (act.slice(0, 3) === 'tf-' && (act === 'tf-ir' ? (closeSheet(), S.area = 'qualidade', S.tabs.qualidade = 'tarefas', renderShell(), renderView(), tfAbrir(id), true) : tfAcao(act, id, t))) return; /* v2.81.0 */
+  if (act.slice(0, 3) === 'tf-' && (act === 'tf-ir' ? (closeSheet(), S.area = 'qualidade', S.tabs.qualidade = 'meudia', tfE().vista = 'lista', renderShell(), renderView(), tfAbrir(id), true) : tfAcao(act, id, t))) return; /* v2.81.0 */
   if (act.slice(0, 5) === 'chat-' && chatAcao(act, id)) return;
   if (act.slice(0, 5) === 'prev-') { prevAcao(act); return; }
   if (act.slice(0, 3) === 'pf-' && pfAcao(act)) return;
@@ -18847,6 +19515,7 @@ document.addEventListener('click', e => {
     case 'sair-sim': doLogout(); break;
     case 'users': if (!isPrincipal(S.user)) break; openUsers(); break;
     case 'user-new': if (!isPrincipal(S.user)) break; openNewUser(); break;
+    case 'nu-gerar': nuGerar(); break; /* v2.89.1 */
     case 'user-save': if (!isPrincipal(S.user)) break; saveNewUser(); break;
     case 'user-block': if (!isPrincipal(S.user)) break; { const x = S.users.find(u => u.id === id); if (x) changeUser(id, { bloqueado: !x.bloqueado }, x.bloqueado ? 'desbloquear_usuario' : 'bloquear_usuario', x.bloqueado ? 'Desbloqueou' : 'Bloqueou'); break; }
     case 'user-star': if (!isPrincipal(S.user)) break; { const x = S.users.find(u => u.id === id); if (x) changeUser(id, { estrela: !x.estrela }, 'alterar_usuario', x.estrela ? 'Tirou o ★ de' : 'Deu ★ a'); break; }
