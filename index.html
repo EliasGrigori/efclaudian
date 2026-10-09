@@ -15,6 +15,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-check-compat.js"></script>
 <style>
 :root,body[data-theme="dark"]{--bg:#0a0a0f;--surface:#13131c;--surface-2:#1a1a26;--surface-3:#232332;--border:#262632;--border-light:#33334a;--text:#e8e8ed;--text-muted:#9a9aab;--text-dim:#6a6a7e;--primary:#8b5cf6;--primary-soft:rgba(139,92,246,.16);--on-primary:#fff;--ok:#5bb592;--warn:#d8a657;--crit:#e07b7b;--info:#5fb0c9;--row-hover:#1f1f2d;--star:#d4af6a;--shadow:0 14px 36px rgba(0,0,0,.5);--ok-soft:rgba(91,181,146,.15);--warn-soft:rgba(216,166,87,.15);--crit-soft:rgba(224,123,123,.15);--info-soft:rgba(95,176,201,.15)}
 body[data-theme="light"]{--bg:#f5f5f7;--surface:#fff;--surface-2:#f0f0f4;--surface-3:#e4e4ea;--border:#d8d8e0;--border-light:#c0c0cc;--text:#1a1a26;--text-muted:#5a5a6e;--text-dim:#8b8b9a;--primary:#7c3aed;--primary-soft:rgba(124,58,237,.11);--on-primary:#fff;--ok:#2f8566;--warn:#9a6b1f;--crit:#b04a4a;--info:#2a7d93;--row-hover:#f0f0f4;--star:#b8860b;--shadow:0 14px 36px rgba(20,20,40,.18);--ok-soft:rgba(47,133,102,.2);--warn-soft:rgba(154,107,31,.2);--crit-soft:rgba(176,74,74,.2);--info-soft:rgba(42,125,147,.2)}
@@ -2194,7 +2195,11 @@ table.t.rl-t{min-width:0;table-layout:auto}.rl-t td:last-child,.rl-t th:last-chi
 @media (min-width:860px){
   .sheet{max-width:680px}
 }
-.sheet .row-actions{position:sticky;bottom:0;background:var(--surface);border-top:1px solid var(--border);margin:16px -18px calc(-20px - env(safe-area-inset-bottom));padding:12px 18px calc(12px + env(safe-area-inset-bottom));z-index:2}
+/* v2.86.0: só a ÚLTIMA fileira de botões fica presa embaixo. A janela perde o espaço de baixo (o "sticky" gruda na borda do
+   espaço interno: com 20px embaixo, o conteúdo passava por uma "fita" abaixo do rodapé). Fileiras do meio não grudam. */
+.sheet:has(> .row-actions:last-child){padding-bottom:0}
+.sheet > .row-actions:last-child{position:sticky;bottom:0;background:var(--surface);border-top:1px solid var(--border);margin:16px -18px 0;padding:12px 18px calc(12px + env(safe-area-inset-bottom));z-index:3;box-shadow:0 -6px 12px -10px rgba(0,0,0,.35)}
+@supports not (height:1dvh){.sheet{max-height:90vh}}
 .kpi span,.meta,.li .meta,.li .d,table.t th{font-size:12px}
 .card,.sheet,.auth-card,.kpi,.rel-card,.empty{border-radius:12px}
 .btn,.input,.tab,.chip{border-radius:8px}
@@ -2229,6 +2234,38 @@ table.t th{position:sticky;top:0;z-index:2}
   .lg-root,.lg-root *{animation:none!important;transition:none!important}
 }
 
+
+/* v2.85.0 — coletas */
+.cd-resumo{font-size:12.5px;color:var(--text-muted);margin:6px 2px 0;line-height:1.35}.cd-resumo b{color:var(--text)}.cd-resumo small{display:block;color:var(--warn);margin-top:2px}
+.rz-li.rz-tap{cursor:pointer}.rz-li.rz-tap:hover{border-color:var(--primary)}
+.rz-hl{display:flex;gap:8px;align-items:center}.rz-hl .li{flex:1;min-width:0}
+
+/* v2.86.0 */
+.cd-resumo em{display:block;font-style:normal;color:var(--text-muted);margin-top:2px}
+.t-clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;white-space:normal;max-width:280px;min-width:140px}
+.bug-top{display:flex;flex-direction:column;align-items:stretch;gap:8px}
+.bug-bts{display:flex;gap:8px;flex-wrap:wrap}
+.bug-bts .btn{flex:0 0 auto}
+.bug-chips{display:flex;gap:6px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-left:0}
+.bug-chips::-webkit-scrollbar{display:none}
+.bug-chips .chip-f{flex:none}
+@media (max-width:600px){.bug-bts{display:grid;grid-template-columns:1fr 1fr}.bug-bts .btn{padding-left:8px;padding-right:8px}.bug-bts .bug-pdf{grid-column:1 / -1}}
+.bp-res{font-size:10pt;margin:0 0 3mm}
+.bp-item{border:1px solid #999;margin:0 0 3mm;break-inside:avoid;page-break-inside:avoid}
+.bp-h{background:#eee;padding:1.5mm 2.5mm;font-size:10.5pt}.bp-h span{float:right;font-weight:700}
+.bp-c{display:flex;gap:3mm;padding:2mm 2.5mm;font-size:9.5pt}
+.bp-kv{border-collapse:collapse;flex:0 0 62mm}.bp-kv th{text-align:left;font-weight:700;padding:.4mm 2mm .4mm 0;white-space:nowrap;vertical-align:top}.bp-kv td{padding:.4mm 0}
+.bp-d{flex:1;min-width:0}.bp-d p{margin:0 0 1.5mm}.bp-d ul{margin:0;padding-left:4mm;font-size:8.5pt;color:#333}
+.bp-f{flex:0 0 auto;max-width:70mm;max-height:48mm;object-fit:contain;border:1px solid #ccc}
+
+/* v2.87.0 */
+.lock.lock-ja{animation:none}
+.toast-host{z-index:10001}
+
+/* v2.88.0 — o selo flutuante do reCAPTCHA cobria a barra de baixo; a nota obrigatória fica no quadro de entrar e em Opções */
+.grecaptcha-badge{visibility:hidden!important}
+.rc-nota{margin:10px 0 0;font-size:11px;color:var(--text-muted);text-align:center}.rc-nota a{color:inherit}
+.input.campo-erro{border-color:var(--crit);box-shadow:0 0 0 2px color-mix(in srgb,var(--crit) 25%,transparent)}
 </style></head>
 <body data-theme="dark">
 <div id="boot" class="boot">Carregando…</div>
@@ -2240,7 +2277,7 @@ table.t th{position:sticky;top:0;z-index:2}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.84.0 · Sem internet: salvar sem travar e abrir sem sinal';
+const APP_VERSION = 'v2.88.0 · App Check (Fraud Defense) ligado, ainda sem aplicar';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -2561,6 +2598,7 @@ const Data = (function () {
       if (DEMO) return;
       if (typeof firebase === 'undefined') throw new Error('sdk');
       firebase.initializeApp(fbConfigAtual());
+      appCheckLigar(); /* v2.88.0: antes do Firestore e do login */
       fdb = firebase.firestore(); fauth = firebase.auth(); try { fauth.languageCode = 'pt'; } catch (e) {}
       try { await fauth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); } catch (e) {} /* v2.76.0: o aparelho guarda a sessão; ao abrir, o app pede a senha (funciona sem internet) */
       try { await fdb.enablePersistence({ synchronizeTabs: true }); } catch (e) { console.warn('Sem cache offline:', e.code); S._semCache = (e && e.code) || 'erro'; } /* v2.84.0: avisa na tela */
@@ -2585,6 +2623,18 @@ const Data = (function () {
       Store.set('sv2demo_auth', JSON.stringify(a)); Store.set('sv2demo_setup', '1'); Store.del('sv2demo_session'); this._cabe = cabe; return n;
     },
     importarCabe() { return this._cabe !== false; },
+    /* v2.85.0: várias gravações juntas — ou entram todas, ou nenhuma (lote do Firestore; funciona sem internet) */
+    novoId(name) { return DEMO || !fdb ? uid() : fdb.collection(name).doc().id; },
+    lote(ops) {
+      if (DEMO) {
+        for (const o of ops) if (o.tipo === 'update' && !dLoad(o.col).some(x => x.id === o.id)) return Promise.reject(new Error('nf'));
+        ops.forEach(o => { const c = col(o.col); if (o.tipo === 'set') c.set(o.id, o.dados); else c.update(o.id, o.dados); });
+        return Promise.resolve(ops.length);
+      }
+      const b = fdb.batch();
+      ops.forEach(o => { const ref = fdb.collection(o.col).doc(o.id); if (o.tipo === 'set') b.set(ref, Object.assign(clean(o.dados), { srv: firebase.firestore.FieldValue.serverTimestamp() })); else b.update(ref, o.dados); });
+      return b.commit().then(() => ops.length);
+    },
     async firstSetup(profile) {
       if (DEMO) { await col('sv2_users').set(profile.id, profile); Store.set('sv2demo_setup', '1'); return; }
       const b = fdb.batch();
@@ -2708,6 +2758,7 @@ const Sync = (function () {
     ['add', 'set', 'update', 'push'].forEach(op => { const f = c[op]; if (f) c[op] = function () { return Sync.track(name, op, arguments, f.apply(c, arguments)); }; });
     return c;
   };
+  const lt = Data.lote; Data.lote = ops => Sync.track((ops[0] && ops[0].col) || 'lote', 'lote', [], lt.call(Data, ops)); /* v2.85.0 */
 })();
 
 /* ============ MEU DIA (v2.15.0) ============
@@ -3024,7 +3075,7 @@ function openSheet(html, opts) {
   return ov.firstChild;
 }
 function closeSheet() { const o = $('#ov'); if (o) o.parentNode.removeChild(o); }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !S.lockado) closeSheet(); }); /* v2.87.0: com a tela bloqueada, Esc não mexe no que está por baixo */
 document.addEventListener('keydown', e => { const t = e.target; if (t && t.classList && t.classList.contains('os-in') && (e.key === 'Enter' || (e.key === 'Tab' && !e.shiftKey))) { e.preventDefault(); osProximo(t); } });
 
 /* ============ AUDITORIA (só acréscimo) ============ */
@@ -3416,7 +3467,7 @@ function viewCaixas() {
       { key: 'per', label: 'Limpeza', get: r => r.periodo },
       { key: 'ult', label: 'Última limpeza', type: 'date', get: r => r._s.ultimo, fmt: r => fmtD(r._s.ultimo) },
       { key: 'prox', label: 'Próxima', type: 'date', get: r => r._s.prox, fmt: r => fmtD(r._s.prox) },
-      { key: 'dias', label: 'Dias', type: 'num', get: r => r._s.dias == null ? -99999 : r._s.dias, fmt: r => r._s.dias == null ? '' : String(r._s.dias) },
+      { key: 'dias', label: 'Dias', type: 'num', get: r => r._s.dias == null ? -99999 : r._s.dias, fmt: r => r._s.dias == null ? '' : r._s.dias < 0 ? 'vencida há ' + (-r._s.dias) + ' d' : r._s.dias === 0 ? 'vence hoje' : 'faltam ' + r._s.dias + ' d' },
       { key: 'st', label: 'Status', get: r => r._s.st, html: r => stChip(r._s.st) }
     ]
   });
@@ -5265,13 +5316,19 @@ function rzPeriodoDe(r, iso) { return rzPeriodos(r).find(p => iso >= p.ini && is
 function rzSit(r, p) { if (r.fechados && r.fechados[p.k]) return 'encerrado'; return hojeISO() > p.fim ? 'fechamento' : hojeISO() < p.ini ? 'futuro' : 'aberto'; }
 const RZ_SIT = { aberto: ['Em andamento', 'info'], fechamento: ['Em fechamento', 'warn'], encerrado: ['Encerrado', 'ok'], futuro: ['Ainda não começou', ''] };
 function rzColetasDe(r, p, area) { const mat = rzMat(r); return coletasAtivas().filter(c => c.tipo === mat && (c.talhao === area || (mat === 'COMPOSTO' && !c.talhao && c.loteComp === area)) && c.data >= p.ini && c.data <= p.fim); }
+/* v2.86.0: amostras ativas de UM material do plano numa área, no período */
+function rzColetasG(r, p, area, g) { return coletasAtivas().filter(c => c.tipo === g && (c.talhao === area || (g === 'COMPOSTO' && !c.talhao && c.loteComp === area)) && c.data >= p.ini && c.data <= p.fim); }
 function rzStatus(r, p) {
   if (r.fechados && r.fechados[p.k] && r.fechados[p.k].snap) return r.fechados[p.k].snap;
   const hoje = hojeISO();
-  const mat = rzMat(r), pend = pgPendentes().filter(x => tipoGera(x.tipo).indexOf(mat) >= 0 && x.data <= p.fim);
-  return (r.areas || []).map(a => { const cs = rzColetasDe(r, p, a).sort((x, y) => x.data.localeCompare(y.data)), feita = cs.filter(c => c.data <= hoje);
-    const pg = feita.length ? null : pend.filter(x => x.talhao === a).sort((x, y) => x.data.localeCompare(y.data))[0];
-    return { area: a, st: feita.length ? 'coletada' : 'falta', data: (feita[0] || cs[0] || pg || {}).data || '', pgId: pg ? pg.id : '' }; });
+  const mat = rzMat(r), gs = tipoGera(r.tipo), pend = pgPendentes().filter(x => tipoGera(x.tipo).indexOf(mat) >= 0 && x.data <= p.fim);
+  /* v2.86.0: quem decide se a área conta continua sendo o 1º material (Solo no Solo+Raiz), como sempre; o que faltar
+     dos outros aparece escrito ("falta Nematoide" / "falta Solo") e o cancelamento avisa antes */
+  return Array.from(new Set(r.areas || [])).map(a => { const cs = rzColetasDe(r, p, a).sort((x, y) => String(x.data).localeCompare(String(y.data)));
+    const feitaG = gs.map(g => rzColetasG(r, p, a, g).filter(c => c.data <= hoje)), completa = feitaG[0].length > 0, todos = feitaG.every(f => f.length), feita = feitaG.reduce((acc, f) => acc.concat(f), []).sort((x, y) => String(x.data).localeCompare(String(y.data)));
+    const falta = todos ? [] : gs.filter((g, i) => !feitaG[i].length), parcial = !todos && feita.length > 0;
+    const pg = completa ? null : pend.filter(x => x.talhao === a).sort((x, y) => x.data.localeCompare(y.data))[0];
+    return Object.assign({ area: a, st: completa ? 'coletada' : 'falta', data: (feita[0] || cs[0] || pg || {}).data || '', pgId: pg ? pg.id : '' }, parcial ? { parcial: true, falta: falta } : {}); });
 }
 function rzPct(l) { return l.length ? Math.round(l.filter(x => x.st === 'coletada').length / l.length * 100) : 0; }
 function rzAtivos() { return (S.rodizios || []).filter(r => r.ativo !== false); }
@@ -5286,21 +5343,38 @@ function rzVisiveis() {
 /* regras usadas na hora de lançar/programar */
 function rzCobre(r, tipoCol) { return tipoGera(r.tipo).indexOf(tipoCol) >= 0; }
 function rzDaArea(tipoCol, area, iso) { for (const r of rzAtivos()) { if (!rzCobre(r, tipoCol) || (r.areas || []).indexOf(area) < 0) continue; const p = rzPeriodoDe(r, iso); if (p && rzVale(r, p)) return { r: r, p: p }; } return null; }
-function rzTrancado(tipoCol, area, iso) {
-  for (const r of (S.rodizios || [])) { if (!rzCobre(r, tipoCol) || (r.areas || []).indexOf(area) < 0) continue; const p = rzPeriodoDe(r, iso); if (p && r.fechados && r.fechados[p.k]) return { r: r, p: p }; }
+/* v2.88.0: o plano "dono" da amostra: o ATIVO que cobre a área na data; o desativado só se não houver ativo */
+function rzDono(tipoCol, area, iso) {
+  const l = (S.rodizios || []).filter(r => rzCobre(r, tipoCol) && (r.areas || []).indexOf(area) >= 0).sort((a, b) => (a.ativo === false ? 1 : 0) - (b.ativo === false ? 1 : 0));
+  for (const r of l) { const p = rzPeriodoDe(r, iso); if (p) return { r: r, p: p }; }
   return null;
+}
+function rzTrancado(tipoCol, area, iso) { const d = rzDono(tipoCol, area, iso); return d && d.r.fechados && d.r.fechados[d.p.k] ? d : null; } /* v2.88.0: só o plano dono */
+/* v2.87.0: período encerrado SOZINHO (coleta única 100%) e ainda dentro do prazo — dá para reabrir */
+function rzFechadoAuto(t) { const fe = t && t.r.fechados && t.r.fechados[t.p.k]; return !!(fe && fe.auto && hojeISO() <= t.p.fim); }
+function rzFechadoTxt(t) {
+  const fe = (t && t.r.fechados && t.r.fechados[t.p.k]) || {};
+  if (fe.auto) return ' · plano concluído (100%)' + (fe.ts ? ', encerrado sozinho em ' + fmtD(diaLocal(fe.ts)) : '');
+  return hojeISO() > t.p.fim ? ' · período encerrado em ' + fmtD(t.p.fim) : ' · período encerrado à mão' + (fe.ts ? ' em ' + fmtD(diaLocal(fe.ts)) : '') + (fe.porNome ? ' por ' + fe.porNome : '');
+}
+/* v2.88.0: plano aberto: avisa se foi reaberto ou desativado (o texto acompanha o estado atual) */
+function rzEstadoTxt(c) {
+  const d = c.talhao && c.data ? rzDono(c.tipo, c.talhao, c.data) : null; if (!d) return '';
+  if (d.r.ativo === false) return ' · plano desativado' + (d.r.desativadoEm ? ' em ' + fmtD(diaLocal(d.r.desativadoEm)) : '') + (d.r.desativadoPor ? ' por ' + d.r.desativadoPor : '');
+  const rb = (d.r.reaberturas || []).filter(x => x.pk === d.p.k).slice(-1)[0];
+  return rb ? ' · plano reaberto em ' + fmtD(diaLocal(rb.ts)) : '';
 }
 function rzLiberada(r, p, area) { return !!(r.liberadas && r.liberadas[p.k] && r.liberadas[p.k][area]); }
 /* devolve o texto do bloqueio ou '' (programação e coleta avulsa novas) */
 function rzBarrar(tipoCol, area, iso, ignorarId) {
   const t = rzTrancado(tipoCol, area, iso);
-  if (t) return area + ': o ' + t.p.nome + ' do plano de coleta "' + t.r.nome + '" foi encerrado — não aceita mais coleta.';
+  if (t) return area + ': o plano de coleta "' + t.r.nome + '" (' + t.p.nome + ') foi encerrado — não aceita mais coleta.';
   const x = rzDaArea(tipoCol, area, iso); if (!x) return '';
   const ja = rzColetasDe(x.r, x.p, area).filter(c => c.tipo === tipoCol && c.id !== ignorarId);
   if (ja.length && !rzLiberada(x.r, x.p, area)) return area + ' já tem ' + (TIPO_ANALISE_TXT[tipoCol] || tipoCol).toLowerCase() + ' no ' + x.p.nome + ' (plano de coleta "' + x.r.nome + '", ' + fmtD(ja[0].data) + '). Para coletar de novo, peça recoleta no cartão do plano de coleta.';
   return '';
 }
-function rzTxtColeta(c) { const x = rzDaArea(c.tipo, c.talhao, c.data); return x ? x.r.nome + ' · ' + x.p.nome + (rzLiberada(x.r, x.p, c.talhao) ? ' · recoleta liberada' : '') : 'fora do plano de coleta'; }
+function rzTxtColeta(c) { const x = rzDaArea(c.tipo, c.talhao, c.data) || (c.talhao && c.data ? rzDono(c.tipo, c.talhao, c.data) : null); return x ? x.r.nome + ' · ' + x.p.nome + (rzLiberada(x.r, x.p, c.talhao) ? ' · recoleta liberada' : '') : 'fora do plano de coleta'; } /* v2.88.0: plano desativado continua sendo o plano da amostra */
 
 /* ---------- cartões na Programação ---------- */
 function rzCardsHTML() {
@@ -5330,10 +5404,10 @@ function openRz(id, pk) {
   const grupo = (st, t) => { const g = l.filter(a => rzSt(a) === st); return g.length ? '<div class="dt-sec">' + t + ' (' + g.length + ')</div><div class="rz-lista">' + g.map(a => { const tl = talhaoDe(a.area), lib = r.liberadas && r.liberadas[p.k] && r.liberadas[p.k][a.area];
     /* v2.75.0: só o código (variedade e local ficam na dica ao parar o mouse); embaixo, só a data da coleta e avisos curtos */
     const det = [tl ? tl.cultura + ' ' + (tl.variedade || '') : '', tl && tl.pivo, fe && fe.motivos && fe.motivos[a.area] ? 'motivo: ' + fe.motivos[a.area] : '', lib ? 'recoleta liberada: ' + lib.motivo : ''].filter(Boolean).join(' · ');
-    const sub = [st === 'falta' ? rzPrevTxt(r, p.k, a.area) : '', pgSoComposto(r.tipo) && (r.fabr || {})[a.area] ? 'fabr. ' + fmtD(r.fabr[a.area]).slice(0, 5) : '', st === 'coletada' && a.data ? fmtD(a.data).slice(0, 5) : '', fe && fe.motivos && fe.motivos[a.area] ? 'com motivo' : '', lib ? 'recoleta' : ''].filter(Boolean).join(' · ');
+    const sub = [a.parcial ? 'falta ' + a.falta.map(g => TIPO_ANALISE_TXT[g] || g).join(' e ') : '', st === 'falta' ? rzPrevTxt(r, p.k, a.area) : '', pgSoComposto(r.tipo) && (r.fabr || {})[a.area] ? 'fabr. ' + fmtD(r.fabr[a.area]).slice(0, 5) : '', st === 'coletada' && a.data ? fmtD(a.data).slice(0, 5) : '', fe && fe.motivos && fe.motivos[a.area] ? 'com motivo' : '', lib ? 'recoleta' : ''].filter(Boolean).join(' · ');
     const info = '<span title="' + esc(det) + '"><b>' + esc(a.area) + '</b>' + (sub ? '<small>' + esc(sub) + '</small>' : '') + '</span>';
     const rec = pode && st === 'coletada' && !lib ? '<button class="btn sm" data-action="rz-rec" data-id="' + esc(r.id) + '" data-p="' + esc(p.k) + '" data-a="' + esc(a.area) + '">Recoleta</button>' : '';
-    return podeCd(a) ? '<label class="rz-li ' + st + ' rz-ck"><input type="checkbox" class="rz-cdk" value="' + esc(cid(a)) + '">' + info + rec + '</label>' : '<div class="rz-li ' + st + '">' + info + rec + '</div>'; }).join('') + '</div>' : ''; };
+    return podeCd(a) ? '<label class="rz-li ' + st + ' rz-ck"><input type="checkbox" class="rz-cdk" value="' + esc(cid(a)) + '">' + info + rec + '</label>' : st === 'coletada' && !fe ? '<div class="rz-li ' + st + ' rz-tap" data-action="rz-col" data-id="' + esc(r.id) + '" data-p="' + esc(p.k) + '" data-a="' + esc(a.area) + '" title="Ver as amostras">' + info + rec + '</div>' : '<div class="rz-li ' + st + '">' + info + rec + '</div>'; }).join('') + '</div>' : ''; };
   const pers = r.freq === 'A' || r.freq === 'U' ? '' : r.freq === 'T' || r.freq === 'S'
     ? rzPeriodos(r).filter(x => rzVale(r, x)).map(x => '<button class="btn sm' + (x.k === p.k ? ' primary' : '') + '" data-action="rz-open" data-id="' + esc(r.id) + '" data-p="' + esc(x.k) + '">' + esc(rzPerCurto(x.nome)) + '</button>').join('')
     : '<select class="input" id="rz-per" data-id="' + esc(r.id) + '">' + rzPeriodos(r).filter(x => rzVale(r, x) && x.ini <= hojeISO()).reverse().map(x => '<option value="' + esc(x.k) + '"' + (x.k === p.k ? ' selected' : '') + '>' + esc(x.nome + ' · ' + RZ_SIT[rzSit(r, x)][0]) + '</option>').join('') + '</select>';
@@ -5341,12 +5415,13 @@ function openRz(id, pk) {
      impressora à direita; barra, % e contagem numa linha; cartões de uma linha (CSS) */
   const acoesTopo = (sup ? '<button class="btn sm" data-action="rz-edit" data-id="' + esc(r.id) + '">Editar / áreas</button>' : '') +
     (sup && s === 'fechamento' ? '<button class="btn sm primary" data-action="rz-fechar" data-id="' + esc(r.id) + '" data-p="' + esc(p.k) + '">Encerrar período</button>' : '') +
-    (sup && s !== 'encerrado' ? '<button class="btn sm' + (s === 'fechamento' ? '' : ' primary') + '" data-action="rz-prog" data-id="' + esc(r.id) + '" data-p="' + esc(p.k) + '">Programar</button>' : '') + rzImpBtn('rz-folha', r.id, p.k); /* v2.77.0 */
+    (sup && s !== 'encerrado' ? '<button class="btn sm' + (s === 'fechamento' ? '' : ' primary') + '" data-action="rz-prog" data-id="' + esc(r.id) + '" data-p="' + esc(p.k) + '">Programar</button>' : '') +
+    (Object.keys(r.fechados || {}).length || (r.renovacoes || []).length ? '<button class="btn sm" data-action="rz-hist" data-id="' + esc(r.id) + '" title="Períodos encerrados (com PDF) e renovações">Histórico</button>' : '') + rzImpBtn('rz-folha', r.id, p.k); /* v2.77.0 · v2.85.0: Histórico de volta, só quando há o que mostrar */
   const nCol = l.filter(a => a.st === 'coletada').length;
   /* v2.82: no começo de um período (0%), mostra quanto ficou o período anterior */
   const perAnt = (() => { if (rzPct(l)) return ''; const P = rzPeriodos(r), i = P.findIndex(x => x.k === p.k); const a = i > 0 ? P[i - 1] : null;
     return a ? '<div class="fm-dica">Período novo. O anterior (' + esc(a.nome) + ') ficou em ' + rzPct(rzStatus(r, a)) + '%. Para ver, toque no botão do período lá em cima.</div>' : ''; })();
-  openSheet('<div class="rz-win">' + rzCabHTML({ titulo: r.nome, pers: pers, acoes: acoesTopo, chip: '<span class="chip ' + RZ_SIT[s][1] + '">' + RZ_SIT[s][0] + '</span>', periodo: (r.freq === 'U' ? 'Coleta única' : p.nome) + ' · ' + fmtD(p.ini) + ' a ' + fmtD(p.fim), pct: rzPct(l), cont: nCol + ' de ' + l.length + (pgSoComposto(r.tipo) ? ' lotes coletados' : ' áreas coletadas'), marcaveis: marcaveis.length }) +
+  openSheet('<div class="rz-win">' + rzCabHTML({ titulo: r.nome, pers: pers, acoes: acoesTopo, chip: r.ativo === false ? '<span class="chip warn" title="' + esc((r.motivoInativo || '') + (r.desativadoPor ? ' · ' + r.desativadoPor : '')) + '">Desativado' + (r.desativadoEm ? ' ' + fmtD(diaLocal(r.desativadoEm)) : '') + '</span>' : '<span class="chip ' + RZ_SIT[s][1] + '">' + RZ_SIT[s][0] + '</span>', periodo: (r.freq === 'U' ? 'Coleta única' : p.nome) + ' · ' + fmtD(p.ini) + ' a ' + fmtD(p.fim), pct: rzPct(l), cont: nCol + ' de ' + l.length + (pgSoComposto(r.tipo) ? ' lotes coletados' : ' áreas coletadas'), marcaveis: marcaveis.length }) +
     (s === 'fechamento' ? '<div class="fm-aviso"><span class="em">' + ico('alerta') + '</span><span><b>' + (r.freq === 'U' ? 'O prazo passou' : 'O período terminou') + '</b>Ainda dá para lançar o que ficou para trás (com a data da coleta). Quando estiver tudo certo, encerre: o período tranca e não aceita mais mudanças.</span></div>' : '') +
     perAnt + (fe ? '<div class="fm-dica">Encerrado por ' + esc(fe.porNome) + ' em ' + fmtDT(fe.ts) + '.</div>' : '') +
     grupo('falta', 'Faltam') + grupo('coletada', 'Coletadas') + '</div>', { noFocus: true });
@@ -5426,7 +5501,7 @@ function rzEdRender() {
       '<div class="rz-sel"><span>' + nSel + ' marcada(s)' + (sugT && fora ? ' · ' + fora + ' fora da sugestão' : '') + (e.cults.size ? ' · mostrando ' + tals.length + ' de ' + todosT.length : '') + '</span>' + (sugT ? '<button type="button" class="fm-link" data-action="rz-ed" data-g="sug" data-id="">Sugeridas (' + sug.length + ')</button>' : '') + '<button type="button" class="fm-link" data-action="rz-ed" data-g="todas" data-id="">Todas</button><button type="button" class="fm-link" data-action="rz-ed" data-g="limpar" data-id="">Limpar</button></div>' +
       (U && gera.indexOf('FRUTA') >= 0 ? '<div class="fm-row"><div><label class="fm-l">Outro local (fruta)</label><input class="input" id="rz-outro" autocomplete="off" placeholder="Ex.: QUADRANTE 03-04"></div><div style="align-self:end;margin-bottom:12px"><button type="button" class="btn sm" data-action="rz-ed" data-g="outro" data-id="">Pôr na lista</button></div></div>' : '') +
       '<div class="fl-list rz-al" style="max-height:38dvh">' + outros.map(a => '<label class="fl-item"><input type="checkbox" class="rz-area" value="' + esc(a) + '" checked><span>' + esc(a) + '</span><span class="n">outro local</span></label>').join('') +
-        vis.map(t => '<label class="fl-item"><input type="checkbox" class="rz-area" value="' + esc(t.codigo) + '"' + (e.areas.has(t.codigo) ? ' checked' : '') + '><span>' + esc(t.codigo) + '</span><span class="n">' + esc([t.cultura && t.cultura !== 'N/A' ? t.cultura : '', t.pivo, t.irrigando ? 'irrigando' : '', t.floracao ? 'em floração' : ''].filter(Boolean).join(' · ')) + '</span>' + (sugT && rzSugere(e.tipo, t) ? '<em class="rz-sug">sugerida</em>' : '') + '</label>').join('') + '</div>' +
+        vis.map(t => '<label class="fl-item"><input type="checkbox" class="rz-area" value="' + esc(t.codigo) + '"' + (e.areas.has(t.codigo) ? ' checked' : '') + '><span>' + esc(t.codigo) + '</span><span class="n">' + esc([t.cultura && t.cultura !== 'N/A' ? t.cultura : '', t.pivo, ''].filter(Boolean).join(' · ')) + '</span>' + (sugT && rzSugere(e.tipo, t) ? '<em class="rz-sug">sugerida</em>' : '') + '</label>').join('') + '</div>' +
       (sugT && !sug.length ? '<div class="fm-dica">Nenhuma área marcada como ' + sugT + ' no cadastro dos talhões.</div>' : '');
   openSheet('<h3>' + (e.id ? 'Editar plano de coleta' : 'Novo plano de coleta') + '</h3><div class="sub">Quais áreas precisam ser coletadas. Montar o plano já deixa as áreas programadas.</div><div class="fm-links"><button type="button" class="fm-link" data-action="rz-lista">Todos os planos</button><button type="button" class="fm-link" data-action="cad-open">Cadastros</button></div><div id="rz-msg"></div><div class="fm">' +
     passo(1, 'O quê', 'Um plano por tipo de coleta.' + (U ? '' : ' Composto só na coleta única.')) + '<div class="ap-chips">' + tipos.map(t => chip('tipo', t.nome, t.nome, e.tipo === t.nome)).join('') + '</div>' +
@@ -5600,7 +5675,7 @@ function rzPDF(id, pk) {
    pode atravessar semanas ou o período inteiro do plano de coleta (conta como "programada"). Editar (só pendente) no lugar de
    "Repetir em nova data"; cancelar só pendente. Profundidade começa em branco (N/A e "Outra" digitada) e é obrigatória
    para Solo e Raiz na hora de lançar. Equipes recentes (botões), estádio sugerido, folha de campo para imprimir. */
-function pgSit(p) { if (!p || p.situacao === 'cancelada') return 'cancelada'; return p.coletadaEm || S.coletas.some(c => c.progId === p.id) ? 'coletada' : 'pendente'; }
+function pgSit(p) { if (!p || p.situacao === 'cancelada') return 'cancelada'; return p.coletadaEm || S.coletas.some(c => c.progId === p.id && c.situacao !== 'cancelada') ? 'coletada' : 'pendente'; } /* v2.85.0: amostra cancelada não conta */
 function pgPendentes() { return (S.prog || []).filter(p => pgSit(p) === 'pendente'); }
 function pgPedeProf(tipo) { const g = tipoGera(tipo); return g.indexOf('SOLO') >= 0 || g.indexOf('NEMATOIDE') >= 0; }
 function profsDoTipo(nome) { const t = cfgCol().tipos.find(x => x.nome === nome); return ((t && t.profundidades) || []).filter(v => v && v !== 'N/A'); }
@@ -6004,15 +6079,16 @@ function openColetado(ids) {
   const pend = base.sort((a, b) => String(a.data || '9').localeCompare(String(b.data || '9')) || String(a.tipo).localeCompare(String(b.tipo)) || cmpTalhao(a.talhao, b.talhao));
   if (!pend.length) { toast('Nada para lançar: nenhuma área programada faltando.'); return; }
   const sel = pend.filter(p => marc.has(p.cid)), fimRz = sel.filter(p => p._rz && p._rz.fim < hojeISO()).map(p => p._rz.fim).sort()[0];
+  /* v2.85.0 (nº 6): a lista começa SÓ com as áreas marcadas; "Adicionar" amplia para o mesmo material */
+  S._cd = { pend: pend, marc: new Set(marc), tipos: new Set(sel.map(p => p.tipo)), modo: sel.length ? 'sel' : 'todos' };
   const tiposProf = Array.from(new Set(pend.filter(p => pgPedeProf(p.tipo)).map(p => p.tipo)));
   const profs = tiposProf.reduce((acc, t) => acc.concat(profsDoTipo(t)), []);
   const comum = k => { const v = Array.from(new Set(sel.map(p => p[k] || ''))); return v.length === 1 ? v[0] : ''; };
   const eqs = pgEquipes(), colPre = comum('coletor') || eqs[0] || '', estPre = comum('estadio') || pgEstadioSug(sel);
   const L = t => '<label class="fm-l">' + t + '</label>', passo = (n, t, d) => '<div class="fm-step"><i>' + n + '</i>' + t + '</div>' + (d ? '<div class="fm-dica">' + d + '</div>' : '');
   openSheet('<h3>Coletado</h3><div class="sub">As amostras entram nas abas de cada material.</div><div id="cd-msg"></div><div class="fm">' +
-    passo(1, 'Áreas', 'Marque as que chegaram juntas: mesmo dia, mesmos coletores.') +
-      '<div class="rz-sel"><span id="cd-n">' + sel.length + ' marcada(s)</span><button type="button" class="fm-link" data-action="cd-todas">Todas (' + pend.length + ')</button><button type="button" class="fm-link" data-action="cd-limpar">Limpar</button></div>' +
-      '<div class="fl-list rz-al" style="max-height:34dvh">' + pend.map(p => '<label class="fl-item"><input type="checkbox" class="cd-p" value="' + esc(p.cid) + '" data-tipo="' + esc(p.tipo) + '"' + (marc.has(p.cid) ? ' checked' : '') + '><span>' + esc(p.talhao) + '</span><span class="n">' + esc(cdItemTxt(p)) + '</span></label>').join('') + '</div>' +
+    passo(1, 'Áreas', sel.length ? 'As áreas que você marcou. Desmarque o que não veio; para pôr outra área, toque em "+ Adicionar".' : 'Marque as que chegaram juntas: mesmo dia, mesmos coletores.') +
+      '<div id="cd-lista">' + cdListaHTML() + '</div>' +
     passo(2, 'Quando e quem', 'Pode lançar com data de dias atrás (amostras que ficaram guardadas).') +
       '<div class="fm-row"><div>' + L('Data da coleta') + '<input class="input" type="date" id="cd-data" value="' + (fimRz || hojeISO()) + '" max="' + hojeISO() + '"></div><div>' + L('Coletores') + '<input class="input" id="cd-col" list="dl-cd-col" value="' + esc(colPre) + '" autocomplete="off">' + sugestoes('dl-cd-col', eqs.concat(S.users.map(u => u.nome))) + '</div></div>' +
       (eqs.length ? '<div class="ap-chips cd-eqs">' + eqs.map(q => '<button type="button" class="ap-b' + (q === colPre ? ' on' : '') + '" data-action="cd-eq" data-id="' + esc(q) + '">' + esc(q) + '</button>').join('') + '</div>' : '') +
@@ -6020,29 +6096,88 @@ function openColetado(ids) {
       '<div id="cd-est-w">' + L('Estádio') + '<input class="input" id="cd-est" list="dl-cd-est" value="' + esc(estPre) + '" autocomplete="off">' + sugestoes('dl-cd-est', ['FLORAÇÃO', 'FRUTIFICAÇÃO', 'VEGETATIVO', 'POUSIO']) + '</div></div>' +
       '<input class="input" id="cd-obs" autocomplete="off" placeholder="Observação, se for o caso">' +
     '</div><div class="row-actions"><button class="btn" data-action="close">Cancelar</button><button class="btn primary" data-action="cd-ok">Lançar coletadas</button></div>', { noFocus: true });
-  cdEstadioVis();
+  cdConta();
 }
-function cdConta() { const n = $$('.cd-p').filter(x => x.checked).length, e = $('#cd-n'); if (e) e.textContent = n + ' marcada(s)'; cdEstadioVis(); }
+function cdLista() { const c = S._cd; if (!c) return []; return c.modo === 'sel' ? c.pend.filter(p => c.marc.has(p.cid)) : c.modo === 'mat' ? c.pend.filter(p => c.tipos.has(p.tipo) || c.marc.has(p.cid)) : c.pend; }
+function cdListaHTML() {
+  const c = S._cd; if (!c) return '';
+  const l = cdLista(), maisMat = c.pend.filter(p => c.tipos.has(p.tipo) && !c.marc.has(p.cid)).length, outros = c.pend.length - l.length;
+  const nav = c.modo === 'sel' ? (maisMat ? '<button type="button" class="fm-link" data-action="cd-ver" data-id="mat">+ Adicionar (' + esc(Array.from(c.tipos).join(', ')) + ')</button>' : '')
+    : (c.marc.size ? '<button type="button" class="fm-link" data-action="cd-ver" data-id="sel">Só as marcadas</button>' : '') + (c.modo === 'mat' && outros ? '<button type="button" class="fm-link" data-action="cd-ver" data-id="todos">Outros materiais</button>' : '');
+  return '<div class="rz-sel"><span id="cd-n">' + l.filter(p => c.marc.has(p.cid)).length + ' marcada(s)</span><button type="button" class="fm-link" data-action="cd-todas">Todas (' + l.length + ')</button><button type="button" class="fm-link" data-action="cd-limpar">Limpar</button>' + nav + '</div>' +
+    '<div class="fl-list rz-al" style="max-height:34dvh">' + l.map(p => '<label class="fl-item"><input type="checkbox" class="cd-p" value="' + esc(p.cid) + '" data-tipo="' + esc(p.tipo) + '"' + (c.marc.has(p.cid) ? ' checked' : '') + '><span>' + esc(p.talhao) + '</span><span class="n">' + esc(cdItemTxt(p) + (p.pontos ? ' · ' + p.pontos + ' pts' : '')) + '</span></label>').join('') + '</div>' +
+    '<div class="cd-resumo" id="cd-resumo"></div>';
+}
+function cdVer(modo) {
+  const c = S._cd, w = $('#cd-lista'); if (!c || !w) return;
+  c.marc = new Set($$('.cd-p').filter(x => x.checked).map(x => x.value)); c.modo = modo;
+  if (!c.tipos.size) c.tipos = new Set(c.pend.filter(p => c.marc.has(p.cid)).map(p => p.tipo));
+  w.innerHTML = cdListaHTML(); cdConta();
+}
+function cdPs(ids) { return ids.map(cid => S.prog.find(p => p.id === cid && pgSit(p) === 'pendente') || rzCdItem(cid)).filter(Boolean); }
+/* v2.85.0 (nº 4): as análises de cada área conferidas contra o material (SOLO+RAIZ → Solo e Nematoide) */
+function cdAnalises(p) {
+  const gera = tipoGera(p.tipo), avisos = [], tipoDe = aid => (S.analises.find(a => a.id === aid) || {}).tipo;
+  const pedidas = (p.analiseIds || []).filter(aid => S.analises.some(a => a.id === aid));
+  if (!pedidas.length) return { ids: gera.map(g => (analisePadrao(g) || {}).id).filter(Boolean), avisos: avisos };
+  const ids = pedidas.filter(aid => gera.indexOf(tipoDe(aid)) >= 0);
+  if (ids.length < pedidas.length) avisos.push('Saiu análise de outro material.');
+  gera.forEach(g => { if (!ids.some(aid => tipoDe(aid) === g)) { const pd = analisePadrao(g); if (pd) { ids.push(pd.id); avisos.push('O plano não tinha análise de ' + (TIPO_ANALISE_TXT[g] || g) + '; entrou ' + pd.nome + '.'); } } });
+  return { ids: ids, avisos: avisos };
+}
+/* v2.86.0: a amostra desse material já existe para esta área (na programação ou no período do plano)? Recoleta liberada não conta. */
+function cdJaTem(p, g) {
+  if (p.id) return S.coletas.find(c => c.progId === p.id && c.tipo === g && c.situacao !== 'cancelada') || null;
+  if (p._rz) { const r = (S.rodizios || []).find(x => x.id === p._rz.rid), per = r && rzPeriodos(r).find(x => x.k === p._rz.pk);
+    if (r && per) return rzLiberada(r, per, p.talhao) ? null : (rzColetasG(r, per, p.talhao, g)[0] || null); }
+  return null;
+}
+/* o que vai ser gravado de fato: análises do material menos o que já existe */
+function cdNovas(p) {
+  const ca = cdAnalises(p), novas = [], existem = [];
+  ca.ids.forEach(aid => { const an = S.analises.find(a => a.id === aid); if (!an) return; if (cdJaTem(p, an.tipo)) existem.push(an.tipo); else novas.push(aid); });
+  return { ids: novas, existem: existem, avisos: ca.avisos };
+}
+function cdResumo(ids) {
+  const r = $('#cd-resumo'); if (!r) return;
+  const ps = cdPs(ids); if (!ps.length) { r.innerHTML = ''; return; }
+  const cont = {}, av = []; let n = 0;
+  const ja = [];
+  ps.forEach(p => { const ca = cdNovas(p); ca.avisos.forEach(x => { if (av.indexOf(x) < 0) av.push(x); }); ca.existem.forEach(g => ja.push((TIPO_ANALISE_TXT[g] || g) + ' em ' + p.talhao)); ca.ids.forEach(aid => { const a = S.analises.find(x => x.id === aid); if (!a) return; cont[a.tipo] = (cont[a.tipo] || 0) + 1; n++; }); });
+  r.innerHTML = '<b>Vai gravar ' + n + ' amostra(s)</b>' + (n ? ': ' + Object.keys(cont).map(k => esc(TIPO_ANALISE_TXT[k] || k) + ' ' + cont[k]).join(' · ') : '') +
+    (ja.length ? '<em>Já existe' + (ja.length > 1 ? 'm' : '') + ' (não grava de novo): ' + esc(ja.slice(0, 4).join(', ') + (ja.length > 4 ? ' (+' + (ja.length - 4) + ')' : '')) + '</em>' : '') +
+    (av.length ? '<small>' + esc(av.slice(0, 3).join(' ') + (av.length > 3 ? ' (+' + (av.length - 3) + ')' : '')) + '</small>' : '');
+}
+function cdConta() { const ids = $$('.cd-p').filter(x => x.checked).map(x => x.value), e = $('#cd-n'); if (e) e.textContent = ids.length + ' marcada(s)'; cdEstadioVis(); cdResumo(ids); }
+/* id previsível: lançar a mesma área de novo (toque duplo, sem internet, reenvio) cai no mesmo registro */
+/* v2.86.0: nunca regrava um registro que já existe (nem o cancelado: o cancelamento fica guardado) */
+function cdColIdLivre(id, ops) { let x = id, n = 2; while (S.coletas.some(c => c.id === x) || ops.some(o => o.id === x)) x = id + '_' + (n++); return x; }
+function cdColId(p, aid, data) { return ('col_' + String(p.cid || p.id || p.talhao) + '_' + aid + '_' + data).replace(/[^A-Za-z0-9_-]/g, '_').slice(0, 400); }
 /* grava as amostras de cada programação (usado pela tela e pelos testes) */
 async function coletadoGravar(ps, d) {
-  let n = 0;
+  /* v2.85.0: tudo num lote só (amostras + programação): ou grava tudo, ou nada */
+  let n = 0; const ops = [], logs = [], avisos = [];
   for (const p of ps) {
-    const anIds = (p.analiseIds || []).length ? p.analiseIds : tipoGera(p.tipo).map(g => (analisePadrao(g) || {}).id).filter(Boolean);
+    const ca = cdNovas(p), anIds = ca.ids; ca.avisos.forEach(x => { if (avisos.indexOf(x) < 0) avisos.push(x); }); /* v2.86.0: só o que ainda não existe */
     const lote = anIds.length > 1 ? 'L' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5) : '', pontos = p.pontos || pontosDe(p.tipo, p.talhao);
     const prof = d.prof || p.prof || '', coletor = d.coletor || p.coletor || '', estadio = d.estadio || p.estadio || '';
     let k = 0;
     for (const aid of anIds) {
       const an = S.analises.find(a => a.id === aid); if (!an) continue;
       const cp = an.tipo === 'COMPOSTO';
-      await Data.col('sv2_coletas').add(novaColetaObj(an.tipo, { data: d.data, talhao: cp ? '' : p.talhao, loteComp: cp ? p.talhao : '', dataFabr: cp ? p.dataFabr || '' : '', identif: cp ? 'COMPOSTO' : '', fertilizante: cp ? 'COMPOSTO ORGANICO' : '', pontos: cp ? '' : pontos, analiseId: aid, coletor: coletor, prof: an.tipo === 'SOLO' || an.tipo === 'NEMATOIDE' ? prof : 'N/A', estadio: cp ? '' : estadio, obs: [p.obs, d.obs].filter(Boolean).join(' · '), progId: p.id || '', loteId: lote }));
+      ops.push({ col: 'sv2_coletas', tipo: 'set', id: cdColIdLivre(cdColId(p, aid, d.data), ops), dados: novaColetaObj(an.tipo, { data: d.data, talhao: cp ? '' : p.talhao, loteComp: cp ? p.talhao : '', dataFabr: cp ? p.dataFabr || '' : '', identif: cp ? 'COMPOSTO' : '', fertilizante: cp ? 'COMPOSTO ORGANICO' : '', pontos: cp ? '' : pontos, analiseId: aid, coletor: coletor, prof: an.tipo === 'SOLO' || an.tipo === 'NEMATOIDE' ? prof : 'N/A', estadio: cp ? '' : estadio, obs: [p.obs, d.obs].filter(Boolean).join(' · '), progId: p.id || '', loteId: lote }) });
       k++;
     }
+    if (!k && ca.existem.length) continue; /* v2.86.0: tudo dessa área já existia — nada a gravar */
     if (!k) throw new Error('Nenhuma amostra gravada para ' + p.tipo + ' ' + p.talhao + ' (análise não encontrada). Confira o cadastro de análises.'); /* v2.82 (N1) */
-    if (!p.id) { Audit.log({ acao: 'coletado_plano', entidade: 'rodizio', entidadeId: p._rz ? p._rz.rid : '', resumo: 'Coletado (plano ' + (p._rz ? p._rz.nome + ' · ' + p._rz.per : '') + '): ' + p.tipo + ' ' + p.talhao + ' em ' + fmtD(d.data) + (coletor ? ' por ' + coletor : '') + ' — ' + k + ' amostra(s)', depois: { data: d.data, coletor: coletor, prof: prof, estadio: estadio, amostras: k } }); n += k; continue; }
-    await Data.col('sv2_prog').update(p.id, { coletadaEm: d.data, coletadaPor: S.user.nome, coletadaReg: nowISO(), coletor: coletor, prof: prof, estadio: estadio });
-    Audit.log({ acao: 'coletado_programacao', entidade: 'programacao', entidadeId: p.id, resumo: 'Coletado: ' + p.tipo + ' ' + p.talhao + ' em ' + fmtD(d.data) + (coletor ? ' por ' + coletor : '') + ' — ' + k + ' amostra(s)', depois: { coletadaEm: d.data, coletor: coletor, prof: prof, estadio: estadio, amostras: k } });
+    if (!p.id) { const kk = k; logs.push(() => Audit.log({ acao: 'coletado_plano', entidade: 'rodizio', entidadeId: p._rz ? p._rz.rid : '', resumo: 'Coletado (plano ' + (p._rz ? p._rz.nome + ' · ' + p._rz.per : '') + '): ' + p.tipo + ' ' + p.talhao + ' em ' + fmtD(d.data) + (coletor ? ' por ' + coletor : '') + ' — ' + kk + ' amostra(s)', depois: { data: d.data, coletor: coletor, prof: prof, estadio: estadio, amostras: kk } })); n += k; continue; }
+    ops.push({ col: 'sv2_prog', tipo: 'update', id: p.id, dados: { coletadaEm: d.data, coletadaPor: S.user.nome, coletadaReg: nowISO(), coletor: coletor, prof: prof, estadio: estadio } });
+    const kk = k; logs.push(() => Audit.log({ acao: 'coletado_programacao', entidade: 'programacao', entidadeId: p.id, resumo: 'Coletado: ' + p.tipo + ' ' + p.talhao + ' em ' + fmtD(d.data) + (coletor ? ' por ' + coletor : '') + ' — ' + kk + ' amostra(s)', depois: { coletadaEm: d.data, coletor: coletor, prof: prof, estadio: estadio, amostras: kk } }));
     n += k;
   }
+  for (let i = 0; i < ops.length; i += 450) await Data.lote(ops.slice(i, i + 450)); /* o Firestore aceita até 500 por lote */
+  logs.forEach(f => { try { f(); } catch (e) {} });
+  S._cdAvisos = avisos;
   return n;
 }
 async function coletadoOk() {
@@ -6052,8 +6187,8 @@ async function coletadoOk() {
   const d = { data: $('#cd-data').value, coletor: $('#cd-col').value.trim(), prof: profLer('cd-prof'), estadio: $('#cd-est-w') && $('#cd-est-w').hidden ? '' : $('#cd-est').value.trim().toUpperCase(), obs: $('#cd-obs').value.trim() };
   const er = validaData(d.data); if (er) return msg(er);
   /* v2.82 (N1): não deixa lançar área sem análise válida (antes gravava 0 amostra e dizia que coletou) */
-  { const anDe = p => ((p.analiseIds || []).length ? p.analiseIds : tipoGera(p.tipo).map(g => (analisePadrao(g) || {}).id).filter(Boolean)).filter(aid => S.analises.some(a => a.id === aid));
-    const semAn = ps.filter(p => !anDe(p).length);
+  if (!ps.some(p => cdNovas(p).ids.length) && ps.some(p => cdNovas(p).existem.length)) return msg('As amostras dessas áreas já foram lançadas. Nada novo para gravar.'); /* v2.86.0 */
+  { const semAn = ps.filter(p => !cdAnalises(p).ids.length); /* v2.85.0 */
     if (semAn.length) return msg('Sem análise cadastrada para: ' + semAn.map(p => p.tipo + ' ' + p.talhao).join(', ') + '. Cadastre em Coletas › Cadastros › Análises (ou marque a análise em Editar plano) e lance de novo. Nada foi gravado.'); }
   /* v2.82 (N8): data fora do período do plano — grava, mas não conta no %; pede confirmação */
   { const fora = ps.filter(p => p._rz && (d.data < p._rz.ini || d.data > p._rz.fim));
@@ -6065,6 +6200,7 @@ async function coletadoOk() {
     const n = await coletadoGravar(ps, d);
     try { await rzUnicaAuto(); } catch (e) {}
     toast(ps.length + ' área(s) coletada(s) · ' + n + ' amostra(s) nas abas.', 'ok'); closeSheet(); renderView();
+    if ((S._cdAvisos || []).length) setTimeout(() => toast(S._cdAvisos.slice(0, 2).join(' '), ''), 400);
   } catch (e) { msg(errMsg(e)); if (btn) { btn.disabled = false; btn.textContent = 'Lançar coletadas'; } }
 }
 
@@ -6106,7 +6242,7 @@ function openRzRenovar(id, pk) {
 }
 async function rzRenovarOk(id, pk) {
   const r = (S.rodizios || []).find(x => x.id === id); if (!r || !isSup(S.user)) return;
-  const areas = $$('.rn-area').filter(x => x.checked).map(x => x.value).sort(cmpTalhao);
+  const areas = Array.from(new Set($$('.rn-area').filter(x => x.checked).map(x => x.value))).sort(cmpTalhao); /* v2.85.0: sem repetir */
   if (!areas.length) { $('#rn-msg').innerHTML = '<div class="msg">Marque pelo menos uma área.</div>'; return; }
   const conflito = rzAtivos().filter(o => o.id !== id && String(o.ano) === String(r.ano) && tipoGera(o.tipo).some(g => tipoGera(r.tipo).indexOf(g) >= 0)).map(o => ({ o: o, a: (o.areas || []).filter(a => areas.indexOf(a) >= 0) })).filter(x => x.a.length);
   if (conflito.length) { $('#rn-msg').innerHTML = '<div class="msg">' + esc('Já estão no plano de coleta "' + conflito[0].o.nome + '": ' + conflito[0].a.join(', ') + '.') + '</div>'; return; }
@@ -6119,6 +6255,23 @@ async function rzRenovarOk(id, pk) {
     toast('Plano de coleta renovado.', 'ok'); renderView(); openRz(id, pk);
   } catch (e) { toast(errMsg(e), 'err'); }
 }
+/* v2.85.0: tocar numa área coletada do plano abre a amostra (para conferir ou cancelar) */
+function rzColAbrir(rid, pk, area) {
+  const r = (S.rodizios || []).find(x => x.id === rid); if (!r) return;
+  const p = rzPeriodos(r).find(x => x.k === pk); if (!p) return;
+  const g = tipoGera(r.tipo); /* todos os materiais do plano (Solo+Raiz → Solo e Nematoide) */
+  const cs = coletasAtivas().filter(c => g.indexOf(c.tipo) >= 0 && (c.talhao === area || (c.tipo === 'COMPOSTO' && !c.talhao && c.loteComp === area)) && c.data >= p.ini && c.data <= p.fim).sort((a, b) => String(a.tipo).localeCompare(String(b.tipo)));
+  if (!cs.length) return;
+  if (cs.length === 1) { openColDetail(cs[0].id); return; }
+  openSheet('<h3>' + esc(area) + '</h3><div class="sub">' + esc(r.nome + ' · ' + p.nome) + '</div><div class="list">' + cs.map(c => '<button class="li" data-action="col-open" data-id="' + esc(c.id) + '"><span class="dot"></span><span><span class="t">' + esc((TIPO_ANALISE_TXT[c.tipo] || c.tipo) + ' · ' + fmtD(c.data)) + '</span><br><span class="d">' + esc(c.analiseNome || '') + '</span></span><span class="chev">›</span></button>').join('') + '</div>' +
+    '<div class="row-actions"><button class="btn" data-action="rz-open" data-id="' + esc(rid) + '" data-p="' + esc(pk) + '">Voltar</button></div>', { noFocus: true });
+}
+/* v2.86.0: o "Conferir" do plano acompanha as áreas e as análises marcadas (ficava no número de quando abriu) */
+function rzResAtu() {
+  const e = S.rzEd, r = $('#rz-res'); if (!e || !r) return;
+  const labs = Array.from(e.ans || []).map(id => (S.analises.find(a => a.id === id) || {}).lab).filter(Boolean).filter((v, i, a) => a.indexOf(v) === i).join(', ');
+  r.textContent = r.textContent.replace(/· \d+ área\(s\) · .*$/, '· ' + e.areas.size + ' área(s) · ' + labs);
+}
 function openRzHist(id) {
   const r = (S.rodizios || []).find(x => x.id === id); if (!r) return;
   const P = rzPeriodos(r), fe = r.fechados || {};
@@ -6126,7 +6279,7 @@ function openRzHist(id) {
   const ren = (r.renovacoes || []).slice().reverse();
   openSheet('<h3>Histórico do ano</h3><div class="sub">' + esc(r.nome) + '</div>' +
     (ks.length ? '<div class="list">' + ks.map(p => { const f = fe[p.k], l = f.snap || [], sem = l.filter(a => a.st !== 'coletada').length;
-      return '<button class="li" data-action="rz-open" data-id="' + esc(r.id) + '" data-p="' + esc(p.k) + '"><span class="dot"></span><span><span class="t">' + esc(p.nome) + ' · ' + rzPct(l) + '%</span><br><span class="d">' + esc(l.length + ' áreas' + (sem ? ' · ' + sem + ' sem coleta' : '') + ' · encerrado por ' + f.porNome + ' em ' + fmtD(diaLocal(f.ts))) + '</span></span><span class="chev">›</span></button>'; }).join('') + '</div>' : '<p class="fm-dica">Nenhum período encerrado ainda.</p>') +
+      return '<div class="rz-hl"><button class="li" data-action="rz-open" data-id="' + esc(r.id) + '" data-p="' + esc(p.k) + '"><span class="dot"></span><span><span class="t">' + esc(p.nome) + ' · ' + rzPct(l) + '%</span><br><span class="d">' + esc(l.length + ' áreas' + (sem ? ' · ' + sem + ' sem coleta' : '') + ' · encerrado por ' + f.porNome + ' em ' + fmtD(diaLocal(f.ts))) + '</span></span><span class="chev">›</span></button><button class="btn sm" data-action="rz-pdf" data-id="' + esc(r.id) + '" data-p="' + esc(p.k) + '" title="Relatório do período (A4 deitado)">PDF</button></div>'; }).join('') + '</div>' : '<p class="fm-dica">Nenhum período encerrado ainda.</p>') +
     (ren.length ? '<div class="dt-sec">Renovações</div>' + ren.map(x => { const p = P.find(y => y.k === x.pk), mais = x.depois.filter(a => x.antes.indexOf(a) < 0), menos = x.antes.filter(a => x.depois.indexOf(a) < 0);
       return '<div class="pj-oc"><span><b>' + esc(p ? p.nome : x.pk) + '</b><small>' + esc(x.depois.length + ' áreas' + (mais.length ? ' · entraram ' + mais.join(', ') : '') + (menos.length ? ' · saíram ' + menos.join(', ') : '') + ' · ' + x.porNome + ', ' + fmtD(diaLocal(x.ts))) + '</small></span></div>'; }).join('') : '') +
     '<div class="row-actions"><button class="btn" data-action="rz-open" data-id="' + esc(r.id) + '" data-p="">Voltar</button></div>', { noFocus: true });
@@ -6285,7 +6438,7 @@ function colsDe(tipo) {
     laudo: { key: 'laudo', label: 'Laudo', get: r => laudoSit(r), html: r => { const st = laudoSit(r); if (st === '—') return '<span style="color:var(--text-dim)">—</span>'; if (podeL && r.situacao !== 'cancelada') return '<button class="btn sm' + (r.laudo ? ' primary' : '') + '" data-action="col-laudo" data-id="' + esc(r.id) + '">' + (r.laudo ? '☑ Baixado' : '☐ ' + st) + '</button>' + (laudoCorrPend(r) ? ' <span class="chip warn">correção</span>' : ''); return '<span class="chip ' + (st === 'Baixado' ? 'ok' : st === 'Atrasado' ? 'crit' : 'warn') + '">' + st + '</span>' + (laudoCorrPend(r) ? ' <span class="chip warn">correção</span>' : ''); } },
     lab: { key: 'lab', label: 'Laboratório', get: r => r.lab },
     compra: { key: 'compra', label: 'Compra', get: r => encerradaCol(r) ? 'Encerrada' : compraSit(r), html: r => { const st = encerradaCol(r) ? 'Encerrada' : compraSit(r); return st === '—' ? '<span style="color:var(--text-dim)">—</span>' : '<span class="chip ' + (st === 'Solicitado' || st === 'Encerrada' ? 'ok' : st === 'Pendente' ? 'warn' : '') + '">' + st + '</span>'; } },
-    obs: { key: 'obs', label: 'Observações de envio', pMax: 90, pFlex: true, get: r => r.obsEnvio }
+    obs: { key: 'obs', label: 'Observações de envio', pMax: 90, pFlex: true, get: r => r.obsEnvio, html: r => r.obsEnvio ? '<span class="t-clamp" title="' + esc(r.obsEnvio) + '">' + esc(r.obsEnvio) + '</span>' : '' }
   };
   const m = {
     SOLO: ['semS', 'data', 'tal', 'an', 'col', 'prof', 'est', 'obsC', 'env', 'os', 'laudo', 'lab', 'compra', 'obs'],
@@ -6299,12 +6452,13 @@ function colsDe(tipo) {
 function viewColeta(tipo) {
   if (!S.talhoes.length || !S.cfgCol) return colVazio();
   const aba = ABAS_COL.find(a => a.tipo === tipo);
-  const rows = S.coletas.filter(c => c.tipo === tipo);
+  const rows = S.coletas.filter(c => c.tipo === tipo && !(c.situacao === 'cancelada' && !c.enviado)); /* v2.85.0: cancelada antes do envio fica só na Programação */
   const pend = rows.filter(c => c.situacao !== 'cancelada' && !c.enviado).length;
   const atras = rows.filter(c => laudoSit(c) === 'Atrasado').length;
   if (S.rm && S.rm.tipo === tipo) return viewColetaRemessa(tipo, aba, rows);
   const acoes = '' + (podeLancar(S.user) && pend ? '<button class="btn sm" data-action="rm-ini" data-id="' + tipo + '">' + icoI('caixa') + 'Remessa</button>' : '') + (podeLancar(S.user) && rows.some(rmAtuPode) ? '<button class="btn sm" data-action="rm-atu" data-id="' + tipo + '">' + icoI('lapis') + 'Atualizar enviadas</button>' : '') + (podeLancar(S.user) && rows.some(rmPrazoPode) ? '<button class="btn sm" data-action="rm-prazo" data-id="' + tipo + '">' + icoI('ampulheta') + 'Pedir mais prazo</button>' : '') + (pend ? '<span class="chip warn">' + pend + ' não enviada(s)</span>' : '') + (() => { const na = rows.filter(c => envioSit(c) === 'atrasado').length, nv = rows.filter(c => envioSit(c) === 'vence').length; return (na ? '<span class="chip crit">' + na + ' passou do prazo de envio</span>' : '') + (nv ? '<span class="chip warn">' + nv + ' enviar até amanhã</span>' : ''); })() + (atras ? '<button class="btn sm" data-action="col-atras" data-id="' + tipo + '" style="color:var(--crit)">' + atras + ' laudo(s) atrasado(s)</button>' : '');
-  return tableHTML({ id: 'col_' + tipo, title: 'Controle de coleta e envio de amostras — ' + aba.nome, rows: rows, acoes: acoes, onRow: r => openColDetail(r.id), cols: colsDe(tipo), printCx: r => r.situacao === 'cancelada', docHeader: true });
+  return tableHTML({ id: 'col_' + tipo, title: 'Controle de coleta e envio de amostras — ' + aba.nome, rows: rows, acoes: acoes, onRow: r => openColDetail(r.id), cols: colsDe(tipo), printCx: r => r.situacao === 'cancelada', docHeader: true,
+    dica: rows.length ? undefined : 'Nenhuma amostra ainda. Lance pela Programação: toque no plano, marque as áreas que chegaram e em "Lançar coletadas".' }); /* v2.86.0 */
 }
 /* ============ REMESSA (v2.16.0) ============
    Escolher várias amostras de campo ainda não enviadas e marcar como enviadas de uma vez.
@@ -6557,7 +6711,7 @@ function openColDetail(id) {
   const enc = encerradaCol(c), pend = corrColPendente(c.id);
   const kv = [['Data', fmtD(c.data) + ' · semana ' + c.semana + ' · ' + triTxt(c.data) + ' · ' + semTxt(c.data) + ' semestre']];
   if (tipo !== 'COMPOSTO') kv.push(['Talhão / local', (c.talhao || '—') + (t ? ' · ' + t.cultura + ' ' + t.variedade : (c.cultura ? ' · ' + c.cultura + ' ' + (c.variedade || '') : ''))]);
-  if (tipo !== 'COMPOSTO') { const tr = rzTrancado(c.tipo, c.talhao, c.data); kv.push(['Plano de coleta', rzTxtColeta(c) + (tr ? ' · período encerrado' : '')]); }
+  if (tipo !== 'COMPOSTO') { const tr = rzTrancado(c.tipo, c.talhao, c.data); kv.push(['Plano de coleta', rzTxtColeta(c) + (tr ? rzFechadoTxt(tr) : rzEstadoTxt(c))]); }
   if (c.pontos) kv.push(['Pontos', String(c.pontos)]);
   kv.push(['Análise', c.analiseNome || '—'], ['Preço desta amostra', brl(valorColeta(c)) + (c.valor === undefined ? ' (preço atual do cadastro)' : ' · ' + revTxt(c.precoRev))], ['Coletor', c.coletor || '—']);
   if (c.prof) kv.push(['Profundidade', c.prof]);
@@ -6577,7 +6731,8 @@ function openColDetail(id) {
   const bts = ['<button class="btn" data-action="hist-open" data-ent="coleta" data-id="' + esc(c.id) + '">Histórico</button>', '<button class="btn" data-action="etq-ids" data-id="' + esc(irmas.map(x => x.id).join(',')) + '">Etiqueta' + (irmas.length > 1 ? 's do lote (' + irmas.length + ')' : '') + '</button>'];
   if (pend) bts.push('<button class="btn" data-action="aprov-open" data-id="' + esc(pend.id) + '">Ver correção pendente</button>');
   else {
-    if (podeCadastrar(S.user) && c.situacao !== 'cancelada' && !rzTrancado(c.tipo, c.talhao, c.data)) { if (!enc) bts.push('<button class="btn" data-action="col-cancel" data-id="' + esc(c.id) + '">Cancelar</button>'); if (!c.enviado || prin || enc) bts.push('<button class="btn" data-action="col-edit" data-id="' + esc(c.id) + '">' + (enc || c.enviado ? (prin ? 'Corrigir dados' : 'Pedir correção dos dados') : 'Editar') + '</button>'); }
+    if (colPodeCancelar(c)) bts.push('<button class="btn" data-action="col-cancel" data-id="' + esc(c.id) + '">Cancelar coleta</button>'); /* v2.85.0 */
+    if (podeCadastrar(S.user) && c.situacao !== 'cancelada' && !rzTrancado(c.tipo, c.talhao, c.data)) { if (!c.enviado || prin || enc) bts.push('<button class="btn" data-action="col-edit" data-id="' + esc(c.id) + '">' + (enc || c.enviado ? (prin ? 'Corrigir dados' : 'Pedir correção dos dados') : 'Editar') + '</button>'); }
     if (pode) bts.push(c.enviado || enc ? '<button class="btn primary" data-action="col-env" data-id="' + esc(c.id) + '">' + (enc ? (prin ? 'Corrigir envio' : 'Pedir correção do envio') : 'Dados do envio') + '</button>' : '<button class="btn primary" data-action="col-enviar" data-id="' + esc(c.id) + '">Enviar</button>');
   }
   if (podeLancar(S.user) && c.laudo && c.situacao !== 'cancelada') bts.push(laudoCorrPend(c) ? '<button class="btn" data-action="le-fim" data-id="' + esc(c.id) + '">Laudo corrigido chegou</button>' : '<button class="btn" data-action="le-open" data-id="' + esc(c.id) + '">Laudo com erro</button>');
@@ -6652,15 +6807,56 @@ async function saveColEnv(id) {
     toast(herd ? 'Salvo. O.S passada para mais ' + herd + ' coleta(s) do mesmo lote.' : 'Salvo.', 'ok'); openColDetail(id); renderView();
   } catch (e) { msg(errMsg(e)); }
 }
+/* v2.85.0 (nº 4) — cancelar coleta: nada se apaga; fica o motivo, quem, quando e um passo no histórico.
+   Antes do envio: quem lançou, líder ★ ou Principal. Depois do envio, ou com o período do plano encerrado: só o Principal.
+   Amostra encerrada (compra solicitada) não cancela. */
+function colPodeCancelar(c) {
+  if (!c || c.situacao === 'cancelada' || encerradaCol(c) || !podeLancar(S.user)) return false;
+  if (isPrincipal(S.user)) return true;
+  { const t = rzTrancado(c.tipo, c.talhao, c.data); if (c.enviado || (t && !rzFechadoAuto(t))) return false; } /* v2.87.0: plano concluído sozinho segue a regra normal */
+  return isSup(S.user) || c.criadoPor === S.user.id;
+}
+const COL_CANC_MOT = ['Descartada', 'Lançada errado', 'Outro'];
+function openCancelCol(id) {
+  const c = S.coletas.find(x => x.id === id); if (!c) return;
+  S._ccMot = '';
+  openSheet('<h3>Cancelar coleta</h3><div class="sub">' + esc((TIPO_ANALISE_TXT[c.tipo] || c.tipo) + ' · ' + (c.talhao || c.loteComp || '') + ' · ' + fmtD(c.data)) + '</div><div id="tx-msg"></div>' +
+    '<div class="fm-dica">' + (c.enviado ? 'Já foi enviada ao laboratório: continua na aba como "Cancelada" e sai dos rateios e das pendências.' : 'Ainda não foi enviada: sai da aba do material e fica na tabela da Programação como "Cancelada".') + ' Nada é apagado.</div>' + colCancPlanoAviso(c) + (rzFechadoAuto(rzTrancado(c.tipo, c.talhao, c.data)) ? '<div class="fm-aviso"><span><b>O plano estava concluído (100%).</b> Com o cancelamento ele reabre e volta para "Em andamento" (o prazo ainda não passou).</span></div>' : '') +
+    '<div class="field"><label>Motivo</label><div class="ap-chips">' + COL_CANC_MOT.map(m => '<button type="button" class="ap-b" data-action="cc-mot" data-id="' + esc(m) + '">' + esc(m) + '</button>').join('') + '</div></div>' +
+    '<div class="field"><label>Detalhe' + ' <small>(obrigatório em "Outro")</small></label><textarea class="input" id="tx-txt" rows="2"></textarea></div>' +
+    '<div class="row-actions"><button class="btn" data-action="col-open" data-id="' + esc(id) + '">Voltar</button><button class="btn danger" data-action="col-cancel-ok" data-id="' + esc(id) + '">Cancelar a coleta</button></div>', { noFocus: true });
+}
+/* v2.86.0: se a amostra conta num plano, avisa que a área volta a ficar pendente (e que só o que falta é lançado de novo) */
+function colCancPlanoAviso(c) {
+  const x = c.talhao && c.data ? rzDaArea(c.tipo, c.talhao, c.data) : null; if (!x) return '';
+  if (rzColetasG(x.r, x.p, c.talhao, c.tipo).filter(y => y.id !== c.id).length) return '';
+  const mt = esc(TIPO_ANALISE_TXT[c.tipo] || c.tipo);
+  return '<div class="fm-aviso"><span>' + (rzMat(x.r) === c.tipo ? '<b>A área ' + esc(c.talhao) + ' volta a ficar pendente</b> no plano "' + esc(x.r.nome) + '" (vai faltar ' + mt + ').'
+    : '<b>A área ' + esc(c.talhao) + ' continua contando</b> no plano "' + esc(x.r.nome) + '", mas vai aparecer "falta ' + mt + '".') + ' Ao lançar de novo, só entra o que falta.</span></div>';
+}
+function ccMotivo() { const m = S._ccMot || '', t = String(($('#tx-txt') || {}).value || '').trim(); return m && m !== 'Outro' ? m + (t ? ': ' + t : '') : t; }
 async function cancelarCol(id, motivo) {
   const c = S.coletas.find(x => x.id === id); if (!c) return;
+  const m = t => { const e = $('#tx-msg'); if (e) e.innerHTML = '<div class="msg">' + esc(t) + '</div>'; };
   if (encerradaCol(c)) { toast('Amostra encerrada não pode ser cancelada.', 'err'); return; }
-  { const t = rzTrancado(c.tipo, c.talhao, c.data); if (t) { toast('O ' + t.p.nome + ' do plano de coleta "' + t.r.nome + '" foi encerrado: não dá para cancelar.', 'err'); return; } }
-  if (!motivo || motivo.length < 5) { const e = $('#tx-msg'); if (e) e.innerHTML = '<div class="msg">Escreva o motivo.</div>'; return; }
+  const tr0 = rzTrancado(c.tipo, c.talhao, c.data), reabre = rzFechadoAuto(tr0), tr = reabre ? null : tr0;
+  if (!colPodeCancelar(c)) { toast(c.enviado || tr ? (tr ? 'O plano de coleta "' + tr.r.nome + '" (' + tr.p.nome + ') foi encerrado' : 'A amostra já foi enviada') + ': só o Principal cancela.' : 'Só quem lançou, o líder ★ ou o Principal cancela.', 'err'); return; }
+  if (!motivo || motivo.length < 5) { m(S._ccMot === 'Outro' || !S._ccMot ? 'Escolha o motivo ou escreva o que aconteceu.' : 'Escreva o motivo.'); return; }
+  const ts = nowISO(), passo = { ts: ts, porNome: S.user.nome, acao: 'cancelada', texto: motivo + (c.enviado ? ' (depois do envio)' : '') + (tr ? ' (período do plano encerrado)' : '') };
   try {
-    await Data.col('sv2_coletas').update(id, { situacao: 'cancelada', canceladaMotivo: motivo });
-    Audit.log({ acao: 'cancelar_coleta', entidade: 'coleta', entidadeId: id, resumo: 'Cancelou a coleta ' + TIPO_ANALISE_TXT[c.tipo] + ' ' + (c.talhao || '') + ' (' + fmtD(c.data) + '): ' + motivo, autorizadoPor: { id: S.user.id, nome: S.user.nome } });
-    toast('Coleta cancelada.', 'ok'); closeSheet(); renderView();
+    await Data.col('sv2_coletas').push(id, 'hist', passo, { situacao: 'cancelada', canceladaMotivo: motivo, canceladaPor: S.user.nome, canceladaPorId: S.user.id, canceladaEm: ts, canceladaAposEnvio: !!c.enviado });
+    let volta = false, reaberto = '';
+    /* v2.87.0: o plano tinha se encerrado sozinho (100%) e ainda está no prazo → volta para "Em andamento" */
+    if (reabre) {
+      const fe = JSON.parse(JSON.stringify(tr0.r.fechados || {})), era = fe[tr0.p.k] || {}; delete fe[tr0.p.k];
+      const rab = (tr0.r.reaberturas || []).concat([{ pk: tr0.p.k, ts: ts, por: S.user.id, porNome: S.user.nome, fechadoEm: era.ts || '', motivo: 'Cancelou ' + (TIPO_ANALISE_TXT[c.tipo] || c.tipo) + ' ' + (c.talhao || c.loteComp || '') + ': ' + motivo }]);
+      await Data.col('sv2_rodizio').update(tr0.r.id, { fechados: fe, reaberturas: rab }); tr0.r.fechados = fe; tr0.r.reaberturas = rab; reaberto = tr0.r.nome;
+      Audit.log({ acao: 'reabrir_rodizio', entidade: 'rodizio', entidadeId: tr0.r.id, resumo: 'Plano de coleta "' + tr0.r.nome + '" reaberto: estava concluído (100%) e a amostra ' + (TIPO_ANALISE_TXT[c.tipo] || c.tipo) + ' ' + (c.talhao || '') + ' foi cancelada' });
+    }
+    if (c.progId) { const pg = (S.prog || []).find(x => x.id === c.progId), outras = S.coletas.filter(x => x.progId === c.progId && x.id !== id && x.situacao !== 'cancelada');
+      if (pg && pg.situacao !== 'cancelada' && !outras.length) { await Data.col('sv2_prog').update(pg.id, { coletadaEm: '', coletadaDesfeita: { em: ts, por: S.user.nome, motivo: motivo } }); volta = true; } }
+    Audit.log({ acao: 'cancelar_coleta', entidade: 'coleta', entidadeId: id, resumo: 'Cancelou a coleta ' + TIPO_ANALISE_TXT[c.tipo] + ' ' + (c.talhao || c.loteComp || '') + ' (' + fmtD(c.data) + '): ' + motivo + (c.enviado ? ' — já enviada' : '') + (volta ? ' · a programação voltou a pendente' : ''), autorizadoPor: { id: S.user.id, nome: S.user.nome } });
+    toast('Coleta cancelada' + (volta ? '. A programação voltou a pendente.' : '.') + (reaberto ? ' O plano "' + reaberto + '" voltou para Em andamento.' : ''), 'ok'); closeSheet(); renderView();
   } catch (e) { toast(errMsg(e), 'err'); }
 }
 function openMotivo(titulo, sub, acao, id) {
@@ -9570,6 +9766,7 @@ const alSeedFeito = k => !!alItemK(k) || alCfg().pulados.indexOf(k) >= 0;
 const alSeedFalta = () => ALM_SEED.itens.filter(x => !alSeedFeito(x.k));
 const alNome = i => i ? i.nome : '(item removido)';
 function alGrava(promessas, okMsg) { return apSalvarRapido(Promise.all(promessas), okMsg); }
+function alCampo(id) { const e = $('#' + id); if (!e) return; e.classList.add('campo-erro'); try { e.focus({ preventScroll: false }); } catch (x) {} e.addEventListener('input', () => e.classList.remove('campo-erro'), { once: true }); }
 function alMsg(t) { const e = $('#al-msg'); if (e) { e.innerHTML = t ? '<div class="msg">' + esc(t) + '</div>' : ''; if (t && e.scrollIntoView) try { e.scrollIntoView({ block: 'nearest' }); } catch (x) {} } }
 /* evita gravar duas vezes com toque duplo no mesmo botão */
 /* a trava vale para a MESMA folha aberta: quando a conferência já abre o próximo item
@@ -10219,7 +10416,7 @@ function alSolNOk() {
   const b = S.alSolN; if (!b) return; alSolNLer();
   if (!b.linhas.length) return alMsg('Adicione pelo menos um item.');
   for (const l of b.linhas) if (!(alNum(l.qtd) > 0)) return alMsg('Quantidade inválida em ' + alItem(l.itemId).nome + '.');
-  if (b.numero.trim().length < 2) return alMsg('Informe o Nº do documento.');
+  if (b.numero.trim().length < 2) { alCampo('al-sn-numero'); return alMsg('Informe o Nº do documento (campo marcado).'); } /* v2.88.0 */
   const er = validaData(b.data); if (er) return alMsg(er);
   if (b.previsao && b.previsao < b.data) return alMsg('A data prevista não pode ser antes da data da solicitação.');
   if (!alTravar()) return;
@@ -15922,10 +16119,10 @@ function lockAtivar() {
     '<div class="field"><label for="lock-senha">Senha</label><input class="input" id="lock-senha" type="password" autocomplete="current-password"></div>' +
     '<div id="lock-msg"></div><button type="button" class="btn primary block" data-action="lock-ok">Desbloquear</button>' +
     '<button type="button" class="lock-sair" data-action="lock-sair">Não é você? Sair</button></div>';
-  document.body.appendChild(d); const app = $('#app'); if (app) app.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(d); const app = $('#app'); if (app) app.setAttribute('aria-hidden', 'true'); lkInerte(true);
   setTimeout(() => { const i = $('#lock-senha'); if (i) try { i.focus(); } catch (e) {} }, 60);
 }
-function lockFechar() { const d = $('#lock'); if (d) d.remove(); S.lockado = false; S.lockErros = 0; S.lockUlt = Date.now(); const app = $('#app'); if (app) app.removeAttribute('aria-hidden'); }
+function lockFechar() { const d = $('#lock'); if (d) d.remove(); S.lockado = false; S.lockErros = 0; S.lockUlt = Date.now(); const app = $('#app'); if (app) app.removeAttribute('aria-hidden'); lkInerte(false); }
 async function lockOk() {
   const i = $('#lock-senha'), m = $('#lock-msg'), b = $('[data-action="lock-ok"]'); if (!i || S.lockOcupado) return;
   const senha = i.value; if (!senha) { if (m) m.innerHTML = '<div class="msg">Digite a sua senha.</div>'; return; }
@@ -16188,11 +16385,19 @@ function pgLinhasTodas() {
     (grupos[k] = grupos[k] || []).push(c);
   });
   Object.keys(grupos).forEach(k => {
-    const cs = grupos[k], c = cs[0], x = c.talhao && c.data ? rzDaArea(c.tipo, c.talhao, c.data) : null;
+    const cs = grupos[k], c = cs[0], x = c.talhao && c.data ? (rzDaArea(c.tipo, c.talhao, c.data) || rzDono(c.tipo, c.talhao, c.data)) : null;
     const tipos = Array.from(new Set(cs.map(y => y.tipo))).join(' + ');
     out.push({ id: 'col|' + c.id, _col: c.id, _cols: cs.map(y => y.id), _orig: x ? 'Plano' : 'Direta', _pl: x ? { rid: x.r.id, pk: x.p.k, nome: pgPlanoNome(x.r, x.p) } : null,
       data: c.data, semana: c.semana || (c.data ? semanaNum(c.data) : ''), talhao: c.talhao || c.local || c.lote || '', tipo: tipos, pontos: c.pontos || '', coletor: c.coletor || '',
       prof: c.prof || '', estadio: c.estadio || '', prazo: x ? x.p.fim : '', _st: 'coletada', coletadaEm: c.data });
+  });
+  /* 3) v2.85.0: coletas canceladas continuam no histórico, como "Cancelada" (com o motivo ao abrir) */
+  S.coletas.filter(c => c.situacao === 'cancelada').forEach(c => {
+    /* v2.86.0: mantém de onde veio (plano / avulsa) e o prazo */
+    const pg = c.progId ? (S.prog || []).find(p => p.id === c.progId) : null, x = !pg && (c.talhao || c.loteComp) && c.data ? (rzDaArea(c.tipo, c.talhao || c.loteComp, c.data) || rzDono(c.tipo, c.talhao || c.loteComp, c.data)) : null;
+    const orig = pg ? (pgDoPlano(pg) ? 'Plano' : 'Avulsa') : x ? 'Plano' : 'Direta';
+    out.push({ id: 'can|' + c.id, _col: c.id, _cols: [c.id], _orig: orig, _pl: x ? { rid: x.r.id, pk: x.p.k, nome: pgPlanoNome(x.r, x.p) } : null, data: c.data, semana: c.semana || (c.data ? semanaNum(c.data) : ''),
+      talhao: c.talhao || c.loteComp || '', tipo: c.tipo, pontos: c.pontos || '', coletor: c.coletor || '', prof: c.prof || '', estadio: c.estadio || '', prazo: pg ? pg.prazo || '' : x ? x.p.fim : '', _st: 'cancelada', coletadaEm: c.data });
   });
   return out.sort((a, b) => String(b.data || '').localeCompare(String(a.data || '')) || cmpTalhao(a.talhao, b.talhao));
 }
@@ -16281,6 +16486,13 @@ async function lockConfere(senha) {
   if (navigator.onLine === false && !DEMO) { const e = new Error('lk-off'); e.code = 'lk-off'; throw e; }
   return Data.auth.verificar(senha);
 }
+/* v2.87.0: com a tela bloqueada, tudo o que está por baixo (app, janelas abertas) fica inerte: Tab e Enter não chegam lá */
+function lkInerte(on) {
+  Array.from(document.body.children).forEach(el => {
+    if (on) { if (el.id === 'lock' || el.id === 'toast-host' || el.tagName === 'SCRIPT' || el.inert) return; el.inert = true; el.setAttribute('data-lk-inerte', '1'); }
+    else if (el.getAttribute('data-lk-inerte')) { el.inert = false; el.removeAttribute('data-lk-inerte'); }
+  });
+}
 function lkNome() { const n = String((S.user && S.user.nome) || '').split(' ')[0]; return n.charAt(0) + n.slice(1).toLowerCase(); }
 function lockAtivar(modo) {
   if (S.lockado || !S.user) return;
@@ -16289,7 +16501,7 @@ function lockAtivar(modo) {
   /* a cena do login vem para trás do cartão (o login fica guardado e é redesenhado quando precisar) */
   ['#auth #lg-root', '#auth .lg-som'].forEach(q => { const x = $(q); if (x) x.remove(); });
   const abrir = S.lockModo === 'abrir', viva = typeof lgFundoHTML === 'function';
-  const d = document.createElement('div'); d.id = 'lock'; d.className = 'lock' + (viva ? ' lock-viva' : ''); d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true');
+  const d = document.createElement('div'); d.id = 'lock'; d.className = 'lock' + (viva ? ' lock-viva' : '') + (abrir ? ' lock-ja' : ''); /* v2.87.0: ao abrir, sem fade */ d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true');
   d.innerHTML = (viva ? lgFundoHTML() : '') + '<div class="lock-c">' + (typeof lgLogoSVG === 'function' ? lgLogoSVG(lgLogoDoDia(), 'lock-logo') : '') +
     '<h2>' + (abrir ? esc((typeof LG_SAUD !== 'undefined' ? LG_SAUD[lgPeriodo()] : 'Olá') + ', ' + lkNome() + '!') : 'Tela bloqueada') + '</h2>' +
     '<p>' + (abrir ? 'Digite a sua senha para entrar.' : 'Ficou 5 minutos sem uso. ' + esc(lkNome()) + ', digite a sua senha para continuar de onde parou.') + '</p>' +
@@ -16297,14 +16509,14 @@ function lockAtivar(modo) {
     '<div id="lock-msg"></div><button type="button" class="btn primary block" data-action="lock-ok">' + (abrir ? 'Entrar' : 'Desbloquear') + '</button>' +
     '<button type="button" class="lock-sair" data-action="lock-sair">' + (abrir ? 'Entrar com outra conta' : 'Não é você? Sair') + '</button>' +
     (navigator.onLine === false ? '<span class="lock-off">Sem internet: a senha é conferida neste aparelho e o que você lançar sobe quando o sinal voltar.</span>' : '') + '</div>';
-  document.body.appendChild(d); const app = $('#app'); if (app) app.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(d); const app = $('#app'); if (app) app.setAttribute('aria-hidden', 'true'); lkInerte(true);
   if (viva) { try { lgIniciar(); } catch (e) {} }
   setTimeout(() => { const i = $('#lock-senha'); if (i) try { i.focus(); } catch (e) {} }, 60);
 }
 function lockFechar() {
   try { if (typeof lgParar === 'function') lgParar(); } catch (e) {}
   const d = $('#lock'); if (d) d.remove(); const era = S.lockado; S.lockado = false; S.lockErros = 0; S.lockUlt = Date.now();
-  const app = $('#app'); if (app) app.removeAttribute('aria-hidden');
+  const app = $('#app'); if (app) app.removeAttribute('aria-hidden'); lkInerte(false);
   if (era && S.user) applyTheme(S.user.tema || Store.get('sv2-theme') || 'dark');
 }
 async function lockOk() {
@@ -17045,7 +17257,9 @@ function viewBugs() {
   const linhas = l.map(b => '<tr data-action="bug-open" data-id="' + esc(b.id) + '" class="click"><td>' + esc(bugNum(b)) + '</td><td><span class="chip ' + BUG_TIPOS[b.tipo || 'bug'][1] + '">' + BUG_TIPOS[b.tipo || 'bug'][0] + '</span></td>' +
     '<td><b>' + esc(b.titulo) + '</b>' + (b.foto ? ' <span class="bug-clip" title="Com foto">' + icoI('camera') + '</span>' : '') + '</td><td>' + esc(bugAreaNome(b.area)) + '</td><td>' + esc(b.porNome || '') + '</td><td>' + esc(fmtD(diaLocal(b.ts))) + '</td>' +
     '<td><span class="chip ' + BUG_SIT[b.status || 'novo'][1] + '">' + BUG_SIT[b.status || 'novo'][0] + (b.status === 'resolvido' && b.versaoResolvido ? ' · ' + esc(b.versaoResolvido) : '') + '</span></td></tr>').join('');
-  return '<div class="bug-top"><button class="btn primary" data-action="bug-novo" data-id="bug">Reportar um problema</button><button class="btn" data-action="bug-novo" data-id="sugestao">Sugerir uma melhoria</button>' +
+  /* v2.86.0 (nº 8): os dois botões lado a lado (também no celular), filtros numa linha própria e "Relatório PDF" */
+  return '<div class="bug-top"><div class="bug-bts"><button class="btn primary" data-action="bug-novo" data-id="bug">Reportar problema</button><button class="btn" data-action="bug-novo" data-id="sugestao">Sugerir melhoria</button>' +
+    (l.length ? '<button class="btn bug-pdf" data-action="bug-pdf" title="Os itens do filtro atual, com a descrição, o histórico e as fotos">' + icoI('print') + 'Relatório PDF</button>' : '') + '</div>' +
     '<div class="bug-chips">' + chip('abertos', 'Abertos') + chip('resolvido', 'Resolvidos') + chip('naoprocede', 'Não procede') + chip('meus', 'Meus') + chip('todos', 'Todos') + '</div></div>' +
     (l.length ? '<div class="tw"><table class="t bug-t"><thead><tr><th>Nº</th><th>Tipo</th><th>Título</th><th>Tela</th><th>Quem</th><th>Data</th><th>Situação</th></tr></thead><tbody>' + linhas + '</tbody></table></div>'
       : '<div class="empty" style="margin:20px auto"><p>' + (f === 'abertos' ? 'Nenhum problema ou sugestão em aberto.' : 'Nada por aqui.') + '</p></div>');
@@ -17113,6 +17327,22 @@ function bugNum(b) {
   const k = mesmos.findIndex(x => x.id === b.id);
   return String(n) + (k > 0 ? '-' + String.fromCharCode(97 + Math.min(k, 25)) : '');
 }
+/* v2.86.0 (nº 8): relatório em PDF (A4 deitado) com os itens do filtro atual — para mandar para a IA avaliar e corrigir */
+function bugPDF() {
+  const f = bugFiltro(), todos = (S.bugs || []).slice().sort((a, b) => String(b.ts).localeCompare(String(a.ts)));
+  const l = todos.filter(b => f === 'todos' ? true : f === 'meus' ? b.porId === S.user.id : f === 'abertos' ? bugAberto(b) : b.status === f);
+  if (!l.length) { toast('Nada para imprimir neste filtro.'); return; }
+  const nomeF = { abertos: 'Abertos', resolvido: 'Resolvidos', naoprocede: 'Não procede', meus: 'Meus', todos: 'Todos' }[f] || f;
+  const kv = (k, v) => v ? '<tr><th>' + esc(k) + '</th><td>' + esc(v) + '</td></tr>' : '';
+  const corpo = '<div class="bp-res"><b>' + l.length + ' item(ns)</b> · filtro: ' + esc(nomeF) + ' · gerado em ' + esc(fmtDT(nowISO())) + ' · ' + esc(String(APP_VERSION).split(' ')[0]) + '</div>' +
+    l.map(b => '<div class="bp-item"><div class="bp-h"><b>Nº ' + esc(bugNum(b)) + ' · ' + esc(BUG_TIPOS[b.tipo || 'bug'][0]) + '</b> — ' + esc(b.titulo) + ' <span>' + esc(BUG_SIT[b.status || 'novo'][0]) + '</span></div>' +
+      '<div class="bp-c"><table class="bp-kv">' + kv('Tela', bugAreaNome(b.area)) + kv('Data', fmtDT(b.ts)) + kv('Quem', b.porNome) + kv('Versão', b.versao) + kv('Aparelho', b.aparelho) + kv('Resolvido na', b.versaoResolvido) + '</table>' +
+      '<div class="bp-d"><p>' + esc(b.descricao || '').replace(/\n/g, '<br>') + '</p>' +
+      ((b.hist || []).length > 1 ? '<ul>' + b.hist.map(h => '<li>' + esc(fmtDT(h.ts) + ' · ' + (h.porNome || '') + ' · ' + ((BUG_SIT[h.status] || [h.status || ''])[0]) + (h.texto ? ' — ' + h.texto : '')) + '</li>').join('') + '</ul>' : '') + '</div>' +
+      (/^data:image\/(jpeg|png|webp);base64,/.test(String(b.foto || '')) ? '<img class="bp-f" src="' + b.foto + '" alt="">' : '') + '</div></div>').join('');
+  Audit.log({ acao: 'imprimir', entidade: 'bug', entidadeId: 'relatorio', resumo: 'Relatório PDF de Bugs e sugestões (' + nomeF + ': ' + l.length + ' itens)' });
+  runPrint(corpo, 'EFClaudian · Bugs e sugestões · ' + fmtD(hojeISO()), 'landscape', 'Filtro: ' + nomeF);
+}
 async function bugMudar(id, st) {
   const b = (S.bugs || []).find(x => x.id === id); if (!b || !isPrincipal(S.user) || !BUG_SIT[st]) return;
   const m = $('#bug-msg'), txt = String(($('#bug-txt') || {}).value || '').trim(), ver = String(($('#bug-ver') || {}).value || '').trim();
@@ -17171,6 +17401,7 @@ function v80Acao(act, id, t) {
   if (act === 'bug-f') { S.bugF = id; renderView(); return true; }
   if (act === 'bug-ir') { closeSheet(); S.area = 'qualidade'; S.tabs.qualidade = 'bugs'; renderShell(); renderView(); openBug(id); return true; }
   if (act === 'bug-novo') { openBugNovo(id); return true; }
+  if (act === 'bug-pdf') { bugPDF(); return true; } /* v2.86.0 */
   if (act === 'bug-enviar') { eqUmaVez(bugEnviar); return true; }
   if (act === 'bug-open') { openBug(id); return true; }
   if (act === 'bug-sit') { eqUmaVez(() => bugMudar(id, t.getAttribute('data-s'))); return true; }
@@ -17963,7 +18194,7 @@ function openGear() {
     '<div class="tema-grupos" id="tema-grupos" hidden>' + (meus.length ? '<div class="ap-hint" style="margin-top:0">Exclusivo do seu nível · ' + esc(NIVEL_NOME[nivelDe(u)] || '') + '</div><div class="themes">' + meus.map(thB).join('') + '</div>' : '') + '<div class="ap-hint"' + (meus.length ? '' : ' style="margin-top:0"') + '>Limpos</div><div class="themes">' + THEMES.filter(t => !t.grupo).map(thB).join('') + '</div><div class="ap-hint">Com fundo (um desenho discreto atrás das telas)</div><div class="themes">' + THEMES.filter(t => t.grupo === 'fundo').map(thB).join('') + '</div></div></div>';
   const adm = isPrincipal(u) ? '<div class="sec">Administração</div><button class="menu-btn" data-action="users">Usuários<span>›</span></button><button class="menu-btn" data-action="emp-open">Empresa (nome, unidades e endereços)<span>›</span></button><button class="menu-btn" data-action="dc-open">Documento controlado (cabeçalho das impressões)<span>›</span></button><button class="menu-btn" data-action="teste-open">Ambiente de teste' + (fbTesteAtivo() ? ' <span class="chip warn">em teste</span>' : '') + '<span>›</span></button><button class="menu-btn" data-action="arq-open" data-id="novo">Arquivo por ano' + (arqCfg().ateAno ? ' <small>fechado até ' + arqCfg().ateAno + '</small>' : '') + '<span>›</span></button><button class="menu-btn" data-action="v75-teste">Registros de teste<span>›</span></button><button class="menu-btn" data-action="bk-open">Backup e exportação' + (bkAtrasado() ? ' <span class="chip warn">fazer</span>' : '') + '<span>›</span></button><button class="menu-btn" data-action="alert-test">Testar alerta crítico neste aparelho<span>›</span></button>' : '';
   openSheet('<h3 class="op-h">Opções</h3><button class="menu-btn mp-linha" data-action="meu-perfil">' + avatarHTML(u, 40) + '<span><b>' + nomeFmt(u) + '</b><small>' + esc((u.cargo ? u.cargo + ' · ' : '') + perfilLabel(u)) + ' · Meu perfil</small></span><span>›</span></button><button class="menu-btn mp-linha cnq-menu" data-action="cnq-open">' + cnqCoroa(3, 'ouro') + '<span><b>Conquistas</b><small>As suas, as da equipe e as dos colegas · sem ranking</small></span><span>›</span></button><div class="sec">Tema</div>' + th + tabletMenuHTML() + adm +
-    (DEMO ? '<div class="sec">Modo teste</div>' + (testeOrigem() ? '<button class="menu-btn" data-action="teste-open">Ambiente de teste (cópia)<span>›</span></button>' : '') + '<button class="menu-btn" data-action="demo-off">Sair da demonstração e voltar para a nuvem<span>›</span></button>' : '') + '' + (rsPode(u) ? '<div class="sec">Relatórios</div><button class="menu-btn" data-action="rs-open">Relatórios da semana<span>›</span></button>' : '') + pwaMenuHTML() + '<div class="sec">Sobre</div>' + keyval([['Versão', APP_VERSION], ['Dados', Data.mode === 'demo' ? 'Demonstração (só neste aparelho)' : 'Nuvem, sincronizado'], ['Conexão', Sync.texto()]]) +
+    (DEMO ? '<div class="sec">Modo teste</div>' + (testeOrigem() ? '<button class="menu-btn" data-action="teste-open">Ambiente de teste (cópia)<span>›</span></button>' : '') + '<button class="menu-btn" data-action="demo-off">Sair da demonstração e voltar para a nuvem<span>›</span></button>' : '') + '' + (rsPode(u) ? '<div class="sec">Relatórios</div><button class="menu-btn" data-action="rs-open">Relatórios da semana<span>›</span></button>' : '') + pwaMenuHTML() + '<div class="sec">Sobre</div>' + (DEMO ? '' : RC_NOTA) + keyval([['Versão', APP_VERSION], ['Dados', Data.mode === 'demo' ? 'Demonstração (só neste aparelho)' : 'Nuvem, sincronizado'], ['Conexão', Sync.texto()]]) +
     '<div class="row-actions"><button class="btn danger" data-action="logout">Sair</button><button class="btn" data-action="bloquear">Bloquear</button><button class="btn primary" data-action="close">Fechar</button></div>');
 }
 /* v2.14.1 — os temas saem de dentro da bolinha para os lugares deles (e voltam ao tocar de novo) */
@@ -18101,8 +18332,20 @@ const ERR = {
   'permission-denied': 'Sem permissão no Firestore. Publique as regras do arquivo firestore-regras.'
 };
 const errMsg = e => ERR[e && e.code] || ('Erro: ' + ((e && (e.code || e.message)) || 'desconhecido'));
+/* v2.88.0 — App Check com o Fraud Defense (reCAPTCHA Enterprise). A chave do site é pública (vai no código).
+   Só no projeto principal: no "projeto de teste" e na demonstração não liga. Qualquer falha não impede o app. */
+const APPCHECK_CHAVE = '6LdLDeYtAAAAADNuye_RKI1MROdCo56DGI31jDS-';
+function appCheckLigar() {
+  S._appCheck = 'desligado';
+  try {
+    if (DEMO || fbTesteAtivo() || !APPCHECK_CHAVE || !firebase.appCheck || !firebase.appCheck.ReCaptchaEnterpriseProvider) return false;
+    firebase.appCheck().activate(new firebase.appCheck.ReCaptchaEnterpriseProvider(APPCHECK_CHAVE), true);
+    S._appCheck = 'ligado'; return true;
+  } catch (e) { console.warn('App Check:', e && (e.code || e.message)); S._appCheck = 'erro'; return false; }
+}
+const RC_NOTA = '<p class="rc-nota">Protegido pelo reCAPTCHA · <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacidade</a> · <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Termos</a></p>';
 function authCard(inner) {
-  return '<div class="auth-card"><div class="brand"><div class="brand-mark lg-bm">' + lgLogoSVG(lgLogoDoDia(), 'lg-logo-mini') + '</div><div><div class="brand-name">EFClaudian</div><div class="brand-sub">Controle de qualidade</div></div></div>' + inner + '</div>';
+  return '<div class="auth-card"><div class="brand"><div class="brand-mark lg-bm">' + lgLogoSVG(lgLogoDoDia(), 'lg-logo-mini') + '</div><div><div class="brand-name">EFClaudian</div><div class="brand-sub">Controle de qualidade</div></div></div>' + inner + (DEMO ? '' : RC_NOTA) + '</div>';
 }
 function pwField(id, label) {
   return '<div class="field"><label for="' + id + '">' + label + '</label><div class="pwrow"><input class="input" id="' + id + '" type="password" autocomplete="current-password"><button type="button" class="pwtoggle" data-action="pw-toggle" data-id="' + id + '">Mostrar</button></div></div>';
@@ -18176,11 +18419,12 @@ async function onAuth(id) {
     if (S.loginPending) lgTransicao(p); /* v2.72.0 */
     S.lockUlt = Date.now(); /* v2.73.0 */
     S.user = p; applyTheme(p.tema || Store.get('sv2-theme') || 'dark');
-    startSession(); renderShell(); renderView(); cadSincEmail(p); /* v2.74.0 */
-    /* v2.76.0: abriu o app com a sessão guardada (não acabou de digitar a senha) → pede a senha por cima, com a paisagem */
+    /* v2.76.0: abriu o app com a sessão guardada (não acabou de digitar a senha) → pede a senha por cima, com a paisagem
+       v2.87.0: a tela de senha entra ANTES de montar o app (antes o app aparecia por ~0,25 s) */
     const lkNovo = S.loginPending || S.entrouAgora; S.entrouAgora = false;
-    Promise.resolve(S._lkProm).then(() => { if (LOCK_HASH && S.user && S.user.id === p.id) lkSalvar(p.id); });
     if (!lkNovo) { lkCarregar(p.id); lockAtivar('abrir'); }
+    startSession(); renderShell(); renderView(); cadSincEmail(p); /* v2.74.0 */
+    Promise.resolve(S._lkProm).then(() => { if (LOCK_HASH && S.user && S.user.id === p.id) lkSalvar(p.id); });
     if (S.loginPending) { S.loginPending = false; Audit.log({ acao: 'login', entidade: 'sessao', resumo: p.nome + ' entrou no app' }); }
   } catch (e) { console.error(e); S.loginPending = false; await showLogin('Não foi possível carregar seu perfil. ' + (navigator.onLine ? errMsg(e) : 'Sem conexão.')); }
 }
@@ -18406,7 +18650,7 @@ document.addEventListener('change', e => {
   if (e.target.classList && e.target.classList.contains('rz-cdk')) rzCdConta();
   if (e.target.id === 'rz-freq' && S.rzEd) { rzEdLer(); rzEdRender(); }
   if (e.target.id === 'rz-per') openRz(e.target.getAttribute('data-id'), e.target.value);
-  if (e.target.classList && (e.target.classList.contains('rz-area') || e.target.classList.contains('rz-an')) && S.rzEd) { rzEdLer(); const n = $('.rz-sel span'); if (n) n.textContent = S.rzEd.areas.size + ' marcada(s)'; }
+  if (e.target.classList && (e.target.classList.contains('rz-area') || e.target.classList.contains('rz-an')) && S.rzEd) { rzEdLer(); const n = $('.rz-sel span'); if (n) n.textContent = S.rzEd.areas.size + ' marcada(s)'; rzResAtu(); }
   if (['cn-tal', 'cn-data', 'cn-lab', 'ce-mat', 'cn-an', 'cn-cult'].indexOf(e.target.id) >= 0 || e.target.classList.contains('cn-an')) colFormAtualiza();
   if (e.target.id === 'rt-ano' || e.target.id === 'rt-per') { S.rtF = S.rtF || {}; S.rtF[e.target.id === 'rt-ano' ? 'ano' : 'per'] = e.target.value; renderView(); }
   if (e.target.id === 'rj-lab' || e.target.id === 'rj-mat') { reajOpcoes(); reajPrevia(); }
@@ -18641,9 +18885,10 @@ document.addEventListener('click', e => {
     case 'cd-limpar': $$('.cd-p').forEach(x => { x.checked = false; }); cdConta(); break;
     case 'cd-eq': { const i = $('#cd-col'); if (i) i.value = id; $$('.cd-eqs .ap-b').forEach(b => b.classList.toggle('on', b === t)); break; }
     case 'cd-ok': coletadoOk(); break;
-    case 'pg-folha': pgFolhaCampo(); break;
+    case 'cd-ver': cdVer(id); break; /* v2.85.0 */
     case 'rz-ren-ok': rzRenovarOk(id, t.getAttribute('data-p')); break;
     case 'rz-hist': openRzHist(id); break;
+    case 'rz-col': rzColAbrir(id, t.getAttribute('data-p'), t.getAttribute('data-a')); break; /* v2.85.0 */
     case 'prog-save': saveProg(); break;
     case 'prog-open': openProgDetail(id); break;
     case 'prog-cancel': { const p = S.prog.find(x => x.id === id); if (p) openMotivo('Cancelar programação', p.tipo + ' · ' + p.talhao + ' · ' + fmtD(p.data), 'prog-cancel-ok', id); break; }
@@ -18681,8 +18926,9 @@ document.addEventListener('click', e => {
     case 'rm-atu-ok': saveAtuLote(); break;
     case 'rm-confirma': confirmaRemessa(); break;
     case 'rm-os-save': saveRemessaOS(); break;
-    case 'col-cancel': { const c = S.coletas.find(x => x.id === id); if (c) openMotivo('Cancelar coleta', TIPO_ANALISE_TXT[c.tipo] + ' · ' + (c.talhao || c.loteComp || '') + ' · ' + fmtD(c.data), 'col-cancel-ok', id); break; }
-    case 'col-cancel-ok': cancelarCol(id, ($('#tx-txt') || {}).value ? $('#tx-txt').value.trim() : ''); break;
+    case 'col-cancel': openCancelCol(id); break; /* v2.85.0 */
+    case 'cc-mot': S._ccMot = id; $$('[data-action="cc-mot"]').forEach(b => b.classList.toggle('on', b === t)); break;
+    case 'col-cancel-ok': cancelarCol(id, ccMotivo()); break;
     case 'ag-new': openAguaNew(id || ''); break;
     case 'ag-tipo': agTipoTrocar(id); break;
     case 'an-ponto-pick': agPontoAbrir(); break;
@@ -18772,7 +19018,6 @@ document.addEventListener('click', e => {
     case 'rel-st': { S.relSt = S.relSt || new Set(); if (S.relSt.has(id)) S.relSt.delete(id); else S.relSt.add(id); renderView(); break; }
     case 'rel-resp': { S.relResp = S.relResp || new Set(); if (S.relResp.has(id)) S.relResp.delete(id); else S.relResp.add(id); renderView(); break; }
     case 'rel-kpi': { S.relSt = S.relSt || new Set(); if (S.relSt.has(id)) S.relSt.delete(id); else S.relSt.add(id); renderView(); break; }
-    case 'rel-limpar': S.relResp = new Set(); S.relSt = new Set(); renderView(); break;
     case 'rel-pt': S.relTipo = t.getAttribute('data-t'); S.relResp = new Set([id]); S.relSt = new Set(['VENCIDO']); renderView(); { const l = $('.rel-lista'); if (l) l.scrollIntoView({ behavior: 'smooth', block: 'start' }); } break;
     case 'ap-new': openApNovo(); break;
     case 'ap-pick': apPick(t); break;
@@ -18814,7 +19059,7 @@ document.addEventListener('click', e => {
   }
 });
 window.addEventListener('offline', () => toast('Você está offline. O que você lançar será enviado quando a conexão voltar.'));
-window.addEventListener('online', () => toast('Conexão restabelecida.', 'ok'));
+window.addEventListener('online', () => setTimeout(() => { if (navigator.onLine !== false) toast('Conexão restabelecida.', 'ok'); }, 1500)); /* v2.88.0 */
 window.addEventListener('offline', () => Sync.pintar());
 /* v2.21.0 — nos formulários do celular: Enter vai para o próximo campo; no último, fecha o teclado */
 document.addEventListener('keydown', e => {
