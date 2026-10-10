@@ -2675,7 +2675,7 @@ body[data-theme="sunset"]::before{background:none}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.1 · @ nos passos e nas mensagens da tarefa e em Marcar como resolvido; limpeza';
+const APP_VERSION = 'v2.102.2 · cloro: a lista mostra "alterado" logo depois de corrigir';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -4865,7 +4865,7 @@ async function clCorrEnviar(id) {
   p.motivo = mot; p.rotulo = r.pontoNome + ' · ' + fmtD(r.data) + ' ' + (r.hora || '');
   const fx = clFaixaMuda(r, p);
   try {
-    if (isPrincipal(S.user)) { await clCorrAplicar(id, p, null); closeSheet(); toast('Verificação corrigida.', 'ok'); return; }
+    if (isPrincipal(S.user)) { await clCorrAplicar(id, p, null); closeSheet(); try { if (curArea().id === 'inspecoes') renderDados(); } catch (e) {} /* v2.102.2: a lista só era redesenhada com a janela fechada */ toast('Verificação corrigida.', 'ok'); return; }
     const aid = await Aprov.pedir({ tipo: 'corrigir_cloro', titulo: 'Corrigir verificação de cloro: ' + p.rotulo, descricao: (fx ? 'ATENÇÃO: ' + fx + '\n' : '') + clCorrTxt(p) + '\nMotivo: ' + mot, refTipo: 'cloro', refId: id, payload: p, para: paraCorrecaoCol(S.user) });
     if (!aid) return;
     closeSheet(); toast('Pedido de correção enviado.', 'ok');
