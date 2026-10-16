@@ -458,6 +458,27 @@ body[data-theme="ponto"]::before{background:radial-gradient(rgba(60,60,110,.16) 
 .pl-ro{margin:8px 0}.pl-ro span{display:block;font-size:11.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}.pl-ro p,.pl-ro ol{margin:2px 0 0;font-size:13.5px}.pl-ro ol{padding-left:18px}
 .pl-duas td{vertical-align:top;white-space:normal}.pl-chip{white-space:nowrap}.pl-ult{margin-top:8px}
 /* v2.102.12: GUT na RNC */
+.anl-t{display:block;font-weight:600;color:var(--text);text-align:left}.anl-card .rnc-li-c{display:flex;flex-direction:row;flex-wrap:wrap;gap:4px;justify-content:flex-start;align-items:center}
+.anl-guia{margin-top:10px}.anl-ap{margin:10px 0}
+#print-root .anl-imp{color:#111;font-size:8.5pt}
+#print-root .anl-ik{display:flex;flex-wrap:wrap;gap:3px 16px;margin:0 0 4px}#print-root .anl-ik i{display:block;font-style:normal;font-size:7pt;color:#666;text-transform:uppercase;letter-spacing:.03em}
+#print-root .anl-ip{margin:2px 0 4px;line-height:1.35}
+#print-root .anl-2{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;margin:0 0 4px}#print-root .anl-is h4{margin:0 0 2px;font-size:8pt;text-transform:uppercase;letter-spacing:.03em;color:#444}#print-root .anl-is p,#print-root .anl-is ol{margin:0}#print-root .anl-is ol{padding-left:16px}
+#print-root .ishi-fig.anl-fig{margin:0 0 2px}#print-root .ishi-fig.anl-fig svg{max-height:64mm;width:auto;margin:0 auto}
+#print-root .anl-t{width:100%;font-size:8pt;margin:2px 0 4px}#print-root .anl-t th,#print-root .anl-t td{padding:1px 6px;vertical-align:top}
+.par-por{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.par-fig{margin:10px 0 6px;overflow-x:auto;border:1px solid var(--border);border-radius:var(--r-ctl);background:var(--surface)}.par-fig svg{display:block;width:100%;min-width:640px;height:auto}
+.par-res{font-size:.9em;color:var(--text-muted);margin:6px 0}.par-res b{color:var(--text)}
+.par-t{width:100%;margin-bottom:10px}.par-t th:not(:first-child),.par-t td:not(:first-child){text-align:right;white-space:nowrap}.par-t tr.vital td:first-child{font-weight:600;color:var(--primary)}
+.par-svg{--pa-t:var(--text);--pa-m:var(--text-muted);--pa-g:var(--border);--pa-b:var(--border-light);--pa-v:var(--primary);--pa-l:var(--warn)}
+.par-svg .pa-g{stroke:var(--pa-g);stroke-width:1}.par-svg .pa-ax{fill:var(--pa-m);font-size:11px}.par-svg .pa-80{stroke:var(--pa-l);stroke-width:1.5;stroke-dasharray:6 4}
+.par-svg .pa-b{fill:var(--pa-b)}.par-svg .pa-b.pa-v{fill:var(--pa-v)}.par-svg .pa-n{fill:var(--pa-t);font-size:12px;font-weight:700}.par-svg .pa-lb{fill:var(--pa-t);font-size:11px}
+.par-svg .pa-ln{fill:none;stroke:var(--pa-t);stroke-width:2}.par-svg .pa-pt{fill:var(--pa-t)}
+#print-root .par-svg{--pa-t:#111;--pa-m:#555;--pa-g:#ddd;--pa-b:#9a9aa8;--pa-v:#5b3fd6;--pa-l:#b7791f}
+#print-root .par-imp{color:#111;font-size:9pt}
+#print-root .par-ik{display:flex;flex-wrap:wrap;gap:4px 18px;margin:0 0 4px}#print-root .par-ik i{display:block;font-style:normal;font-size:7pt;color:#666;text-transform:uppercase;letter-spacing:.03em}
+#print-root .par-fig{border:1px solid #ccc;border-radius:4px;background:#fff;margin:0 0 4px;overflow:visible}#print-root .par-fig svg{min-width:0;max-height:68mm}
+#print-root .par-res{margin:2px 0 3px}#print-root .par-t{font-size:7.5pt;line-height:1.1;margin-bottom:0}#print-root .par-t th,#print-root .par-t td{padding:0 6px}
 .ishi-ed{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
 .ishi-m{border:1px solid var(--border);border-radius:var(--r-ctl);padding:8px;background:var(--surface-2);min-width:0}
 .ishi-mh{display:flex;justify-content:space-between;align-items:baseline;font-weight:600;font-size:.9em;margin-bottom:4px}.ishi-mh small{color:var(--text-dim);font-weight:400}
@@ -2799,7 +2820,7 @@ body[data-theme="sunset"]::before{background:none}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.18 · RNC: Diagrama de Ishikawa (6M) na análise, com causa principal, desenho e PDF próprio';
+const APP_VERSION = 'v2.102.20 · Análise de problemas: 5 Porquês, Ishikawa, 5W2H, PDCA e eficácia para apontamentos e reclamações de cliente';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -3199,7 +3220,7 @@ const Data = (function () {
    A promessa do Firestore (add/set/update) só termina quando o servidor confirma;
    sem sinal, ela fica aberta e o dado fica guardado no aparelho até a conexão voltar.
    A fila é guardada no aparelho (sv2-fila) para sobreviver a fechar o app sem sinal. */
-const SYNC_NOMES = { sv2_bugs_foto: 'Fotos dos bugs', sv2_tarefas: 'Tarefas', sv2_bugs: 'Bugs e sugestões', sv2_users: 'Usuários', sv2_notifs: 'Notificações', sv2_audit: 'Registro de atividade', sv2_aprov: 'Pedidos de autorização', sv2_resumos: 'Resumo da semana', sv2_docs: 'Documentos', sv2_caixas: 'Caixas d’água', sv2_lanc: 'Lançamentos de documentos', sv2_bebs: 'Bebedouros', sv2_cloro: 'Verificações de cloro', sv2_talhoes: 'Talhões', sv2_analises: 'Análises e preços', sv2_cfg: 'Configurações', sv2_etqmodelos: 'Modelos de etiqueta', sv2_prog: 'Programação de coletas', sv2_coletas: 'Coletas', sv2_aguacol: 'Coletas de água', sv2_apont: 'Apontamentos', sv2_fotos: 'Fotos dos apontamentos', sv2_alm_itens: 'Materiais do almoxarifado', sv2_alm_mov: 'Movimentações do almoxarifado', sv2_alm_sol: 'Solicitações ao almoxarifado', sv2_alm_pref: 'Seus motivos guardados', sv2_avatar: 'Foto de perfil', sv2_cloro_falta: 'Justificativas de cloro', sv2_cloro_foto: 'Fotos do clorímetro', sv2_agua_foto: 'Fotos das ações corretivas', sv2_rodizio: 'Planos de coleta', sv2_aguaproj: 'Projetos de coleta de água', sv2_aguaponto: 'Pontos de água', sv2_proc: 'Procedimentos de coleta', sv2_alm_equip: 'Equipamentos', sv2_alm_cal: 'Solicitações de calibração', sv2_alm_inv: 'Inventários', sv2_alm_equip_foto: 'Fotos dos equipamentos', sv2_alm_transf: 'Transferências', sv2_alm_foto: 'Fotos do almoxarifado', sv2_rnc: 'Auditorias internas (RNC)', sv2_rnc_foto: 'Fotos das RNC', sv2_rnc_gut: 'Prioridade GUT das NCs', sv2_rnc_plano: 'Análise das NCs', sv2_chat: 'Conversas', sv2_meta: 'Instalação', sv2_conquistas: 'Conquistas', sv2_normas: 'Normas da auditoria', sv2_normas_ed: 'Editais das normas', sv2_login: 'Login → e-mail', sv2_recup: 'Pedidos de recuperação de senha' };
+const SYNC_NOMES = { sv2_bugs_foto: 'Fotos dos bugs', sv2_tarefas: 'Tarefas', sv2_bugs: 'Bugs e sugestões', sv2_users: 'Usuários', sv2_notifs: 'Notificações', sv2_audit: 'Registro de atividade', sv2_aprov: 'Pedidos de autorização', sv2_resumos: 'Resumo da semana', sv2_docs: 'Documentos', sv2_caixas: 'Caixas d’água', sv2_lanc: 'Lançamentos de documentos', sv2_bebs: 'Bebedouros', sv2_cloro: 'Verificações de cloro', sv2_talhoes: 'Talhões', sv2_analises: 'Análises e preços', sv2_cfg: 'Configurações', sv2_etqmodelos: 'Modelos de etiqueta', sv2_prog: 'Programação de coletas', sv2_coletas: 'Coletas', sv2_aguacol: 'Coletas de água', sv2_apont: 'Apontamentos', sv2_fotos: 'Fotos dos apontamentos', sv2_alm_itens: 'Materiais do almoxarifado', sv2_alm_mov: 'Movimentações do almoxarifado', sv2_alm_sol: 'Solicitações ao almoxarifado', sv2_alm_pref: 'Seus motivos guardados', sv2_avatar: 'Foto de perfil', sv2_cloro_falta: 'Justificativas de cloro', sv2_cloro_foto: 'Fotos do clorímetro', sv2_agua_foto: 'Fotos das ações corretivas', sv2_rodizio: 'Planos de coleta', sv2_aguaproj: 'Projetos de coleta de água', sv2_aguaponto: 'Pontos de água', sv2_proc: 'Procedimentos de coleta', sv2_alm_equip: 'Equipamentos', sv2_alm_cal: 'Solicitações de calibração', sv2_alm_inv: 'Inventários', sv2_alm_equip_foto: 'Fotos dos equipamentos', sv2_alm_transf: 'Transferências', sv2_alm_foto: 'Fotos do almoxarifado', sv2_rnc: 'Auditorias internas (RNC)', sv2_rnc_foto: 'Fotos das RNC', sv2_rnc_gut: 'Prioridade GUT das NCs', sv2_rnc_plano: 'Análise das NCs', sv2_analise: 'Análise de problemas', sv2_chat: 'Conversas', sv2_meta: 'Instalação', sv2_conquistas: 'Conquistas', sv2_normas: 'Normas da auditoria', sv2_normas_ed: 'Editais das normas', sv2_login: 'Login → e-mail', sv2_recup: 'Pedidos de recuperação de senha' };
 const Sync = (function () {
   const KEY = 'sv2-fila';
   let fila = [];   /* {k, col, op, doc, ts, st: 'pend' | 'antes' | 'erro', erro} */
@@ -3452,6 +3473,7 @@ function meuDiaBlocos() {
     v44MeuDia(u, add);
   }
   try { rncMeuDia(u, add); } catch (e) {}
+  try { anlMeuDia(u, add); } catch {} /* v2.102.20 */
   try { apFotoMeuDia(u, add); } catch (e) {}
   try { bkMeuDia(u, add); } catch (e) {}
   const peso = { crit: 0, warn: 1, info: 2 };
@@ -3543,6 +3565,7 @@ const AREAS = [
     { id: 'aprov', nome: 'Aprovações', pronto: true },
     { id: 'semana', nome: 'Semana', pronto: true },
     { id: 'nc', nome: 'Não conformidades', pronto: true },
+    { id: 'anl', nome: 'Análise de problemas', pronto: true }, /* v2.102.20 */
     { id: 'bugs', nome: 'Bugs e sugestões', pronto: true }, /* v2.80.0 */
     { id: 'rel', nome: 'Relatórios', pronto: true }
   ] },
@@ -10210,10 +10233,12 @@ function openApDetail(id) {
   const bt = (st, txt, cls) => '<button class="btn' + (cls ? ' ' + cls : '') + '" data-action="ap-st" data-st="' + st + '" data-id="' + esc(a.id) + '">' + txt + '</button>';
   const ac = sup ? '<div class="ap-acoes">' +
     (ab ? '<button class="btn" data-action="ap-grav" data-id="' + esc(a.id) + '">Reclassificar gravidade</button>' + (a.status !== 'andamento' ? bt('andamento', 'Em andamento') : '') + bt('resolvido', 'Resolvido', 'primary') + bt('nao_procede', 'Não procede') : bt('reabrir', 'Reabrir')) +
+    (!anlDoApont(a.id) ? '<button class="btn cheio" data-action="anl-nova" data-id="' + esc(a.id) + '">Analisar (5 Porquês, Ishikawa e plano de ação)</button>' : '') + /* v2.102.20 */
     (!a.nc ? '<button class="btn cheio" data-action="ap-nc" data-id="' + esc(a.id) + '">Abrir NC (responsável, prazo e ação)</button>' : !a.nc.fechada ? '<button class="btn cheio" data-action="ap-nc-fechar" data-id="' + esc(a.id) + '">Fechar a NC</button>' : '') + '</div>' : '';
   const hist = (a.hist || []).slice().reverse();
   openSheet('<h3>' + c.em + ' ' + esc(c.nome) + '</h3><div class="sub">' + esc(a.setor) + ' · ' + fmtD(a.data) + ' ' + esc(a.hora) + '</div>' + '<div class="ap-stband">' + apStChip(a) + '</div>' +
-    gal(a.fotos, 'Fotos') + '<div class="ap-sec">Gravidade</div><div class="ap-m" style="margin:0">' + apGravChip(a) + '</div>' + (a.gravOrig && a.gravOrig !== a.grav ? '<div class="ap-hint">Riscada: como ' + esc(a.porNome) + ' registrou.</div>' : '') + gh +
+    gal(a.fotos, 'Fotos') + (anlDoApont(a.id) ? '<div class="pl-resp anl-ap"><span>Análise de problema: <b>' + esc(anlDoApont(a.id).numero) + '</b> ' + anlChip(anlDoApont(a.id)) + '</span><button type="button" class="btn sm" data-action="anl-open" data-id="' + esc(anlDoApont(a.id).id) + '" data-ap="' + esc(a.id) + '">Ver a análise</button></div>' : '') + /* v2.102.20 */
+    '<div class="ap-sec">Gravidade</div><div class="ap-m" style="margin:0">' + apGravChip(a) + '</div>' + (a.gravOrig && a.gravOrig !== a.grav ? '<div class="ap-hint">Riscada: como ' + esc(a.porNome) + ' registrou.</div>' : '') + gh +
     '<div style="margin-top:12px">' + keyval(kv) + '</div>' + (sup || a.porId === S.user.id ? '<button type="button" class="fm-link ap-orig-m" data-action="apo-mudar" data-id="' + esc(a.id) + '">Mudar a origem (rotina / auditoria interna)</button>' : '') + gal(a.fotosDepois, 'Fotos do depois') + nc + ac +
     '<details class="ap-hist"><summary>Histórico (' + hist.length + ')</summary>' + hist.map(h => '<div>' + fmtDT(h.ts) + ' · <b>' + esc(h.porNome) + '</b> — ' + esc(h.txt) + '</div>').join('') + '</details>' +
     '<div class="row-actions"><button class="btn primary" data-action="close">Fechar</button></div>', { noFocus: true });
@@ -13787,7 +13812,7 @@ function rncStepper(r, grande) {
 }
 function viewRnc() {
   const u = S.user, l = (S.rnc || []).slice().sort((a, b) => String(b.criadoEm).localeCompare(String(a.criadoEm)));
-  const topo = isSup(u) ? '<div class="nrm-topo"><button class="ap-novo" data-action="rnc-nova">' + icoI('prancheta') + 'Nova auditoria interna</button><button class="btn" data-action="nrm-open">Normas e editais</button></div>' : ''; /* v2.70.0 */
+  const topo = '<div class="nrm-topo">' + (isSup(u) ? '<button class="ap-novo" data-action="rnc-nova">' + icoI('prancheta') + 'Nova auditoria interna</button><button class="btn" data-action="nrm-open">Normas e editais</button>' : '') + (l.length ? '<button class="btn" data-action="rnc-par-open">Pareto</button>' : '') + '</div>'; /* v2.70.0; Pareto v2.102.19 */
   const guia = '<div class="rnc-guia">' + RNC_PASSOS.map((x, i) => '<span><i>' + (i + 1) + '</i><b>' + x[1] + '</b><small>' + ['tipo, auditor e prazo', 'uma NC por vez, com fotos', 'relatório de abertura', 'o retorno, uma por uma', 'antes e depois'][i] + '</small></span>').join('') + '</div>';
   const card = r => { const ls = rncNcs(r), cf = ls.filter(n => n.ret).length, res = ls.filter(n => n.ret && n.ret.res === 'resolvida').length;
     return '<button class="rnc-card ' + rncSit(r) + '" data-action="rnc-open" data-id="' + esc(r.id) + '"><span class="rnc-c-h"><b>' + esc(r.numero) + '</b><span>' + esc(r.tipo || '') + '</span>' + rncChip(r) + '</span>' + rncStepper(r, false) +
@@ -13992,6 +14017,460 @@ const PL_FALTA_TXT = { causa: 'a causa', porques: 'pelo menos 3 "por quê"', m6:
 /* v2.102.18: Ishikawa (6M). Na linha da análise: ishi = [{ id, m, t, em, porNome, tirada?, tiradaEm?, tiradaPor? }],
    ishiPri = id da causa principal, ishiV = 1 (análise feita com o Ishikawa já existindo). Nada se apaga: causa tirada fica marcada. */
 const ISHI_MAX = 5;
+/* ============ v2.102.20 — Análise de problemas (ferramentas da qualidade fora da RNC) ============
+   Aprovado em 16/10 06:24: origem = apontamento de campo ou reclamação de cliente; abre igual à RNC (líder ★ ou Principal abre
+   e escolhe o responsável; só o responsável escreve a análise e as ações; todos veem); PDF A4 deitado.
+   Coleção sv2_analise (um documento por análise): { numero 'ANP-2026-01', titulo, origem 'apont'|'recl', origemId, origemTxt,
+   cliente { nome, lote, canal }, data, local, descricao, prazo, respId, respNome, respHist[], abertoPorId, abertoPorNome, criadoEm,
+   situacao 'aberta'|'concluida'|'cancelada', contencao { texto, data, porNome }, porques[5], ishi[], ishiPri, ishiV, causa, m6,
+   acoes[] (mesmo formato das ações 5W2H da RNC), efic { res 'eficaz'|'nao', texto, data, porNome, ts }, eficHist[],
+   cancMotivo, cancPor, cancEm, rev, em, porId, porNome, hist[] }. Nada se apaga: análise e ação só são canceladas, com motivo. */
+const ANL_ORIG = { apont: 'Apontamento de campo', recl: 'Reclamação de cliente' };
+const ANL_SIT = { aberta: ['Aberta', 'warn'], concluida: ['Concluída', 'ok'], cancelada: ['Cancelada', ''] };
+const anlDe = id => (S.anl || []).find(x => x.id === id) || null;
+const anlDoApont = apId => (S.anl || []).find(x => x.origem === 'apont' && x.origemId === apId && x.situacao !== 'cancelada') || null;
+const anlAtivas = x => ((x && x.acoes) || []).filter(a => a.st !== 'cancelada');
+function anlPodeEd(x) { return !!S.user && S.user.perfil !== 'visitante' && !S.user.bloqueado && !!x && x.situacao === 'aberta' && x.respId === S.user.id; }
+function anlPodeLider(x) { return !!S.user && isSup(S.user) && !!x && x.situacao === 'aberta'; }
+function anlFalta(d) {
+  const f = [];
+  if (String(d.causa || '').trim().length < 5) f.push('a causa');
+  if ((d.porques || []).filter(s => String(s || '').trim()).length < 3) f.push('pelo menos 3 "por quê"');
+  if (!ishiPriDe(d)) f.push('o Ishikawa com a causa principal');
+  return f;
+}
+function anlPdca(x, d) {
+  const l = anlAtivas(x);
+  return [['P', 'Planejar', 'análise e ações', !anlFalta(d || x).length && l.length > 0], ['D', 'Fazer', 'ações feitas', l.length > 0 && l.every(a => a.st === 'feita')],
+    ['C', 'Checar', 'eficácia conferida', !!(x.efic && x.efic.res === 'eficaz')], ['A', 'Agir', 'análise concluída', x.situacao === 'concluida']];
+}
+function anlPdcaHTML(x, d) {
+  const st = anlPdca(x, d), cur = st.findIndex(y => !y[3]);
+  return '<div class="pdca" aria-label="PDCA">' + st.map((y, i) => '<div class="pdca-p' + (y[3] ? ' ok' : i === cur ? ' cur' : '') + '"><b>' + esc(y[0]) + '</b><span>' + esc(y[1]) + '</span><small>' + esc(y[2]) + '</small></div>').join('') + '</div>';
+}
+function anlChip(x) { const s = ANL_SIT[x.situacao] || ANL_SIT.aberta; return '<span class="chip ' + esc(s[1]) + '">' + esc(s[0]) + '</span>'; }
+function anlAcoesChip(x) {
+  const l = anlAtivas(x); if (!l.length) return '';
+  const at = l.filter(a => acaoSt(a) === 'atrasada').length, f = l.filter(a => a.st === 'feita').length;
+  return '<span class="chip ' + (at ? 'crit' : f === l.length ? 'ok' : 'info') + '">' + (at ? esc(at) + (at > 1 ? ' ações atrasadas' : ' ação atrasada') : esc(f) + ' de ' + esc(l.length) + (l.length > 1 ? ' ações feitas' : ' ação feita')) + '</span>';
+}
+function anlNovoNumero() { const a = hojeISO().slice(0, 4), n = (S.anl || []).filter(x => String(x.numero || '').indexOf('ANP-' + a + '-') === 0).length + 1; return 'ANP-' + a + '-' + pad(n); }
+function anlUsuarios() { return S.users.filter(u => !u.bloqueado && u.perfil !== 'visitante'); }
+
+/* ---------- lista (Gestão da Qualidade › Análise de problemas) ---------- */
+function viewAnl() {
+  const f = S.anlF || 'aberta', base = (S.anl || []).slice().sort((a, b) => String(b.criadoEm).localeCompare(String(a.criadoEm)));
+  const kp = [['aberta', 'Abertas', 'warn'], ['concluida', 'Concluídas', 'ok'], ['cancelada', 'Canceladas', 'info'], ['todas', 'Todas', 'info']];
+  const conta = k => k === 'todas' ? base.length : base.filter(x => x.situacao === k).length;
+  const topo = isSup(S.user) ? '<div class="nrm-topo"><button class="ap-novo" data-action="anl-nova">' + icoI('prancheta') + 'Nova análise (reclamação de cliente)</button></div>' : '';
+  const guia = '<p class="fm-dica anl-guia">Para analisar um apontamento de campo, abra o apontamento e toque em "Analisar".</p>';
+  if (!base.length) return topo + '<div class="empty"><div class="empty-ic">' + ico('shield') + '</div><h2>Nenhuma análise ainda</h2><p>Use as ferramentas da qualidade (5 Porquês, Ishikawa, plano 5W2H e PDCA) em problemas que não vêm de uma auditoria interna: um apontamento de campo ou uma reclamação de cliente.</p></div>' + guia;
+  const lst = f === 'todas' ? base : base.filter(x => x.situacao === f);
+  const card = x => '<button class="rnc-card anl-card" data-action="anl-open" data-id="' + esc(x.id) + '" data-ap=""><span class="rnc-c-h"><b>' + esc(x.numero) + '</b><span>' + esc(ANL_ORIG[x.origem] || '') + '</span>' + anlChip(x) + '</span>' +
+    '<span class="anl-t">' + esc(x.titulo) + '</span>' +
+    '<span class="rnc-c-d">' + esc(fmtD(x.data)) + (x.local ? ' · ' + esc(x.local) : '') + ' · responsável ' + esc(x.respNome || '—') + (x.prazo && x.situacao === 'aberta' ? ' · prazo ' + esc(fmtD(x.prazo)) : '') + '</span>' +
+    '<span class="rnc-li-c">' + (x.situacao === 'aberta' ? '<span class="chip ' + (anlFalta(x).length ? 'warn' : 'ok') + '">' + (anlFalta(x).length ? 'Análise incompleta' : 'Análise completa') + '</span>' : '') + anlAcoesChip(x) + '</span></button>';
+  return topo + '<div class="kpis">' + kp.map(k => '<button class="kpi ' + esc(k[2]) + (f === k[0] ? ' on' : '') + '" data-action="anl-f" data-id="' + esc(k[0]) + '"><b>' + esc(conta(k[0])) + '</b><span>' + esc(k[1]) + '</span></button>').join('') + '</div>' +
+    (lst.length ? '<div class="rnc-lista">' + lst.map(card).join('') + '</div>' : '<p class="fm-dica">Nenhuma nesta situação.</p>') + guia;
+}
+
+/* ---------- abrir (líder ★ ou Principal) ---------- */
+function openAnlNova(apId) {
+  if (!isSup(S.user)) return;
+  const a = apId ? S.apont.find(y => y.id === apId) : null;
+  if (apId && !a) { toast('Apontamento não encontrado.', 'err'); return; }
+  if (a && anlDoApont(a.id)) { openAnl(anlDoApont(a.id).id); return; }
+  const c = a ? apCat(a.categoria) : null, us = anlUsuarios();
+  const v = { titulo: a ? c.nome + ' · ' + a.setor : '', descricao: a ? (a.obs || '') : '', local: a ? a.setor : '', data: a ? a.data : hojeISO() };
+  openSheet('<h3>Nova análise de problema</h3><div class="sub">' + (a ? 'Origem: apontamento de campo de ' + esc(fmtD(a.data)) + ' · ' + esc(a.porNome || '') : 'Origem: reclamação de cliente') + '</div><div id="ap-msg"></div>' +
+    '<div class="ap-sec" data-g="titulo">Problema <small>em uma frase</small></div><input class="input" id="anl-titulo" autocomplete="off" maxlength="120" value="' + esc(v.titulo) + '" placeholder="Ex.: mamão chegou com manchas de látex">' +
+    '<div class="ap-sec" data-g="desc">O que aconteceu</div><textarea class="input" id="anl-desc" rows="3" placeholder="O que, quando, quanto, como foi percebido">' + esc(v.descricao) + '</textarea>' +
+    (a ? '' : '<div class="ap-sec" data-g="cli">Cliente</div><input class="input" id="anl-cli" autocomplete="off" placeholder="Quem reclamou">' +
+      '<div class="fm-row"><div><label class="fm-l">Lote / produto</label><input class="input" id="anl-lote" autocomplete="off" placeholder="Ex.: lote 2026-10-14 · mamão formosa"></div><div><label class="fm-l">Como chegou</label><input class="input" id="anl-canal" autocomplete="off" list="anl-canal-l" placeholder="E-mail, telefone, visita…"><datalist id="anl-canal-l"><option value="E-mail"><option value="Telefone"><option value="WhatsApp"><option value="Visita"></datalist></div></div>') +
+    '<div class="fm-row"><div><label class="fm-l">Local</label><input class="input" id="anl-local" autocomplete="off" value="' + esc(v.local) + '"></div><div><label class="fm-l">Data do problema</label><input class="input" type="date" id="anl-data" value="' + esc(v.data) + '" max="' + esc(hojeISO()) + '"></div></div>' +
+    '<div class="ap-sec" data-g="resp">Responsável pela resposta <small>só ele escreve a análise e as ações</small></div><select class="input" id="anl-resp"><option value="">Escolha…</option>' + us.map(u => '<option value="' + esc(u.id) + '">' + esc(u.nome) + '</option>').join('') + '</select>' +
+    '<div class="ap-sec" data-g="prazo">Prazo da análise</div><input class="input" type="date" id="anl-prazo" min="' + esc(hojeISO()) + '" value="' + esc(addDias(hojeISO(), 15)) + '">' +
+    '<div class="row-actions"><button class="btn" data-action="' + (a ? 'anl-ap-volta' : 'close') + '"' + (a ? ' data-id="' + esc(a.id) + '"' : '') + '>Voltar</button><button class="btn primary" data-action="anl-nova-ok" data-id="' + esc(a ? a.id : '') + '">Abrir a análise</button></div>', { noFocus: true });
+  fmNumerar();
+}
+async function anlNovaOk(apId) {
+  if (!isSup(S.user)) return;
+  const a = apId ? S.apont.find(y => y.id === apId) : null;
+  const v = id => String((($('#' + id) || {}).value) || '').trim();
+  const o = { titulo: v('anl-titulo'), descricao: v('anl-desc'), local: v('anl-local'), data: v('anl-data'), respId: v('anl-resp'), prazo: v('anl-prazo') };
+  const falta = []; if (o.titulo.length < 5) falta.push('titulo'); if (!o.respId) falta.push('resp'); if (!o.prazo) falta.push('prazo'); if (!a && v('anl-cli').length < 2) falta.push('cli');
+  $$('.sheet .ap-sec').forEach(s => s.classList.toggle('falta', falta.indexOf(s.getAttribute('data-g')) >= 0));
+  if (falta.length) return apMsg('Falta: ' + falta.map(k => ({ titulo: 'o problema', resp: 'o responsável', prazo: 'o prazo', cli: 'o cliente' })[k]).join(', ') + '.');
+  if (o.data > hojeISO()) return apMsg('A data do problema não pode ser depois de hoje.');
+  if (o.prazo < hojeISO()) return apMsg('O prazo não pode ser antes de hoje.');
+  if (a && anlDoApont(a.id)) { openAnl(anlDoApont(a.id).id); return; }
+  if (S.anlSalvando) return; S.anlSalvando = true;
+  const ts = nowISO();
+  const doc = Object.assign(o, { numero: anlNovoNumero(), origem: a ? 'apont' : 'recl', origemId: a ? a.id : '', origemTxt: a ? apCat(a.categoria).nome + ' · ' + a.setor + ' · ' + fmtD(a.data) + ' · ' + (a.porNome || '') : '',
+    cliente: a ? null : { nome: v('anl-cli'), lote: v('anl-lote'), canal: v('anl-canal') }, respNome: nomeDe(o.respId), respHist: [], abertoPorId: S.user.id, abertoPorNome: S.user.nome, criadoEm: ts,
+    situacao: 'aberta', contencao: null, porques: ['', '', '', '', ''], ishi: [], ishiPri: '', ishiV: 1, causa: '', m6: '', acoes: [], efic: null, eficHist: [], rev: 1, em: ts, porId: S.user.id, porNome: S.user.nome, hist: [{ ts: ts, porNome: S.user.nome, rev: 1, o: 'abriu' }] });
+  try {
+    const id = await Data.col('sv2_analise').add(doc);
+    S.anl = (S.anl || []).filter(x => x.id !== id).concat([Object.assign({ id: id }, doc)]);
+    Audit.log({ acao: 'anl_abrir', entidade: 'analise', entidadeId: id, resumo: 'Abriu a ' + doc.numero + ' (' + ANL_ORIG[doc.origem] + '): ' + doc.titulo + ' · responsável ' + doc.respNome + ' até ' + fmtD(doc.prazo) });
+    if (doc.respId !== S.user.id) Notif.send({ nivel: 'aviso', titulo: 'Análise de problema para você', texto: doc.numero + ': ' + doc.titulo + ' — prazo ' + fmtD(doc.prazo) + '. Aberta por ' + S.user.nome + '.', para: [doc.respId], refTipo: 'analise', refId: id }).catch(() => {});
+    S.anlSalvando = false; toast(doc.numero + ' aberta.', 'ok'); renderView(); openAnl(id);
+  } catch (e) { S.anlSalvando = false; apMsg(errMsg(e)); }
+}
+
+/* ---------- a análise ---------- */
+function openAnl(id, dados) {
+  const x = anlDe(id); if (!x) return;
+  const ed = anlPodeEd(x), lid = anlPodeLider(x), d = dados || x;
+  S.anlPl = { id: id, rev0: x.rev || 0, m6: d.m6 || '', ishi: (d.ishi || []).map(c => Object.assign({}, c)), ishiPri: d.ishiPri || '' };
+  const pq = (d.porques || []).concat(['', '', '', '', '']).slice(0, 5), ct = d.contencao || {}, falta = anlFalta(d);
+  const ro = (t, v) => v ? '<div class="pl-ro"><span>' + esc(t) + '</span><p>' + esc(v) + '</p></div>' : '';
+  const ficha = [['Origem', ANL_ORIG[x.origem] + (x.origemTxt ? ' · ' + x.origemTxt : '')], ['Data do problema', fmtD(x.data)], ['Local', x.local], ['O que aconteceu', x.descricao]]
+    .concat(x.cliente ? [['Cliente', x.cliente.nome + (x.cliente.canal ? ' · ' + x.cliente.canal : '')], ['Lote / produto', x.cliente.lote]] : [])
+    .concat([['Prazo', fmtD(x.prazo)], ['Aberta por', x.abertoPorNome + ', ' + fmtDT(x.criadoEm)]]).filter(p => p[1]);
+  const corpo = ed ?
+    '<div class="ap-sec" data-g="cont">O que foi feito na hora <small>contenção (opcional)</small></div><textarea class="input" id="pl-cont" rows="2" placeholder="Ex.: lote separado; cliente avisado">' + esc(ct.texto || '') + '</textarea>' +
+      '<div class="ap-sec" data-g="porques">5 Porquês <small>pelo menos 3</small></div><div class="pl-pq">' + pq.map((v, i) => '<label><span>' + esc(i + 1) + 'º por quê?</span><input class="input" id="pl-pq' + esc(i + 1) + '" autocomplete="off" value="' + esc(v) + '"' + (i === 0 ? ' placeholder="Por que aconteceu?"' : '') + '></label>').join('') + '</div>' +
+      ishiEdHTML({ nc: x.titulo }, true, S.anlPl, 'anl') +
+      '<div class="ap-sec" data-g="causa">Causa <small>por que aconteceu (a raiz)</small></div><textarea class="input" id="pl-causa" rows="2">' + esc(d.causa || '') + '</textarea>' +
+      '<div class="ap-sec" data-g="m6">Categoria da causa (6M)</div><p class="fm-dica pl-m6-is">' + (ishiPriDe(S.anlPl) ? '<b>' + esc(ishiPriDe(S.anlPl).m) + '</b> · vem da causa principal do Ishikawa.' : 'Vem da causa principal do Ishikawa: marque uma acima.') + '</p>'
+    : (ro('O que foi feito na hora', ct.texto ? ct.texto + ' · ' + fmtD(ct.data) + ' · ' + (ct.porNome || '') : '') + ((d.porques || []).filter(Boolean).length ? '<div class="pl-ro"><span>5 Porquês</span><ol>' + d.porques.filter(Boolean).map(y => '<li>' + esc(y) + '</li>').join('') + '</ol></div>' : '') +
+      ishiRoHTML({ nc: x.titulo }, d) + ro('Causa', d.causa) + ro('Categoria (6M)', d.m6) || '<p class="fm-dica">Ainda sem análise.</p>');
+  const acoes = '<div class="ap-sec fm-nonum pl-ac-h" data-g="acoes">Plano de ação (5W2H) <small>' + (anlAtivas(x).length ? esc(anlAtivas(x).length) + (anlAtivas(x).length > 1 ? ' ações' : ' ação') : 'nenhuma ação ainda') + '</small></div>' +
+    (x.acoes || []).map(a => anlAcaoCard(x, a, ed)).join('') + (ed ? '<button type="button" class="btn sm pl-ac-nova" data-action="anl-ac-nova" data-id="' + esc(id) + '">+ Nova ação</button>' : '');
+  const efic = x.efic ? '<div class="pl-ro anl-ef"><span>Eficácia</span><p><b>' + (x.efic.res === 'eficaz' ? 'Eficaz' : 'Não eficaz') + '</b> · ' + esc(fmtD(x.efic.data)) + ' · ' + esc(x.efic.porNome || '') + (x.efic.texto ? ': ' + esc(x.efic.texto) : '') + '</p></div>' : '';
+  const canc = x.situacao === 'cancelada' ? '<div class="msg">Cancelada em ' + esc(fmtD(x.cancEm)) + ' por ' + esc(x.cancPor || '') + ': ' + esc(x.cancMotivo || '') + '</div>' : '';
+  openSheet('<div class="rnc-top"><small>' + esc(x.numero) + ' · ' + esc(ANL_ORIG[x.origem] || '') + '</small></div><h3>' + esc(x.titulo) + '</h3><div class="sub">' + anlChip(x) + '</div><div id="ap-msg"></div>' + canc +
+    keyval(ficha) +
+    '<div class="pl-resp"><span>Responsável pela resposta: <b>' + esc(x.respNome || '—') + '</b></span>' + (lid ? '<button type="button" class="btn sm" data-action="anl-resp" data-id="' + esc(id) + '">Trocar</button>' : '') + '</div>' +
+    (x.situacao === 'aberta' ? '<div class="pl-pede ' + (falta.length ? 'warn' : 'ok') + '"><b>A análise pede a causa, pelo menos 3 "por quê" e o Ishikawa com a causa principal.</b>' + (falta.length ? ' Falta: ' + esc(falta.join(', ')) + '.' : ' Completa.') + '</div>' : '') +
+    (!ed && x.situacao === 'aberta' ? '<p class="fm-dica">Só ' + esc(x.respNome || 'o responsável') + ' escreve esta análise.</p>' : '') +
+    anlPdcaHTML(x, d) + corpo + acoes + efic + (x.em ? '<p class="fm-dica pl-ult">Última alteração: ' + esc(x.porNome || '') + ' · ' + esc(fmtDT(x.em)) + '</p>' : '') +
+    '<div class="row-actions"><button class="btn" data-action="' + (S.anlVolta ? 'anl-ap-volta' : 'close') + '"' + (S.anlVolta ? ' data-id="' + esc(S.anlVolta) + '"' : '') + '>Voltar</button>' + impBtn([{ a: 'anl-print', id: id, t: 'PDF da análise' }]) +
+      (lid ? '<button class="btn" data-action="anl-canc" data-id="' + esc(id) + '">Cancelar a análise</button><button class="btn" data-action="anl-efic" data-id="' + esc(id) + '">Verificar eficácia</button>' : '') +
+      (ed ? '<button class="btn primary" data-action="anl-salvar" data-id="' + esc(id) + '">Salvar a análise</button>' : '') + '</div>', { noFocus: true });
+  if (ed) { fmNumerar(); $$('.sheet .ishi-add .input').forEach(e => e.addEventListener('keydown', ev => { if (ev.key === 'Enter') { ev.preventDefault(); const bt = e.parentNode.querySelector('button'); if (bt) bt.click(); } })); }
+}
+function anlLer() {
+  const v = id => String((($('#' + id) || {}).value) || '').trim(), b = S.anlPl || {}, x = anlDe(b.id) || {}, ct = x.contencao || {};
+  const txt = v('pl-cont');
+  return { contencao: txt ? { texto: txt, data: ct.texto === txt && ct.data ? ct.data : hojeISO(), porNome: txt === ct.texto && ct.porNome ? ct.porNome : S.user.nome } : null,
+    porques: [1, 2, 3, 4, 5].map(i => v('pl-pq' + i)), causa: v('pl-causa'), m6: (ishiPriDe(b) || {}).m || '', ishi: (b.ishi || []).slice(), ishiPri: ishiPriDe(b) ? b.ishiPri : '', ishiV: 1 };
+}
+async function anlGravar(x, patch, resumo) {
+  const cur = anlDe(x.id), b = S.anlPl || {};
+  if (((cur && cur.rev) || 0) !== (b.rev0 || 0)) { apMsg('Esta análise mudou em outro aparelho ou por outra pessoa depois que você abriu. O que você escreveu continua na tela: copie, feche e abra de novo (nada foi gravado por cima).'); return false; }
+  const ts = nowISO(), rev = ((cur && cur.rev) || 0) + 1;
+  const p = Object.assign({}, patch, { rev: rev, em: ts, porId: S.user.id, porNome: S.user.nome, hist: ((cur && cur.hist) || []).concat([{ ts: ts, porNome: S.user.nome, rev: rev, o: resumo }]) });
+  try { await Data.col('sv2_analise').update(x.id, p); } catch (e) { apMsg(errMsg(e)); return false; }
+  Object.assign(cur, p); b.rev0 = rev;
+  Audit.log({ acao: 'anl_alterar', entidade: 'analise', entidadeId: x.id, resumo: x.numero + ': ' + resumo });
+  return true;
+}
+async function anlSalvar() {
+  const b = S.anlPl, x = b && anlDe(b.id); if (!x || !anlPodeEd(x)) return;
+  const dados = anlLer(), f = anlFalta(dados), l = ishiAtivas(dados.ishi);
+  if (!await anlGravar(x, dados, 'análise salva' + (dados.causa ? ' · causa: ' + dados.causa : '') + (dados.m6 ? ' (' + dados.m6 + ')' : '') + (l.length ? ' · Ishikawa: ' + l.length + ' causa(s)' + (ishiPriDe(dados) ? ', principal: ' + ishiPriDe(dados).t : '') : '') + (f.length ? ' · falta ' + f.join(', ') : ' · completa'))) return;
+  toast('Análise salva' + (f.length ? ' (ainda falta ' + f.join(', ') + ').' : '.'), f.length ? '' : 'ok'); renderView(); openAnl(x.id);
+}
+function anlIshiMuda(op, id) {
+  const b = S.anlPl, x = b && anlDe(b.id); if (!x || !anlPodeEd(x)) return;
+  const dados = anlLer();
+  if (op === 'add') {
+    const i = Number(id), m = RNC_6M[i], txt = String((($('#is-in-' + i) || {}).value) || '').trim().replace(/\s+/g, ' ').slice(0, 80), at = ishiAtivas(dados.ishi);
+    if (!m) return;
+    if (txt.length < 3) { toast('Escreva a causa (pelo menos 3 letras).'); return; }
+    if (at.filter(c => c.m === m).length >= ISHI_MAX) { toast('No máximo ' + ISHI_MAX + ' causas em ' + m + '.'); return; }
+    if (at.some(c => c.m === m && c.t.toUpperCase() === txt.toUpperCase())) { toast('Essa causa já está em ' + m + '.'); return; }
+    dados.ishi = dados.ishi.concat([{ id: 'c' + uid(), m: m, t: txt, em: nowISO(), porNome: S.user.nome }]);
+  }
+  if (op === 'pri') dados.ishiPri = dados.ishiPri === id ? '' : id;
+  if (op === 'x') { if (dados.ishiPri === id) { dados.ishiPri = ''; dados.m6 = ''; } dados.ishi = dados.ishi.map(c => c.id === id ? Object.assign({}, c, { tirada: true, tiradaEm: nowISO(), tiradaPor: S.user.nome }) : c); }
+  const pr = ishiPriDe(dados); if (pr) dados.m6 = pr.m;
+  if (op === 'pri' && pr && !dados.causa) dados.causa = pr.t;
+  const rev0 = b.rev0, sh = $('.sheet'), top = sh ? sh.scrollTop : 0;
+  openAnl(x.id, Object.assign({}, x, dados)); S.anlPl.rev0 = rev0;
+  const sh2 = $('.sheet'); if (sh2) sh2.scrollTop = top;
+  if (op === 'add') { const e = $('#is-in-' + id); if (e) try { e.focus(); } catch {} }
+}
+
+/* ---------- ações 5W2H (mesmo formato da RNC) ---------- */
+function anlAcaoCard(x, a, ed) {
+  const s = acaoSt(a), t = PL_AC_ST[s], fora = a.st !== 'cancelada' && a.quando && x.prazo && a.quando > x.prazo;
+  const dd = ' data-id="' + esc(x.id) + '" data-ac="' + esc(a.id) + '"';
+  return '<div class="pl-ac st-' + esc(s) + '"><div class="pl-ac-t"><b>' + esc(a.oque) + '</b><span class="chip ' + esc(t[1]) + '">' + esc(t[0]) + '</span></div>' +
+    '<div class="pl-ac-k">' + [['Quem', a.quemNome], ['Quando', fmtD(a.quando) + (fora ? ' · depois do prazo da análise' : '')], ['Onde', a.onde], ['Por quê', a.porque], ['Como', a.como], ['Quanto', a.quanto]].filter(y => y[1]).map(y => '<span' + (y[0] === 'Quando' && fora ? ' class="pl-fora"' : '') + '><i>' + esc(y[0]) + '</i>' + esc(y[1]) + '</span>').join('') + '</div>' +
+    (a.st === 'feita' ? '<p class="pl-ac-n">Feita em ' + esc(fmtD(a.feitaEm)) + ' · ' + esc(a.feitaPor || '') + (a.feitaTxt ? ': ' + esc(a.feitaTxt) : '') + '</p>' : '') +
+    (a.st === 'cancelada' ? '<p class="pl-ac-n">Cancelada em ' + esc(fmtD(a.cancEm)) + ' · ' + esc(a.cancPor || '') + ': ' + esc(a.cancMotivo || '') + '</p>' : '') +
+    (ed && (s === 'aberta' || s === 'atrasada') ? '<div class="pl-ac-b"><button type="button" class="btn sm" data-action="anl-ac-ed"' + dd + '>Editar</button><button type="button" class="btn sm" data-action="anl-ac-canc"' + dd + '>Cancelar</button><button type="button" class="btn sm primary" data-action="anl-ac-feita"' + dd + '>Concluir</button></div>' : '') + '</div>';
+}
+function anlGuardaTela(id) { if ($('#pl-causa')) S.anlVoltaDados = { id: id, dados: anlLer() }; }
+function anlVoltaTela(id) { const x = anlDe(id); if (!x) return; const v = S.anlVoltaDados && S.anlVoltaDados.id === id ? S.anlVoltaDados.dados : null; S.anlVoltaDados = null; renderView(); openAnl(id, v ? Object.assign({}, x, v) : undefined); }
+function openAnlAcao(id, acId) {
+  const x = anlDe(id); if (!x || !anlPodeEd(x)) return;
+  anlGuardaTela(id);
+  const a = (x.acoes || []).find(y => y.id === acId) || {}, quem = a.quemId || x.respId, us = anlUsuarios();
+  const causa = S.anlVoltaDados && S.anlVoltaDados.id === id ? S.anlVoltaDados.dados.causa : x.causa;
+  openSheet('<div class="rnc-top"><small>' + esc(x.numero) + ' · plano de ação</small></div><h3>' + (a.id ? 'Editar ação' : 'Nova ação') + '</h3><div class="sub">' + esc(x.titulo) + '</div><div id="ap-msg"></div>' +
+    '<div class="ap-sec" data-g="oque">O quê <small>a ação que resolve a causa</small></div><input class="input" id="ac-oque" autocomplete="off" value="' + esc(a.oque || '') + '">' +
+    '<div class="ap-sec" data-g="porque">Por quê <small>vem da causa</small></div><input class="input" id="ac-porque" autocomplete="off" value="' + esc(a.porque != null ? a.porque : causa || '') + '">' +
+    '<div class="ap-sec" data-g="onde">Onde</div><input class="input" id="ac-onde" autocomplete="off" value="' + esc(a.onde != null ? a.onde : x.local || '') + '">' +
+    '<div class="ap-sec" data-g="quem">Quem</div><select class="input" id="ac-quem"><option value="">Escolha…</option>' + us.map(u => '<option value="' + esc(u.id) + '"' + (u.id === quem ? ' selected' : '') + '>' + esc(u.nome) + '</option>').join('') + '</select>' +
+    '<div class="ap-sec" data-g="quando">Quando <small>a análise vai até ' + esc(fmtD(x.prazo)) + '</small></div><input class="input" type="date" id="ac-quando" value="' + esc(a.quando || '') + '"' + (a.id ? '' : ' min="' + esc(hojeISO()) + '"') + '>' +
+    '<div class="ap-sec" data-g="como">Como <small>opcional</small></div><textarea class="input" id="ac-como" rows="2">' + esc(a.como || '') + '</textarea>' +
+    '<div class="ap-sec" data-g="quanto">Quanto custa <small>opcional</small></div><input class="input" id="ac-quanto" autocomplete="off" value="' + esc(a.quanto || '') + '" placeholder="Ex.: R$ 120,00 ou sem custo">' +
+    '<div class="row-actions"><button class="btn" data-action="anl-volta" data-id="' + esc(id) + '">Voltar</button><button class="btn primary" data-action="anl-ac-ok" data-id="' + esc(id) + '" data-ac="' + esc(a.id || '') + '">Salvar a ação</button></div>', { noFocus: true });
+  fmNumerar();
+}
+async function anlAcaoSalvar(id, acId) {
+  const x = anlDe(id); if (!x || !anlPodeEd(x)) return;
+  const v = k => String((($('#' + k) || {}).value) || '').trim();
+  const o = { oque: v('ac-oque'), porque: v('ac-porque'), onde: v('ac-onde'), quemId: v('ac-quem'), quando: v('ac-quando'), como: v('ac-como'), quanto: v('ac-quanto') };
+  const falta = []; if (o.oque.length < 3) falta.push('oque'); if (!o.quemId) falta.push('quem'); if (!o.quando) falta.push('quando');
+  $$('.sheet .ap-sec').forEach(s => s.classList.toggle('falta', falta.indexOf(s.getAttribute('data-g')) >= 0));
+  if (falta.length) return apMsg('Falta: ' + falta.map(k => ({ oque: 'o quê', quem: 'quem', quando: 'quando' })[k]).join(', ') + '.');
+  const velha = (x.acoes || []).find(y => y.id === acId);
+  if (velha && (velha.st === 'feita' || velha.st === 'cancelada')) return apMsg('Esta ação já foi ' + (velha.st === 'feita' ? 'feita' : 'cancelada') + ' e não muda mais.');
+  if (o.quando < hojeISO() && (!velha || velha.quando !== o.quando)) return apMsg('O prazo da ação não pode ser antes de hoje.');
+  o.quemNome = nomeDe(o.quemId);
+  const ts = nowISO();
+  const lista = velha ? x.acoes.map(y => y.id === acId ? Object.assign({}, y, o, { hist: (y.hist || []).concat([{ ts: ts, porNome: S.user.nome, o: 'editou', antes: { oque: y.oque, quemNome: y.quemNome, quando: y.quando } }]) }) : y)
+    : (x.acoes || []).concat([Object.assign({ id: uid(), st: 'aberta', criadoEm: ts, porId: S.user.id, porNome: S.user.nome, hist: [] }, o)]);
+  S.anlPl = Object.assign(S.anlPl || {}, { id: id }); if (S.anlPl.rev0 == null) S.anlPl.rev0 = x.rev || 0;
+  if (!await anlGravar(x, { acoes: lista }, (velha ? 'ação editada: ' : 'nova ação: ') + o.oque + ' · ' + o.quemNome + ' até ' + fmtD(o.quando))) return;
+  if (o.quemId !== S.user.id && (!velha || velha.quemId !== o.quemId)) Notif.send({ nivel: 'aviso', titulo: 'Ação de análise com você', texto: x.numero + ' (' + x.titulo + '): ' + o.oque + ' — até ' + fmtD(o.quando) + '. Responsável pela resposta: ' + x.respNome + '.', para: [o.quemId], refTipo: 'analise', refId: x.id }).catch(() => {});
+  toast('Ação salva.', 'ok'); anlVoltaTela(id);
+}
+function openAnlAcaoFim(id, acId, tipo) {
+  const x = anlDe(id); if (!x || !anlPodeEd(x)) return;
+  const a = (x.acoes || []).find(y => y.id === acId); if (!a || a.st === 'feita' || a.st === 'cancelada') return;
+  anlGuardaTela(id);
+  const feita = tipo === 'feita', dd = ' data-id="' + esc(id) + '" data-ac="' + esc(acId) + '"';
+  openSheet('<h3>' + (feita ? 'Concluir a ação' : 'Cancelar a ação') + '</h3><div class="sub">' + esc(x.numero) + ' · ' + esc(a.oque) + ' · ' + esc(a.quemNome || '') + ' até ' + esc(fmtD(a.quando)) + '</div><div id="ap-msg"></div>' +
+    (feita ? '<div class="fm-row"><div><label class="fm-l">Feita em</label><input class="input" type="date" id="ac-feita-d" value="' + esc(hojeISO()) + '" max="' + esc(hojeISO()) + '"></div></div><div class="field"><label>Como ficou <small>opcional</small></label><textarea class="input" id="ac-feita-t" rows="2"></textarea></div>'
+      : '<p class="fm-dica">A ação não é apagada: fica no plano como "Cancelada", com o motivo.</p><div class="field"><label>Motivo</label><textarea class="input" id="al-mot-g" rows="2"></textarea></div>') +
+    '<div class="row-actions"><button class="btn" data-action="anl-volta" data-id="' + esc(id) + '">Voltar</button><button class="btn primary" data-action="' + (feita ? 'anl-ac-feita-ok' : 'anl-ac-canc-ok') + '"' + dd + '>' + (feita ? 'Concluir' : 'Cancelar a ação') + '</button></div>', { noFocus: true });
+}
+async function anlAcaoFim(id, acId, tipo) {
+  const x = anlDe(id); if (!x || !anlPodeEd(x)) return;
+  const a = (x.acoes || []).find(y => y.id === acId); if (!a || a.st === 'feita' || a.st === 'cancelada') return;
+  const ts = nowISO(), feita = tipo === 'feita';
+  let muda;
+  if (feita) { const d = (($('#ac-feita-d') || {}).value) || hojeISO(); if (d > hojeISO()) return apMsg('A data não pode ser depois de hoje.'); muda = { st: 'feita', feitaEm: d, feitaPor: S.user.nome, feitaTxt: String((($('#ac-feita-t') || {}).value) || '').trim() }; }
+  else { const m = alMotG(); if (m.length < 5) return apMsg('Escreva o motivo.'); muda = { st: 'cancelada', cancEm: hojeISO(), cancPor: S.user.nome, cancMotivo: m }; }
+  const lista = x.acoes.map(y => y.id === acId ? Object.assign({}, y, muda, { hist: (y.hist || []).concat([{ ts: ts, porNome: S.user.nome, o: feita ? 'feita' : 'cancelada', motivo: feita ? muda.feitaTxt : muda.cancMotivo }]) }) : y);
+  S.anlPl = Object.assign(S.anlPl || {}, { id: id }); if (S.anlPl.rev0 == null) S.anlPl.rev0 = x.rev || 0;
+  if (!await anlGravar(x, { acoes: lista }, (feita ? 'ação feita: ' : 'ação cancelada: ') + a.oque + (feita ? (muda.feitaTxt ? ' — ' + muda.feitaTxt : '') : ' — motivo: ' + muda.cancMotivo))) return;
+  toast(feita ? 'Ação concluída.' : 'Ação cancelada (fica no plano, com o motivo).', 'ok'); anlVoltaTela(id);
+}
+
+/* ---------- líder ★ / Principal: responsável, eficácia, cancelar ---------- */
+function openAnlResp(id) {
+  const x = anlDe(id); if (!x || !anlPodeLider(x)) return;
+  const us = anlUsuarios().filter(u => u.id !== x.respId);
+  openSheet('<h3>Trocar o responsável pela resposta</h3><div class="sub">' + esc(x.numero) + ' · hoje: ' + esc(x.respNome || '—') + '</div><div id="ap-msg"></div>' +
+    '<div class="field"><label>Novo responsável</label><select class="input" id="anl-resp-u"><option value="">Escolha…</option>' + us.map(u => '<option value="' + esc(u.id) + '">' + esc(u.nome) + '</option>').join('') + '</select></div>' +
+    '<div class="field"><label>Motivo</label><textarea class="input" id="al-mot-g" rows="2"></textarea></div>' +
+    '<div class="row-actions"><button class="btn" data-action="anl-open" data-id="' + esc(id) + '">Voltar</button><button class="btn primary" data-action="anl-resp-ok" data-id="' + esc(id) + '">Trocar</button></div>', { noFocus: true });
+}
+async function anlRespOk(id) {
+  const x = anlDe(id); if (!x || !anlPodeLider(x)) return;
+  const novo = (($('#anl-resp-u') || {}).value || ''), mot = alMotG();
+  if (!novo) return apMsg('Escolha o novo responsável.');
+  if (mot.length < 5) return apMsg('Escreva o motivo.');
+  S.anlPl = { id: id, rev0: x.rev || 0 };
+  const passo = { de: x.respId, deNome: x.respNome, para: novo, paraNome: nomeDe(novo), porNome: S.user.nome, ts: nowISO(), motivo: mot };
+  if (!await anlGravar(x, { respId: novo, respNome: nomeDe(novo), respHist: (x.respHist || []).concat([passo]) }, 'responsável ' + (x.respNome || '—') + ' → ' + nomeDe(novo) + ' · motivo: ' + mot)) return;
+  if (novo !== S.user.id) Notif.send({ nivel: 'aviso', titulo: 'Análise de problema para você', texto: x.numero + ': ' + x.titulo + '. ' + S.user.nome + ' passou para você: ' + mot, para: [novo], refTipo: 'analise', refId: id }).catch(() => {});
+  toast('Responsável trocado.', 'ok'); renderView(); openAnl(id);
+}
+function anlPodeConcluir(x) {
+  const l = anlAtivas(x), f = anlFalta(x), p = [];
+  if (f.length) p.push('análise incompleta (falta ' + f.join(', ') + ')');
+  if (!l.length) p.push('nenhuma ação no plano');
+  const ab = l.filter(a => a.st !== 'feita'); if (ab.length) p.push(ab.length + (ab.length > 1 ? ' ações ainda não feitas' : ' ação ainda não feita'));
+  return p;
+}
+function openAnlEfic(id) {
+  const x = anlDe(id); if (!x || !anlPodeLider(x)) return;
+  const p = anlPodeConcluir(x);
+  S.anlEf = '';
+  openSheet('<h3>Verificar a eficácia</h3><div class="sub">' + esc(x.numero) + ' · ' + esc(x.titulo) + '</div><div id="ap-msg"></div>' +
+    (p.length ? '<div class="pl-pede warn"><b>Para dizer "Eficaz" e concluir falta:</b> ' + esc(p.join('; ')) + '. "Não eficaz" pode ser marcado a qualquer hora: a análise continua aberta para novas ações.</div>' : '<p class="fm-dica">Depois das ações feitas, confira no local se o problema parou. "Eficaz" conclui a análise; "Não eficaz" mantém aberta para novas ações.</p>') +
+    '<div class="ap-sec" data-g="res">O problema parou?</div><div class="ap-oc">' + [['eficaz', 'Eficaz'], ['nao', 'Não eficaz']].map(o => '<button type="button" class="ap-b" data-action="anl-ef-ch" data-id="' + esc(o[0]) + '">' + esc(o[1]) + '</button>').join('') + '</div>' +
+    '<div class="ap-sec" data-g="txt">Como foi conferido</div><textarea class="input" id="anl-ef-t" rows="2" placeholder="Ex.: 3 cargas seguintes sem reclamação; conferi no local"></textarea>' +
+    '<div class="fm-row"><div><label class="fm-l">Data</label><input class="input" type="date" id="anl-ef-d" value="' + esc(hojeISO()) + '" max="' + esc(hojeISO()) + '"></div></div>' +
+    '<div class="row-actions"><button class="btn" data-action="anl-open" data-id="' + esc(id) + '">Voltar</button><button class="btn primary" data-action="anl-efic-ok" data-id="' + esc(id) + '">Salvar</button></div>', { noFocus: true });
+  fmNumerar();
+}
+async function anlEficOk(id) {
+  const x = anlDe(id); if (!x || !anlPodeLider(x)) return;
+  const res = S.anlEf, txt = String((($('#anl-ef-t') || {}).value) || '').trim(), d = (($('#anl-ef-d') || {}).value) || hojeISO();
+  const falta = []; if (!res) falta.push('res'); if (txt.length < 3) falta.push('txt');
+  $$('.sheet .ap-sec').forEach(s => s.classList.toggle('falta', falta.indexOf(s.getAttribute('data-g')) >= 0));
+  if (falta.length) return apMsg(!res ? 'Diga se foi eficaz ou não.' : 'Escreva como foi conferido.');
+  if (d > hojeISO()) return apMsg('A data não pode ser depois de hoje.');
+  if (res === 'eficaz') { const p = anlPodeConcluir(x); if (p.length) return apMsg('Ainda não dá para concluir: ' + p.join('; ') + '.'); }
+  S.anlPl = { id: id, rev0: x.rev || 0 };
+  const ef = { res: res, texto: txt, data: d, porId: S.user.id, porNome: S.user.nome, ts: nowISO() };
+  const patch = { efic: ef, eficHist: (x.eficHist || []).concat(x.efic ? [x.efic] : []) };
+  if (res === 'eficaz') Object.assign(patch, { situacao: 'concluida', concluidaEm: nowISO(), concluidaPor: S.user.nome });
+  if (!await anlGravar(x, patch, (res === 'eficaz' ? 'eficaz, análise concluída' : 'não eficaz, continua aberta') + ' — ' + txt)) return;
+  if (x.respId !== S.user.id) Notif.send({ nivel: 'aviso', titulo: res === 'eficaz' ? 'Análise concluída' : 'Análise: ação não foi eficaz', texto: x.numero + ': ' + x.titulo + ' — ' + txt, para: [x.respId], refTipo: 'analise', refId: id }).catch(() => {});
+  toast(res === 'eficaz' ? x.numero + ' concluída.' : 'Registrado: não eficaz. A análise continua aberta.', 'ok'); renderView(); openAnl(id);
+}
+function openAnlCanc(id) {
+  const x = anlDe(id); if (!x || !anlPodeLider(x)) return;
+  openSheet('<h3>Cancelar a análise</h3><div class="sub">' + esc(x.numero) + ' · ' + esc(x.titulo) + '</div><div id="ap-msg"></div><p class="fm-dica">Nada é apagado: a análise fica como "Cancelada", com o motivo.</p>' +
+    '<div class="field"><label>Motivo</label><textarea class="input" id="al-mot-g" rows="2"></textarea></div>' +
+    '<div class="row-actions"><button class="btn" data-action="anl-open" data-id="' + esc(id) + '">Voltar</button><button class="btn primary" data-action="anl-canc-ok" data-id="' + esc(id) + '">Cancelar a análise</button></div>', { noFocus: true });
+}
+async function anlCancOk(id) {
+  const x = anlDe(id); if (!x || !anlPodeLider(x)) return;
+  const m = alMotG(); if (m.length < 5) return apMsg('Escreva o motivo.');
+  S.anlPl = { id: id, rev0: x.rev || 0 };
+  if (!await anlGravar(x, { situacao: 'cancelada', cancEm: hojeISO(), cancPor: S.user.nome, cancMotivo: m }, 'cancelada — ' + m)) return;
+  toast(x.numero + ' cancelada.', 'ok'); renderView(); openAnl(id);
+}
+
+/* ---------- PDF (A4 deitado) ---------- */
+function anlImprimir(id) {
+  const x0 = anlDe(id); if (!x0) return;
+  const b = S.anlPl, x = b && b.id === id && $('#pl-causa') && anlPodeEd(x0) ? Object.assign({}, x0, anlLer()) : x0;
+  const l = ishiAtivas(x.ishi), pr = ishiPriDe(x), ac = (x.acoes || []).filter(a => a.st !== 'cancelada');
+  const kv = [['Análise', x.numero], ['Origem', ANL_ORIG[x.origem] || ''], ['Data do problema', fmtD(x.data)], ['Local', x.local || '—'], ['Responsável pela resposta', x.respNome || '—'], ['Prazo', fmtD(x.prazo)], ['Situação', (ANL_SIT[x.situacao] || ANL_SIT.aberta)[0]]];
+  const sec = (t, h) => '<div class="ar anl-is"><h4>' + esc(t) + '</h4>' + h + '</div>';
+  const body = '<div class="anl-imp">' +
+    '<div class="ar anl-ik">' + kv.map(y => '<span><i>' + esc(y[0]) + '</i>' + esc(y[1]) + '</span>').join('') + '</div>' +
+    '<div class="ar anl-ip"><b>Problema:</b> ' + esc(x.titulo) + (x.descricao ? '<br><b>O que aconteceu:</b> ' + esc(x.descricao) : '') +
+      (x.cliente ? '<br><b>Cliente:</b> ' + esc(x.cliente.nome) + (x.cliente.canal ? ' · ' + esc(x.cliente.canal) : '') + (x.cliente.lote ? ' · lote/produto: ' + esc(x.cliente.lote) : '') : '') +
+      (x.origemTxt ? '<br><b>Apontamento:</b> ' + esc(x.origemTxt) : '') + '</div>' +
+    '<div class="ar anl-2">' + sec('Contenção', '<p>' + esc(x.contencao ? x.contencao.texto + ' (' + fmtD(x.contencao.data) + ', ' + (x.contencao.porNome || '') + ')' : '—') + '</p>') +
+      sec('5 Porquês', (x.porques || []).filter(Boolean).length ? '<ol>' + x.porques.filter(Boolean).map(y => '<li>' + esc(y) + '</li>').join('') + '</ol>' : '<p>—</p>') +
+      sec('Causa (raiz)', '<p>' + esc(x.causa || '—') + (x.m6 ? ' <b>(' + esc(x.m6) + ')</b>' : '') + '</p>') + '</div>' +
+    (l.length ? '<div class="ar ishi-fig anl-fig">' + ishiSVG(x.titulo, l, x.ishiPri) + '</div><div class="ar anl-ip"><b>Causa principal (Ishikawa):</b> ' + (pr ? esc(pr.m) + ': ' + esc(pr.t) : 'não marcada') + '</div>' : '') +
+    '<table class="t anl-t ar"><thead><tr><th>Plano de ação (5W2H)</th><th>Quem</th><th>Quando</th><th>Situação</th></tr></thead><tbody>' +
+      (ac.length ? ac.map(a => '<tr><td><b>' + esc(a.oque) + '</b>' + [a.como, a.quanto].filter(Boolean).map(y => ' · ' + esc(y)).join('') + '</td><td>' + esc(a.quemNome || '') + '</td><td>' + esc(fmtD(a.quando)) + '</td><td>' + esc(PL_AC_ST[acaoSt(a)][0]) + (a.st === 'feita' ? ' em ' + esc(fmtD(a.feitaEm)) : '') + '</td></tr>').join('') : '<tr><td colspan="4">Nenhuma ação ainda.</td></tr>') + '</tbody></table>' +
+    '<div class="ar anl-ip"><b>Eficácia:</b> ' + (x.efic ? (x.efic.res === 'eficaz' ? 'Eficaz' : 'Não eficaz') + ' · ' + esc(fmtD(x.efic.data)) + ' · ' + esc(x.efic.porNome || '') + ': ' + esc(x.efic.texto || '') : 'ainda não verificada') +
+      (x.situacao === 'cancelada' ? '<br><b>Cancelada:</b> ' + esc(fmtD(x.cancEm)) + ' · ' + esc(x.cancPor || '') + ': ' + esc(x.cancMotivo || '') : '') + '</div></div>';
+  Audit.log({ acao: 'imprimir', entidade: 'analise', entidadeId: id, resumo: 'Imprimiu a ' + x.numero });
+  runPrint(body, 'Análise de problema — ' + x.numero);
+}
+
+/* ---------- ações (botões) ---------- */
+function anlAcao(act, id, t) {
+  const ac = t && t.getAttribute('data-ac');
+  if (['anl-nova-ok', 'anl-salvar', 'anl-ac-ok', 'anl-ac-feita-ok', 'anl-ac-canc-ok', 'anl-resp-ok', 'anl-efic-ok', 'anl-canc-ok'].indexOf(act) >= 0) {
+    const f = { 'anl-nova-ok': () => anlNovaOk(id), 'anl-salvar': () => anlSalvar(), 'anl-ac-ok': () => anlAcaoSalvar(id, ac), 'anl-ac-feita-ok': () => anlAcaoFim(id, ac, 'feita'), 'anl-ac-canc-ok': () => anlAcaoFim(id, ac, 'cancelada'), 'anl-resp-ok': () => anlRespOk(id), 'anl-efic-ok': () => anlEficOk(id), 'anl-canc-ok': () => anlCancOk(id) }[act];
+    eqUmaVez(f); return true;
+  }
+  switch (act) {
+    case 'anl-f': S.anlF = id; renderView(); return true;
+    case 'anl-nova': S.anlVolta = id || ''; openAnlNova(id); return true;
+    case 'anl-open': if (t && t.hasAttribute('data-ap')) S.anlVolta = t.getAttribute('data-ap') || ''; openAnl(id); return true;
+    case 'anl-ap-volta': S.anlVolta = ''; openApDetail(id); return true;
+    case 'anl-volta': anlVoltaTela(id); return true;
+    case 'anl-is-add': anlIshiMuda('add', id); return true;
+    case 'anl-is-pri': anlIshiMuda('pri', id); return true;
+    case 'anl-is-x': anlIshiMuda('x', id); return true;
+    case 'anl-ac-nova': openAnlAcao(id, ''); return true;
+    case 'anl-ac-ed': openAnlAcao(id, ac); return true;
+    case 'anl-ac-feita': openAnlAcaoFim(id, ac, 'feita'); return true;
+    case 'anl-ac-canc': openAnlAcaoFim(id, ac, 'cancelada'); return true;
+    case 'anl-resp': openAnlResp(id); return true;
+    case 'anl-efic': openAnlEfic(id); return true;
+    case 'anl-ef-ch': S.anlEf = id; $$('[data-action="anl-ef-ch"]').forEach(y => y.classList.toggle('on', y === t)); { const s = $('.ap-sec[data-g="res"]'); if (s) s.classList.remove('falta'); } return true;
+    case 'anl-canc': openAnlCanc(id); return true;
+    case 'anl-print': anlImprimir(id); return true;
+  }
+  return false;
+}
+/* Meu dia: análises que esperam esta pessoa e as ações com ela */
+function anlMeuDia(u, add) {
+  const ab = (S.anl || []).filter(x => x.situacao === 'aberta');
+  const minhas = ab.filter(x => x.respId === u.id && anlFalta(x).length);
+  add('anl-resp', 'Análise de problema para você responder', minhas.some(x => x.prazo < hojeISO()) ? 'crit' : 'warn', minhas.map(x => ({ u: x.prazo < hojeISO(), t: x.numero + ' · ' + x.titulo, d: 'falta ' + anlFalta(x).join(', ') + ' · prazo ' + fmtD(x.prazo) })), 'qualidade/anl');
+  const ac = []; ab.forEach(x => anlAtivas(x).filter(a => a.st !== 'feita' && (a.quemId === u.id || (acaoSt(a) === 'atrasada' && x.respId === u.id))).forEach(a => ac.push({ x: x, a: a })));
+  ac.sort((m1, m2) => String(m1.a.quando).localeCompare(String(m2.a.quando)));
+  add('anl-acoes', 'Ações de análise de problema', ac.some(m => acaoSt(m.a) === 'atrasada') ? 'crit' : 'warn', ac.map(m => ({ u: acaoSt(m.a) === 'atrasada', t: m.x.numero + ' · ' + m.a.oque, d: (acaoSt(m.a) === 'atrasada' ? 'atrasada · era até ' : 'até ') + fmtD(m.a.quando) + ' · ' + (m.a.quemNome || '') })), 'qualidade/anl');
+}
+
+/* ============ v2.102.19 — Pareto das NCs ============
+   Só lê (RNCs e análises). Estado: S.prF = { ano, per, por }. Item vazio: "Sem análise" (6M), "Sem lei informada"; ficam sempre no fim. */
+const PAR_POR = [['6m', 'Categoria 6M'], ['local', 'Local'], ['lei', 'Lei / requisito'], ['grav', 'Gravidade'], ['area', 'Área']];
+const PAR_SEM = { '6m': 'Sem análise', local: 'Sem local', lei: 'Sem lei informada', grav: 'Sem gravidade', area: 'Sem área' };
+const PAR_MAX = 8;
+function prF() { S.prF = S.prF || { ano: hojeISO().slice(0, 4), per: '', por: '6m' }; return S.prF; }
+function prPerTxt() { const f = prF(); return f.ano + (f.per ? ' · ' + (f.per[0] === 'T' ? f.per[1] + 'º trimestre' : f.per[1] + 'º semestre') : ''); }
+function prChave(por, r, n) {
+  if (por === 'local') return String(n.local || '').trim();
+  if (por === 'lei') return String(n.lei || '').trim();
+  if (por === 'grav') return (RNC_GRAV[n.grav] || [''])[0];
+  if (por === 'area') return n.area ? rncAreaNome(n.area) : '';
+  const p = planoDe(n.id); return p ? ((ishiPriDe(p) || {}).m || p.m6 || '') : '';
+}
+/* devolve { itens: [{ nome, n, pct, acum, vital }], total, rncs } já com "Outros" e o "Sem …" no fim */
+function paretoDados() {
+  const f = prF(), rs = (S.rnc || []).filter(r => r.situacao !== 'cancelada' && periodoOk(r.data, f.ano, f.per)), mapa = {};
+  let total = 0;
+  rs.forEach(r => rncNcs(r).forEach(n => { const k0 = prChave(f.por, r, n), sem = !k0, k = sem ? '\u0000' : k0.toUpperCase(); if (!mapa[k]) { mapa[k] = { nome: sem ? PAR_SEM[f.por] : k0, n: 0, sem: sem }; } mapa[k].n++; total++; }));
+  let l = Object.keys(mapa).map(k => mapa[k]);
+  const sem = l.filter(x => x.sem), com = l.filter(x => !x.sem).sort((a, b) => b.n - a.n || a.nome.localeCompare(b.nome, 'pt-BR'));
+  let itens = com;
+  if (com.length > PAR_MAX) { const resto = com.slice(PAR_MAX); itens = com.slice(0, PAR_MAX).concat([{ nome: 'Outros (' + resto.length + ')', n: resto.reduce((s, x) => s + x.n, 0), outros: true }]); }
+  itens = itens.concat(sem);
+  let ac = 0, passou = false;
+  itens.forEach(x => { ac += x.n; x.pct = total ? x.n / total * 100 : 0; x.acum = total ? ac / total * 100 : 0; x.vital = !passou && !x.sem && !x.outros; if (total && ac / total * 100 >= 80) passou = true; if (x.sem || x.outros) x.vital = false; });
+  return { itens: itens, total: total, rncs: rs.length };
+}
+function paretoSVG(d) {
+  const W = 1000, H = 360, L = 56, R = 56, T = 24, B = 92, pw = W - L - R, ph = H - T - B, it = d.itens, k = it.length || 1, bw = Math.min(70, pw / k * 0.62), mx = Math.max(1, ...it.map(x => x.n));
+  const nice = (() => { const e = Math.pow(10, Math.floor(Math.log10(mx))), f = mx / e; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * e; })(), tk = [0, 1, 2, 3, 4].map(i => nice * i / 4);
+  const X = i => L + pw / k * (i + 0.5), Y = v => T + ph - ph * v / nice, YP = p => T + ph - ph * p / 100;
+  let o = '<svg class="par-svg" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Pareto das não conformidades">';
+  tk.forEach(v => { o += '<line class="pa-g" x1="' + L + '" y1="' + Y(v).toFixed(1) + '" x2="' + (W - R) + '" y2="' + Y(v).toFixed(1) + '"/><text class="pa-ax" x="' + (L - 6) + '" y="' + (Y(v) + 4).toFixed(1) + '" text-anchor="end">' + esc(Number.isInteger(v) ? v : v.toFixed(1)) + '</text>'; });
+  [0, 20, 40, 60, 80, 100].forEach(p => { o += '<text class="pa-ax" x="' + (W - R + 6) + '" y="' + (YP(p) + 4).toFixed(1) + '">' + p + '%</text>'; });
+  o += '<line class="pa-80" x1="' + L + '" y1="' + YP(80).toFixed(1) + '" x2="' + (W - R) + '" y2="' + YP(80).toFixed(1) + '"/>';
+  it.forEach((x, i) => {
+    const h = ph * x.n / nice, cx = X(i);
+    o += '<rect class="pa-b' + (x.vital ? ' pa-v' : '') + '" x="' + (cx - bw / 2).toFixed(1) + '" y="' + (T + ph - h).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + h.toFixed(1) + '"><title>' + esc(x.nome) + ': ' + esc(x.n) + ' NC(s) · ' + esc(x.pct.toFixed(0)) + '%</title></rect><text class="pa-n" x="' + cx.toFixed(1) + '" y="' + (T + ph - h - 5).toFixed(1) + '" text-anchor="middle">' + esc(x.n) + '</text>';
+    ishiQuebra(x.nome, 14, 3).forEach((t, j) => { o += '<text class="pa-lb" x="' + cx.toFixed(1) + '" y="' + (T + ph + 16 + j * 14) + '" text-anchor="middle">' + esc(t) + '</text>'; });
+  });
+  if (it.length) {
+    o += '<polyline class="pa-ln" points="' + it.map((x, i) => X(i).toFixed(1) + ',' + YP(x.acum).toFixed(1)).join(' ') + '"/>' + it.map((x, i) => '<circle class="pa-pt" cx="' + X(i).toFixed(1) + '" cy="' + YP(x.acum).toFixed(1) + '" r="3.5"/>').join('');
+  }
+  return o + '<text class="pa-ax" x="' + L + '" y="12">NCs</text><text class="pa-ax" x="' + (W - R + 6) + '" y="12">% acum.</text></svg>';
+}
+function paretoCorpo(d) {
+  const f = prF(), nome = (PAR_POR.find(x => x[0] === f.por) || ['', ''])[1];
+  if (!d.total) return '<p class="fm-dica">Nenhuma NC neste período.</p>';
+  const vit = d.itens.filter(x => x.vital);
+  return '<div class="par-fig">' + paretoSVG(d) + '</div>' +
+    '<p class="par-res">' + esc(d.rncs) + (d.rncs > 1 ? ' RNCs' : ' RNC') + ' · ' + esc(d.total) + (d.total > 1 ? ' NCs' : ' NC') + ' · ' + (vit.length ? 'poucos vitais: <b>' + vit.map(x => esc(x.nome)).join(', ') + '</b> (' + esc(Math.round(vit[vit.length - 1].acum)) + '% das NCs)' : 'sem destaque') + '</p>' +
+    '<table class="t par-t"><thead><tr><th>' + esc(nome) + '</th><th>NCs</th><th>%</th><th>% acum.</th></tr></thead><tbody>' + d.itens.map(x => '<tr' + (x.vital ? ' class="vital"' : '') + '><td>' + esc(x.nome) + '</td><td>' + esc(x.n) + '</td><td>' + esc(x.pct.toFixed(0)) + '%</td><td>' + esc(x.acum.toFixed(0)) + '%</td></tr>').join('') + '</tbody></table>';
+}
+function openRncPareto() {
+  const f = prF(), anoAtual = hojeISO().slice(0, 4), d = paretoDados();
+  const per = (v, t) => '<button class="btn sm' + (f.per === v ? ' primary' : '') + '" data-action="rnc-par-per" data-id="' + esc(v) + '">' + esc(t) + '</button>';
+  const por = x => '<button class="btn sm' + (f.por === x[0] ? ' primary' : '') + '" data-action="rnc-par-por" data-id="' + esc(x[0]) + '">' + esc(x[1]) + '</button>';
+  openSheet('<h3>Pareto das NCs</h3><div class="sub">O que mais se repete nas auditorias internas. As barras até 80% do total são os "poucos vitais".</div>' +
+    '<div class="al-apre-top"><div class="al-apre-mes"><button class="btn sm" data-action="rnc-par-ano" data-id="-1" aria-label="Ano anterior">‹</button><h2>' + esc(prPerTxt()) + '</h2><button class="btn sm" data-action="rnc-par-ano" data-id="1" aria-label="Próximo ano"' + (f.ano >= anoAtual ? ' disabled' : '') + '>›</button></div>' +
+    '<div class="al-apre-ac">' + (d.total ? impBtn([{ a: 'rnc-par-print', t: 'Imprimir / PDF' }]) : '') + '</div></div>' +
+    '<div class="dp-per">' + per('', 'Ano') + ['T1', 'T2', 'T3', 'T4'].map(p => per(p, p[1] + 'º tri')).join('') + per('S1', '1º sem') + per('S2', '2º sem') + '</div>' +
+    '<div class="par-por">' + PAR_POR.map(por).join('') + '</div>' + paretoCorpo(d) +
+    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
+}
+function paretoImprimir() {
+  const f = prF(), d = paretoDados(); if (!d.total) { toast('Nenhuma NC neste período.'); return; }
+  const nome = (PAR_POR.find(x => x[0] === f.por) || ['', ''])[1];
+  const vit = d.itens.filter(x => x.vital);
+  const body = '<div class="par-imp"><div class="ar par-ik"><span><i>Agrupado por</i>' + esc(nome) + '</span><span><i>Período</i>' + esc(prPerTxt()) + '</span><span><i>RNCs</i>' + esc(d.rncs) + '</span><span><i>NCs</i>' + esc(d.total) + '</span></div>' +
+    '<div class="ar par-fig">' + paretoSVG(d) + '</div>' +
+    '<div class="ar par-res">' + (vit.length ? 'Poucos vitais: <b>' + vit.map(x => esc(x.nome)).join(', ') + '</b> (' + esc(Math.round(vit[vit.length - 1].acum)) + '% das NCs).' : '') + '</div>' +
+    '<table class="t par-t ar"><thead><tr><th>' + esc(nome) + '</th><th>NCs</th><th>%</th><th>% acum.</th></tr></thead><tbody>' + d.itens.map(x => '<tr' + (x.vital ? ' class="vital"' : '') + '><td>' + esc(x.nome) + '</td><td>' + esc(x.n) + '</td><td>' + esc(x.pct.toFixed(0)) + '%</td><td>' + esc(x.acum.toFixed(0)) + '%</td></tr>').join('') + '</tbody></table></div>';
+  Audit.log({ acao: 'imprimir', entidade: 'rnc_pareto', entidadeId: f.por, resumo: 'Imprimiu o Pareto das NCs por ' + nome + ' · ' + prPerTxt() });
+  runPrint(body, 'Pareto das NCs — por ' + nome + ' · ' + prPerTxt(), 'landscape', 'Agrupado por ' + nome + ' · ' + prPerTxt());
+}
 const ishiAtivas = l => (l || []).filter(c => c && !c.tirada);
 function ishiPriDe(p) { p = p || {}; return ishiAtivas(p.ishi).find(c => c.id === p.ishiPri) || null; }
 function ishiOk(p) { p = p || {}; return !!ishiPriDe(p) || (!p.ishiV && !ishiAtivas(p.ishi).length && !!p.m6); } /* Alto de antes da v2.102.18 com o 6M escolhido continua valendo */
@@ -14022,14 +14501,14 @@ function ishiSVG(ncTxt, l, pri) {
   });
   return o + '</svg>';
 }
-function ishiEdHTML(nc, pede) {
-  const b = S.rncPl, l = ishiAtivas(b.ishi);
+function ishiEdHTML(nc, pede, b, pre) { /* v2.102.20: b = estado da tela, pre = prefixo das ações (rnc | anl) */
+  b = b || S.rncPl; pre = pre || 'rnc'; const l = ishiAtivas(b.ishi);
   return '<div class="ap-sec" data-g="ishi">Diagrama de Ishikawa (6M) <small>' + (pede ? 'causas possíveis por categoria · marque a principal' : 'opcional · causas possíveis por categoria') + '</small></div>' +
     '<div class="ishi-ed">' + RNC_6M.map((m, i) => {
       const cs = l.filter(c => c.m === m);
       return '<div class="ishi-m"><div class="ishi-mh">' + esc(m) + '<small>' + esc(cs.length) + '/' + esc(ISHI_MAX) + '</small></div>' +
-        cs.map(c => { const p = c.id === b.ishiPri; return '<div class="ishi-c' + (p ? ' pri' : '') + '"><span>' + esc(c.t) + '</span><button type="button" class="ishi-pb" data-action="rnc-is-pri" data-id="' + esc(c.id) + '" aria-pressed="' + (p ? 'true' : 'false') + '" title="' + (p ? 'Causa principal (toque para desmarcar)' : 'Marcar como causa principal') + '">' + (p ? 'Principal' : 'Marcar') + '</button><button type="button" class="ishi-x" data-action="rnc-is-x" data-id="' + esc(c.id) + '" title="Tirar esta causa" aria-label="Tirar esta causa">×</button></div>'; }).join('') +
-        (cs.length < ISHI_MAX ? '<div class="ishi-add"><input class="input" id="is-in-' + esc(i) + '" maxlength="80" autocomplete="off" placeholder="Causa possível"><button type="button" class="btn sm" data-action="rnc-is-add" data-id="' + esc(i) + '" title="Pôr a causa em ' + esc(m) + '" aria-label="Pôr a causa em ' + esc(m) + '">+</button></div>' : '') + '</div>';
+        cs.map(c => { const p = c.id === b.ishiPri; return '<div class="ishi-c' + (p ? ' pri' : '') + '"><span>' + esc(c.t) + '</span><button type="button" class="ishi-pb" data-action="' + esc(pre) + '-is-pri" data-id="' + esc(c.id) + '" aria-pressed="' + (p ? 'true' : 'false') + '" title="' + (p ? 'Causa principal (toque para desmarcar)' : 'Marcar como causa principal') + '">' + (p ? 'Principal' : 'Marcar') + '</button><button type="button" class="ishi-x" data-action="' + esc(pre) + '-is-x" data-id="' + esc(c.id) + '" title="Tirar esta causa" aria-label="Tirar esta causa">×</button></div>'; }).join('') +
+        (cs.length < ISHI_MAX ? '<div class="ishi-add"><input class="input" id="is-in-' + esc(i) + '" maxlength="80" autocomplete="off" placeholder="Causa possível"><button type="button" class="btn sm" data-action="' + esc(pre) + '-is-add" data-id="' + esc(i) + '" title="Pôr a causa em ' + esc(m) + '" aria-label="Pôr a causa em ' + esc(m) + '">+</button></div>' : '') + '</div>';
     }).join('') + '</div>' +
     (l.length ? '<div class="ishi-fig">' + ishiSVG(nc.nc, l, b.ishiPri) + '</div>' : '');
 }
@@ -14619,6 +15098,11 @@ function rncAcao(act, id, t) {
   }
   switch (act) {
     case 'rnc-nova': openRncNova(); return true;
+    case 'rnc-par-open': openRncPareto(); return true; /* v2.102.19 */
+    case 'rnc-par-ano': { const f = prF(), a = String(Number(f.ano) + Number(id)); if (a <= hojeISO().slice(0, 4)) f.ano = a; openRncPareto(); return true; }
+    case 'rnc-par-per': prF().per = id; openRncPareto(); return true;
+    case 'rnc-par-por': prF().por = id; openRncPareto(); return true;
+    case 'rnc-par-print': paretoImprimir(); return true;
     case 'rnc-open': openRnc(id); return true;
     case 'rnc-nc': openRncNc(id, 0); return true;
     case 'rnc-item': { const r = rncDe(id); if (!r) return true; const s = rncSit(r); if (s === 'registro' && rncPode(r)) openRncNc(id, n); else if ((s === 'retorno' || s === 'pronta') && rncPode(r)) openRncConf(id, n); else if (s === 'retorno' || s === 'pronta' || s === 'fechada') { const x = rncNcs(r).find(y => y.n === Number(n)); if (x) openRncPlano(id, x.id); } else toast('Veja a folha dela na RNC impressa.'); return true; } /* v2.102.13: quem não confere abre a análise */
@@ -14692,7 +15176,9 @@ const DC_RELS = [
   ['rnc', 'Relatório de Não Conformidade (RNC)', 'REL 0014 MPG CQA', null],
   ['rnc_cl', 'Checklist da auditoria interna', 'REL 0015 MPG CQA', /^Checklist da auditoria interna/],
   ['tf_semana', 'Relatório semanal de atividades', 'REL 0016 MPG CQA', /^Relatório semanal de atividades/], /* v2.94.0 */
-  ['rnc_ishi', 'Diagrama de Ishikawa (6M)', 'REL 0017 MPG CQA', /^Ishikawa — /] /* v2.102.18 */
+  ['rnc_ishi', 'Diagrama de Ishikawa (6M)', 'REL 0017 MPG CQA', /^Ishikawa — /], /* v2.102.18 */
+  ['rnc_pareto', 'Pareto das não conformidades', 'REL 0018 MPG CQA', /^Pareto das NCs — /], /* v2.102.19 */
+  ['analise', 'Análise de problema', 'REL 0019 MPG CQA', /^Análise de problema — /] /* v2.102.20 */
 ];
 const DC_LISTAS = [
   ['docs', 'Catálogo de documentos'], ['lanc', 'Lançamentos'], ['corr', 'Correções de lançamento'], ['caixas', 'Caixas d’água'],
@@ -19993,6 +20479,7 @@ const AJ_PADRAO = {
   'aba:qualidade/aprov': 'Aprovações: pedidos que esperam a sua decisão e os que você pediu. Cada decisão fica registrada.',
   'aba:qualidade/semana': 'Semana: as coletas e atividades da semana, dia a dia.',
   'aba:qualidade/nc': 'Não conformidades: abertura, acompanhamento e fechamento, sempre com motivo.',
+  'aba:qualidade/anl': 'Análise de problemas: reclamação de cliente ou apontamento de campo, com 5 Porquês, Ishikawa, plano de ação (5W2H), PDCA e verificação de eficácia. Abre o líder ★ ou o Principal; só o responsável escreve.', /* v2.102.20 */
   'aba:qualidade/bugs': 'Bugs e sugestões: conte o que deu errado ou o que pode melhorar. O Principal acompanha a situação.',
   'aba:qualidade/rel': 'Relatórios: atalhos para os relatórios das áreas que você acompanha.',
   'aba:almox/painel': 'Painel do almoxarifado: estoque utilizável, vencidos e o que precisa repor.',
@@ -20749,6 +21236,7 @@ function renderView() {
   else if (a.id === 'inspecoes' && t.id === 'reuniao') host.innerHTML = viewReuniao();
   else if (a.id === 'inspecoes' && t.id === 'rnc') host.innerHTML = viewRnc();
   else if (a.id === 'qualidade' && t.id === 'nc') host.innerHTML = viewNC();
+  else if (a.id === 'qualidade' && t.id === 'anl') host.innerHTML = viewAnl(); /* v2.102.20 */
   else if (a.id === 'qualidade' && t.id === 'bugs') host.innerHTML = viewBugs(); /* v2.80.0 */
   else if (a.id === 'qualidade' && t.id === 'rel') host.innerHTML = viewRelatorios(); /* v2.80.0 */
   else if (a.id === 'almox' && t.id === 'painel') host.innerHTML = albHTML() + viewAlmPainel();
@@ -20977,6 +21465,7 @@ function startSession() {
   S.unsub.push(Data.col('sv2_bugs').watch(list => { S.bugs = list; const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && t && (t.id === 'bugs' || t.id === 'rel')) renderDados(); }, { order: 'ts', limit: 500 })); /* v2.82 */
   if (isPrincipal(S.user)) S.unsub.push(Data.col('sv2_recup').watch(list => cadRecAvisar(list))); /* v2.74.0 · v2.91.0 (G7) */
   S.unsub.push(Data.col('sv2_rnc_plano').watch(list => { S.rncPlano = list; if (curArea().id === 'inspecoes') renderDados(); })); /* v2.102.13 */
+  S.unsub.push(Data.col('sv2_analise').watch(list => { S.anl = list; const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && t && (t.id === 'anl' || t.id === 'meudia')) renderDados(); })); /* v2.102.20 */
   S.unsub.push(Data.col('sv2_rnc_gut').watch(list => { S.rncGut = list; if (curArea().id === 'inspecoes') renderDados(); })); /* v2.102.12 */
   S.unsub.push(Data.col('sv2_rnc').watch(list => { S.rncTeste = list.filter(x => x.teste); S.rnc = list.filter(x => !x.teste); /* v2.75.0 */ if (curArea().id === 'inspecoes') renderDados(); })); /* v2.91.0 (G7) */
   S.unsub.push(Data.col('sv2_alm_transf').watch(list => { S.almTransf = list; if (curArea().id === 'almox') renderDados(); })); /* v2.91.0 (G7) */
@@ -21278,6 +21767,7 @@ document.addEventListener('click', e => {
   if (act.slice(0, 4) === 'inv-' && invAcao(act, id, t)) return;
   if ((act === 'rel-lanc' || act.slice(0, 4) === 'apo-') && v45Acao(act, id, t)) return;
   if (act.slice(0, 4) === 'rnc-' && rncAcao(act, id, t)) return;
+  if (act.slice(0, 4) === 'anl-' && anlAcao(act, id, t)) return; /* v2.102.20 */
   if (act.slice(0, 3) === 'dc-' && dcAcao(act, id)) return;
   if (act === 'fm-marcar') { fotoMarcarAcao(id); return; }
   if (act.slice(0, 3) === 'bk-' && bkAcao(act)) return;
