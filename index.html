@@ -456,7 +456,7 @@ body[data-theme="ponto"]::before{background:radial-gradient(rgba(60,60,110,.16) 
 .pl-pq{display:grid;gap:6px}.pl-pq label{display:grid;grid-template-columns:92px 1fr;align-items:center;gap:8px;font-size:12.5px;color:var(--text-muted)}
 @media(max-width:600px){.pl-pq label{grid-template-columns:1fr}}
 .pl-ro{margin:8px 0}.pl-ro span{display:block;font-size:11.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}.pl-ro p,.pl-ro ol{margin:2px 0 0;font-size:13.5px}.pl-ro ol{padding-left:18px}
-.pl-duas td{vertical-align:top;white-space:normal}.pl-chip{white-space:nowrap}.pl-ult{margin-top:8px}.cnt{display:block;margin-top:2px;font-size:.78em;color:var(--text-dim)}.cnt:empty{display:none}.cnt.lim{color:var(--crit)}.sheet .row-actions .ra-st{flex:0 0 100%;order:-1;text-align:right;font-size:.78em;color:var(--text-dim)}.ra-st:empty{display:none}.ra-aviso{margin:8px 0}
+.pl-duas td{vertical-align:top;white-space:normal}.pl-chip{white-space:nowrap}.pl-ult{margin-top:8px}.ishi-av{margin:6px 0 0}.cnt{display:block;margin-top:2px;font-size:.78em;color:var(--text-dim)}.cnt:empty{display:none}.cnt.lim{color:var(--crit)}.sheet .row-actions .ra-st{flex:0 0 100%;order:-1;text-align:right;font-size:.78em;color:var(--text-dim)}.ra-st:empty{display:none}.ra-aviso{margin:8px 0}
 /* v2.102.12: GUT na RNC */
 .anl-t{display:block;font-weight:600;color:var(--text);text-align:left}.anl-card .rnc-li-c{display:flex;flex-direction:row;flex-wrap:wrap;gap:4px;justify-content:flex-start;align-items:center}
 .anl-guia{margin-top:10px}.anl-ap{margin:10px 0}
@@ -466,22 +466,29 @@ body[data-theme="ponto"]::before{background:radial-gradient(rgba(60,60,110,.16) 
 #print-root .anl-2{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;margin:0 0 4px}#print-root .anl-is h4{margin:0 0 2px;font-size:8pt;text-transform:uppercase;letter-spacing:.03em;color:#444}#print-root .anl-is p,#print-root .anl-is ol{margin:0}#print-root .anl-is ol{padding-left:16px}
 #print-root .ishi-fig.anl-fig{margin:0 0 2px}#print-root .ishi-fig.anl-fig svg{max-height:var(--fh,88mm);width:100%;margin:0 auto}
 #print-root .anl-t,#print-root .ishi-tb{width:100%;font-size:9pt;color:#111;margin:2px 0 4px}#print-root .anl-t th,#print-root .anl-t td,#print-root .ishi-tb th,#print-root .ishi-tb td{padding:1px 6px;vertical-align:top;text-align:left;color:#111}#print-root .ishi-tb td:first-child{white-space:nowrap}#print-root .ishi-tb tr.pri td{font-weight:700}
-.par-por{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.par-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0 6px}.par-top .par-ano{gap:4px;justify-content:flex-start}.par-top .par-ano h2{font-size:18px;min-width:3em;text-align:center}.par-imp{margin-left:auto;display:flex}
+.dd{position:relative;display:inline-flex}.dd-bt{gap:4px;white-space:nowrap}.dd-bt b{font-weight:600}.dd-r{font-weight:400;color:var(--text-muted)}.dd-s{font-size:.8em;color:var(--text-muted)}
+.dd-pop{position:absolute;top:calc(100% + 4px);left:0;z-index:40;display:flex;flex-direction:column;gap:2px;min-width:max(100%,150px);padding:4px;background:var(--surface);border:1px solid var(--border-light);border-radius:var(--r-ctl);box-shadow:0 10px 28px rgba(0,0,0,.28)}.dd-pop[hidden]{display:none}
+.dd-pop .dd-op{justify-content:flex-start;width:100%;border-color:transparent;background:transparent;color:var(--text);font-weight:500}.dd-pop .dd-op:hover{background:var(--surface-2)}
+.dd-pop .dd-op.primary{background:var(--surface-2);color:var(--primary);font-weight:700}.dd-pop .dd-op.primary::before{content:'✓';margin-right:6px}
+@media (max-width:560px){.dd-r{display:none}.par-top{gap:4px}.par-top .par-ano h2{min-width:2.6em}}
 .par-fig{margin:10px 0 6px;overflow-x:auto;border:1px solid var(--border);border-radius:var(--r-ctl);background:var(--surface)}.par-fig svg{display:block;width:100%;min-width:640px;height:auto}
-@media (max-width:560px){.par-fig svg{min-width:520px}.par-it-pc{font-size:.84em}}
+@media (max-width:560px){.par-it-pc{font-size:.84em}}
+.par-svg.cel{display:none}.par-svg.cel .pa-ax{font-size:13px}.par-svg.cel .pa-n{font-size:16px}.par-svg.cel .pa-lb{font-size:16px;font-weight:700}
+@container (max-width:619px){.par-cq .par-svg:not(.cel){display:none}.par-cq .par-svg.cel{display:block;min-width:0}}
 .par-res{font-size:.9em;color:var(--text);margin:6px 0}.par-res b{color:var(--primary)}
 .par-cq{container-type:inline-size}.par-lista{display:none;margin:8px 0 10px}
 @container (max-width:619px){.par-cq .par-t{display:none}.par-cq .par-lista{display:block}}
-.par-lh{display:flex;justify-content:space-between;gap:8px;font-size:.76em;color:var(--text-dim);text-transform:uppercase;letter-spacing:.03em;padding:0 2px 4px}
-.par-it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:baseline;padding:7px 2px;border-top:1px solid var(--border)}
-.par-it-nm{font-size:1em;line-height:1.25;overflow-wrap:anywhere}
-.par-it-n{font-size:1.15em;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
-.par-bar{grid-column:1;height:6px;border-radius:3px;background:var(--surface-3);overflow:hidden;align-self:center}
-.par-bar i{display:block;height:100%;background:var(--border-light)}
-.par-it-pc{grid-column:2;font-size:.8em;color:var(--text-muted);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.par-lh{display:flex;justify-content:space-between;gap:8px;font-size:.76em;color:var(--text-muted);text-transform:uppercase;letter-spacing:.03em;padding:0 2px 4px}
+.par-it{display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:2px 10px;align-items:baseline;padding:7px 2px;border-top:1px solid var(--border)}
+.par-it-i{grid-column:1;grid-row:1 / span 2;align-self:start;font-weight:700;color:var(--text-muted);font-variant-numeric:tabular-nums}.par-it.vital .par-it-i{color:var(--primary)}.par-it-nm{grid-column:2;font-size:1em;line-height:1.25;overflow-wrap:anywhere}
+.par-it-n{grid-column:3;font-size:1.15em;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.par-bar{grid-column:2;height:6px;border-radius:3px;background:var(--surface-3);overflow:hidden;align-self:center}
+.par-bar i{display:block;height:100%;background:var(--text-dim)}
+.par-it-pc{grid-column:3;font-size:.8em;color:var(--text-muted);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 .par-it.vital .par-it-nm{font-weight:600;color:var(--primary)}.par-it.vital .par-bar i{background:var(--primary)}
 .par-t{width:100%;margin-bottom:10px}.par-t th:not(:first-child),.par-t td:not(:first-child){text-align:right;white-space:nowrap}.par-t tr.vital td:first-child{font-weight:600;color:var(--primary)}
-.par-svg{--pa-t:var(--text);--pa-m:var(--text-muted);--pa-g:var(--border);--pa-b:var(--border-light);--pa-v:var(--primary);--pa-l:var(--warn)}
+.par-svg{--pa-t:var(--text);--pa-m:var(--text-muted);--pa-g:var(--border);--pa-b:var(--text-dim);--pa-v:var(--primary);--pa-l:var(--warn)}
 .par-svg .pa-g{stroke:var(--pa-g);stroke-width:1}.par-svg .pa-ax{fill:var(--pa-m);font-size:11px}.par-svg .pa-80{stroke:var(--pa-l);stroke-width:1.5;stroke-dasharray:6 4}
 .par-svg .pa-b{fill:var(--pa-b)}.par-svg .pa-b.pa-v{fill:var(--pa-v)}.par-svg .pa-n{fill:var(--pa-t);font-size:12px;font-weight:700}.par-svg .pa-lb{fill:var(--pa-t);font-size:11px}
 .par-svg .pa-ln{fill:none;stroke:var(--pa-t);stroke-width:2}.par-svg .pa-pt{fill:var(--pa-t)}
@@ -2831,7 +2838,7 @@ body[data-theme="sunset"]::before{background:none}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.26 · Pareto: tabela quando a janela é larga (PC) e lista com barras quando é estreita (celular)';
+const APP_VERSION = 'v2.102.27 · Pareto: barra única com menus, gráfico próprio no celular e mais contraste; aviso das causas resumidas no Ishikawa';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -14415,6 +14422,37 @@ function anlMeuDia(u, add) {
   add('anl-acoes', 'Ações de análise de problema', ac.some(m => acaoSt(m.a) === 'atrasada') ? 'crit' : 'warn', ac.map(m => ({ u: acaoSt(m.a) === 'atrasada', t: m.x.numero + ' · ' + m.a.oque, d: (acaoSt(m.a) === 'atrasada' ? 'atrasada · era até ' : 'até ') + fmtD(m.a.quando) + ' · ' + (m.a.quemNome || '') })), 'qualidade/anl');
 }
 
+/* ============ v2.102.27 — menu recolhível (▾) e barra única do Pareto ============
+   ddHTML: um botão que mostra a escolha atual ("Período: Ano ▾"); ao tocar abre a lista com a escolha marcada (✓).
+   Esc ou toque fora fecham só o menu. Reaproveitável nas outras telas (v2.102.28). */
+function ddHTML(rot, atual, ops, o) {
+  o = o || {};
+  return '<span class="dd' + (o.cls ? ' ' + esc(o.cls) + '-w' : '') + '"><button type="button" class="btn sm dd-bt" data-action="dd-tg" aria-haspopup="true" aria-expanded="false" title="' + esc(rot) + '">' +
+    '<span class="dd-r">' + esc(rot) + ': </span><b>' + esc(atual) + '</b><span class="dd-s" aria-hidden="true">▾</span></button>' +
+    '<span class="dd-pop' + (o.cls ? ' ' + esc(o.cls) : '') + '" role="menu" hidden>' +
+    ops.map(x => '<button type="button" class="btn sm dd-op' + (x.on ? ' primary' : '') + '" role="menuitemradio" aria-checked="' + (x.on ? 'true' : 'false') + '" data-action="' + esc(x.a) + '" data-id="' + esc(x.id) + '">' + esc(x.t) + '</button>').join('') +
+    '</span></span>';
+}
+function ddFechar(fora) { let n = 0; $$('.dd-pop').forEach(p => { if (p !== fora && !p.hidden) { p.hidden = true; n++; const b = p.previousElementSibling; if (b) b.setAttribute('aria-expanded', 'false'); } }); return n; }
+document.addEventListener('click', ev => { const w = ev.target.closest && ev.target.closest('.dd'); if (!w) { ddFechar(); return; } if (ev.target.closest('.dd-pop')) setTimeout(ddFechar, 0); }, true);
+window.addEventListener('keydown', e => { if (e.key === 'Escape' && $$('.dd-pop').some(p => !p.hidden)) { e.stopImmediatePropagation(); e.preventDefault(); ddFechar(); } }, true);
+
+/* barra única do Pareto: ‹ ano › · Período ▾ · Agrupar ▾ · impressora (na ponta direita) */
+const PAR_PERS = [['', 'Ano'], ['T1', '1º tri'], ['T2', '2º tri'], ['T3', '3º tri'], ['T4', '4º tri'], ['S1', '1º sem'], ['S2', '2º sem']];
+function parTopo(pre, f, porLista, total) {
+  const anoAtual = hojeISO().slice(0, 4), per = PAR_PERS.find(x => x[0] === (f.per || '')) || PAR_PERS[0], por = porLista.find(x => x[0] === f.por) || porLista[0];
+  return '<div class="par-top">' +
+    '<div class="al-apre-mes par-ano"><button class="btn sm" data-action="' + esc(pre) + '-par-ano" data-id="-1" aria-label="Ano anterior">‹</button><h2>' + esc(f.ano) + '</h2>' +
+    '<button class="btn sm" data-action="' + esc(pre) + '-par-ano" data-id="1" aria-label="Próximo ano"' + (f.ano >= anoAtual ? ' disabled' : '') + '>›</button></div>' +
+    ddHTML('Período', per[1], PAR_PERS.map(x => ({ a: pre + '-par-per', id: x[0], t: x[1], on: x[0] === (f.per || '') })), { cls: 'par-per' }) +
+    ddHTML('Agrupar', por[1], porLista.map(x => ({ a: pre + '-par-por', id: x[0], t: x[1], on: x[0] === f.por })), { cls: 'par-por' }) +
+    '<span class="par-imp">' + (total ? impBtn([{ a: pre + '-par-print', t: 'Imprimir / PDF' }]) : '') + '</span></div>';
+}
+/* Ishikawa: aviso na tela quando alguma causa aparece resumida no desenho */
+function ishiAvHTML(l, lista) {
+  if (!l.some(c => ishiCortada(c.t))) return '';
+  return '<p class="fm-dica ishi-av">Algumas causas aparecem resumidas no desenho. O texto inteiro está ' + (lista ? 'na lista acima, ' : '') + 'ao passar o mouse sobre a causa e na tabela do PDF.</p>';
+}
 /* ============ v2.102.19 — Pareto das NCs ============
    Só lê (RNCs e análises). Estado: S.prF = { ano, per, por }. Item vazio: "Sem análise" (6M), "Sem lei informada"; ficam sempre no fim. */
 const PAR_POR = [['6m', 'Categoria 6M'], ['local', 'Local'], ['lei', 'Lei / requisito'], ['grav', 'Gravidade'], ['area', 'Área']];
@@ -14443,28 +14481,28 @@ function paretoDados() {
   itens.forEach(x => { ac += x.n; x.pct = total ? x.n / total * 100 : 0; x.acum = total ? ac / total * 100 : 0; x.vital = !passou && !x.sem && !x.outros; if (total && ac / total * 100 >= 80) passou = true; if (x.sem || x.outros) x.vital = false; });
   return { itens: itens, total: total, rncs: rs.length };
 }
-function paretoSVG(d, ap) { /* v2.102.23: ap = Pareto dos apontamentos */
-  const W = 1000, H = 360, L = 56, R = 56, T = 24, B = 92, pw = W - L - R, ph = H - T - B, it = d.itens, k = it.length || 1, bw = Math.min(70, pw / k * 0.62), mx = Math.max(1, ...it.map(x => x.n));
+function paretoSVG(d, ap, cel) { /* v2.102.23: ap = Pareto dos apontamentos; v2.102.27: cel = desenho estreito do celular (números no lugar dos nomes) */
+  const W = cel ? 400 : 1000, H = cel ? 270 : 360, L = cel ? 30 : 56, R = cel ? 42 : 56, T = 24, B = cel ? 30 : 92, pw = W - L - R, ph = H - T - B, it = d.itens, k = it.length || 1, bw = Math.min(70, pw / k * 0.62), mx = Math.max(1, ...it.map(x => x.n));
   const nice = mx <= 20 ? Math.ceil(mx / 4) * 4 : (() => { const e = Math.pow(10, Math.floor(Math.log10(mx))), f = mx / e; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * e; })(), tk = [0, 1, 2, 3, 4].map(i => nice * i / 4);
   const X = i => L + pw / k * (i + 0.5), Y = v => T + ph - ph * v / nice, YP = p => T + ph - ph * p / 100;
-  let o = '<svg class="par-svg" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + (ap ? 'Pareto dos apontamentos' : 'Pareto das não conformidades') + '">';
+  let o = '<svg class="par-svg' + (cel ? ' cel' : '') + '" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + (ap ? 'Pareto dos apontamentos' : 'Pareto das não conformidades') + '">';
   tk.forEach(v => { o += '<line class="pa-g" x1="' + L + '" y1="' + Y(v).toFixed(1) + '" x2="' + (W - R) + '" y2="' + Y(v).toFixed(1) + '"/><text class="pa-ax" x="' + (L - 6) + '" y="' + (Y(v) + 4).toFixed(1) + '" text-anchor="end">' + esc(Number.isInteger(v) ? v : v.toFixed(1)) + '</text>'; });
   [0, 20, 40, 60, 80, 100].forEach(p => { o += '<text class="pa-ax" x="' + (W - R + 6) + '" y="' + (YP(p) + 4).toFixed(1) + '">' + p + '%</text>'; });
   o += '<line class="pa-80" x1="' + L + '" y1="' + YP(80).toFixed(1) + '" x2="' + (W - R) + '" y2="' + YP(80).toFixed(1) + '"/>';
   it.forEach((x, i) => {
     const h = ph * x.n / nice, cx = X(i);
     o += '<rect class="pa-b' + (x.vital ? ' pa-v' : '') + '" x="' + (cx - bw / 2).toFixed(1) + '" y="' + (T + ph - h).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + h.toFixed(1) + '"><title>' + esc(x.nome) + ': ' + esc(x.n) + (ap ? ' apontamento(s) · ' : ' NC(s) · ') + esc(x.pct.toFixed(0)) + '%</title></rect><text class="pa-n" x="' + cx.toFixed(1) + '" y="' + (T + ph - h - 5).toFixed(1) + '" text-anchor="middle">' + esc(x.n) + '</text>';
-    ishiQuebra(x.nome, 14, 3).forEach((t, j) => { o += '<text class="pa-lb" x="' + cx.toFixed(1) + '" y="' + (T + ph + 16 + j * 14) + '" text-anchor="middle">' + esc(t) + '</text>'; });
+    (cel ? [String(i + 1)] : ishiQuebra(x.nome, 14, 3)).forEach((t, j) => { o += '<text class="pa-lb" x="' + cx.toFixed(1) + '" y="' + (T + ph + (cel ? 20 : 16) + j * 14) + '" text-anchor="middle">' + esc(t) + '</text>'; });
   });
   if (it.length) {
     o += '<polyline class="pa-ln" points="' + it.map((x, i) => X(i).toFixed(1) + ',' + YP(x.acum).toFixed(1)).join(' ') + '"/>' + it.map((x, i) => '<circle class="pa-pt" cx="' + X(i).toFixed(1) + '" cy="' + YP(x.acum).toFixed(1) + '" r="3.5"/>').join('');
   }
-  return o + '<text class="pa-ax" x="' + L + '" y="12">' + (ap ? 'Apontamentos' : 'NCs') + '</text><text class="pa-ax" x="' + (W - R + 6) + '" y="12">% acum.</text></svg>';
+  return o + '<text class="pa-ax" x="' + L + '" y="12">' + (ap ? 'Apontamentos' : 'NCs') + '</text><text class="pa-ax" x="' + (cel ? W - 2 : W - R + 6) + '" y="12"' + (cel ? ' text-anchor="end"' : '') + '>% acum.</text></svg>';
 }
 /* v2.102.25 — lista do Pareto na tela: cabe no celular sem rolar para o lado (o PDF continua com a tabela) */
 function paretoLista(itens, nome, unid) {
   return '<div class="par-lista"><div class="par-lh"><span>' + esc(nome) + '</span><span>' + esc(unid) + ' · % · acum.</span></div>' +
-    itens.map(x => '<div class="par-it' + (x.vital ? ' vital' : '') + '"><span class="par-it-nm">' + esc(x.nome) + '</span><span class="par-it-n">' + esc(x.n) + '</span>' +
+    itens.map((x, i) => '<div class="par-it' + (x.vital ? ' vital' : '') + '"><span class="par-it-i">' + esc(i + 1) + '</span><span class="par-it-nm">' + esc(x.nome) + '</span><span class="par-it-n">' + esc(x.n) + '</span>' +
       '<span class="par-bar"><i style="width:' + esc(Math.max(2, Math.round(x.pct))) + '%"></i></span>' +
       '<span class="par-it-pc">' + esc(x.pct.toFixed(0)) + '% · acum. ' + esc(x.acum.toFixed(0)) + '%</span></div>').join('') + '</div>';
 }
@@ -14472,19 +14510,14 @@ function paretoCorpo(d) {
   const f = prF(), nome = (PAR_POR.find(x => x[0] === f.por) || ['', ''])[1];
   if (!d.total) return '<p class="fm-dica">Nenhuma NC neste período.</p>';
   const vit = d.itens.filter(x => x.vital);
-  return '<div class="par-fig">' + paretoSVG(d) + '</div>' +
+  return '<div class="par-cq"><div class="par-fig">' + paretoSVG(d) + paretoSVG(d, false, true) + '</div>' +
     '<p class="par-res">' + esc(d.rncs) + (d.rncs > 1 ? ' RNCs' : ' RNC') + ' · ' + esc(d.total) + (d.total > 1 ? ' NCs' : ' NC') + ' · ' + (vit.length ? 'poucos vitais: <b>' + vit.map(x => esc(x.nome)).join(', ') + '</b> (' + esc(Math.round(vit[vit.length - 1].acum)) + '% das NCs)' : 'sem destaque') + '</p>' +
-    '<div class="par-cq"><table class="t par-t"><thead><tr><th>' + esc(nome) + '</th><th>NCs</th><th>%</th><th>% acum.</th></tr></thead><tbody>' + d.itens.map(x => '<tr' + (x.vital ? ' class="vital"' : '') + '><td>' + esc(x.nome) + '</td><td>' + esc(x.n) + '</td><td>' + esc(x.pct.toFixed(0)) + '%</td><td>' + esc(x.acum.toFixed(0)) + '%</td></tr>').join('') + '</tbody></table>' + paretoLista(d.itens, nome, 'NCs') + '</div>'; /* v2.102.26 */
+    '<table class="t par-t"><thead><tr><th>' + esc(nome) + '</th><th>NCs</th><th>%</th><th>% acum.</th></tr></thead><tbody>' + d.itens.map(x => '<tr' + (x.vital ? ' class="vital"' : '') + '><td>' + esc(x.nome) + '</td><td>' + esc(x.n) + '</td><td>' + esc(x.pct.toFixed(0)) + '%</td><td>' + esc(x.acum.toFixed(0)) + '%</td></tr>').join('') + '</tbody></table>' + paretoLista(d.itens, nome, 'NCs') + '</div>'; /* v2.102.26 */
 }
-function openRncPareto() {
-  const f = prF(), anoAtual = hojeISO().slice(0, 4), d = paretoDados();
-  const per = (v, t) => '<button class="btn sm' + (f.per === v ? ' primary' : '') + '" data-action="rnc-par-per" data-id="' + esc(v) + '">' + esc(t) + '</button>';
-  const por = x => '<button class="btn sm' + (f.por === x[0] ? ' primary' : '') + '" data-action="rnc-par-por" data-id="' + esc(x[0]) + '">' + esc(x[1]) + '</button>';
+function openRncPareto() { /* v2.102.27: barra única (ano, Período ▾, Agrupar ▾, impressora) */
+  const f = prF(), d = paretoDados();
   openSheet('<h3>Pareto das NCs</h3><div class="sub">O que mais se repete nas auditorias internas. As barras até 80% do total são os "poucos vitais".</div>' +
-    '<div class="al-apre-top"><div class="al-apre-mes"><button class="btn sm" data-action="rnc-par-ano" data-id="-1" aria-label="Ano anterior">‹</button><h2>' + esc(prPerTxt()) + '</h2><button class="btn sm" data-action="rnc-par-ano" data-id="1" aria-label="Próximo ano"' + (f.ano >= anoAtual ? ' disabled' : '') + '>›</button></div>' +
-    '<div class="al-apre-ac">' + (d.total ? impBtn([{ a: 'rnc-par-print', t: 'Imprimir / PDF' }]) : '') + '</div></div>' +
-    '<div class="dp-per">' + per('', 'Ano') + ['T1', 'T2', 'T3', 'T4'].map(p => per(p, p[1] + 'º tri')).join('') + per('S1', '1º sem') + per('S2', '2º sem') + '</div>' +
-    '<div class="par-por">' + PAR_POR.map(por).join('') + '</div>' + paretoCorpo(d) +
+    parTopo('rnc', f, PAR_POR, d.total) + paretoCorpo(d) +
     '<div class="row-actions"><button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
 }
 function paretoImprimir() {
@@ -14532,18 +14565,13 @@ function papCorpo(d) {
   const f = papF(), nome = (PAP_POR.find(x => x[0] === f.por) || ['', ''])[1];
   if (!d.total) return '<p class="fm-dica">Nenhum apontamento neste período.</p>';
   const vit = d.itens.filter(x => x.vital);
-  return '<div class="par-fig">' + paretoSVG(d, true) + '</div>' +
-    '<p class="par-res">' + esc(d.total) + (d.total > 1 ? ' apontamentos' : ' apontamento') + ' · ' + (vit.length ? 'poucos vitais: <b>' + vit.map(x => esc(x.nome)).join(', ') + '</b> (' + esc(Math.round(vit[vit.length - 1].acum)) + '% dos apontamentos)' : 'sem destaque') + '</p>' + '<div class="par-cq">' + papTabela(d, nome) + paretoLista(d.itens, nome, 'Apont.') + '</div>'; /* v2.102.26 */
+  return '<div class="par-cq"><div class="par-fig">' + paretoSVG(d, true) + paretoSVG(d, true, true) + '</div>' +
+    '<p class="par-res">' + esc(d.total) + (d.total > 1 ? ' apontamentos' : ' apontamento') + ' · ' + (vit.length ? 'poucos vitais: <b>' + vit.map(x => esc(x.nome)).join(', ') + '</b> (' + esc(Math.round(vit[vit.length - 1].acum)) + '% dos apontamentos)' : 'sem destaque') + '</p>' + papTabela(d, nome) + paretoLista(d.itens, nome, 'Apont.') + '</div>'; /* v2.102.26; v2.102.27: a moldura começa no gráfico */
 }
-function openApPareto() {
-  const f = papF(), anoAtual = hojeISO().slice(0, 4), d = papDados();
-  const per = (v, t) => '<button class="btn sm' + (f.per === v ? ' primary' : '') + '" data-action="ap-par-per" data-id="' + esc(v) + '">' + esc(t) + '</button>';
-  const por = x => '<button class="btn sm' + (f.por === x[0] ? ' primary' : '') + '" data-action="ap-par-por" data-id="' + esc(x[0]) + '">' + esc(x[1]) + '</button>';
+function openApPareto() { /* v2.102.27: barra única (ano, Período ▾, Agrupar ▾, impressora) */
+  const f = papF(), d = papDados();
   openSheet('<h3>Pareto dos apontamentos</h3><div class="sub">O que mais se repete no campo. As barras até 80% do total são os "poucos vitais". Os "Não procede" não entram.</div>' +
-    '<div class="al-apre-top"><div class="al-apre-mes"><button class="btn sm" data-action="ap-par-ano" data-id="-1" aria-label="Ano anterior">‹</button><h2>' + esc(papPerTxt()) + '</h2><button class="btn sm" data-action="ap-par-ano" data-id="1" aria-label="Próximo ano"' + (f.ano >= anoAtual ? ' disabled' : '') + '>›</button></div>' +
-    '<div class="al-apre-ac">' + (d.total ? impBtn([{ a: 'ap-par-print', t: 'Imprimir / PDF' }]) : '') + '</div></div>' +
-    '<div class="dp-per">' + per('', 'Ano') + ['T1', 'T2', 'T3', 'T4'].map(p => per(p, p[1] + 'º tri')).join('') + per('S1', '1º sem') + per('S2', '2º sem') + '</div>' +
-    '<div class="par-por">' + PAP_POR.map(por).join('') + '</div>' + papCorpo(d) +
+    parTopo('ap', f, PAP_POR, d.total) + papCorpo(d) +
     '<div class="row-actions"><button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
 }
 function apParetoImprimir() {
@@ -14620,11 +14648,11 @@ function ishiEdHTML(nc, pede, b, pre) { /* v2.102.20: b = estado da tela, pre = 
         cs.map(c => { const p = c.id === b.ishiPri; return '<div class="ishi-c' + (p ? ' pri' : '') + '"><span>' + esc(c.t) + '</span><button type="button" class="ishi-pb" data-action="' + esc(pre) + '-is-pri" data-id="' + esc(c.id) + '" aria-pressed="' + (p ? 'true' : 'false') + '" title="' + (p ? 'Causa principal (toque para desmarcar)' : 'Marcar como causa principal') + '">' + (p ? 'Principal' : 'Marcar') + '</button><button type="button" class="ishi-x" data-action="' + esc(pre) + '-is-x" data-id="' + esc(c.id) + '" title="Tirar esta causa" aria-label="Tirar esta causa">×</button></div>'; }).join('') +
         (cs.length < ISHI_MAX ? '<div class="ishi-add"><input class="input" id="is-in-' + esc(i) + '" maxlength="' + esc(ISHI_TXT_MAX) + '" data-cnt="' + esc(ISHI_TXT_MAX) + '" autocomplete="off" placeholder="Causa possível"><button type="button" class="btn sm" data-action="' + esc(pre) + '-is-add" data-id="' + esc(i) + '" title="Pôr a causa em ' + esc(m) + '" aria-label="Pôr a causa em ' + esc(m) + '">+</button></div>' + cntHTML('is-in-' + i) : '') + '</div>';
     }).join('') + '</div>' +
-    (l.length ? '<div class="ishi-fig">' + ishiSVG(nc.nc, l, b.ishiPri) + '</div>' : '');
+    (l.length ? '<div class="ishi-fig">' + ishiSVG(nc.nc, l, b.ishiPri) + '</div>' + ishiAvHTML(l, true) : ''); /* v2.102.27: aviso */
 }
 function ishiRoHTML(nc, d) {
   const l = ishiAtivas(d.ishi), pr = ishiPriDe(d); if (!l.length) return '';
-  return '<div class="pl-ro"><span>Diagrama de Ishikawa (6M)</span><p>' + (pr ? 'Causa principal: <b>' + esc(pr.m) + '</b> · ' + esc(pr.t) : 'Causa principal ainda não marcada.') + '</p><div class="ishi-fig">' + ishiSVG(nc.nc, l, d.ishiPri) + '</div></div>';
+  return '<div class="pl-ro"><span>Diagrama de Ishikawa (6M)</span><p>' + (pr ? 'Causa principal: <b>' + esc(pr.m) + '</b> · ' + esc(pr.t) : 'Causa principal ainda não marcada.') + '</p><div class="ishi-fig">' + ishiSVG(nc.nc, l, d.ishiPri) + '</div>' + ishiAvHTML(l, false) + '</div>'; /* v2.102.27: aviso */
 }
 function ishiMuda(op, id) {
   const b = S.rncPl; if (!b) return; const { r, nc } = planoNc(b.rid, b.ncId); if (!r || !nc || !planoPodeEditar(r, nc)) return;
@@ -22331,6 +22359,7 @@ document.addEventListener('click', e => {
     case 'ap-set-desat': apSetorDesat(id); break;
     case 'rn-sem': { const h = apSegunda(hojeISO()); let n = addDias(S.rnSeg || h, +id); if (n > h) n = h; S.rnSeg = n; renderView(); break; }
     case 'rn-print': apImprimirReuniao(id === 'marcados'); break;
+    case 'dd-tg': { const p = t.nextElementSibling; if (p) { const abre = p.hidden; ddFechar(p); p.hidden = !abre; t.setAttribute('aria-expanded', abre ? 'true' : 'false'); } break; } /* v2.102.27 */
     case 'imp-pop': { const p = t.nextElementSibling; if (p) { const abre = p.hidden; impFechar(p); p.hidden = !abre; t.setAttribute('aria-expanded', abre ? 'true' : 'false'); } break; }
     case 'rn-per': { const f = rnF(); f.per = id; if (id === 'datas' && !f.de) { f.de = addDias(hojeISO(), -6); f.ate = hojeISO(); } renderView(); break; } /* v2.102.14 */
     case 'rn-filtro': openRnFiltro(id); break;
