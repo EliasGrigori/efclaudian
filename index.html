@@ -409,7 +409,79 @@ body[data-theme="ponto"]::before{background:radial-gradient(rgba(60,60,110,.16) 
 .rn-item{display:grid;gap:6px}
 .rn-ac{display:flex;gap:6px;flex-wrap:wrap}
 .rn-ac .btn{flex:1 1 auto;min-height:42px}
+/* v2.102.16: PDCA e ações 5W2H */
+.pdca{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin:0 0 10px}
+.pdca-p{border:1px solid var(--border);border-radius:var(--r-ctl);padding:6px 8px;background:var(--surface);display:flex;flex-direction:column;line-height:1.2;min-width:0}
+.pdca-p b{font-size:15px;color:var(--text-muted)}.pdca-p span{font-size:12.5px;font-weight:700}.pdca-p small{font-size:11px;color:var(--text-muted)}
+.pdca-p.ok{background:var(--ok-bg,var(--surface-2));border-color:var(--ok)}.pdca-p.ok b{color:var(--ok)}
+.pdca-p.cur{border-color:var(--primary);box-shadow:inset 0 0 0 1px var(--primary)}.pdca-p.cur b{color:var(--primary)}
+.pl-ac-h{margin-top:16px}
+.pl-ac{border:1px solid var(--border);border-left:3px solid var(--info,var(--primary));border-radius:var(--r-ctl);padding:8px 10px;margin:6px 0;background:var(--surface)}
+.pl-ac.st-atrasada{border-left-color:var(--crit)}.pl-ac.st-feita{border-left-color:var(--ok)}.pl-ac.st-cancelada{border-left-color:var(--border);opacity:.75}
+.pl-ac-t{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.pl-ac-t b{font-size:14px}
+.pl-ac.st-cancelada .pl-ac-t b{text-decoration:line-through}
+.pl-ac-k{display:flex;flex-wrap:wrap;gap:2px 14px;font-size:12.5px;margin-top:4px}.pl-ac-k i{font-style:normal;color:var(--text-muted);margin-right:4px}
+.pl-ac-k .pl-fora,#ac-aviso.pl-fora{color:var(--warn)}
+.pl-ac-n{font-size:12.5px;color:var(--text-muted);margin:4px 0 0}
+.pl-ac-b{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap;margin-top:6px}
+.pl-ac-nova{margin-top:4px}
+@media (max-width:520px){.pdca-p small{display:none}.pl-ac-b .btn{flex:1}}
+/* v2.102.14: Relatório de apontamentos — filtros, marcar e o PDF em pé */
+.rn-per,.rn-fil{flex-wrap:wrap;align-items:center}.rn-dt{width:auto;min-height:34px;padding:2px 8px}.rn-ate{color:var(--text-muted);font-size:13px}
+.rn-ftxt{font-size:12.5px;color:var(--text-muted);margin:-4px 0 10px}
+.rn-fil .imp-w{margin-left:auto}
+/* v2.102.14: botão de imprimir só com o ícone; com mais de uma opção, a lista abre embaixo (imp-up: para cima) */
+.imp-w{position:relative;display:inline-flex}
+.imp-bt{position:relative;min-width:40px;padding:0 10px;justify-content:center}.imp-bt svg{width:18px;height:18px;margin:0}
+.imp-n{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--primary);color:var(--on-primary,#fff);font-size:11px;font-weight:700;line-height:18px;text-align:center}
+.imp-pop{position:absolute;right:0;top:calc(100% + 4px);z-index:40;display:flex;flex-direction:column;gap:4px;min-width:230px;padding:6px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-ctl);box-shadow:0 8px 22px rgba(0,0,0,.18)}
+.imp-pop[hidden]{display:none}.imp-w.imp-up .imp-pop{top:auto;bottom:calc(100% + 4px)}
+.imp-pop .btn{justify-content:flex-start;white-space:nowrap;width:100%}.imp-pop .fm-dica{margin:4px 6px;max-width:230px;white-space:normal}
+.rn-item{position:relative}.rn-ck{position:absolute;top:6px;right:6px;z-index:2;width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}.rn-ck svg{width:18px;height:18px}
+.rn-ck.on{background:var(--primary);color:var(--on-primary,#fff);border-color:var(--primary)}.rn-item.rn-marc .ap-card{box-shadow:0 0 0 2px var(--primary)}
+#print-root .dc-retrato .dc-pg{min-height:279mm}
+#print-root .ar{font-size:9pt}#print-root .ar .ar-sec{margin:3mm 0 2mm;break-after:avoid;page-break-after:avoid}#print-root .ar-res,#print-root .ar-dados,#print-root .ar-k{break-inside:avoid;page-break-inside:avoid}
+#print-root .ar-dados{display:grid;grid-template-columns:1fr 1fr;gap:1.5mm 6mm;font-size:8.6pt}#print-root .ar-dados span{display:block;color:#666;font-size:7.4pt;text-transform:uppercase;letter-spacing:.05em}
+#print-root .ar-it{break-inside:avoid;page-break-inside:avoid;margin-bottom:2.5mm}#print-root .ar-it .ri-c p{margin:.6mm 0}
+#print-root .ar-frow{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-bottom:3mm;break-inside:avoid;page-break-inside:avoid}
+#print-root .ar-frow figure{margin:0}#print-root .ar-fimg{height:44mm;background:#f1eee6;border:.2mm solid #ccc;border-radius:1.5mm;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#print-root .ar-fimg img{max-width:100%;max-height:100%;object-fit:contain;display:block}#print-root .ar-frow figcaption{font-size:7.4pt;color:#333;margin-top:1mm;line-height:1.3}
+#print-root .ar-res{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm;font-size:8.4pt}#print-root .ar-res div{border:.3mm solid #ddd;border-radius:1.5mm;padding:2mm}#print-root .ar-res span{display:block;color:#666;font-size:7.2pt}#print-root .ar-res b{font-size:12pt}
+#print-root .ar-dist{font-size:8.2pt;margin:2mm 0 0}#print-root .ar-pa{font-size:8pt}#print-root .ar-pa td{vertical-align:top}
+#print-root .ar-sig{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8mm;margin-top:9mm;break-inside:avoid}#print-root .ar-sig div{border-top:.3mm solid #888;padding-top:1mm;text-align:center;font-size:8pt;color:#444}
+/* v2.102.13: análise da NC */
+.pl-resp{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:13px;padding:8px 10px;border:1px solid var(--border);border-radius:var(--r-ctl);background:var(--surface-2);margin:8px 0}
+.pl-pede{font-size:12.5px;padding:8px 10px;border-radius:var(--r-ctl);margin:0 0 8px;border:1px solid var(--border)}
+.pl-pede.warn{border-color:var(--warn);background:var(--warn-soft)}.pl-pede.ok{border-color:var(--ok);background:var(--ok-soft)}
+.pl-pq{display:grid;gap:6px}.pl-pq label{display:grid;grid-template-columns:92px 1fr;align-items:center;gap:8px;font-size:12.5px;color:var(--text-muted)}
+@media(max-width:600px){.pl-pq label{grid-template-columns:1fr}}
+.pl-ro{margin:8px 0}.pl-ro span{display:block;font-size:11.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}.pl-ro p,.pl-ro ol{margin:2px 0 0;font-size:13.5px}.pl-ro ol{padding-left:18px}
+.pl-duas td{vertical-align:top;white-space:normal}.pl-chip{white-space:nowrap}.pl-ult{margin-top:8px}
 /* v2.102.12: GUT na RNC */
+.ishi-ed{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+.ishi-m{border:1px solid var(--border);border-radius:var(--r-ctl);padding:8px;background:var(--surface-2);min-width:0}
+.ishi-mh{display:flex;justify-content:space-between;align-items:baseline;font-weight:600;font-size:.9em;margin-bottom:4px}.ishi-mh small{color:var(--text-dim);font-weight:400}
+.ishi-c{display:flex;align-items:center;gap:6px;padding:3px 0;border-top:1px solid var(--border);font-size:.9em}.ishi-c span{flex:1;min-width:0;overflow-wrap:anywhere}
+.ishi-c.pri span{font-weight:600;color:var(--primary)}
+.ishi-pb{font:inherit;font-size:.78em;padding:3px 7px;min-height:28px;border:1px solid var(--border);border-radius:4px;background:transparent;color:var(--text-muted);cursor:pointer}
+.ishi-c.pri .ishi-pb{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+.ishi-x{font:inherit;border:0;background:transparent;color:var(--text-dim);cursor:pointer;min-width:28px;min-height:28px;font-size:1.15em;line-height:1}
+.ishi-add{display:flex;gap:6px;margin-top:6px}.ishi-add .input{flex:1;min-width:0;padding:6px 8px}
+.ishi-fig{margin-top:10px;overflow-x:auto;border:1px solid var(--border);border-radius:var(--r-ctl);background:var(--surface)}.ishi-fig svg{display:block;width:100%;min-width:640px;height:auto}
+.ishi-svg{--is-l:var(--text-muted);--is-t:var(--text);--is-p:var(--primary);--is-h:var(--surface-2);--is-b:var(--border-light)}
+.ishi-svg .is-sp{stroke:var(--is-t);stroke-width:3}.ishi-svg .is-ar{fill:var(--is-t)}.ishi-svg .is-bn{stroke:var(--is-l);stroke-width:2}
+.ishi-svg .is-hd{fill:var(--is-h);stroke:var(--is-t);stroke-width:1.5}.ishi-svg .is-ht{fill:var(--is-t);font-size:15px;font-weight:600}
+.ishi-svg .is-lb{fill:var(--is-h);stroke:var(--is-b)}.ishi-svg .is-lt{fill:var(--is-t);font-size:13px;font-weight:700}
+.ishi-svg .is-cl{stroke:var(--is-l);stroke-width:1}.ishi-svg .is-ct{fill:var(--is-t);font-size:10px}
+.ishi-svg .is-cl.is-p{stroke:var(--is-p);stroke-width:2.5}.ishi-svg .is-ct.is-p{fill:var(--is-p);font-weight:700}.ishi-svg .is-pc{fill:var(--is-p)}
+.pl-ro .ishi-fig{margin-top:6px}
+#print-root .ishi-svg{--is-l:#555;--is-t:#111;--is-p:#5b3fd6;--is-h:#f3f3f6;--is-b:#bbb}
+#print-root .ishi-imp{color:#111;font-size:9pt}
+#print-root .ishi-ik{display:flex;flex-wrap:wrap;gap:4px 18px;margin:0 0 4px}#print-root .ishi-ik i,#print-root .ishi-ic i{display:block;font-style:normal;font-size:7pt;color:#666;text-transform:uppercase;letter-spacing:.03em}
+#print-root .ishi-ip{margin:2px 0 4px}
+#print-root .ishi-fig{border:1px solid #ccc;border-radius:4px;background:#fff;margin:0 0 4px;overflow:visible}#print-root .ishi-fig svg{min-width:0;max-height:128mm}
+#print-root .ishi-ic{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.gut-tg{display:flex;align-items:center;gap:8px;flex:1;min-width:0;width:auto;text-align:left;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-ctl);padding:9px 10px;color:var(--text);font:inherit;cursor:pointer}.gut-tg small{color:var(--text-dim);font-weight:400}.gut-tg>span{flex:1}.gut-tg-r{font-style:normal;font-weight:600;font-size:.85em;color:var(--primary)}.gut-tg i{font-style:normal;color:var(--text-dim)}.gut-tg+.gut-box{margin-top:6px}
 .gut-box{display:grid;gap:8px;padding:10px;border:1px solid var(--border);border-radius:var(--r-ctl);background:var(--surface-2)}
 .gut-l{display:grid;grid-template-columns:92px auto;column-gap:10px;row-gap:2px;align-items:center}
 .gut-k{font-size:12.5px;font-weight:700}
@@ -654,6 +726,7 @@ body[data-theme="ponto"]::before{background:radial-gradient(rgba(60,60,110,.16) 
   .al-apre-mes{justify-content:space-between}
 }
 #print-root .pr-apre{--primary:#6d4aff;--text:#111;--text-muted:#444;--text-dim:#777;--border-light:#ddd;--surface-3:#e8e8ee}
+#print-root .dp-imp{--bg:#fff;--surface:#fff;--surface-2:#f4f4f7;--border:#ccc;--row-hover:#f4f4f7;--primary-soft:rgba(109,74,255,.12);--ok-soft:#dff3e7;--warn-soft:#fbefd5;--crit-soft:#fbe0e0;--info-soft:#dde9f6;background:#fff;color:#111}
 #print-root .pr-sub{font-size:10px;color:#444;margin:-2px 0 6px}
 #print-root .pr-box{flex:1;border:1px solid #ccc;border-radius:6px;padding:6px 8px;margin-bottom:8px}
 #print-root .pr-box.pr-larga{flex:1.7}
@@ -2726,7 +2799,7 @@ body[data-theme="sunset"]::before{background:none}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.12 · GUT 1 na RNC: notas G, U e T, faixas, Ver por risco e selo no PDF';
+const APP_VERSION = 'v2.102.18 · RNC: Diagrama de Ishikawa (6M) na análise, com causa principal, desenho e PDF próprio';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -3126,7 +3199,7 @@ const Data = (function () {
    A promessa do Firestore (add/set/update) só termina quando o servidor confirma;
    sem sinal, ela fica aberta e o dado fica guardado no aparelho até a conexão voltar.
    A fila é guardada no aparelho (sv2-fila) para sobreviver a fechar o app sem sinal. */
-const SYNC_NOMES = { sv2_bugs_foto: 'Fotos dos bugs', sv2_tarefas: 'Tarefas', sv2_bugs: 'Bugs e sugestões', sv2_users: 'Usuários', sv2_notifs: 'Notificações', sv2_audit: 'Registro de atividade', sv2_aprov: 'Pedidos de autorização', sv2_resumos: 'Resumo da semana', sv2_docs: 'Documentos', sv2_caixas: 'Caixas d’água', sv2_lanc: 'Lançamentos de documentos', sv2_bebs: 'Bebedouros', sv2_cloro: 'Verificações de cloro', sv2_talhoes: 'Talhões', sv2_analises: 'Análises e preços', sv2_cfg: 'Configurações', sv2_etqmodelos: 'Modelos de etiqueta', sv2_prog: 'Programação de coletas', sv2_coletas: 'Coletas', sv2_aguacol: 'Coletas de água', sv2_apont: 'Apontamentos', sv2_fotos: 'Fotos dos apontamentos', sv2_alm_itens: 'Materiais do almoxarifado', sv2_alm_mov: 'Movimentações do almoxarifado', sv2_alm_sol: 'Solicitações ao almoxarifado', sv2_alm_pref: 'Seus motivos guardados', sv2_avatar: 'Foto de perfil', sv2_cloro_falta: 'Justificativas de cloro', sv2_cloro_foto: 'Fotos do clorímetro', sv2_agua_foto: 'Fotos das ações corretivas', sv2_rodizio: 'Planos de coleta', sv2_aguaproj: 'Projetos de coleta de água', sv2_aguaponto: 'Pontos de água', sv2_proc: 'Procedimentos de coleta', sv2_alm_equip: 'Equipamentos', sv2_alm_cal: 'Solicitações de calibração', sv2_alm_inv: 'Inventários', sv2_alm_equip_foto: 'Fotos dos equipamentos', sv2_alm_transf: 'Transferências', sv2_alm_foto: 'Fotos do almoxarifado', sv2_rnc: 'Auditorias internas (RNC)', sv2_rnc_foto: 'Fotos das RNC', sv2_rnc_gut: 'Prioridade GUT das NCs', sv2_chat: 'Conversas', sv2_meta: 'Instalação', sv2_conquistas: 'Conquistas', sv2_normas: 'Normas da auditoria', sv2_normas_ed: 'Editais das normas', sv2_login: 'Login → e-mail', sv2_recup: 'Pedidos de recuperação de senha' };
+const SYNC_NOMES = { sv2_bugs_foto: 'Fotos dos bugs', sv2_tarefas: 'Tarefas', sv2_bugs: 'Bugs e sugestões', sv2_users: 'Usuários', sv2_notifs: 'Notificações', sv2_audit: 'Registro de atividade', sv2_aprov: 'Pedidos de autorização', sv2_resumos: 'Resumo da semana', sv2_docs: 'Documentos', sv2_caixas: 'Caixas d’água', sv2_lanc: 'Lançamentos de documentos', sv2_bebs: 'Bebedouros', sv2_cloro: 'Verificações de cloro', sv2_talhoes: 'Talhões', sv2_analises: 'Análises e preços', sv2_cfg: 'Configurações', sv2_etqmodelos: 'Modelos de etiqueta', sv2_prog: 'Programação de coletas', sv2_coletas: 'Coletas', sv2_aguacol: 'Coletas de água', sv2_apont: 'Apontamentos', sv2_fotos: 'Fotos dos apontamentos', sv2_alm_itens: 'Materiais do almoxarifado', sv2_alm_mov: 'Movimentações do almoxarifado', sv2_alm_sol: 'Solicitações ao almoxarifado', sv2_alm_pref: 'Seus motivos guardados', sv2_avatar: 'Foto de perfil', sv2_cloro_falta: 'Justificativas de cloro', sv2_cloro_foto: 'Fotos do clorímetro', sv2_agua_foto: 'Fotos das ações corretivas', sv2_rodizio: 'Planos de coleta', sv2_aguaproj: 'Projetos de coleta de água', sv2_aguaponto: 'Pontos de água', sv2_proc: 'Procedimentos de coleta', sv2_alm_equip: 'Equipamentos', sv2_alm_cal: 'Solicitações de calibração', sv2_alm_inv: 'Inventários', sv2_alm_equip_foto: 'Fotos dos equipamentos', sv2_alm_transf: 'Transferências', sv2_alm_foto: 'Fotos do almoxarifado', sv2_rnc: 'Auditorias internas (RNC)', sv2_rnc_foto: 'Fotos das RNC', sv2_rnc_gut: 'Prioridade GUT das NCs', sv2_rnc_plano: 'Análise das NCs', sv2_chat: 'Conversas', sv2_meta: 'Instalação', sv2_conquistas: 'Conquistas', sv2_normas: 'Normas da auditoria', sv2_normas_ed: 'Editais das normas', sv2_login: 'Login → e-mail', sv2_recup: 'Pedidos de recuperação de senha' };
 const Sync = (function () {
   const KEY = 'sv2-fila';
   let fila = [];   /* {k, col, op, doc, ts, st: 'pend' | 'antes' | 'erro', erro} */
@@ -3451,7 +3524,7 @@ const AREAS = [
   { id: 'inspecoes', nome: 'Inspeções', icon: 'check', tabs: [
     { id: 'cloro', nome: 'Cloro', pronto: true },
     { id: 'apont', nome: 'Apontamentos', pronto: true },
-    { id: 'reuniao', nome: 'Reunião de sexta', pronto: true },
+    { id: 'reuniao', nome: 'Relatório de apontamentos', pronto: true }, /* v2.102.14: antes "Reunião de sexta" */
     { id: 'rnc', nome: 'Auditoria interna', pronto: true }
   ] },
   { id: 'documentos', nome: 'Documentos', icon: 'file', tabs: [
@@ -3501,7 +3574,7 @@ const ATRIB = [
   { id: 'coletas', nome: 'Coletas', desc: 'Programação, coletas, lotes, etiquetas e cadastros', abas: ['coletas/*'] },
   { id: 'rateios', nome: 'Rateios', desc: 'Rateio de campo e de água, solicitação de compra', abas: ['rateios/*'] },
   { id: 'cloro', nome: 'Verificação de cloro', desc: 'Inspeções › Cloro e bebedouros', abas: ['inspecoes/cloro'] },
-  { id: 'apont', nome: 'Apontamentos', desc: 'Inspeções › Apontamentos, Reunião de sexta e Auditoria interna (RNC)', abas: ['inspecoes/apont', 'inspecoes/reuniao', 'inspecoes/rnc'] },
+  { id: 'apont', nome: 'Apontamentos', desc: 'Inspeções › Apontamentos, Relatório de apontamentos e Auditoria interna (RNC)', abas: ['inspecoes/apont', 'inspecoes/reuniao', 'inspecoes/rnc'] },
   { id: 'docs', nome: 'Documentos', desc: 'Catálogo, caixas d’água, lançamentos e correções', abas: ['documentos/*'] },
   { id: 'qualidade', nome: 'Gestão da Qualidade', desc: 'Atividade, equipe, semana, não conformidades, bugs', abas: ['qualidade/*'] },
   { id: 'almox', nome: 'Almoxarifado', desc: 'Materiais, movimentações e solicitações', abas: ['almox/*'] }
@@ -3893,7 +3966,7 @@ function tableHTML(cfg) {
   cfg._shown = shown;
   return '<div class="tbar' + (cfg.dica ? ' has-dica' : '') + (cfg.centro ? ' t-centro' : '') + '">' + (cfg.antes ? '<span class="tantes">' + cfg.antes + '</span>' : '') + '<h2>' + esc(cfg.title) + '</h2>' + (cfg.dica ? '<span class="tdica">' + esc(cfg.dica) + '</span>' : '') + (cfg.acoes ? '<span class="tacoes">' + cfg.acoes + '</span>' : '') + '<span class="count">' + rows.length + (rows.length === 1 ? ' registro' : ' registros') + (nAtivos ? ' · ' + nAtivos + ' filtro(s)' : '') + '</span>' +
     (nAtivos || st.sort ? '<button class="btn sm" data-action="t-clear" data-t="' + esc(cfg.id) + '">Limpar filtros</button>' : '') +
-    '<button class="btn sm tprint" data-action="t-print" data-t="' + esc(cfg.id) + '" title="Imprimir / PDF" aria-label="Imprimir / PDF">' + ico('print') + '<span class="tp-txt">Imprimir / PDF</span></button></div>' +
+    '<button class="btn sm tprint" data-action="t-print" data-t="' + esc(cfg.id) + '" title="Imprimir / PDF" aria-label="Imprimir / PDF">' + ico('print') + '</button></div>' +
     '<div class="tw"><table class="t"><thead><tr>' + head + '</tr></thead><tbody>' + (body || '<tr><td colspan="' + cfg.cols.length + '" style="text-align:center;color:var(--text-muted);padding:28px">Nenhum registro com esses filtros.</td></tr>') + '</tbody></table>' +
     (rows.length > shown.length ? '<div class="tfoot"><button class="btn sm" data-action="t-more" data-t="' + esc(cfg.id) + '">Mostrar mais ' + Math.min(200, rows.length - shown.length) + '</button></div>' : '') + '</div>';
 }
@@ -3936,13 +4009,15 @@ function filtrosResumo(cfg) {
   return out.join(' · ');
 }
 /* impressão A4 dentro da própria página (sem janela extra) */
+let DC_FOLHA = { w: 285, alt: 196 }; /* v2.102.14: tamanho útil da folha (mm); em pé só quando pedido */
 function runPrint(bodyHTML, titulo, orient, filtros, chave) {
   /* v2.47.0: folhas paginadas, cada uma com o cabeçalho de documento controlado (dcPaginar) */
-  const root = $('#print-root');
+  const root = $('#print-root'), emPe = orient === 'portrait';
   let st = $('#page-style'); if (!st) { st = document.createElement('style'); st.id = 'page-style'; document.head.appendChild(st); }
-  st.textContent = '@page{size:A4 landscape;margin:6mm}'; /* sempre na horizontal */
+  st.textContent = emPe ? '@page{size:A4 portrait;margin:8mm}' : '@page{size:A4 landscape;margin:6mm}'; /* deitado, menos o Relatório de apontamentos (v2.102.14) */
   if (S.user && S.user.contaTeste) { chave = chave || dcChaveDoTitulo(titulo); titulo = 'TESTE (sem valor) · ' + titulo; } /* v2.89.0: impresso pela conta de teste (v2.89.1: o código do documento sai do título original) */
-  root.innerHTML = dcPaginar(bodyHTML, titulo, filtros, chave);
+  DC_FOLHA = emPe ? { w: 194, alt: 279 } : { w: 285, alt: 196 };
+  try { root.innerHTML = dcPaginar(bodyHTML, titulo, filtros, chave); } finally { DC_FOLHA = { w: 285, alt: 196 }; }
   setTimeout(() => prevAbrir(), 60); /* v2.52.0: abre a pré-visualização (Imprimir / Baixar / Compartilhar) */
 }
 function docHeaderHTML() { const d = cfgCol().doc; return '<div class="doc-h"><span><b>Setor:</b> ' + esc(d.setor) + '</span><span><b>Data da revisão:</b> ' + fmtD(d.dataRevisao) + '</span><span><b>Revisão:</b> ' + esc(d.revisao) + '</span></div>'; }
@@ -6461,7 +6536,7 @@ function procHTML() {
         (v ? '<small>Em vigor desde ' + fmtD(diaLocal(v.confirmadoEm)) + ' · ' + v.pags + ' página(s) · ' + v.kb + ' KB · confirmado por ' + esc(v.confirmadoPor) + '</small>' : '<small>Nenhuma revisão confirmada.</small>') +
         (pe ? '<small class="pc-pend">' + procRev(pe.rev) + ' enviada por ' + esc(pe.enviadoPor) + ' em ' + fmtD(diaLocal(pe.enviadoEm)) + ': aguardando confirmação do Principal' + (pe.obs ? ' · ' + esc(pe.obs) : '') + '</small>' : '') +
         (ab.length ? '<small class="pc-pend">' + ab.length + ' pedido(s) de revisão ' + (ab.some(x => x.status === 'correcao') ? '(em correção)' : 'em aberto') + '</small>' : '') +
-        '<div class="pc-ac">' + (v ? '<button class="btn sm" data-action="pc-ver" data-id="' + m[0] + '" data-q="vig">Ver</button><button class="btn sm" data-action="pc-print" data-id="' + m[0] + '" data-q="vig">' + icoI('print') + 'Imprimir</button>' : '') +
+        '<div class="pc-ac">' + (v ? '<button class="btn sm" data-action="pc-ver" data-id="' + m[0] + '" data-q="vig">Ver</button><button class="btn sm imp-bt" data-action="pc-print" data-id="' + esc(m[0]) + '" data-q="vig" title="Imprimir" aria-label="Imprimir">' + ico('print') + '</button>' : '') +
           (pe && sup ? '<button class="btn sm" data-action="pc-ver" data-id="' + m[0] + '" data-q="pend">Ver ' + procRev(pe.rev) + '</button>' : '') +
           (pe && prin ? '<button class="btn sm primary" data-action="pc-conf" data-id="' + m[0] + '">Confirmar</button><button class="btn sm" data-action="pc-rej" data-id="' + m[0] + '">Rejeitar</button>' : '') +
           (v && S.user && S.user.perfil !== 'visitante' ? '<button class="btn sm" data-action="pc-ped" data-id="' + m[0] + '">Solicitar revisão</button>' : '') +
@@ -6476,7 +6551,7 @@ function procPagsGet(mat, rev, n) { const ps = []; for (let i = 0; i < n; i++) p
 function openProcVer(mat, q) {
   const p = procDe(mat), x = p && p[q]; if (!x) return;
   openSheet('<h3>Procedimento de coleta · ' + esc(procMatNome(mat)) + '</h3><div class="sub">' + procRev(x.rev) + ' · ' + x.pags + ' página(s)' + (q === 'pend' ? ' · aguardando confirmação' : '') + '</div><div class="pc-ver" id="pc-ver">Carregando…</div>' +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button><button class="btn primary" data-action="pc-print" data-id="' + esc(mat) + '" data-q="' + q + '">' + icoI('print') + 'Imprimir</button></div>', { noFocus: true });
+    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button><button class="btn primary imp-bt" data-action="pc-print" data-id="' + esc(mat) + '" data-q="' + esc(q) + '" title="Imprimir" aria-label="Imprimir">' + ico('print') + '</button></div>', { noFocus: true });
   procPagsGet(mat, x.rev, x.pags).then(us => { const e = $('#pc-ver'); if (e) e.innerHTML = us.map((u, i) => u ? '<img src="' + imgSrc(u) + '" alt="Página ' + (i + 1) + '">' : '<p class="fm-dica">Página ' + (i + 1) + ' indisponível.</p>').join(''); });
 }
 async function procImprimir(mat, q) {
@@ -9064,7 +9139,7 @@ function viewPainelRateio() {
   const seg = (v, t) => '<button class="' + (f.tipo === v ? 'on' : '') + '" data-action="dp-tipo" data-id="' + v + '" aria-pressed="' + (f.tipo === v) + '">' + t + '</button>';
   const per = (v, t) => '<button class="btn sm' + (f.per === v ? ' primary' : '') + '" data-action="dp-per" data-id="' + v + '">' + t + '</button>';
   const topo = '<div class="al-apre-top"><div class="al-apre-mes"><button class="btn sm" data-action="dp-ano" data-id="-1" aria-label="Ano anterior">‹</button><h2>' + (f.tipo === 'agua' ? 'Água' : 'Campo') + ' · ' + esc(dpPerTxt()) + '</h2><button class="btn sm" data-action="dp-ano" data-id="1" aria-label="Próximo ano"' + (f.ano >= anoAtual ? ' disabled' : '') + '>›</button></div>' +
-    '<div class="al-apre-ac"><button class="btn sm" data-action="dp-print">' + icoI('print') + 'Imprimir / PDF</button></div></div>' +
+    '<div class="al-apre-ac">' + impBtn([{ a: 'dp-print', t: 'Imprimir / PDF' }]) + '</div></div>' +
     '<div class="dp-fil"><div class="seg dp-seg">' + seg('agua', 'Água') + seg('campo', 'Campo') + '</div><div class="dp-per">' + per('', 'Ano') + ['T1', 'T2', 'T3', 'T4'].map(p => per(p, p[1] + 'º tri')).join('') + per('S1', '1º sem') + per('S2', '2º sem') + '</div></div>' +
     (f.tipo === 'agua' ? (() => { const tem = PJ_TIPOS.filter(t => agAtivas().some(c => pjTipoColeta(c) === t[0])); return tem.length > 1 || f.pt ? '<div class="dp-pt"><button class="btn sm' + (!f.pt ? ' primary' : '') + '" data-action="dp-pt" data-id="">Todos os pontos</button>' + tem.map(t => '<button class="btn sm' + (f.pt === t[0] ? ' primary' : '') + '" data-action="dp-pt" data-id="' + t[0] + '">' + t[1] + '</button>').join('') + '</div>' : ''; })() : '');
   return '<div class="dp">' + topo + (f.tipo === 'agua' ? dpAguaHTML() : dpCampoHTML()) + '</div>';
@@ -9382,7 +9457,7 @@ function openFichas(keys) {
   openSheet('<h3>Etiqueta da caixa</h3><div class="sub">Remetente pela unidade da amostra (Matriz ou Filial) e o endereço do laboratório. Folha A4 em pé.</div><div id="fx-msg"></div>' +
     keys.map(k => '<div class="fx-rem"><b>' + esc(remNome(k)) + '</b><small>' + remItens(k).length + ' amostra(s)</small>' +
       fxDocs(k).map(d => '<label class="fl-item"><input type="checkbox" class="fx-doc-ck" data-k="' + esc(k) + '" value="' + esc(d.id) + '" checked><span>' + esc(d.nome) + '</span></label>').join('') + '</div>').join('') +
-    '<div class="row-actions"><button class="btn" data-action="close">Depois</button><button class="btn primary" data-action="fx-print">' + icoI('print') + 'Imprimir</button></div>', { noFocus: true });
+    '<div class="row-actions"><button class="btn" data-action="close">Depois</button><button class="btn primary imp-bt" data-action="fx-print" title="Imprimir" aria-label="Imprimir">' + ico('print') + '</button></div>', { noFocus: true });
 }
 function fxImprimir() {
   const msg = t => { const e = $('#fx-msg'); if (e) e.innerHTML = '<div class="msg">' + esc(t) + '</div>'; };
@@ -9909,8 +9984,8 @@ const AP_CATS = [
   { id: 'outro', nome: 'Outro', em: icoI('mais'), dica: '' }
 ];
 const AP_GRAV = [
-  { id: 'baixa', nome: 'Baixa', cor: 'info', n: 1, dica: 'Vai para a reunião de sexta.' },
-  { id: 'media', nome: 'Média', cor: 'warn', n: 2, dica: 'Vai para a reunião de sexta.' },
+  { id: 'baixa', nome: 'Baixa', cor: 'info', n: 1, dica: 'Vai para o Relatório de apontamentos.' },
+  { id: 'media', nome: 'Média', cor: 'warn', n: 2, dica: 'Vai para o Relatório de apontamentos.' },
   { id: 'grave', nome: 'Grave', cor: 'crit', n: 3, dica: 'Vai para o sino do seu superior (ele vê quando abrir o app).' },
   { id: 'urgente', nome: 'Urgente', cor: 'crit', n: 4, dica: 'Alerta com som para o seu superior se o app dele estiver aberto. Se for urgente de verdade, ligue para ele.' }
 ];
@@ -10016,7 +10091,7 @@ function apBtn(g, v, on, inner, cls) {
 }
 function openApNovo() {
   if (!podeLancar(S.user)) { toast('Visitante só visualiza.', 'err'); return; }
-  S.apNovo = S.apNovo || { fotos: [], cat: '', setor: '', setorTxt: '', grav: '', com: null, obs: '', orig: 'rotina', aud: '', audTxt: '' };
+  S.apNovo = S.apNovo || { fotos: [], cat: '', setor: '', setorTxt: '', grav: '', com: null, obs: '', orig: 'rotina', aud: '', audTxt: '', risco: '', recom: '' };
   if (!S.apNovo.orig) S.apNovo.orig = 'rotina';
   const n = S.apNovo, set = apSetoresAtivos();
   const setHTML = set.length <= 12
@@ -10031,6 +10106,8 @@ function openApNovo() {
     '<div class="ap-sec" data-g="grav">Gravidade</div><div class="ap-grav">' + AP_GRAV.map(g => apBtn('grav', g.id, n.grav === g.id, esc(g.nome), 'g-' + g.id)).join('') + '</div><div class="ap-hint" id="ap-grav-dica">' + esc(n.grav ? apGrav(n.grav).dica : 'Na dúvida, marque como você acha. O superior pode ajustar depois.') + '</div>' +
     '<div class="ap-sec" data-g="com">Foi comunicado ao encarregado da área?</div><div class="ap-sn">' + apBtn('com', 'sim', n.com === true, '✔ Sim') + apBtn('com', 'nao', n.com === false, '✘ Não') + '</div>' +
     '<div class="ap-sec" data-g="obs">Observação <small>opcional</small></div><textarea class="input" id="ap-obs" rows="3" placeholder="Se quiser, escreva o que viu">' + esc(n.obs) + '</textarea>' +
+    '<div class="ap-sec" data-g="risco">Risco potencial <small>opcional · o que pode acontecer</small></div><textarea class="input" id="ap-risco" rows="2" placeholder="Ex.: queda, contaminação do produto">' + esc(n.risco || '') + '</textarea>' + /* v2.102.14 */
+    '<div class="ap-sec" data-g="recom">Recomendação <small>opcional · o que fazer</small></div><textarea class="input" id="ap-recom" rows="2" placeholder="Ex.: repor a placa de higiene">' + esc(n.recom || '') + '</textarea>' +
     '<div class="ap-foot"><button type="button" class="btn" data-action="ap-cancel">Descartar</button><button type="button" class="btn primary" data-action="ap-save">Enviar</button></div>', { noFocus: true });
   fmNumerar();
 }
@@ -10053,6 +10130,7 @@ function apPick(t) {
 function apSalvarNovo() {
   const n = S.apNovo, u = S.user; if (!n || !u) return;
   const obsEl = $('#ap-obs'); if (obsEl) n.obs = obsEl.value;
+  { const r1 = $('#ap-risco'), r2 = $('#ap-recom'); if (r1) n.risco = r1.value; if (r2) n.recom = r2.value; } /* v2.102.14 */
   const stEl = $('#ap-setor-txt'); if (stEl) n.setorTxt = stEl.value;
   const setor = n.setor === '__outro' ? String(n.setorTxt || '').trim() : n.setor;
   const falta = [];
@@ -10075,7 +10153,7 @@ function apSalvarNovo() {
     data: hojeISO(), hora: apHora(), criadoEm: ts, porId: u.id, porNome: u.nome,
     origem: n.orig === 'auditoria' ? 'auditoria' : 'rotina', auditoria: n.orig === 'auditoria' ? apAudFinal(n, 'ap') : '',
     categoria: n.cat, setor: setor, grav: n.grav, gravOrig: n.grav, gravHist: [], comunicado: n.com,
-    obs: String(n.obs || '').trim(), fotos: fotoIds, fotosDepois: [], status: 'aberto', resolucao: null, nc: null,
+    obs: String(n.obs || '').trim(), risco: String(n.risco || '').trim(), recom: String(n.recom || '').trim(), fotos: fotoIds, fotosDepois: [], status: 'aberto', resolucao: null, nc: null,
     hist: [{ ts: ts, porNome: u.nome, txt: 'Registrou como ' + g.nome + (fotoIds.length ? ' com ' + fotoIds.length + ' foto(s)' : ' sem foto') + (n.orig === 'auditoria' ? ' · ' + apOrigTxt({ origem: 'auditoria', auditoria: apAudFinal(n, 'ap') }) : '') }], versao: APP_VERSION
   };
   n.fotos.forEach((d, i) => { FotoCache[fotoIds[i]] = d; });
@@ -10122,6 +10200,7 @@ function openApDetail(id) {
   const gal = (ids, tit) => (ids = (ids || []).filter(f => !(a.fotosOff || {})[f])).length ? '<div class="ap-sec">' + tit + '</div><div class="ap-gal">' + ids.map(f => '<button class="ap-gi" data-action="ap-zoom" data-id="' + esc(f) + '" data-ap="' + esc(a.id) + '">' + apImg(mc[f] || f) + (mc[f] ? '<span class="ap-marc">marcada</span>' : '') + '</button>').join('') + '</div>' : '';
   const kv = [['Registrado', fmtD(a.data) + ' às ' + a.hora + ' · ' + a.porNome], ['Origem', apOrigTxt(a)], ['Setor', a.setor], ['Encarregado da área', a.comunicado ? 'Foi comunicado' : 'Não foi comunicado'], ['Situação', (AP_ST[a.status] || AP_ST.aberto)[0]]];
   if (a.obs) kv.splice(3, 0, ['Observação', a.obs]);
+  if (a.risco) kv.splice(a.obs ? 4 : 3, 0, ['Risco potencial', a.risco]); if (a.recom) kv.splice((a.obs ? 4 : 3) + (a.risco ? 1 : 0), 0, ['Recomendação', a.recom]); /* v2.102.14 */
   if (r >= 2) kv.push(['Reincidência', r + 'ª vez em 30 dias (mesmo setor e categoria)']);
   if (a.resolucao) kv.push([a.status === 'nao_procede' ? 'Por que não procede' : 'O que foi feito', a.resolucao.texto + ' — ' + a.resolucao.porNome + ', ' + fmtDT(a.resolucao.ts)]);
   { const fp = apFotoPrazoTxt(a); if (fp) kv.push(['Fotos', fp]); }
@@ -10296,34 +10375,139 @@ function viewNC() {
   return kpis + (lst.length ? '<div class="ap-list">' + lst.map(a => '<div class="rn-item">' + apCardHTML(a) + '<div class="ap-hint">Responsável: <b>' + esc(a.nc.responsavel) + '</b> · prazo ' + fmtD(a.nc.prazo) + (ncSit(a) === 'vencida' ? ' · <b style="color:var(--crit)">vencida há ' + difDias(a.nc.prazo, hojeISO()) + ' dia(s)</b>' : '') + '</div></div>').join('') + '</div>' : '<div class="empty" style="margin:20px auto"><p>Nada neste filtro.</p></div>');
 }
 
-/* ---------- reunião de sexta ---------- */
+/* v2.102.14 (pedido do Elias, 16/10 02:33): botão de imprimir só com o desenho da impressora, em todas as abas.
+   ops = [{ a: ação, id, m (data-m), t: texto }]. Uma opção: o botão faz direto (texto vai no título). Mais de uma: abre a lista. */
+function impBtn(ops, o) {
+  o = o || {}; const n = o.n ? '<span class="imp-n">' + esc(o.n) + '</span>' : '';
+  const at = x => ' data-action="' + esc(x.a) + '"' + (x.id != null && x.id !== '' ? ' data-id="' + esc(x.id) + '"' : '') + (x.m ? ' data-m="' + esc(x.m) + '"' : '');
+  if (ops.length === 1 && !o.dica) return '<button type="button" class="btn sm imp-bt' + (o.cls ? ' ' + esc(o.cls) : '') + '"' + at(ops[0]) + ' title="' + esc(ops[0].t) + '" aria-label="' + esc(ops[0].t) + '">' + ico('print') + n + '</button>';
+  return '<span class="imp-w' + (o.up ? ' imp-up' : '') + (o.cls ? ' ' + esc(o.cls) : '') + '"><button type="button" class="btn sm imp-bt" data-action="imp-pop" title="' + esc(o.titulo || 'Imprimir') + '" aria-label="' + esc(o.titulo || 'Imprimir') + '" aria-expanded="false">' + ico('print') + n + '</button>' +
+    '<span class="imp-pop" hidden>' + ops.map(x => '<button type="button" class="btn sm"' + at(x) + '>' + esc(x.t) + '</button>').join('') + (o.dica ? '<span class="fm-dica">' + esc(o.dica) + '</span>' : '') + '</span></span>';
+}
+function impFechar(fora) { $$('.imp-pop').forEach(p => { if (p !== fora && !p.hidden) { p.hidden = true; const b = p.previousElementSibling; if (b) b.setAttribute('aria-expanded', 'false'); } }); }
+document.addEventListener('click', ev => { const w = ev.target.closest && ev.target.closest('.imp-w'); if (!w) { impFechar(); return; } if (ev.target.closest('.imp-pop')) setTimeout(impFechar, 0); }, true);
+/* ---------- relatório de apontamentos (antes "reunião de sexta") ---------- */
+/* v2.102.14: filtros. per = hoje | semana (com ‹ ›) | datas; listas vazias = sem filtro. "semana" (nome antigo) = os do período. */
+const RN_FILTROS = { cat: 'Categoria', setor: 'Área', grav: 'Gravidade', st: 'Situação', por: 'Lançado por' };
+function rnF() { S.rnF = S.rnF || { per: 'semana', de: '', ate: '', cat: [], setor: [], grav: [], st: [], por: [] }; return S.rnF; }
+function rnOpcoes(k) {
+  if (k === 'cat') return AP_CATS.map(c => [c.id, c.nome]);
+  if (k === 'grav') return AP_GRAV.slice().reverse().map(g => [g.id, g.nome]);
+  if (k === 'st') return Object.keys(AP_ST).map(s => [s, AP_ST[s][0]]);
+  if (k === 'setor') return Array.from(new Set(S.apont.map(a => a.setor).filter(Boolean))).sort((a, b) => a.localeCompare(b, 'pt-BR')).map(s => [s, s]);
+  const m = {}; S.apont.forEach(a => { if (a.porId) m[a.porId] = a.porNome || nomeDe(a.porId); }); return Object.keys(m).map(id => [id, (S.user && id === S.user.id ? 'Eu · ' : '') + m[id]]).sort((a, b) => a[1].localeCompare(b[1], 'pt-BR'));
+}
+const rnValor = (k, a) => k === 'cat' ? a.categoria : k === 'setor' ? a.setor : k === 'grav' ? a.grav : k === 'st' ? (a.status || 'aberto') : a.porId;
+function rnPassa(a) { const f = rnF(); return Object.keys(RN_FILTROS).every(k => !(f[k] || []).length || f[k].indexOf(rnValor(k, a)) >= 0); }
+function rnFiltroTxt() { const f = rnF(); return Object.keys(RN_FILTROS).filter(k => (f[k] || []).length).map(k => RN_FILTROS[k] + ': ' + f[k].map(v => (rnOpcoes(k).find(o => o[0] === v) || [v, v])[1].replace(/^Eu · /, '')).join(', ')).join(' · '); }
+function rnPeriodoTxt(d) { return d.per === 'hoje' ? 'hoje, ' + fmtD(d.de) : d.per === 'datas' ? (d.de === d.ate ? fmtD(d.de) : fmtD(d.de) + ' a ' + fmtD(d.ate)) : 'semana de ' + fmtD(d.seg) + ' a ' + fmtD(d.fim); }
 function rnDados() {
-  const hoje = apSegunda(hojeISO()), seg = S.rnSeg || hoje, fim = addDias(seg, 6);
+  const f = rnF(), hoje = apSegunda(hojeISO()), seg = S.rnSeg || hoje, fim = addDias(seg, 6);
   const ord = (a, b) => apGrav(b.grav).n - apGrav(a.grav).n || String(a.data + a.hora).localeCompare(String(b.data + b.hora));
-  const semana = S.apont.filter(a => a.data >= seg && a.data <= fim).sort(ord);
-  const anteriores = S.apont.filter(a => a.data < seg && apAberto(a)).sort(ord);
-  return { hoje: hoje, seg: seg, fim: fim, semana: semana, anteriores: anteriores };
+  let de = seg, ate = fim;
+  if (f.per === 'hoje') { de = ate = hojeISO(); }
+  if (f.per === 'datas') { de = f.de || addDias(hojeISO(), -30); ate = f.ate || hojeISO(); if (ate < de) { const x = de; de = ate; ate = x; } }
+  const semana = S.apont.filter(a => a.data >= de && a.data <= ate && rnPassa(a)).sort(ord);
+  const anteriores = f.per === 'semana' ? S.apont.filter(a => a.data < seg && apAberto(a) && rnPassa(a)).sort(ord) : [];
+  return { hoje: hoje, seg: seg, fim: fim, semana: semana, anteriores: anteriores, per: f.per, de: de, ate: ate };
+}
+function openRnFiltro(k) {
+  const f = rnF(), sel = f[k] || [], ops = rnOpcoes(k);
+  openSheet('<h3>' + esc(RN_FILTROS[k]) + '</h3><div class="sub">Marque um ou mais. Sem nada marcado, entram todos.</div>' +
+    '<div class="fl-list rn-fl">' + (ops.map(o => '<label class="fl-item"><input type="checkbox" class="rn-fck" value="' + esc(o[0]) + '"' + (sel.indexOf(o[0]) >= 0 ? ' checked' : '') + '><span>' + esc(o[1]) + '</span></label>').join('') || '<p class="fm-dica">Nada para escolher ainda.</p>') + '</div>' +
+    '<div class="row-actions"><button class="btn" data-action="rn-f-limpar" data-id="' + esc(k) + '">Limpar</button><button class="btn primary" data-action="rn-f-ok" data-id="' + esc(k) + '">Aplicar</button></div>', { noFocus: true });
 }
 function rnItemHTML(a, ant) {
+  const marc = !!(S.rnSel && S.rnSel.has(a.id)); /* v2.102.14: marcar para o relatório */
+  const ck = '<button type="button" class="rn-ck' + (marc ? ' on' : '') + '" data-action="rn-sel" data-id="' + esc(a.id) + '" aria-pressed="' + (marc ? 'true' : 'false') + '" title="Marcar para o relatório" aria-label="Marcar para o relatório">' + (marc ? ico('check') : '') + '</button>';
   const ac = isSup(S.user) && apAberto(a) ? '<div class="rn-ac">' + (a.status !== 'andamento' ? '<button class="btn sm" data-action="ap-st" data-rn="1" data-st="andamento" data-id="' + esc(a.id) + '">Em andamento</button>' : '') + '<button class="btn sm primary" data-action="ap-st" data-rn="1" data-st="resolvido" data-id="' + esc(a.id) + '">Resolvido</button><button class="btn sm" data-action="ap-st" data-rn="1" data-st="nao_procede" data-id="' + esc(a.id) + '">Não procede</button></div>' : '';
-  return '<div class="rn-item">' + apCardHTML(a) + (ant ? '<div class="ap-hint">↩ Pendente desde a semana de ' + fmtD(apSegunda(a.data)) + '</div>' : '') + ac + '</div>';
+  return '<div class="rn-item' + (marc ? ' rn-marc' : '') + '">' + ck + apCardHTML(a) + (ant ? '<div class="ap-hint">↩ Pendente desde a semana de ' + fmtD(apSegunda(a.data)) + '</div>' : '') + ac + '</div>';
 }
 function viewReuniao() {
   const d = rnDados();
   const grupos = {}; d.semana.forEach(a => { (grupos[a.setor] = grupos[a.setor] || []).push(a); });
   const setores = Object.keys(grupos).sort((x, y) => Math.max.apply(null, grupos[y].map(a => apGrav(a.grav).n)) - Math.max.apply(null, grupos[x].map(a => apGrav(a.grav).n)) || x.localeCompare(y, 'pt-BR'));
   const pend = d.semana.filter(apAberto).length + d.anteriores.length;
-  const kpis = '<div class="kpis"><div class="kpi info"><b>' + d.semana.length + '</b><span>Na semana</span></div><div class="kpi crit"><b>' + d.semana.filter(a => apGrav(a.grav).n >= 3).length + '</b><span>Graves e urgentes</span></div><div class="kpi ok"><b>' + d.semana.filter(a => a.status === 'resolvido').length + '</b><span>Resolvidos</span></div><div class="kpi warn"><b>' + pend + '</b><span>Pendentes</span></div></div>';
+  const kpis = '<div class="kpis"><div class="kpi info"><b>' + d.semana.length + '</b><span>' + (d.per === 'semana' ? 'Na semana' : d.per === 'hoje' ? 'Hoje' : 'No período') + '</span></div><div class="kpi crit"><b>' + d.semana.filter(a => apGrav(a.grav).n >= 3).length + '</b><span>Graves e urgentes</span></div><div class="kpi ok"><b>' + d.semana.filter(a => a.status === 'resolvido').length + '</b><span>Resolvidos</span></div><div class="kpi warn"><b>' + pend + '</b><span>Pendentes</span></div></div>';
   const nav = '<div class="rn-sem"><button class="btn" data-action="rn-sem" data-id="-7" aria-label="Semana anterior">‹</button><b>' + fmtD(d.seg).slice(0, 5) + ' a ' + fmtD(d.fim) + (d.seg === d.hoje ? '<br><small style="font-weight:600;color:var(--text-muted)">esta semana</small>' : '') + '</b><button class="btn" data-action="rn-sem" data-id="7"' + (d.seg >= d.hoje ? ' disabled' : '') + ' aria-label="Próxima semana">›</button></div>';
-  const barra = '<div class="seg3"><button class="btn sm" data-action="rn-print">' + ico('print') + ' Imprimir a reunião</button></div>';
+  /* v2.102.14: período, filtros e marcados */
+  const f = rnF(), nSel = S.rnSel ? S.rnSel.size : 0, fTxt = rnFiltroTxt();
+  const per = '<div class="seg3 rn-per">' + [['hoje', 'Hoje'], ['semana', 'Semana'], ['datas', 'Escolher datas']].map(x => '<button class="btn sm' + (f.per === x[0] ? ' on' : '') + '" data-action="rn-per" data-id="' + esc(x[0]) + '">' + esc(x[1]) + '</button>').join('') +
+    (f.per === 'datas' ? '<input class="input rn-dt" type="date" id="rn-de" value="' + esc(d.de) + '" max="' + hojeISO() + '" aria-label="De"><span class="rn-ate">a</span><input class="input rn-dt" type="date" id="rn-ate" value="' + esc(d.ate) + '" max="' + hojeISO() + '" aria-label="Até">' : '') + '</div>';
+  /* v2.102.14 (pedido do Elias, 02:32): um botão só, com o ícone da impressora, no fim da linha dos filtros; as opções abrem ao tocar */
+  const imp = impBtn([{ a: 'rn-print', t: 'Imprimir o relatório (' + (d.semana.length + d.anteriores.length) + ')' }].concat(nSel ? [{ a: 'rn-print', id: 'marcados', t: 'Imprimir só os marcados (' + nSel + ')' }, { a: 'rn-sel-limpar', t: 'Desmarcar todos' }] : []), { n: nSel, cls: 'rn-imp', dica: nSel ? '' : 'Para imprimir só alguns itens, toque no quadradinho de cada um.' });
+  const fil = '<div class="seg3 rn-fil">' + Object.keys(RN_FILTROS).map(k => '<button class="btn sm' + ((f[k] || []).length ? ' on' : '') + '" data-action="rn-filtro" data-id="' + esc(k) + '">' + esc(RN_FILTROS[k]) + ((f[k] || []).length ? ' (' + esc(f[k].length) + ')' : '') + ' ▾</button>').join('') + (fTxt ? '<button class="fm-link" data-action="rn-f-todos">Limpar filtros</button>' : '') + imp + '</div>' +
+    (fTxt ? '<div class="rn-ftxt">Filtro: ' + esc(fTxt) + '</div>' : '');
+  const barra = '';
   const ant = d.anteriores.length ? '<div class="rn-g"><h4><span>↩ Pendentes de semanas anteriores</span><span>' + d.anteriores.length + '</span></h4><div class="ap-list">' + d.anteriores.map(a => rnItemHTML(a, true)).join('') + '</div></div>' : '';
   const sem = setores.map(s => '<div class="rn-g' + (grupos[s].length >= 3 ? ' n3' : grupos[s].length === 2 ? ' n2' : '') + '"><h4><span>' + esc(s) + '</span><span>' + grupos[s].length + '</span></h4><div class="ap-list">' + grupos[s].map(a => rnItemHTML(a, false)).join('') + '</div></div>').join('');
-  return nav + kpis + barra + ant + (sem ? '<div class="rn-gs">' + sem + '</div>' : '<div class="empty" style="margin:20px auto"><p>Nenhum apontamento nesta semana.</p></div>'); /* v2.102.11: áreas lado a lado */
+  const vazio = d.per === 'semana' && !fTxt ? 'Nenhum apontamento nesta semana.' : 'Nenhum apontamento com esse período e filtro.';
+  return per + (d.per === 'semana' ? nav : '') + fil + kpis + barra + ant + (sem ? '<div class="rn-gs">' + sem + '</div>' : '<div class="empty" style="margin:20px auto"><p>' + esc(vazio) + '</p></div>'); /* v2.102.11: áreas lado a lado */
 }
-async function apImprimirReuniao() {
+async function apImprimirReuniao(soMarcados) {
   const d = rnDados();
-  runPrint(await apReuniaoCorpo(d), 'Reunião de apontamentos — semana de ' + fmtD(d.seg) + ' a ' + fmtD(d.fim));
-  { const st = $('#page-style'); if (st) st.textContent = '@page{size:A4 landscape;margin:6mm}'; }
+  let itens = d.anteriores.concat(d.semana), sel = '';
+  if (soMarcados && S.rnSel && S.rnSel.size) { const ord = (a, b) => apGrav(b.grav).n - apGrav(a.grav).n || String(a.data + a.hora).localeCompare(String(b.data + b.hora)); itens = S.apont.filter(a => S.rnSel.has(a.id)).sort(ord); sel = itens.length + ' item(ns) marcado(s)'; }
+  if (!itens.length) { toast('Nada para imprimir com esse período e filtro.', 'err'); return; }
+  const titulo = 'Relatório de apontamentos — ' + (sel ? 'itens marcados' : rnPeriodoTxt(d));
+  const filtros = sel || rnFiltroTxt();
+  Audit.log({ acao: 'imprimir', entidade: 'apontamento', entidadeId: 'relatorio', resumo: 'Relatório de apontamentos (' + itens.length + ' itens) · ' + (sel || rnPeriodoTxt(d)) + (filtros && !sel ? ' · ' + filtros : '') });
+  runPrint(await apRelCorpo(itens, { periodo: sel ? 'itens marcados' : rnPeriodoTxt(d), filtro: filtros, anteriores: sel ? [] : d.anteriores }), titulo, 'portrait', filtros);
+}
+/* v2.102.14: o relatório em pé (modelo do "Relatório de inspeção"): dados, itens numerados por área, registro fotográfico
+   no fim ("Foto N · Item X"), resultados, plano de ação e assinaturas. Cada bloco é um filho do corpo: a paginação (dcMedir)
+   quebra entre itens e entre linhas de fotos, nunca no meio. */
+async function apRelCorpo(itens, info) {
+  const ids = []; itens.forEach(a => (a.fotos || []).concat(a.fotosDepois || []).forEach(f => { ids.push(f); if (a.fotosMarc && a.fotosMarc[f]) ids.push(a.fotosMarc[f]); }));
+  if (ids.length) toast('Preparando as fotos…');
+  await Promise.all(ids.map(apFotoGet));
+  const GCOR = { baixa: '#2f7486', media: '#b0781f', grave: '#c0612b', urgente: '#b3261e' };
+  const dCurta = iso => fmtD(iso).replace(/\/\d{2}(\d{2})$/, '/$1');
+  const ant = new Set((info.anteriores || []).map(a => a.id));
+  const grupos = [], gi = {};
+  itens.forEach(a => { const k = ant.has(a.id) ? '\u0000ant' : a.setor || '—'; if (gi[k] == null) { gi[k] = grupos.length; grupos.push({ k: k, t: ant.has(a.id) ? 'Pendentes de semanas anteriores' : a.setor || '—', l: [] }); } grupos[gi[k]].l.push(a); });
+  const sp = grupos.filter(g => g.k !== '\u0000ant').sort((x, y) => Math.max.apply(null, y.l.map(a => apGrav(a.grav).n)) - Math.max.apply(null, x.l.map(a => apGrav(a.grav).n)) || x.t.localeCompare(y.t, 'pt-BR'));
+  const ordem = grupos.filter(g => g.k === '\u0000ant').concat(sp);
+  let n = 0, nf = 0; const fotos = [], numDe = {};
+  const campo = (r, t) => t ? '<p><b>' + esc(r) + ':</b> ' + esc(t) + '</p>' : '';
+  const blocos = [];
+  ordem.forEach(g => {
+    g.l.forEach((a, i) => {
+      const k = ++n; numDe[a.id] = k;
+      const mk = a.fotosMarc || {}, v = f => mk[f] && FotoCache[mk[f]] ? mk[f] : f;
+      const fs = (a.fotos || []).filter(f => FotoCache[v(f)]).map(f => [v(f), mk[f] ? 'antes · marcada' : 'antes']).concat((a.fotosDepois || []).filter(f => FotoCache[v(f)]).map(f => [v(f), mk[f] ? 'depois · marcada' : 'depois']))
+        .map(x => { nf++; fotos.push({ src: FotoCache[x[0]], n: nf, item: k, papel: x[1], leg: apCat(a.categoria).nome + ' · ' + (a.setor || '') }); return nf; });
+      const g1 = apGrav(a.grav), st = (AP_ST[a.status] || AP_ST.aberto)[0];
+      blocos.push((i === 0 ? '<div class="ri-sec ar-sec">' + esc(g.t) + '</div>' : '') +
+        '<div class="ri rn-ap ar-it"><div class="ri-t"><span class="ri-n">' + esc(k) + ')</span><span class="ri-tt">' + esc(apCat(a.categoria).nome) + ' · ' + esc(a.setor || '') + '</span><span class="ri-dt">' + esc(dCurta(a.data)) + ' ' + esc(a.hora || '') + '</span></div>' +
+        '<div class="ri-tags"><span class="ri-tag" style="background:' + (GCOR[a.grav] || '#555') + '">GRAVIDADE: ' + (a.gravOrig && a.gravOrig !== a.grav ? '<s>' + esc(apGrav(a.gravOrig).nome) + '</s> → ' : '') + esc(String(g1.nome).toUpperCase()) + '</span><span class="ri-tag ri-st">SITUAÇÃO: ' + esc(String(st).toUpperCase()) + '</span>' + (a.nc ? '<span class="ri-tag ri-st">NC</span>' : '') + '</div>' +
+        '<div class="ri-c">' + campo('Constatação', a.obs || '—') + campo('Risco potencial', a.risco) + campo('Recomendação', a.recom) +
+          (a.resolucao ? campo(a.status === 'nao_procede' ? 'Por que não procede' : 'Resolução', a.resolucao.texto) : '') +
+          (a.nc ? campo('NC', (a.nc.responsavel || '') + ', até ' + fmtD(a.nc.prazo) + (a.nc.fechada ? ' (fechada)' : '')) : '') +
+          '<p><b>Registrado por:</b> ' + esc(a.porNome || '') + ' · encarregado avisado: ' + (a.comunicado ? 'Sim' : 'Não') + ' · <b>Evidência fotográfica:</b> ' + (fs.length ? (fs.length > 1 ? 'Fotos ' : 'Foto ') + fs.join(', ') : 'sem foto') + '</p></div></div>');
+    });
+  });
+  /* registro fotográfico: 3 por linha, cada linha um bloco (a folha quebra entre linhas) */
+  if (fotos.length) {
+    for (let i = 0; i < fotos.length; i += 3) {
+      blocos.push((i === 0 ? '<div class="ri-sec ar-sec">Registro fotográfico</div>' : '') + '<div class="ar-frow">' + fotos.slice(i, i + 3).map(f => '<figure><div class="ar-fimg"><img class="rn-f" src="' + imgSrc(f.src) + '" alt=""></div><figcaption><b>Foto ' + esc(f.n) + ' · Item ' + esc(f.item) + '</b> · ' + esc(f.papel) + '<br>' + esc(f.leg) + '</figcaption></figure>').join('') + '</div>');
+    }
+  }
+  /* resultados */
+  const tot = itens.length, np = itens.filter(a => a.status === 'nao_procede').length, res = itens.filter(a => a.status === 'resolvido').length;
+  const pct = tot - np ? Math.round(res / (tot - np) * 1000) / 10 : 0;
+  const dist = AP_GRAV.slice().reverse().map(g => [g.nome, itens.filter(a => a.grav === g.id).length]).filter(x => x[1]);
+  const sts = Object.keys(AP_ST).map(s => [AP_ST[s][0], itens.filter(a => (a.status || 'aberto') === s).length]).filter(x => x[1]);
+  blocos.push('<div class="ri-sec ar-sec">Resultados</div><div class="ar-res"><div><span>Itens no relatório</span><b>' + esc(tot) + '</b></div><div><span>Resolvidos</span><b>' + esc(res) + '</b></div><div><span>Em aberto</span><b>' + itens.filter(apAberto).length + '</b></div><div class="ar-pct"><span>Resolvidos (sem os "não procede")</span><b>' + String(pct).replace('.', ',') + ' %</b></div></div>' +
+    '<p class="ar-dist">Por gravidade: ' + dist.map(x => esc(x[0]) + ': <b>' + esc(x[1]) + '</b>').join(' | ') + '<br>Por situação: ' + sts.map(x => esc(x[0]) + ': <b>' + esc(x[1]) + '</b>').join(' | ') + '</p>');
+  /* plano de ação: todos os itens, com a recomendação (ou a ação da NC) */
+  blocos.push('<div class="ri-sec ar-sec">Plano de ação</div><table class="ri-pa ar-pa"><colgroup><col style="width:11mm"><col><col style="width:22mm"><col style="width:22mm"><col style="width:32mm"><col style="width:24mm"></colgroup><thead><tr><th>Item</th><th>Ação</th><th>Prioridade</th><th>Prazo</th><th>Responsável</th><th>Situação</th></tr></thead><tbody>' +
+    itens.map(a => '<tr><td><b>' + esc(numDe[a.id]) + '</b></td><td>' + esc((a.nc && a.nc.acao) || a.recom || a.obs || '—') + '</td><td>' + esc(apGrav(a.grav).nome) + '</td><td>' + (a.nc && a.nc.prazo ? fmtD(a.nc.prazo) : '—') + '</td><td>' + esc((a.nc && a.nc.responsavel) || '—') + '</td><td>' + esc((AP_ST[a.status] || AP_ST.aberto)[0]) + '</td></tr>').join('') + '</tbody></table>');
+  blocos.push('<div class="ar-sig"><div>Responsável pelo relatório<br><b>' + esc(S.user ? S.user.nome : '') + '</b></div><div>Representante do setor<br>&nbsp;</div><div>Gestão da Qualidade<br>&nbsp;</div></div>');
+  const setores = Array.from(new Set(itens.map(a => a.setor).filter(Boolean)));
+  const por = Array.from(new Set(itens.map(a => a.porNome).filter(Boolean)));
+  const dados = '<div class="ri-sec ar-sec">Dados do relatório</div><div class="ar-dados">' + [['Período', info.periodo], ['Filtro', info.filtro || 'sem filtro'], ['Áreas', setores.join(', ') || '—'], ['Registrado por', por.join(', ') || '—'], ['Itens', String(tot) + (fotos.length ? ' · ' + String(fotos.length) + ' foto(s)' : '')]].map(x => '<div><span>' + esc(x[0]) + '</span><b>' + esc(x[1]) + '</b></div>').join('') + '</div>';
+  return '<div class="ar">' + dados + '</div>' + blocos.map(b => '<div class="ar' + (/^<div class="ri-sec ar-sec">/.test(b) && /ar-it|ar-frow/.test(b) ? ' ar-k' : '') + '">' + b + '</div>').join('') /* ar-k: o título da área vai junto com o 1º item (nunca sozinho no pé da folha) */;
 }
 /* v2.26.0: o conteúdo da reunião (usado na impressão da reunião e nos relatórios da semana) */
 async function apReuniaoCorpo(d) {
@@ -12992,7 +13176,7 @@ function qbRelRender() {
     '<div class="fm-row"><div><label class="fm-l">De</label><input class="input" type="date" id="qbr-de" value="' + esc(r.de) + '"></div><div><label class="fm-l">Até</label><input class="input" type="date" id="qbr-ate" value="' + esc(r.ate) + '" max="' + hojeISO() + '"></div></div>' +
     '<div class="rz-big" style="margin-top:10px"><b>' + un + ' un.</b><small>' + ps.length + ' pessoa(s) · ' + brl(tot) + '</small></div>' +
     (ps.length ? '<div class="rz-lista">' + ps.map(p => '<div class="rz-li falta"><span><b>' + esc(p.nome) + '</b><small>' + p.l.length + ' quebra(s) · ' + p.un + ' un. · ' + (p.valor ? brl(p.valor) : 'sem valor cadastrado') + '</small><small>' + esc(p.l.map(x => x.h.qtd + ' ' + x.e.nome).join(' · ')) + '</small></span><button class="btn sm" data-action="qb-rel-imp" data-id="' + esc(p.k) + '">' + icoI('print') + '</button></div>').join('') + '</div>' : '<p class="fm-dica">Nenhuma quebra registrada no período.</p>') +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button>' + (ps.length ? '<button class="btn primary" data-action="qb-rel-imp" data-id="todos">' + icoI('print') + 'Imprimir todos</button>' : '') + '</div>', { noFocus: true });
+    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button>' + (ps.length ? '<button class="btn primary imp-bt" data-action="qb-rel-imp" data-id="todos" title="Imprimir todos" aria-label="Imprimir todos">' + ico('print') + '</button>' : '') + '</div>', { noFocus: true });
 }
 function qbRelImprimir(k) {
   const r = S.qbr; if (!r) return;
@@ -13509,6 +13693,11 @@ function gutCalc(g, u, t) {
 }
 const gutDe = ncId => (S.rncGut || []).find(x => x.ncId === ncId && !x.cancelada) || null;
 function gutChip(x, curto) { if (!x || !x.gut) return ''; const f = GUT_FX[x.faixa] || GUT_FX.baixo; return '<span class="chip ' + esc(f[1]) + ' gut-chip" title="G ' + esc(x.g) + ' × U ' + esc(x.u) + ' × T ' + esc(x.t) + '">' + (curto ? '' : 'GUT ') + esc(x.gut) + ' · ' + esc(f[0]) + '</span>'; }
+function gutTogHTML(b) { /* v2.102.17: uma linha; o resumo aparece quando há nota */
+  const gt = b.gut || {}, c = gutCalc(gt.g, gt.u, gt.t), F = c ? GUT_FX[c.fx] : null;
+  return '<button type="button" class="gut-tg' + (b.gutAberto ? ' on' : '') + '" data-action="rnc-gut-tg" aria-expanded="' + (b.gutAberto ? 'true' : 'false') + '"><span>Prioridade GUT <small>(opcional)</small></span>' +
+    (c ? '<em class="gut-tg-r">GUT ' + esc(c.v) + ' · ' + esc(F[0]) + '</em>' : '') + '<i>' + (b.gutAberto ? '▾' : '▸') + '</i></button>';
+}
 function gutBlocoHTML(b) {
   const gt = b.gut || {}, c = gutCalc(gt.g, gt.u, gt.t);
   const linha = k => { const v = Number(gt[k]) || 0, T = GUT_TXT[k];
@@ -13626,13 +13815,13 @@ function openRnc(id) {
   if (risco) ls.sort((a, c) => ((gutDe(c.id) || {}).gut || 0) - ((gutDe(a.id) || {}).gut || 0) || a.n - c.n);
   const lista = ls.map(n => { let h = ''; if (!risco && n.area !== area) { area = n.area; h = '<div class="rnc-sec">' + esc(rncAreaNome(n.area)) + '</div>'; }
     const rt = n.ret ? RNC_RES[n.ret.res] : null, g = RNC_GRAV[n.grav] || RNC_GRAV.baixa, ri = rncReinc(r, n);
-    return h + '<button class="rnc-li g-' + esc(n.grav) + '" data-action="rnc-item" data-id="' + esc(r.id) + '" data-n="' + n.n + '"><span class="rnc-n">' + rncNum(n.n) + '</span><span class="rnc-li-t"><b>' + esc(n.nc) + '</b><small>' + esc(n.local) + ' · ' + esc(n.respNome || '') + (n.ciente ? ' · ciente' : ' · não ciente') + (ri ? ' · reincidente' : '') + '</small></span><span class="rnc-li-c"><span class="chip ' + g[1] + '">' + g[0] + '</span>' + gutChip(gutDe(n.id)) + (rt ? '<span class="chip ' + rt[1] + '">' + rt[0] + '</span>' : s !== 'registro' ? '<span class="chip">sem retorno</span>' : '') + '</span></button>'; }).join('');
+    return h + '<button class="rnc-li g-' + esc(n.grav) + '" data-action="rnc-item" data-id="' + esc(r.id) + '" data-n="' + n.n + '"><span class="rnc-n">' + rncNum(n.n) + '</span><span class="rnc-li-t"><b>' + esc(n.nc) + '</b><small>' + esc(n.local) + ' · ' + esc(n.respNome || '') + (n.ciente ? ' · ciente' : ' · não ciente') + (ri ? ' · reincidente' : '') + '</small></span><span class="rnc-li-c"><span class="chip ' + g[1] + '">' + g[0] + '</span>' + gutChip(gutDe(n.id)) + (s === 'retorno' || s === 'pronta' || s === 'fechada' ? planoChip(n) + acoesChip(n) : '') + (rt ? '<span class="chip ' + rt[1] + '">' + rt[0] + '</span>' : s !== 'registro' ? '<span class="chip">sem retorno</span>' : '') + '</span></button>'; }).join('');
   openSheet('<h3>' + esc(r.numero) + ' · ' + esc(r.tipo || '') + '</h3><div class="sub">' + rncChip(r) + ' ' + fmtD(r.data) + ' · auditor ' + esc(r.auditorNome || '') + (r.acompanhante ? ' · com ' + esc(r.acompanhante) : '') + '</div>' +
     rncStepper(r, true) +
     '<div class="rnc-agora"><b>' + agora[0] + '</b><span>' + esc(agora[1]) + '</span>' + (acao ? '<div class="rnc-agora-b">' + acao + '</div>' : '') + '</div>' +
     keyval([['Prazo para todas', fmtD(r.prazo) + (s === 'retorno' || s === 'registro' ? ' · ' + rncPrazoSit(r) : '') + ((r.prazoHist || []).length ? ' (prorrogado ' + r.prazoHist.length + 'x)' : '')]].concat(r.preparacao ? [['Preparação para', r.preparacao]] : [])) +
     nrmRncBloco(r) + '<div class="dt-sec">Não conformidades <small>' + seq.length + ' · ' + (risco ? 'por risco (GUT), só para ver' : 'na ordem do relatório (Campo → Estrutura)') + '</small>' + (temGut ? '<button class="btn sm rnc-risco" data-action="rnc-risco" data-id="' + esc(r.id) + '">' + (risco ? 'Ordem do relatório' : 'Ver por risco') + '</button>' : '') + '</div>' + (lista || '<p class="fm-dica">Nenhuma ainda.</p>') +
-    '<div class="row-actions eq-acoes">' + (seq.length ? b('rnc-print', icoI('print') + 'RNC de abertura', false, ' data-m="abertura"') : '') + (seq.some(n => n.ret) ? b('rnc-print', icoI('print') + 'RNC de fechamento', false, ' data-m="fechamento"') : '') +
+    '<div class="row-actions eq-acoes">' + (seq.length ? impBtn([{ a: 'rnc-print', id: r.id, m: 'abertura', t: 'RNC de abertura' }, { a: 'rnc-print', id: r.id, m: 'resumo', t: 'Abertura resumida (em pé)' }].concat(seq.some(n => n.ret) ? [{ a: 'rnc-print', id: r.id, m: 'fechamento', t: 'RNC de fechamento (em pé)' }] : []), { up: true, titulo: 'Imprimir a RNC' }) : '') +
       (isSup(S.user) && (s === 'retorno' || s === 'registro') ? b('rnc-prorrogar', 'Prorrogar prazo') : '') + (isSup(S.user) && s !== 'fechada' && s !== 'cancelada' ? b('rnc-cancelar', 'Cancelar') : '') + '<button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
 }
 /* ---------- 1 · abrir ---------- */
@@ -13703,19 +13892,19 @@ function rncNcRender() {
     '<input class="input" id="rnc-resp-o" placeholder="Nome do responsável" autocomplete="off" value="' + esc(b.respTxt) + '"' + (b.resp === '__outro' ? '' : ' hidden') + ' style="margin-top:8px">' +
     '<div class="ap-oc" style="margin-top:8px">' + ch('ciente', '1', b.ciente === true, 'Estava ciente') + ch('ciente', '0', b.ciente === false, 'Não estava ciente') + '</div>' +
     passo(7, 'Gravidade', 'grav') + '<div class="ap-oc rnc-grav">' + Object.keys(RNC_GRAV).map(k => ch('grav', k, b.grav === k, RNC_GRAV[k][0], 'g-' + k)).join('') + '</div>' +
-    passo(8, 'Prioridade GUT <small>opcional · Gravidade × Urgência × Tendência</small>', 'gut') + gutBlocoHTML(b) + /* v2.102.12 */
+    passo(8, gutTogHTML(b), 'gut') + (b.gutAberto ? gutBlocoHTML(b) : '') + /* v2.102.12/17 */
     passo(9, 'Observação e sugestão <small>opcionais</small>', 'obs') + '<textarea class="input" id="rnc-obs" rows="2" placeholder="Observação">' + esc(b.obs) + '</textarea><textarea class="input" id="rnc-sug" rows="2" placeholder="Sugestão (se for o caso)" style="margin-top:8px">' + esc(b.sug) + '</textarea>' +
     '<div class="ap-foot"><button type="button" class="btn" data-action="' + (b.clItem ? 'nrm-cl' : 'rnc-open') + '" data-id="' + esc(r.id) + '">Voltar</button>' + (b.id ? '<button type="button" class="btn" data-action="rnc-nc-canc" data-id="' + esc(r.id) + '">Tirar esta NC</button><button type="button" class="btn primary" data-action="rnc-nc-ok" data-id="0">Salvar</button>' : '<button type="button" class="btn" data-action="rnc-nc-ok" data-id="0">Salvar</button><button type="button" class="btn primary" data-action="rnc-nc-ok" data-id="1">' + (b.clItem ? 'Salvar e voltar' : 'Salvar e registrar a ' + rncNum(b.n + 1)) + '</button>') + '</div>', { noFocus: true });
   fmNumerar(); rncFotosCarregar($('.sheet'));
 }
 function rncCh(t) {
-  const g = t.getAttribute('data-g'), v = t.getAttribute('data-id'), b = S.rncNc || S.rncCf; if (!b) return;
+  const g = t.getAttribute('data-g'), v = t.getAttribute('data-id'), b = g === 'res' ? S.rncCf : (S.rncNc || S.rncCf); if (!b) return;
   if (S.rncNc && g === 'area') { rncNcLer(); b.area = v; b.local = ''; rncNcRender(); return; }
   if (g === 'local') { b.local = v; const o = $('#rnc-local-o'); if (o) { o.hidden = v !== '__outro'; if (!o.hidden) try { o.focus(); } catch (e) {} } }
   if (g === 'ciente') b.ciente = v === '1';
-  if (g === 'grav') { b.grav = v; if (S.rncNc && !b.gutGMan) { b.gut = Object.assign({}, b.gut, { g: GUT_G_SUG[v] || 0 }); rncNcLer(); rncNcRender(); return; } }
+  if (g === 'grav') { b.grav = v; if (S.rncNc && v === 'maior') b.gutAberto = true; if (S.rncNc && !b.gutGMan) { b.gut = Object.assign({}, b.gut, { g: GUT_G_SUG[v] || 0 }); rncNcLer(); rncNcRender(); return; } }
   if (S.rncNc && /^g[gut]$/.test(g)) { b.gut = Object.assign({}, b.gut); b.gut[g[1]] = Number(v); if (g === 'gg') b.gutGMan = true; rncNcLer(); rncNcRender(); return; } /* v2.102.12 */
-  if (g === 'res') b.res = v;
+  if (g === 'res') { b.res = v; setTimeout(rncConfLib, 0); }
   $$('[data-action="rnc-ch"][data-g="' + g + '"]').forEach(x => x.classList.toggle('on', x === t));
   const s = $('.ap-sec[data-g="' + g + '"]'); if (s) s.classList.remove('falta');
 }
@@ -13794,7 +13983,336 @@ async function rncEnviarOk(id) {
   toast(r.numero + ' enviada.', 'ok'); renderView(); openRnc(id);
   setTimeout(() => rncImprimir(id, 'abertura'), 300);
 }
+/* ============ v2.102.13 — GUT 2a: ANÁLISE DA NC ============
+   Uma linha por NC em sv2_rnc_plano (id = id da NC): { rid, ncId, respId, respNome, respHist[], contencao{texto,data,porNome},
+   porques[], causa, m6, outra{sim,quais}, rev, em, porId, porNome, hist[] }. Escreve-se depois que a RNC é enviada, até ela fechar.
+   Só o responsável pela resposta edita (padrão: quem criou a NC); os outros comentam na conversa da RNC. Nada se apaga. */
+const RNC_6M = ['Método', 'Mão de obra', 'Material', 'Máquina', 'Medição', 'Meio ambiente'];
+const PL_FALTA_TXT = { causa: 'a causa', porques: 'pelo menos 3 "por quê"', m6: 'a categoria 6M', ishi: 'o Ishikawa com a causa principal', outra: 'se pode acontecer em outra área' };
+/* v2.102.18: Ishikawa (6M). Na linha da análise: ishi = [{ id, m, t, em, porNome, tirada?, tiradaEm?, tiradaPor? }],
+   ishiPri = id da causa principal, ishiV = 1 (análise feita com o Ishikawa já existindo). Nada se apaga: causa tirada fica marcada. */
+const ISHI_MAX = 5;
+const ishiAtivas = l => (l || []).filter(c => c && !c.tirada);
+function ishiPriDe(p) { p = p || {}; return ishiAtivas(p.ishi).find(c => c.id === p.ishiPri) || null; }
+function ishiOk(p) { p = p || {}; return !!ishiPriDe(p) || (!p.ishiV && !ishiAtivas(p.ishi).length && !!p.m6); } /* Alto de antes da v2.102.18 com o 6M escolhido continua valendo */
+function ishiQuebra(s, max, linhas) {
+  const ws = String(s || '').split(/\s+/).filter(Boolean), out = []; let cur = '';
+  ws.forEach(w => { if ((cur + ' ' + w).trim().length > max && cur) { out.push(cur); cur = w; } else cur = (cur + ' ' + w).trim(); });
+  if (cur) out.push(cur);
+  if (out.length > linhas) { out.length = linhas; out[linhas - 1] = out[linhas - 1].slice(0, max - 1) + '…'; }
+  return out.map(x => x.length > max ? x.slice(0, max - 1) + '…' : x);
+}
+/* espinha de peixe: cabeça = a NC; 3 espinhas em cima e 3 embaixo; a causa principal em destaque */
+function ishiSVG(ncTxt, l, pri) {
+  const W = 1000, Y = 220, xs = [320, 535, 750], cut = (s, n) => s.length > n ? s.slice(0, n - 1) + '…' : s;
+  let o = '<svg class="ishi-svg" viewBox="0 0 ' + W + ' 440" role="img" aria-label="Diagrama de Ishikawa"><line class="is-sp" x1="50" y1="' + Y + '" x2="790" y2="' + Y + '"/><path class="is-ar" d="M790 ' + (Y - 9) + ' L806 ' + Y + ' L790 ' + (Y + 9) + 'Z"/>';
+  const cab = ishiQuebra(ncTxt, 22, 6);
+  o += '<rect class="is-hd" x="808" y="' + (Y - 82) + '" width="184" height="164" rx="4"/>' + cab.map((t, i) => '<text class="is-ht" x="900" y="' + (Y - (cab.length - 1) * 9.5 + i * 19 + 5) + '" text-anchor="middle">' + esc(t) + '</text>').join('');
+  RNC_6M.forEach((m, k) => {
+    const cima = k < 3, xa = xs[k % 3], xe = xa - 150, ye = cima ? 44 : 396;
+    o += '<line class="is-bn" x1="' + xa + '" y1="' + Y + '" x2="' + xe + '" y2="' + ye + '"/>';
+    o += '<rect class="is-lb" x="' + (xe - 62) + '" y="' + (cima ? ye - 32 : ye + 4) + '" width="124" height="26" rx="3"/><text class="is-lt" x="' + xe + '" y="' + (cima ? ye - 14 : ye + 22) + '" text-anchor="middle">' + esc(m) + '</text>';
+    const cs = l.filter(c => c.m === m).slice(0, ISHI_MAX), n = cs.length;
+    cs.forEach((c, i) => {
+      const f = (i + 1) / (n + 1), x = xe + (xa - xe) * f, y = ye + (Y - ye) * f, p = c.id === pri;
+      o += '<line class="is-cl' + (p ? ' is-p' : '') + '" x1="' + (x - 128).toFixed(1) + '" y1="' + y.toFixed(1) + '" x2="' + x.toFixed(1) + '" y2="' + y.toFixed(1) + '"/>' +
+        '<text class="is-ct' + (p ? ' is-p' : '') + '" x="' + (x - 6).toFixed(1) + '" y="' + (y - 4).toFixed(1) + '" text-anchor="end"><title>' + esc(c.t) + '</title>' + esc(cut(c.t, 32)) + '</text>' +
+        (p ? '<circle class="is-pc" cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="5"/>' : '');
+    });
+  });
+  return o + '</svg>';
+}
+function ishiEdHTML(nc, pede) {
+  const b = S.rncPl, l = ishiAtivas(b.ishi);
+  return '<div class="ap-sec" data-g="ishi">Diagrama de Ishikawa (6M) <small>' + (pede ? 'causas possíveis por categoria · marque a principal' : 'opcional · causas possíveis por categoria') + '</small></div>' +
+    '<div class="ishi-ed">' + RNC_6M.map((m, i) => {
+      const cs = l.filter(c => c.m === m);
+      return '<div class="ishi-m"><div class="ishi-mh">' + esc(m) + '<small>' + esc(cs.length) + '/' + esc(ISHI_MAX) + '</small></div>' +
+        cs.map(c => { const p = c.id === b.ishiPri; return '<div class="ishi-c' + (p ? ' pri' : '') + '"><span>' + esc(c.t) + '</span><button type="button" class="ishi-pb" data-action="rnc-is-pri" data-id="' + esc(c.id) + '" aria-pressed="' + (p ? 'true' : 'false') + '" title="' + (p ? 'Causa principal (toque para desmarcar)' : 'Marcar como causa principal') + '">' + (p ? 'Principal' : 'Marcar') + '</button><button type="button" class="ishi-x" data-action="rnc-is-x" data-id="' + esc(c.id) + '" title="Tirar esta causa" aria-label="Tirar esta causa">×</button></div>'; }).join('') +
+        (cs.length < ISHI_MAX ? '<div class="ishi-add"><input class="input" id="is-in-' + esc(i) + '" maxlength="80" autocomplete="off" placeholder="Causa possível"><button type="button" class="btn sm" data-action="rnc-is-add" data-id="' + esc(i) + '" title="Pôr a causa em ' + esc(m) + '" aria-label="Pôr a causa em ' + esc(m) + '">+</button></div>' : '') + '</div>';
+    }).join('') + '</div>' +
+    (l.length ? '<div class="ishi-fig">' + ishiSVG(nc.nc, l, b.ishiPri) + '</div>' : '');
+}
+function ishiRoHTML(nc, d) {
+  const l = ishiAtivas(d.ishi), pr = ishiPriDe(d); if (!l.length) return '';
+  return '<div class="pl-ro"><span>Diagrama de Ishikawa (6M)</span><p>' + (pr ? 'Causa principal: <b>' + esc(pr.m) + '</b> · ' + esc(pr.t) : 'Causa principal ainda não marcada.') + '</p><div class="ishi-fig">' + ishiSVG(nc.nc, l, d.ishiPri) + '</div></div>';
+}
+function ishiMuda(op, id) {
+  const b = S.rncPl; if (!b) return; const { r, nc } = planoNc(b.rid, b.ncId); if (!r || !nc || !planoPodeEditar(r, nc)) return;
+  const dados = planoLer();
+  if (op === 'add') {
+    const i = Number(id), m = RNC_6M[i], txt = String((($('#is-in-' + i) || {}).value) || '').trim().replace(/\s+/g, ' ').slice(0, 80), at = ishiAtivas(dados.ishi);
+    if (!m) return;
+    if (txt.length < 3) { toast('Escreva a causa (pelo menos 3 letras).'); return; }
+    if (at.filter(c => c.m === m).length >= ISHI_MAX) { toast('No máximo ' + ISHI_MAX + ' causas em ' + m + '.'); return; }
+    if (at.some(c => c.m === m && c.t.toUpperCase() === txt.toUpperCase())) { toast('Essa causa já está em ' + m + '.'); return; }
+    dados.ishi = dados.ishi.concat([{ id: 'c' + uid(), m: m, t: txt, em: nowISO(), porNome: S.user.nome }]);
+  }
+  if (op === 'pri') dados.ishiPri = dados.ishiPri === id ? '' : id;
+  if (op === 'x') { if (dados.ishiPri === id) { dados.ishiPri = ''; dados.m6 = ''; } dados.ishi = dados.ishi.map(c => c.id === id ? Object.assign({}, c, { tirada: true, tiradaEm: nowISO(), tiradaPor: S.user.nome }) : c); }
+  const pr = ishiPriDe(dados);
+  if (pr) dados.m6 = pr.m;
+  if (op === 'pri' && pr && !dados.causa) dados.causa = pr.t;
+  const sh = $('.sheet'), top = sh ? sh.scrollTop : 0;
+  openRncPlano(b.rid, b.ncId, dados);
+  const sh2 = $('.sheet'); if (sh2) sh2.scrollTop = top;
+  if (op === 'add') { const e = $('#is-in-' + id); if (e) try { e.focus(); } catch {} }
+}
+function ishiImprimir(rid, ncId) {
+  const { r, nc } = planoNc(rid, ncId); if (!r || !nc) return;
+  const b = S.rncPl, d = b && b.ncId === ncId && $('#pl-causa') ? planoLer() : (planoDe(ncId) || {});
+  const l = ishiAtivas(d.ishi); if (!l.length) { toast('O Ishikawa ainda não tem causas.'); return; }
+  const pr = ishiPriDe(d), g = gutDe(nc.id), F = GUT_FX[planoFaixa(nc)], resp = planoResp(r, nc);
+  const kv = [['RNC', r.numero + ' · ' + r.tipo], ['NC', rncNum(nc.n) + ' · ' + rncAreaNome(nc.area) + ' › ' + nc.local], ['Risco', g ? 'GUT ' + g.gut + ' · ' + (GUT_FX[g.faixa] || F)[0] : F[0] + ' (pela gravidade)'], ['Responsável pela resposta', resp.nome || '—']];
+  const body = '<div class="ishi-imp">' +
+    '<div class="ar ishi-ik">' + kv.map(x => '<span><i>' + esc(x[0]) + '</i>' + esc(x[1]) + '</span>').join('') + '</div>' +
+    '<div class="ar ishi-ip"><b>Não conformidade:</b> ' + esc(nc.nc) + '</div>' +
+    '<div class="ar ishi-fig">' + ishiSVG(nc.nc, l, d.ishiPri) + '</div>' +
+    '<div class="ar ishi-ic"><span><i>Causa principal (Ishikawa)</i>' + (pr ? esc(pr.m) + ': ' + esc(pr.t) : 'não marcada') + '</span><span><i>Causa (raiz) da análise</i>' + esc(d.causa || '—') + '</span></div></div>';
+  Audit.log({ acao: 'imprimir', entidade: 'rnc', entidadeId: rid, resumo: 'Imprimiu o Ishikawa da ' + r.numero + ' · ' + rncNum(nc.n) });
+  runPrint(body, 'Ishikawa — ' + r.numero + ' · ' + rncNum(nc.n));
+}
+const planoDe = ncId => (S.rncPlano || []).find(x => x.ncId === ncId) || null;
+const rncPlanoAberto = r => !!r && ['retorno', 'pronta'].indexOf(rncSit(r)) >= 0;
+function planoResp(r, nc) { const p = planoDe(nc.id); return p && p.respId ? { id: p.respId, nome: p.respNome || nomeDe(p.respId) } : { id: nc.porId || r.porId || '', nome: nc.porNome || r.porNome || '' }; }
+/* faixa de risco: a da GUT; sem GUT, pela gravidade (Maior = Alto, Média = Médio, Baixa = Baixo) */
+function planoFaixa(nc) { const g = gutDe(nc.id); return g ? g.faixa : nc.grav === 'maior' ? 'alto' : nc.grav === 'media' ? 'medio' : 'baixo'; }
+function planoPede(fx) { return fx === 'alto' ? ['causa', 'porques', 'ishi', 'outra'] : fx === 'medio' ? ['causa', 'porques'] : ['causa']; }
+function planoFalta(nc, p) {
+  p = p || planoDe(nc.id) || {};
+  return planoPede(planoFaixa(nc)).filter(k => k === 'causa' ? String(p.causa || '').trim().length < 5 : k === 'porques' ? (p.porques || []).filter(x => String(x || '').trim()).length < 3 : k === 'm6' ? !p.m6 : k === 'ishi' ? !ishiOk(p) : !(p.outra && (p.outra.sim === true || p.outra.sim === false)));
+}
+function planoChip(nc) { const p = planoDe(nc.id), f = planoFalta(nc); return '<span class="chip ' + (f.length ? (p ? 'warn' : '') : 'ok') + ' pl-chip">' + (f.length ? (p ? 'Análise incompleta' : 'Sem análise') : 'Análise completa') + '</span>'; }
+function planoPodeEditar(r, nc) { return !!S.user && S.user.perfil !== 'visitante' && rncPlanoAberto(r) && planoResp(r, nc).id === S.user.id; }
+function planoPodeTrocar(r, nc) { return !!S.user && S.user.perfil !== 'visitante' && rncPlanoAberto(r) && (isSup(S.user) || planoResp(r, nc).id === S.user.id); }
+/* v2.102.16: ações 5W2H (dentro da linha da análise) */
+const PL_AC_ST = { aberta: ['Aberta', 'info'], atrasada: ['Atrasada', 'crit'], feita: ['Feita', 'ok'], cancelada: ['Cancelada', ''] };
+const acoesDe = ncId => (((planoDe(ncId) || {}).acoes) || []);
+const acoesAtivas = ncId => acoesDe(ncId).filter(a => a.st !== 'cancelada');
+function acaoSt(a) { return a.st === 'feita' || a.st === 'cancelada' ? a.st : a.quando && a.quando < hojeISO() ? 'atrasada' : 'aberta'; }
+function acoesChip(nc) {
+  const l = acoesAtivas(nc.id); if (!l.length) return '';
+  const at = l.filter(a => acaoSt(a) === 'atrasada').length, f = l.filter(a => a.st === 'feita').length;
+  return '<span class="chip ' + (at ? 'crit' : f === l.length ? 'ok' : 'info') + ' pl-chip ac-chip">' + (at ? esc(at) + (at > 1 ? ' ações atrasadas' : ' ação atrasada') : esc(f) + ' de ' + esc(l.length) + (l.length > 1 ? ' ações feitas' : ' ação feita')) + '</span>';
+}
+function pdcaDe(r, nc, d) {
+  const l = acoesAtivas(nc.id);
+  return [['P', 'Planejar', 'análise e ações', !planoFalta(nc, d).length && l.length > 0], ['D', 'Fazer', 'ações feitas', l.length > 0 && l.every(a => a.st === 'feita')],
+    ['C', 'Checar', 'auditor conferiu', !!nc.ret], ['A', 'Agir', 'RNC fechada', rncSit(r) === 'fechada']];
+}
+function pdcaHTML(r, nc, d) {
+  const st = pdcaDe(r, nc, d), cur = st.findIndex(x => !x[3]);
+  return '<div class="pdca" aria-label="PDCA">' + st.map((x, i) => '<div class="pdca-p' + (x[3] ? ' ok' : i === cur ? ' cur' : '') + '"><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span><small>' + esc(x[2]) + '</small></div>').join('') + '</div>';
+}
+function acaoCard(r, nc, a, ed) {
+  const s = acaoSt(a), t = PL_AC_ST[s], fora = a.st !== 'cancelada' && a.quando && r.prazo && a.quando > r.prazo;
+  const dd = ' data-id="' + esc(r.id) + '" data-nc="' + esc(nc.id) + '" data-ac="' + esc(a.id) + '"';
+  return '<div class="pl-ac st-' + esc(s) + '"><div class="pl-ac-t"><b>' + esc(a.oque) + '</b><span class="chip ' + esc(t[1]) + '">' + esc(t[0]) + '</span></div>' +
+    '<div class="pl-ac-k">' + [['Quem', a.quemNome], ['Quando', fmtD(a.quando) + (fora ? ' · depois do prazo da RNC' : '')], ['Onde', a.onde], ['Por quê', a.porque], ['Como', a.como], ['Quanto', a.quanto]].filter(x => x[1]).map(x => '<span' + (x[0] === 'Quando' && fora ? ' class="pl-fora"' : '') + '><i>' + esc(x[0]) + '</i>' + esc(x[1]) + '</span>').join('') + '</div>' +
+    (a.st === 'feita' ? '<p class="pl-ac-n">Feita em ' + esc(fmtD(a.feitaEm)) + ' · ' + esc(a.feitaPor || '') + (a.feitaTxt ? ': ' + esc(a.feitaTxt) : '') + '</p>' : '') +
+    (a.st === 'cancelada' ? '<p class="pl-ac-n">Cancelada em ' + esc(fmtD(a.cancEm)) + ' · ' + esc(a.cancPor || '') + ': ' + esc(a.cancMotivo || '') + '</p>' : '') +
+    (ed && (s === 'aberta' || s === 'atrasada') ? '<div class="pl-ac-b"><button type="button" class="btn sm" data-action="rnc-ac-ed"' + dd + '>Editar</button><button type="button" class="btn sm" data-action="rnc-ac-canc"' + dd + '>Cancelar</button><button type="button" class="btn sm primary" data-action="rnc-ac-feita"' + dd + '>Concluir</button></div>' : '') + '</div>';
+}
+function acoesHTML(r, nc, ed) {
+  const l = acoesDe(nc.id), ativ = acoesAtivas(nc.id).length;
+  return '<div class="ap-sec fm-nonum pl-ac-h" data-g="acoes">Plano de ação (5W2H) <small>' + (ativ ? esc(ativ) + (ativ > 1 ? ' ações' : ' ação') : 'nenhuma ação ainda') + '</small></div>' +
+    l.map(a => acaoCard(r, nc, a, ed)).join('') +
+    (ed ? '<button type="button" class="btn sm pl-ac-nova" data-action="rnc-ac-nova" data-id="' + esc(r.id) + '" data-nc="' + esc(nc.id) + '">+ Nova ação</button>' : '');
+}
+function planoGuardaTela(ncId) { if ($('#pl-causa')) S.rncPlVolta = { ncId: ncId, dados: planoLer() }; } /* sai da análise para a ação sem perder o que foi escrito */
+function planoVolta(rid, ncId) { const v = S.rncPlVolta && S.rncPlVolta.ncId === ncId ? S.rncPlVolta.dados : undefined; S.rncPlVolta = null; S.rncAc = null; renderView(); openRncPlano(rid, ncId, v); }
+function acaoIni(rid, ncId, acId) { S.rncAc = { rid: rid, ncId: ncId, acId: acId || '', rev0: ((planoDe(ncId) || {}).rev) || 0 }; }
+function openPlanoAcao(rid, ncId, acId) {
+  const { r, nc } = planoNc(rid, ncId); if (!r || !nc || !planoPodeEditar(r, nc)) return;
+  planoGuardaTela(ncId); acaoIni(rid, ncId, acId);
+  const a = acoesDe(ncId).find(x => x.id === acId) || {}, p = planoDe(ncId) || {}, resp = planoResp(r, nc), quem = a.quemId || resp.id;
+  const causa = S.rncPlVolta && S.rncPlVolta.ncId === ncId ? S.rncPlVolta.dados.causa : p.causa;
+  const us = S.users.filter(u => !u.bloqueado && u.perfil !== 'visitante');
+  openSheet('<div class="rnc-top"><small>' + esc(r.numero) + ' · ' + esc(rncNum(nc.n)) + ' · plano de ação</small></div><h3>' + (a.id ? 'Editar ação' : 'Nova ação') + '</h3><div class="sub">' + esc(nc.nc) + '</div><div id="ap-msg"></div>' +
+    '<div class="ap-sec" data-g="oque">O quê <small>a ação que resolve a causa</small></div><input class="input" id="ac-oque" autocomplete="off" value="' + esc(a.oque || '') + '" placeholder="Ex.: criar rotina semanal de reposição">' +
+    '<div class="ap-sec" data-g="porque">Por quê <small>vem da causa</small></div><input class="input" id="ac-porque" autocomplete="off" value="' + esc(a.porque != null ? a.porque : causa || '') + '">' +
+    '<div class="ap-sec" data-g="onde">Onde</div><input class="input" id="ac-onde" autocomplete="off" value="' + esc(a.onde != null ? a.onde : nc.local || '') + '">' +
+    '<div class="ap-sec" data-g="quem">Quem</div><select class="input" id="ac-quem"><option value="">Escolha…</option>' + us.map(u => '<option value="' + esc(u.id) + '"' + (u.id === quem ? ' selected' : '') + '>' + esc(u.nome) + '</option>').join('') + '</select>' +
+    '<div class="ap-sec" data-g="quando">Quando <small>prazo da ação · a RNC vai até ' + esc(fmtD(r.prazo)) + '</small></div><input class="input" type="date" id="ac-quando" value="' + esc(a.quando || '') + '"' + (a.id ? '' : ' min="' + hojeISO() + '"') + '><div id="ac-aviso" class="fm-dica"></div>' +
+    '<div class="ap-sec" data-g="como">Como <small>opcional</small></div><textarea class="input" id="ac-como" rows="2" placeholder="Ex.: lista de conferência no ponto de apoio, assinada pelo encarregado">' + esc(a.como || '') + '</textarea>' +
+    '<div class="ap-sec" data-g="quanto">Quanto custa <small>opcional</small></div><input class="input" id="ac-quanto" autocomplete="off" value="' + esc(a.quanto || '') + '" placeholder="Ex.: R$ 120,00 ou sem custo">' +
+    '<div class="row-actions"><button class="btn" data-action="rnc-plano-volta" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Voltar</button><button class="btn primary" data-action="rnc-ac-ok" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '" data-ac="' + esc(a.id || '') + '">Salvar a ação</button></div>', { noFocus: true });
+  fmNumerar(); acAviso();
+}
+function acAviso() {
+  const b = S.rncAc, r = b && rncDe(b.rid), e = $('#ac-aviso'), q = (($('#ac-quando') || {}).value) || ''; if (!e || !r) return;
+  const fora = !!(q && r.prazo && q > r.prazo);
+  e.textContent = fora ? 'Atenção: passa do prazo da RNC (' + fmtD(r.prazo) + '). Dá para salvar, mas a NC pode não estar pronta para a conferência.' : '';
+  e.classList.toggle('pl-fora', fora);
+}
+async function planoGravarAcoes(r, nc, acoes, resumo) {
+  const cur = planoDe(nc.id), b = S.rncAc || {};
+  if (((cur && cur.rev) || 0) !== (b.rev0 || 0)) { apMsg('Esta análise mudou em outro aparelho ou por outra pessoa depois que você abriu. Volte e abra de novo (nada foi gravado por cima).'); return false; }
+  const ts = nowISO(), rev = ((cur && cur.rev) || 0) + 1, resp = planoResp(r, nc);
+  const doc = Object.assign({ rid: r.id, ncId: nc.id, respId: resp.id, respNome: resp.nome, respHist: [] }, cur || {}, { acoes: acoes, rev: rev, em: ts, porId: S.user.id, porNome: S.user.nome, hist: ((cur && cur.hist) || []).concat([{ ts: ts, porNome: S.user.nome, rev: rev, o: resumo }]) });
+  delete doc.id;
+  try { await Data.col('sv2_rnc_plano').set(nc.id, doc); } catch (e) { apMsg(errMsg(e)); return false; }
+  const l = (S.rncPlano || []).filter(x => x.ncId !== nc.id); l.push(Object.assign({ id: nc.id }, doc)); S.rncPlano = l;
+  Audit.log({ acao: 'rnc_acao', entidade: 'rnc', entidadeId: r.id, resumo: r.numero + ' · ' + rncNum(nc.n) + ': ' + resumo });
+  return true;
+}
+async function acaoSalvar(rid, ncId, acId) {
+  const { r, nc } = planoNc(rid, ncId); if (!r || !nc || !planoPodeEditar(r, nc)) return;
+  const v = id => String((($('#' + id) || {}).value) || '').trim();
+  const o = { oque: v('ac-oque'), porque: v('ac-porque'), onde: v('ac-onde'), quemId: v('ac-quem'), quando: v('ac-quando'), como: v('ac-como'), quanto: v('ac-quanto') };
+  const falta = []; if (o.oque.length < 3) falta.push('oque'); if (!o.quemId) falta.push('quem'); if (!o.quando) falta.push('quando');
+  $$('.sheet .ap-sec').forEach(s => s.classList.toggle('falta', falta.indexOf(s.getAttribute('data-g')) >= 0));
+  if (falta.length) return apMsg('Falta: ' + falta.map(k => ({ oque: 'o quê', quem: 'quem', quando: 'quando' })[k]).join(', ') + '.');
+  const velha = acoesDe(ncId).find(x => x.id === acId);
+  if (velha && (velha.st === 'feita' || velha.st === 'cancelada')) return apMsg('Esta ação já foi ' + (velha.st === 'feita' ? 'feita' : 'cancelada') + ' e não muda mais.');
+  if (o.quando < hojeISO() && (!velha || velha.quando !== o.quando)) return apMsg('O prazo da ação não pode ser antes de hoje.');
+  o.quemNome = nomeDe(o.quemId);
+  const ts = nowISO(), fora = o.quando > r.prazo;
+  const lista = velha ? acoesDe(ncId).map(x => x.id === acId ? Object.assign({}, x, o, { hist: (x.hist || []).concat([{ ts: ts, porNome: S.user.nome, o: 'editou', antes: { oque: x.oque, quemNome: x.quemNome, quando: x.quando } }]) }) : x)
+    : acoesDe(ncId).concat([Object.assign({ id: uid(), st: 'aberta', criadoEm: ts, porId: S.user.id, porNome: S.user.nome, hist: [] }, o)]);
+  if (!await planoGravarAcoes(r, nc, lista, (velha ? 'ação editada: ' : 'nova ação: ') + o.oque + ' · ' + o.quemNome + ' até ' + fmtD(o.quando) + (fora ? ' (depois do prazo da RNC)' : ''))) return;
+  if (o.quemId !== S.user.id && (!velha || velha.quemId !== o.quemId)) Notif.send({ nivel: 'aviso', titulo: 'Ação de NC com você', texto: r.numero + ' · ' + rncNum(nc.n) + ' (' + nc.local + '): ' + o.oque + ' — até ' + fmtD(o.quando) + '. Responsável pela resposta: ' + planoResp(r, nc).nome + '.', para: [o.quemId], refTipo: 'rnc_acao', refId: r.id }).catch(() => {});
+  toast('Ação salva' + (fora ? ' (passa do prazo da RNC, ' + fmtD(r.prazo) + ').' : '.'), fora ? '' : 'ok');
+  planoVolta(rid, ncId);
+}
+function openAcaoFim(rid, ncId, acId, tipo) {
+  const { r, nc } = planoNc(rid, ncId); if (!r || !nc || !planoPodeEditar(r, nc)) return;
+  const a = acoesDe(ncId).find(x => x.id === acId); if (!a || a.st === 'feita' || a.st === 'cancelada') return;
+  planoGuardaTela(ncId); acaoIni(rid, ncId, acId);
+  const feita = tipo === 'feita', dd = ' data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '" data-ac="' + esc(acId) + '"';
+  openSheet('<h3>' + (feita ? 'Concluir a ação' : 'Cancelar a ação') + '</h3><div class="sub">' + esc(rncNum(nc.n)) + ' · ' + esc(a.oque) + ' · ' + esc(a.quemNome || '') + ' até ' + esc(fmtD(a.quando)) + '</div><div id="ap-msg"></div>' +
+    (feita ? '<div class="fm-row"><div><label class="fm-l">Feita em</label><input class="input" type="date" id="ac-feita-d" value="' + hojeISO() + '" max="' + hojeISO() + '"></div></div><div class="field"><label>Como ficou <small>opcional</small></label><textarea class="input" id="ac-feita-t" rows="2" placeholder="Ex.: rotina impressa e afixada; encarregado treinado"></textarea></div>'
+      : '<p class="fm-dica">A ação não é apagada: fica no plano como "Cancelada", com o motivo.</p><div class="field"><label>Motivo</label><textarea class="input" id="al-mot-g" rows="2"></textarea></div>') +
+    '<div class="row-actions"><button class="btn" data-action="rnc-plano-volta" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Voltar</button><button class="btn primary" data-action="' + (feita ? 'rnc-ac-feita-ok' : 'rnc-ac-canc-ok') + '"' + dd + '>' + (feita ? 'Concluir' : 'Cancelar a ação') + '</button></div>', { noFocus: true });
+}
+async function acaoFim(rid, ncId, acId, tipo) {
+  const { r, nc } = planoNc(rid, ncId); if (!r || !nc || !planoPodeEditar(r, nc)) return;
+  const a = acoesDe(ncId).find(x => x.id === acId); if (!a || a.st === 'feita' || a.st === 'cancelada') return;
+  const ts = nowISO(), feita = tipo === 'feita';
+  let muda;
+  if (feita) { const d = (($('#ac-feita-d') || {}).value) || hojeISO(); if (d > hojeISO()) return apMsg('A data não pode ser depois de hoje.'); muda = { st: 'feita', feitaEm: d, feitaPor: S.user.nome, feitaTxt: String((($('#ac-feita-t') || {}).value) || '').trim() }; }
+  else { const m = alMotG(); if (m.length < 5) return apMsg('Escreva o motivo.'); muda = { st: 'cancelada', cancEm: hojeISO(), cancPor: S.user.nome, cancMotivo: m }; }
+  const lista = acoesDe(ncId).map(x => x.id === acId ? Object.assign({}, x, muda, { hist: (x.hist || []).concat([{ ts: ts, porNome: S.user.nome, o: feita ? 'feita' : 'cancelada', motivo: feita ? muda.feitaTxt : muda.cancMotivo }]) }) : x);
+  if (!await planoGravarAcoes(r, nc, lista, (feita ? 'ação feita: ' : 'ação cancelada: ') + a.oque + (feita ? (muda.feitaTxt ? ' — ' + muda.feitaTxt : '') : ' — motivo: ' + muda.cancMotivo))) return;
+  toast(feita ? 'Ação concluída.' : 'Ação cancelada (fica no plano, com o motivo).', 'ok');
+  planoVolta(rid, ncId);
+}
+const PL_RASC = ncId => 'sv2-rpl-' + ncId; /* texto guardado no aparelho até a nuvem confirmar (Nº 33: recusa sem perder o texto) */
+function planoRascunho(ncId) { try { return JSON.parse(Store.get(PL_RASC(ncId)) || 'null'); } catch { return null; } }
+function planoNc(rid, ncId) { const r = rncDe(rid); return r ? { r: r, nc: (r.ncs || []).find(x => x.id === ncId && !x.cancelada) } : {}; }
+function openRncPlano(rid, ncId, dados) {
+  const { r, nc } = planoNc(rid, ncId); if (!r || !nc) return;
+  const p = planoDe(ncId), ed = planoPodeEditar(r, nc), resp = planoResp(r, nc), fx = planoFaixa(nc), g = gutDe(nc.id), F = GUT_FX[fx];
+  const d = dados || p || {};
+  S.rncPl = { rid: rid, ncId: ncId, rev0: p ? (p.rev || 0) : 0, m6: d.m6 || '', ishi: (d.ishi || []).map(c => Object.assign({}, c)), ishiPri: d.ishiPri || '', outra: d.outra && (d.outra.sim === true || d.outra.sim === false) ? d.outra.sim : null };
+  const rasc = ed && !dados ? planoRascunho(ncId) : null;
+  if (rasc && !(rasc.rev > (p ? p.rev || 0 : 0))) { Store.del(PL_RASC(ncId)); }
+  const temRasc = rasc && rasc.rev > (p ? p.rev || 0 : 0);
+  const pq = (d.porques || []).concat(['', '', '', '', '']).slice(0, 5), ct = d.contencao || {}, falta = planoFalta(nc, d);
+  const ro = (t, v) => v ? '<div class="pl-ro"><span>' + esc(t) + '</span><p>' + esc(v) + '</p></div>' : '';
+  const corpo = ed ?
+    '<div class="ap-sec" data-g="cont">O que foi feito na hora <small>contenção: separar, isolar, repor (opcional)</small></div><textarea class="input" id="pl-cont" rows="2" placeholder="Ex.: sabonete reposto no mesmo dia; lote separado">' + esc(ct.texto || '') + '</textarea>' +
+      '<div class="fm-row"><div><label class="fm-l">Quando</label><input class="input" type="date" id="pl-cont-d" value="' + esc(ct.data || hojeISO()) + '" max="' + hojeISO() + '"></div><div><label class="fm-l">Quem fez</label><input class="input" value="' + esc(ct.porNome || S.user.nome) + '" disabled></div></div>' +
+      '<div class="ap-sec" data-g="porques">5 Porquês <small>pergunte "por quê?" até chegar à causa' + (planoPede(fx).indexOf('porques') >= 0 ? ' · pelo menos 3' : ' · opcional') + '</small></div>' +
+      '<div class="pl-pq">' + pq.map((v, i) => '<label><span>' + (i + 1) + 'º por quê?</span><input class="input" id="pl-pq' + (i + 1) + '" autocomplete="off" value="' + esc(v) + '"' + (i === 0 ? ' placeholder="Por que aconteceu?"' : '') + '></label>').join('') + '</div>' +
+      ishiEdHTML(nc, planoPede(fx).indexOf('ishi') >= 0) + /* v2.102.18 */
+      '<div class="ap-sec" data-g="causa">Causa <small>por que aconteceu (a raiz)</small></div><textarea class="input" id="pl-causa" rows="2" placeholder="Ex.: não há rotina de reposição no ponto de apoio">' + esc(d.causa || '') + '</textarea>' +
+      '<button type="button" class="fm-link" data-action="rnc-pl-ultimo">Usar o último "por quê" como causa</button>' +
+      (ishiPriDe(S.rncPl) || planoPede(fx).indexOf('ishi') >= 0 ? '<div class="ap-sec" data-g="m6">Categoria da causa (6M)</div><p class="fm-dica pl-m6-is">' + (ishiPriDe(S.rncPl) ? '<b>' + esc(ishiPriDe(S.rncPl).m) + '</b> · vem da causa principal do Ishikawa.' : 'Vem da causa principal do Ishikawa: marque uma acima.') + '</p>' : /* v2.102.18 */
+      '<div class="ap-sec" data-g="m6">Categoria da causa (6M)' + (planoPede(fx).indexOf('m6') >= 0 ? '' : ' <small>opcional</small>') + '</div><div class="ap-oc pl-m6">' + RNC_6M.map(m => '<button type="button" class="ap-b' + (S.rncPl.m6 === m ? ' on' : '') + '" data-action="rnc-pl-m6" data-id="' + esc(m) + '">' + esc(m) + '</button>').join('') + '</div>') +
+      '<div class="ap-sec" data-g="outra">Pode acontecer em outra área?' + (planoPede(fx).indexOf('outra') >= 0 ? '' : ' <small>opcional</small>') + '</div><div class="ap-oc">' + [['1', 'Sim'], ['0', 'Não']].map(o => '<button type="button" class="ap-b' + (S.rncPl.outra === (o[0] === '1') ? ' on' : '') + '" data-action="rnc-pl-outra" data-id="' + esc(o[0]) + '">' + esc(o[1]) + '</button>').join('') + '</div>' +
+      '<input class="input" id="pl-outra-q" autocomplete="off" placeholder="Quais? (outro talhão, Russas, Jardim, Jaguaruana…)" value="' + esc((d.outra && d.outra.quais) || '') + '"' + (S.rncPl.outra === true ? '' : ' hidden') + ' style="margin-top:8px">'
+    : (ro('O que foi feito na hora', ct.texto ? ct.texto + ' · ' + fmtD(ct.data) + ' · ' + (ct.porNome || '') : '') + ((d.porques || []).filter(Boolean).length ? '<div class="pl-ro"><span>5 Porquês</span><ol>' + d.porques.filter(Boolean).map(x => '<li>' + esc(x) + '</li>').join('') + '</ol></div>' : '') +
+      ro('Causa', d.causa) + ro('Categoria (6M)', d.m6) + ro('Pode acontecer em outra área?', d.outra ? (d.outra.sim ? 'Sim' + (d.outra.quais ? ': ' + d.outra.quais : '') : 'Não') : '') + ishiRoHTML(nc, d) || '<p class="fm-dica">Ainda sem análise.</p>');
+  openSheet('<div class="rnc-top"><small>' + esc(r.numero) + ' · análise da NC</small></div>' +
+    '<h3>Análise · ' + rncNum(nc.n) + '</h3><div class="sub">' + esc(rncAreaNome(nc.area)) + ' › ' + esc(nc.local) + ' · ' + (g ? gutChip(g) : '<span class="chip ' + esc(F[1]) + '">Risco ' + esc(F[0]) + ' (pela gravidade)</span>') + '</div><div id="ap-msg"></div>' +
+    '<div class="rnc-ncc g-' + esc(nc.grav) + '"><p>' + esc(nc.nc) + '</p></div>' +
+    '<div class="pl-resp"><span>Responsável pela resposta: <b>' + esc(resp.nome || '—') + '</b></span>' + (planoPodeTrocar(r, nc) ? '<button type="button" class="btn sm" data-action="rnc-pl-resp" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Trocar</button>' : '') + '</div>' +
+    '<div class="pl-pede ' + (falta.length ? 'warn' : 'ok') + '"><b>Risco ' + esc(F[0]) + ': a análise pede ' + planoPede(fx).map(k => PL_FALTA_TXT[k]).join(', ') + '.</b>' + (falta.length ? ' Falta: ' + falta.map(k => PL_FALTA_TXT[k]).join(', ') + '.' : ' Completa.') + '</div>' +
+    (temRasc ? '<div class="msg info pl-rasc">Há um texto seu desta análise que não chegou à nuvem (de ' + esc(fmtDT(rasc.ts)) + '). <button type="button" class="btn sm" data-action="rnc-pl-rasc" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Usar o texto guardado</button> <button type="button" class="fm-link" data-action="rnc-pl-rasc-x" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Descartar</button></div>' : '') +
+    (!ed && rncPlanoAberto(r) ? '<p class="fm-dica">Só ' + esc(resp.nome || 'o responsável') + ' escreve esta análise. Para comentar, use a conversa da RNC.</p>' : '') +
+    pdcaHTML(r, nc, d) + /* v2.102.16/17 */
+    corpo + acoesHTML(r, nc, ed) + (p ? '<p class="fm-dica pl-ult">Última alteração: ' + esc(p.porNome || '') + ' · ' + esc(fmtDT(p.em)) + '</p>' : '') +
+    '<div class="row-actions"><button class="btn" data-action="rnc-open" data-id="' + esc(rid) + '">Voltar</button>' + (ishiAtivas(d.ishi).length ? '<button class="btn" data-action="rnc-is-pdf" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '" title="PDF do diagrama de Ishikawa (A4 deitado)">Ishikawa</button>' : '') + (rncPode(r) && rncPlanoAberto(r) ? '<button class="btn" data-action="rnc-conf" data-id="' + esc(rid) + '" data-n="' + esc(nc.n) + '">Conferir</button>' : '') + (ed ? '<button class="btn primary" data-action="rnc-pl-salvar" data-id="' + esc(rid) + '">Salvar a análise</button>' : '') + '</div>', { noFocus: true });
+  if (ed) fmNumerar();
+  $$('.sheet .ishi-add .input').forEach(e => e.addEventListener('keydown', ev => { if (ev.key === 'Enter') { ev.preventDefault(); const bt = e.parentNode.querySelector('button'); if (bt) bt.click(); } })); /* v2.102.18 */
+  try { chatAnexar('rnc', rid); } catch {}
+}
+function planoLer() {
+  const v = id => String((($('#' + id) || {}).value) || '').trim(), b = S.rncPl || {};
+  const p = planoDe(b.ncId), ct = (p && p.contencao) || {};
+  const txt = v('pl-cont');
+  return { contencao: txt ? { texto: txt, data: v('pl-cont-d') || hojeISO(), porNome: txt === ct.texto && ct.porNome ? ct.porNome : S.user.nome } : null,
+    porques: [1, 2, 3, 4, 5].map(i => v('pl-pq' + i)), causa: v('pl-causa'), m6: (ishiPriDe(b) || {}).m || b.m6 || '', outra: b.outra === true || b.outra === false ? { sim: b.outra, quais: b.outra ? v('pl-outra-q') : '' } : null,
+    ishi: (b.ishi || []).slice(), ishiPri: ishiPriDe(b) ? b.ishiPri : '', ishiV: p && !p.ishiV && p.m6 && !ishiAtivas(p.ishi).length && !ishiAtivas(b.ishi).length ? 0 : 1 }; /* v2.102.18 */
+}
+const PL_CAMPOS = [['contencao', 'O que foi feito na hora', x => x ? x.texto + ' (' + fmtD(x.data) + ')' : ''], ['porques', '5 Porquês', x => (x || []).filter(Boolean).map((y, i) => (i + 1) + '. ' + y).join(' · ')], ['causa', 'Causa', x => x || ''], ['m6', '6M', x => x || ''], ['outra', 'Outra área', x => x ? (x.sim ? 'Sim' + (x.quais ? ': ' + x.quais : '') : 'Não') : ''], ['ishi', 'Ishikawa', x => ishiAtivas(x).map(c => c.m + ': ' + c.t).join(' · ')]];
+async function planoSalvar(forcar) {
+  const b = S.rncPl; if (!b) return; const { r, nc } = planoNc(b.rid, b.ncId); if (!r || !nc) return;
+  if (!planoPodeEditar(r, nc)) { toast('Só o responsável pela resposta escreve esta análise.', 'err'); return; }
+  const dados = forcar || planoLer(), cur = planoDe(b.ncId);
+  if (dados.outra && dados.outra.sim && dados.outra.quais.length < 2) return apMsg('Diga em quais áreas pode acontecer.');
+  if (!forcar && (cur ? cur.rev || 0 : 0) !== b.rev0) { planoConflito(dados, cur); return; } /* Nº 33: nunca "a última gravação vence" */
+  const ts = nowISO(), rev = (cur ? cur.rev || 0 : 0) + 1, resp = planoResp(r, nc);
+  const doc = Object.assign({ rid: r.id, ncId: nc.id, respId: resp.id, respNome: resp.nome, respHist: [] }, cur || {}, dados, { rev: rev, em: ts, porId: S.user.id, porNome: S.user.nome, hist: ((cur && cur.hist) || []).concat([{ ts: ts, porNome: S.user.nome, rev: rev }]) });
+  delete doc.id;
+  try { Store.set(PL_RASC(nc.id), JSON.stringify({ rev: rev, ts: ts, dados: dados })); } catch {}
+  try {
+    await Data.col('sv2_rnc_plano').set(nc.id, doc);
+    const l = (S.rncPlano || []).filter(x => x.ncId !== nc.id); l.push(Object.assign({ id: nc.id }, doc)); S.rncPlano = l;
+    const f = planoFalta(nc, doc);
+    Audit.log({ acao: 'rnc_analise', entidade: 'rnc', entidadeId: r.id, resumo: r.numero + ' · ' + rncNum(nc.n) + ': análise salva' + (doc.causa ? ' · causa: ' + doc.causa : '') + (doc.m6 ? ' (' + doc.m6 + ')' : '') + (ishiAtivas(doc.ishi).length ? ' · Ishikawa: ' + ishiAtivas(doc.ishi).length + ' causa(s)' + (ishiPriDe(doc) ? ', principal: ' + ishiPriDe(doc).t : '') : '') + (f.length ? ' · falta ' + f.map(k => PL_FALTA_TXT[k]).join(', ') : ' · completa'), depois: dados });
+    toast('Análise da ' + rncNum(nc.n) + ' salva' + (f.length ? ' (ainda falta ' + f.map(k => PL_FALTA_TXT[k]).join(', ') + ').' : '.'), f.length ? '' : 'ok');
+    S.rncPl = null; renderView(); openRnc(r.id);
+  } catch (e) { apMsg(errMsg(e) + ' O texto ficou guardado neste aparelho.'); }
+}
+function planoConflito(meu, outro) {
+  const b = S.rncPl; S.rncPlConf = meu;
+  const linhas = PL_CAMPOS.filter(c => JSON.stringify(meu[c[0]] || '') !== JSON.stringify(outro[c[0]] || '')).map(c => '<tr><td><b>' + esc(c[1]) + '</b></td><td>' + esc(c[2](meu[c[0]]) || '—') + '</td><td>' + esc(c[2](outro[c[0]]) || '—') + '</td></tr>').join('');
+  openSheet('<h3>Outra pessoa mudou esta análise</h3><div class="sub">' + esc(outro.porNome || 'Alguém') + ' salvou em ' + esc(fmtDT(outro.em)) + ', depois que você abriu. O que fazer?</div>' +
+    '<div id="pl-duas" hidden><table class="t pl-duas"><thead><tr><th></th><th>A sua</th><th>A de ' + esc(outro.porNome || 'outra pessoa') + '</th></tr></thead><tbody>' + (linhas || '<tr><td colspan="3">Os textos são iguais.</td></tr>') + '</tbody></table></div>' +
+    '<div class="row-actions"><button class="btn" data-action="rnc-pl-duas">Ver as duas</button><button class="btn" data-action="rnc-pl-outra-fica" data-id="' + esc(b.rid) + '" data-nc="' + esc(b.ncId) + '">Ficar com a outra</button><button class="btn primary" data-action="rnc-pl-minha" data-id="' + esc(b.rid) + '">Manter a minha</button></div>', { noFocus: true });
+}
+function openPlanoResp(rid, ncId) {
+  const { r, nc } = planoNc(rid, ncId); if (!r || !nc || !planoPodeTrocar(r, nc)) return;
+  const resp = planoResp(r, nc), us = S.users.filter(u => !u.bloqueado && u.perfil !== 'visitante' && u.id !== resp.id);
+  openSheet('<h3>Trocar o responsável pela resposta</h3><div class="sub">' + esc(r.numero) + ' · ' + rncNum(nc.n) + ' · hoje: ' + esc(resp.nome || '—') + '</div><div id="ap-msg"></div>' +
+    '<div class="field"><label>Novo responsável</label><select class="input" id="pl-resp-u"><option value="">Escolha…</option>' + us.map(u => '<option value="' + esc(u.id) + '">' + esc(u.nome) + '</option>').join('') + '</select></div>' +
+    '<div class="field"><label>Motivo</label><textarea class="input" id="al-mot-g" rows="2"></textarea></div>' +
+    '<div class="row-actions"><button class="btn" data-action="rnc-plano" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Voltar</button><button class="btn primary" data-action="rnc-pl-resp-ok" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Trocar</button></div>', { noFocus: true });
+}
+async function planoTrocarResp(rid, ncId) {
+  const { r, nc } = planoNc(rid, ncId); if (!r || !nc || !planoPodeTrocar(r, nc)) return;
+  const novo = (($('#pl-resp-u') || {}).value || ''), mot = alMotG(), resp = planoResp(r, nc);
+  if (!novo) return apMsg('Escolha o novo responsável.');
+  if (mot.length < 5) return apMsg('Escreva o motivo.');
+  const ts = nowISO(), cur = planoDe(nc.id), passo = { de: resp.id, deNome: resp.nome, para: novo, paraNome: nomeDe(novo), porNome: S.user.nome, ts: ts, motivo: mot };
+  const muda = { respId: novo, respNome: nomeDe(novo), respHist: ((cur && cur.respHist) || []).concat([passo]), rev: (cur ? cur.rev || 0 : 0) + 1, em: ts };
+  try {
+    if (!cur) { /* ainda não há linha: cria em nome de quem pode (o responsável de hoje ou o líder) e depois passa adiante */
+      const base = { rid: r.id, ncId: nc.id, respId: isSup(S.user) ? novo : S.user.id, respNome: isSup(S.user) ? nomeDe(novo) : S.user.nome, respHist: isSup(S.user) ? muda.respHist : [], rev: 1, em: ts, porId: S.user.id, porNome: S.user.nome, hist: [] };
+      await Data.col('sv2_rnc_plano').set(nc.id, base);
+      if (!isSup(S.user)) await Data.col('sv2_rnc_plano').update(nc.id, Object.assign({}, muda, { rev: 2 }));
+    } else await Data.col('sv2_rnc_plano').update(nc.id, muda);
+    const l = (S.rncPlano || []).filter(x => x.ncId !== nc.id); l.push(Object.assign({ id: nc.id, rid: r.id, ncId: nc.id }, cur || {}, muda)); S.rncPlano = l;
+    Audit.log({ acao: 'rnc_analise_resp', entidade: 'rnc', entidadeId: r.id, resumo: r.numero + ' · ' + rncNum(nc.n) + ': responsável pela resposta ' + (resp.nome || '—') + ' → ' + nomeDe(novo) + ' · motivo: ' + mot });
+    if (novo !== S.user.id) Notif.send({ nivel: 'aviso', titulo: 'Análise de NC para você responder', texto: r.numero + ' · ' + rncNum(nc.n) + ' (' + nc.local + '): ' + nc.nc + '. ' + S.user.nome + ' passou para você: ' + mot, para: [novo], refTipo: 'rnc_plano', refId: r.id }).catch(() => {});
+    toast('Responsável trocado.', 'ok'); renderView(); openRncPlano(rid, ncId);
+  } catch (e) { apMsg(errMsg(e)); }
+}
 /* ---------- 4 · conferir (na ordem do registro) ---------- */
+/* v2.102.17: o que impede "Resolvida" (análise completa + ações feitas ou canceladas) */
+function confPend(nc) {
+  const p = [], f = planoFalta(nc), ab = acoesAtivas(nc.id).filter(a => a.st !== 'feita');
+  if (f.length) p.push('análise incompleta (falta ' + f.map(k => PL_FALTA_TXT[k]).join(', ') + ')');
+  if (ab.length) p.push(ab.length + (ab.length > 1 ? ' ações ainda não feitas' : ' ação ainda não feita'));
+  return p;
+}
+function rncConfLib() {
+  const b = S.rncCf, w = $('#rnc-cf-libw'); if (!b || !w) return;
+  const x = (rncDe(b.rid) || {}).ncs && rncDe(b.rid).ncs.find(y => y.id === b.ncId);
+  w.hidden = !(b.res === 'resolvida' && x && confPend(x).length && isSup(S.user));
+}
 function openRncConf(id, n) {
   const r = rncDe(id); if (!r || !rncPode(r)) return;
   const s = rncSit(r); if (s !== 'retorno' && s !== 'pronta') return;
@@ -13810,7 +14328,10 @@ function openRncConf(id, n) {
     '<div class="rnc-ncc g-' + esc(x.grav) + '"><div class="h"><span>' + esc(rncAreaNome(x.area)) + ' › ' + esc(x.local) + '</span><span class="chip ' + g[1] + '">' + g[0] + '</span></div><p>' + esc(x.nc) + '</p>' +
     keyval([['Responsável', x.respNome + (x.ciente ? ' · estava ciente' : ' · não estava ciente')], ['Prazo', fmtD(r.prazo) + ' · ' + rncPrazoSit(r)]].concat(x.lei ? [['Lei / requisito', x.lei]] : []).concat(x.sug ? [['Sugestão', x.sug]] : [])) +
     ((x.fotosAntes || []).length ? '<div class="rnc-fotos ro">' + x.fotosAntes.map(f => '<span class="rnc-th"><img data-rncfoto="' + esc(f) + '" alt=""></span>').join('') + '</div>' : '') + '</div>' +
+    '<div class="pl-resp pl-conf"><span>Análise: ' + planoChip(x) + ' · resp. ' + esc(planoResp(r, x).nome || '—') + '</span><button type="button" class="btn sm" data-action="rnc-plano" data-id="' + esc(id) + '" data-nc="' + esc(x.id) + '">Abrir a análise</button></div>' + /* v2.102.13 */
     '<div class="ap-sec" data-g="res">Foi resolvida?</div><div class="ap-oc rnc-res">' + ch('resolvida', 'Resolvida') + ch('parcial', 'Parcial') + ch('nao', 'Não resolvida') + '</div>' +
+    (confPend(x).length ? '<div class="pl-pede warn"><b>Para marcar Resolvida falta:</b> ' + esc(confPend(x).join('; ')) + '.' + (isSup(S.user) ? ' Você pode liberar, com motivo.' : ' Sem isso, marque Parcial ou Não resolvida.') + '</div>' : '') +
+    (isSup(S.user) && confPend(x).length ? '<div id="rnc-cf-libw"' + (S.rncCf.res === 'resolvida' ? '' : ' hidden') + '><div class="ap-sec fm-nonum" data-g="lib">Motivo da liberação <small>vai para o histórico e para o PDF</small></div><textarea class="input" id="rnc-cf-lib" rows="2" placeholder="Ex.: ação feita fora do app; conferi no local"></textarea></div>' : '') +
     '<div class="ap-sec" data-g="fotos">Fotos do depois <small>até ' + RNC_MAX_FOTOS + '</small></div>' + rncFotosHTML() +
     '<div class="ap-sec" data-g="txt">O que foi feito <small>ou o que falta</small></div><textarea class="input" id="rnc-cf-txt" rows="3" placeholder="Ex.: sabonete e papel repostos; lixeira com pedal instalada">' + esc(S.rncCf.texto) + '</textarea>' +
     '<div class="ap-foot">' + (ant ? '<button type="button" class="btn" data-action="rnc-conf" data-id="' + esc(id) + '" data-n="' + ant.n + '">' + rncNum(ant.n) + '</button>' : '<button type="button" class="btn" data-action="rnc-open" data-id="' + esc(id) + '">Voltar</button>') +
@@ -13823,13 +14344,22 @@ async function rncConfOk(id, prox) {
   const falta = []; if (!b.res) falta.push('res'); if (b.texto.length < 3) falta.push('txt');
   $$('.sheet .ap-sec').forEach(s => s.classList.toggle('falta', falta.indexOf(s.getAttribute('data-g')) >= 0));
   if (falta.length) return apMsg(!b.res ? 'Diga se foi resolvida, parcial ou não resolvida.' : 'Escreva o que foi feito (ou o que falta).');
+  const x0 = (r.ncs || []).find(y => y.id === b.ncId), pend = b.res === 'resolvida' && x0 ? confPend(x0) : [];
+  let lib = null;
+  if (pend.length) {
+    if (!isSup(S.user)) return apMsg('Não dá para marcar Resolvida: ' + pend.join('; ') + '. Marque Parcial ou Não resolvida, ou peça ao líder.');
+    const mot = (($('#rnc-cf-lib') || {}).value || '').trim();
+    if (mot.length < 5) { const w = $('#rnc-cf-libw'); if (w) w.hidden = false; $$('.sheet .ap-sec').forEach(s => s.classList.toggle('falta', s.getAttribute('data-g') === 'lib')); return apMsg('Para marcar Resolvida assim, escreva o motivo da liberação.'); }
+    lib = { motivo: mot, porId: S.user.id, porNome: S.user.nome, pend: pend };
+  }
   if (b.salvando) return; b.salvando = true;
   const f = rncFotosGravar(b, id, b.ncId, 'depois'), x = (r.ncs || []).find(y => y.id === b.ncId);
   const ret = { res: b.res, texto: b.texto, fotosDepois: f.ids, ts: nowISO(), data: hojeISO(), porId: S.user.id, porNome: S.user.nome };
+  if (lib) ret.lib = lib;
   const ncs = (r.ncs || []).map(y => y.id === b.ncId ? Object.assign({}, y, { ret: ret, retHist: (y.retHist || []).concat(y.ret ? [y.ret] : []) }) : y);
   try {
     await Promise.all(f.ps); await Data.col('sv2_rnc').update(id, { ncs: ncs, atualizadoEm: nowISO() });
-    Audit.log({ acao: 'rnc_conferir', entidade: 'rnc', entidadeId: id, resumo: r.numero + ' · ' + rncNum(x.n) + ': ' + RNC_RES[b.res][0] + ' — ' + b.texto + (f.ids.length ? ' · ' + f.ids.length + ' foto(s) do depois' : ''), depois: ret });
+    Audit.log({ acao: 'rnc_conferir', entidade: 'rnc', entidadeId: id, resumo: r.numero + ' · ' + rncNum(x.n) + ': ' + RNC_RES[b.res][0] + ' — ' + b.texto + (lib ? ' · LIBERADA por ' + S.user.nome + ' (' + lib.pend.join('; ') + '): ' + lib.motivo : '') + (f.ids.length ? ' · ' + f.ids.length + ' foto(s) do depois' : ''), depois: ret });
     const loc = rncDe(id); if (loc) loc.ncs = ncs;
     S.rncCf = null; toast(rncNum(x.n) + ': ' + RNC_RES[b.res][0].toLowerCase() + '.', 'ok'); renderView();
     if (prox) openRncConf(id, prox); else openRnc(id);
@@ -13884,6 +14414,13 @@ function rncAviso() {
   return n;
 }
 function rncMeuDia(u, add) {
+  /* v2.102.13: análises de NC que esperam a resposta desta pessoa */
+  { const pl = []; (S.rnc || []).filter(rncPlanoAberto).forEach(r => rncNcs(r).forEach(x => { if (planoResp(r, x).id === u.id && planoFalta(x).length) pl.push({ r: r, x: x }); }));
+    add('rnc-plano', 'Análise de NC para você responder', pl.some(m => m.r.prazo < hojeISO()) ? 'crit' : 'warn', pl.map(m => ({ u: m.r.prazo < hojeISO(), t: m.r.numero + ' · ' + rncNum(m.x.n) + ' · ' + m.x.nc, d: 'falta ' + planoFalta(m.x).map(k => PL_FALTA_TXT[k]).join(', ') + ' · prazo ' + fmtD(m.r.prazo) })), 'inspecoes/rnc'); }
+  /* v2.102.16: ações 5W2H com esta pessoa (ou atrasadas nas análises dela) */
+  { const ac = []; (S.rnc || []).filter(rncPlanoAberto).forEach(r => rncNcs(r).forEach(x => acoesAtivas(x.id).filter(a => a.st !== 'feita' && (a.quemId === u.id || (acaoSt(a) === 'atrasada' && planoResp(r, x).id === u.id))).forEach(a => ac.push({ r: r, x: x, a: a }))));
+    ac.sort((m1, m2) => String(m1.a.quando).localeCompare(String(m2.a.quando)));
+    add('rnc-acoes', 'Ações de NC (plano de ação)', ac.some(m => acaoSt(m.a) === 'atrasada') ? 'crit' : 'warn', ac.map(m => ({ u: acaoSt(m.a) === 'atrasada', t: m.r.numero + ' · ' + rncNum(m.x.n) + ' · ' + m.a.oque, d: (acaoSt(m.a) === 'atrasada' ? 'atrasada · era até ' : 'até ') + fmtD(m.a.quando) + ' · ' + (m.a.quemNome || '') })), 'inspecoes/rnc'); }
   const abertas = (S.rnc || []).filter(r => rncSit(r) === 'retorno');
   const minhas = []; abertas.forEach(r => rncNcs(r).filter(x => x.respId === u.id && !(x.ret && x.ret.res === 'resolvida')).forEach(x => minhas.push({ r: r, x: x })));
   add('rnc-resp', 'Não conformidades sob sua responsabilidade', minhas.some(m => m.r.prazo < hojeISO()) ? 'crit' : 'warn', minhas.map(m => ({ u: m.r.prazo < hojeISO(), t: m.r.numero + ' · ' + rncNum(m.x.n) + ' · ' + m.x.nc, d: m.x.local + ' · prazo ' + fmtD(m.r.prazo) + ' (' + rncPrazoSit(m.r) + ')' + (m.x.ret ? ' · ' + RNC_RES[m.x.ret.res][0].toLowerCase() : '') })), 'inspecoes/rnc');
@@ -13948,7 +14485,58 @@ function rncAjustarFolha(h) {
 }
 /* v2.102.12 (A7): selo GUT na impressão (só quando a NC tem nota) */
 function gutPrint(x, idx) { if (!x || !x.gut) return ''; const f = GUT_FX[x.faixa] || GUT_FX.baixo; return '<span class="rp-g rp-gut" style="background:' + esc(f[2]) + '">' + (idx ? '' : 'GUT ') + esc(x.gut) + ' · ' + esc(f[0]) + '</span>'; }
+/* v2.102.15: RNC em pé (fechamento e abertura resumida), no modelo do Relatório de inspeção */
+async function rncImprimirPe(id, modo) {
+  const r = rncDe(id); if (!r) return;
+  const fech = modo === 'fechamento', ls = rncOrdem(r); if (!ls.length) { toast('Nenhuma NC registrada.', 'err'); return; }
+  const ids = []; ls.forEach(n => (n.fotosAntes || []).concat(fech && n.ret ? n.ret.fotosDepois || [] : []).forEach(f => ids.push(f)));
+  if (ids.length) toast('Preparando as fotos…');
+  await Promise.all(ids.map(rncFotoGet));
+  const G = { maior: '#b3443c', media: '#b0781f', baixa: '#2f7486' }, R = { resolvida: '#3f7d3a', parcial: '#b0781f', nao: '#b3443c' };
+  const campo = (rot, t) => t ? '<p><b>' + esc(rot) + ':</b> ' + esc(t) + '</p>' : '';
+  const blocos = [], fotos = []; let nf = 0, area = null;
+  ls.forEach(n => {
+    const g = RNC_GRAV[n.grav] || RNC_GRAV.baixa, rt = n.ret ? RNC_RES[n.ret.res] : null, ri = rncReinc(r, n), pl = planoDe(n.id) || {}, ct = pl.contencao || {};
+    const fa = (n.fotosAntes || []).filter(f => RNC_CACHE[f]).map(f => { nf++; fotos.push({ src: RNC_CACHE[f], n: nf, nc: rncNum(n.n), papel: 'antes', leg: n.local }); return nf; });
+    const fd = fech && n.ret ? (n.ret.fotosDepois || []).filter(f => RNC_CACHE[f]).map(f => { nf++; fotos.push({ src: RNC_CACHE[f], n: nf, nc: rncNum(n.n), papel: 'depois', leg: n.local }); return nf; }) : [];
+    const ev = fa.length || fd.length ? (fa.length ? (fa.length > 1 ? 'Fotos ' : 'Foto ') + fa.join(', ') + ' (antes)' : '') + (fa.length && fd.length ? ' · ' : '') + (fd.length ? (fd.length > 1 ? 'Fotos ' : 'Foto ') + fd.join(', ') + ' (depois)' : '') : 'sem foto';
+    const sec = n.area !== area ? (area = n.area, '<div class="ri-sec ar-sec">' + esc(rncAreaNome(n.area)) + '</div>') : '';
+    blocos.push(sec + '<div class="ri rn-ap ar-it rnc-it"><div class="ri-t"><span class="ri-n">' + esc(rncNum(n.n)) + '</span><span class="ri-tt">' + esc(n.local) + '</span><span class="ri-dt">' + esc(fmtD(r.data)) + '</span></div>' +
+      '<div class="ri-tags"><span class="ri-tag" style="background:' + esc(G[n.grav]) + '">GRAVIDADE: ' + esc(String(g[0]).toUpperCase()) + '</span>' + (gutDe(n.id) ? '<span class="ri-tag" style="background:' + esc((GUT_FX[gutDe(n.id).faixa] || GUT_FX.baixo)[2]) + '">GUT ' + esc(gutDe(n.id).gut) + ' · ' + esc(String((GUT_FX[gutDe(n.id).faixa] || GUT_FX.baixo)[0]).toUpperCase()) + '</span>' : '') +
+        (fech ? '<span class="ri-tag" style="background:' + esc(rt ? R[n.ret.res] : '#8a8576') + '">' + esc(rt ? String(rt[0]).toUpperCase() : 'SEM RETORNO') + '</span>' : '<span class="ri-tag ri-st">ABERTA</span>') + (ri ? '<span class="ri-tag ri-st">REINCIDENTE</span>' : '') + '</div>' +
+      '<div class="ri-c">' + campo('Constatação', n.nc) + campo('Lei / requisito', n.lei) + campo('Responsável', (n.respNome || '') + (n.ciente ? ' · estava ciente' : ' · não estava ciente')) +
+        campo('Observação', n.obs) + campo('Ação sugerida', n.sug) + (ri ? campo('Reincidência', 'mesmo local e requisito na ' + ri.rnc + ' (' + rncNum(ri.n) + ')') : '') +
+        (fech ? campo('Feito na hora', ct.texto) + campo('Causa', pl.causa) + campo('Categoria (6M)', pl.m6) +
+          (acoesAtivas(n.id).length ? campo('Ações', acoesAtivas(n.id).length + ' no plano · ' + acoesAtivas(n.id).filter(a => a.st === 'feita').length + ' feita(s)' + (acoesAtivas(n.id).some(a => acaoSt(a) === 'atrasada') ? ' · ' + acoesAtivas(n.id).filter(a => acaoSt(a) === 'atrasada').length + ' atrasada(s)' : '')) : '') +
+          (n.ret ? campo('Retorno', n.ret.texto + ' · conferido por ' + (n.ret.porNome || '') + ' em ' + fmtD(n.ret.data) + (n.ret.lib ? ' · liberada como Resolvida por ' + (n.ret.lib.porNome || '') + ': ' + n.ret.lib.motivo : '')) : '<p><b>Retorno:</b> ainda não conferida.</p>') : '') +
+        '<p><b>Prazo:</b> ' + esc(fmtD(r.prazo)) + ' · <b>Evidência fotográfica:</b> ' + esc(ev) + '</p></div></div>');
+  });
+  for (let i = 0; i < fotos.length; i += 3) {
+    blocos.push((i === 0 ? '<div class="ri-sec ar-sec">Registro fotográfico</div>' : '') + '<div class="ar-frow">' + fotos.slice(i, i + 3).map(f => '<figure><div class="ar-fimg"><img class="rn-f" src="' + imgSrc(f.src) + '" alt=""></div><figcaption><b>Foto ' + esc(f.n) + ' · ' + esc(f.nc) + '</b> · ' + esc(f.papel) + '<br>' + esc(f.leg) + '</figcaption></figure>').join('') + '</div>');
+  }
+  const cr = k => ls.filter(n => n.ret && n.ret.res === k).length, cg = k => ls.filter(n => n.grav === k).length, sem = ls.filter(n => !n.ret).length;
+  const pct = Math.round(cr('resolvida') / ls.length * 1000) / 10;
+  const caixa = (t, v) => '<div><span>' + esc(t) + '</span><b>' + esc(v) + '</b></div>';
+  blocos.push('<div class="ri-sec ar-sec">' + (fech ? 'Resultado do fechamento' : 'Resumo') + '</div><div class="ar-res">' +
+    (fech ? caixa('NCs', ls.length) + caixa('Resolvidas', cr('resolvida')) + caixa('Parciais', cr('parcial')) + '<div class="ar-pct"><span>Resolvidas</span><b>' + esc(String(pct).replace('.', ',')) + ' %</b></div>'
+      : caixa('NCs', ls.length) + caixa('Maior', cg('maior')) + caixa('Média', cg('media')) + caixa('Baixa', cg('baixa'))) + '</div>' +
+    '<p class="ar-dist">' + (fech ? 'Não resolvidas: <b>' + esc(cr('nao')) + '</b> | Sem retorno: <b>' + esc(sem) + '</b> | ' : '') + 'Por gravidade: Maior <b>' + esc(cg('maior')) + '</b> | Média <b>' + esc(cg('media')) + '</b> | Baixa <b>' + esc(cg('baixa')) + '</b> | Cientes antes: <b>' + esc(ls.filter(n => n.ciente).length) + ' de ' + esc(ls.length) + '</b></p>' +
+    (fech ? '' : '<p class="ar-dist"><b>Como seguir:</b> corrija até ' + esc(fmtD(r.prazo)) + ' e avise o auditor (' + esc(r.auditorNome || '') + '). Ele volta ao local, confere uma por uma e tira as fotos do depois.</p>'));
+  blocos.push('<div class="ri-sec ar-sec">Plano de ação</div><table class="ri-pa ar-pa"><colgroup><col style="width:14mm"><col><col><col style="width:28mm"><col style="width:22mm"><col style="width:22mm"></colgroup><thead><tr><th>Nº</th><th>Não conformidade</th><th>Ação' + (ls.some(n => acoesAtivas(n.id).length) ? ' (5W2H ou sugestão)' : ' (sugestão do auditor)') + '</th><th>Responsável</th><th>Prazo</th><th>Situação</th></tr></thead><tbody>' +
+    ls.map(n => { const ac = acoesAtivas(n.id); /* v2.102.16: com ações 5W2H, uma linha por ação */
+      if (!ac.length) return '<tr><td><b>' + esc(rncNum(n.n)) + '</b></td><td>' + esc(n.nc) + '</td><td>' + esc(n.sug || '—') + '</td><td>' + esc(n.respNome || '—') + '</td><td>' + esc(fmtD(r.prazo)) + '</td><td>' + esc(fech && n.ret ? RNC_RES[n.ret.res][0] : 'Aberta') /* abertura: o documento de abertura diz "Aberta" */ + '</td></tr>';
+      return ac.map((a, i) => '<tr><td><b>' + (i ? '' : esc(rncNum(n.n))) + '</b></td><td>' + (i ? '' : esc(n.nc)) + '</td><td>' + esc(a.oque) + (a.como ? ' — ' + esc(a.como) : '') + (a.quanto ? ' · ' + esc(a.quanto) : '') + '</td><td>' + esc(a.quemNome || '') + '</td><td>' + esc(fmtD(a.quando)) + '</td><td>' + esc(PL_AC_ST[acaoSt(a)][0]) + '</td></tr>').join(''); }).join('') + '</tbody></table>');
+  blocos.push('<div class="ar-sig"><div>Auditor<br><b>' + esc(r.auditorNome || '') + '</b></div><div>' + (r.acompanhante ? 'Acompanhante<br><b>' + esc(r.acompanhante) + '</b>' : 'Responsável da área<br>&nbsp;') + '</div><div>Gestão da Qualidade<br>&nbsp;</div></div>');
+  const info = [['RNC', r.numero + ' · ' + (fech ? 'fechamento' : 'abertura (resumida)')], ['Auditoria', r.tipo || ''], ['Data', fmtD(r.data)], ['Auditor', (r.auditorNome || '') + (r.acompanhante ? ' · com ' + r.acompanhante : '')],
+    ['Prazo para todas', fmtD(r.prazo) + ((r.prazoHist || []).length ? ' (prorrogado de ' + fmtD(r.prazoHist[0].de) + ')' : '')], ['NCs', ls.length + (fotos.length ? ' · ' + fotos.length + ' foto(s)' : '')]]
+    .concat(r.preparacao ? [['Preparação para', r.preparacao]] : []).concat(fech && r.fechadaEm ? [['Fechada em', fmtD(String(r.fechadaEm).slice(0, 10)) + (r.fechadaPor ? ' por ' + r.fechadaPor : '')]] : []);
+  const dados = '<div class="ri-sec ar-sec">Dados da auditoria</div><div class="ar-dados">' + info.map(x => '<div><span>' + esc(x[0]) + '</span><b>' + esc(x[1]) + '</b></div>').join('') + '</div>';
+  Audit.log({ acao: 'imprimir', entidade: 'rnc', entidadeId: id, resumo: 'RNC de ' + (fech ? 'fechamento' : 'abertura resumida') + ' (em pé) ' + r.numero + ' (' + ls.length + ' NCs)' });
+  const corpo = '<div class="ar">' + dados + '</div>' + blocos.map(b => '<div class="ar' + (/^<div class="ri-sec ar-sec">/.test(b) && /ar-it|ar-frow/.test(b) ? ' ar-k' : '') + '">' + b + '</div>').join('');
+  runPrint(corpo, r.numero + ' · ' + (r.tipo || '') + ' · ' + (fech ? 'fechamento' : 'abertura resumida'), 'portrait', '', 'rnc');
+}
 async function rncImprimir(id, modo) {
+  if (modo === 'fechamento' || modo === 'resumo') return rncImprimirPe(id, modo); /* v2.102.15: em pé */
   const r = rncDe(id); if (!r) return;
   const fech = modo === 'fechamento', ls = rncOrdem(r); if (!ls.length) { toast('Nenhuma NC registrada.', 'err'); return; }
   const ids = []; ls.forEach(n => (n.fotosAntes || []).concat(fech && n.ret ? n.ret.fotosDepois || [] : []).forEach(f => ids.push(f)));
@@ -13989,7 +14577,7 @@ async function rncImprimir(id, modo) {
     const campos = [['Lei / requisito', n.lei || '—'], ['Responsável', n.respNome + (n.ciente ? ' · estava ciente' : ' · não estava ciente')], ['Prazo', fmtD(r.prazo)]].concat(n.obs ? [['Observação', n.obs]] : []).concat(n.sug ? [['Sugestão', n.sug]] : []).concat(ri ? [['Reincidência', 'mesmo local e requisito na ' + ri.rnc + ' (' + rncNum(ri.n) + ')']] : []);
     const nA = (n.fotosAntes || []).filter(f => RNC_CACHE[f]).length;
     const fa = rncFotosPrint(n.fotosAntes, W, HF, i => 'Foto ' + (i + 1) + ' · ' + rncNum(n.n) + ' · antes'), fd = fech && n.ret ? rncFotosPrint(n.ret.fotosDepois, W, HF, i => 'Foto ' + (nA + i + 1) + ' · ' + rncNum(n.n) + ' · depois') : '';
-    const baixo = fech && n.ret ? '<div class="rp-l"><div class="rp-res" style="background:' + R[n.ret.res] + '">' + rt[0] + '</div><div class="rp-big">' + esc(n.ret.texto) + '</div><div class="rp-kv"><span>Conferido por</span><b>' + esc(n.ret.porNome) + '</b><span>Em</span><b>' + fmtD(n.ret.data) + '</b></div></div><div class="rp-r">' + (fd || '<div class="rp-sf">Sem foto do depois</div>') + '</div>'
+    const baixo = fech && n.ret ? '<div class="rp-l"><div class="rp-res" style="background:' + R[n.ret.res] + '">' + rt[0] + '</div><div class="rp-big">' + esc(n.ret.texto) + '</div><div class="rp-kv"><span>Conferido por</span><b>' + esc(n.ret.porNome) + '</b><span>Em</span><b>' + fmtD(n.ret.data) + '</b>' + (n.ret.lib ? '<span>Liberada por</span><b>' + esc(n.ret.lib.porNome || '') + ': ' + esc(n.ret.lib.motivo) + '</b>' : '') + '</div></div><div class="rp-r">' + (fd || '<div class="rp-sf">Sem foto do depois</div>') + '</div>'
       : fech ? '<div class="rp-l"><div class="rp-res" style="background:#bdb6a3">Sem retorno</div><div class="rp-big">Ainda não conferida.</div></div><div class="rp-r"></div>'
       : '<div class="rp-l rp-man"><div class="rp-cx"><span>☐ Resolvida</span><span>☐ Parcial</span><span>☐ Não resolvida</span></div><div class="rp-lin">O que foi feito:</div><div class="rp-lin"></div><div class="rp-lin"></div><div class="rp-lin">Data do retorno:</div><div class="rp-lin">Assinatura do responsável:</div></div><div class="rp-r"><div class="rp-sf">As fotos do depois são tiradas pelo auditor no app, na conferência.</div></div>';
     return '<section class="rp-pg rp-nc"><div class="rp-strip"><span class="rp-nn">' + rncNum(n.n) + '</span><span>' + esc(rncAreaNome(n.area).toUpperCase()) + ' › ' + esc(n.local) + '</span><span class="rp-g" style="background:' + G[n.grav] + '">' + g[0] + '</span>' + gutPrint(gutDe(n.id)) + (rt ? '<span class="rp-g" style="background:' + R[n.ret.res] + '">' + rt[0] + '</span>' : '') + '<span class="rp-sp"></span><span>' + esc(r.numero) + ' · ' + esc(dci.codigo) + ' · Rev. ' + esc(dci.revisao) + ' · folha ' + pgOf[n.id] + ' de ' + totP + '</span></div>' +
@@ -13997,9 +14585,11 @@ async function rncImprimir(id, modo) {
       '<div class="rp-half dep"><div class="rp-ht"><i>2</i>2ª visita · retorno' + (n.ret ? ' · ' + fmtD(n.ret.data) : ' · preencher até ' + fmtD(r.prazo)) + '<span>' + (fech && n.ret ? (n.ret.fotosDepois || []).length + ' foto(s) do depois' : '') + '</span></div><div class="rp-hb">' + baixo + '</div></div>' +
       '<div class="rp-ft"><span>' + impresso + '</span><span>Auditor: ' + esc(r.auditorNome) + '</span></div></section>'; };
   Audit.log({ acao: 'imprimir', entidade: 'rnc', entidadeId: id, resumo: 'RNC de ' + (fech ? 'fechamento' : 'abertura') + ' ' + r.numero + ' (' + ls.length + ' NCs, ' + totP + ' folhas)' });
-  const plLinhas = () => ls.map(n => '<tr><td class="nw"><b>' + rncNum(n.n) + '</b></td><td>' + esc(n.nc) + '</td><td>' + esc(n.sug || '—') + '</td><td>' + esc(n.respNome) + '</td><td class="nw">' + fmtD(r.prazo) + '</td><td class="nw">' + (n.ret ? '<span class="rp-g" style="background:' + R[n.ret.res] + '">' + RNC_RES[n.ret.res][0] + '</span>' : 'Aberta') + '</td></tr>');
+  const plLinhas = () => [].concat.apply([], ls.map(n => { const ac = acoesAtivas(n.id); /* v2.102.16: com ações 5W2H, uma linha por ação */
+    if (!ac.length) return ['<tr><td class="nw"><b>' + rncNum(n.n) + '</b></td><td>' + esc(n.nc) + '</td><td>' + esc(n.sug || '—') + '</td><td>' + esc(n.respNome) + '</td><td class="nw">' + fmtD(r.prazo) + '</td><td class="nw">' + (n.ret ? '<span class="rp-g" style="background:' + R[n.ret.res] + '">' + RNC_RES[n.ret.res][0] + '</span>' : 'Aberta') + '</td></tr>'];
+    return ac.map((a, i) => '<tr><td class="nw"><b>' + (i ? '' : rncNum(n.n)) + '</b></td><td>' + (i ? '' : esc(n.nc)) + '</td><td>' + esc(a.oque) + (a.como ? ' — ' + esc(a.como) : '') + (a.quanto ? ' · ' + esc(a.quanto) : '') + '</td><td>' + esc(a.quemNome || '') + '</td><td class="nw">' + esc(fmtD(a.quando)) + '</td><td class="nw">' + esc(PL_AC_ST[acaoSt(a)][0]) + '</td></tr>'); }));
   const planoHTML = (rows, pg, ultima) => '<section class="rp-pg rp-pa">' + dcCabHTML(dci, r.numero + ' · plano de ação' + (pg > nIdx + ls.length + 1 ? ' (continuação)' : ''), pg, totP) +
-    '<div class="rp-idx"><h4>Plano de ação · ' + (fech ? 'situação no fechamento' : 'corrigir até ' + fmtD(r.prazo)) + (pg > nIdx + ls.length + 1 ? ' · continuação' : '') + '</h4><table class="rp-t"><thead><tr><th>Nº</th><th>Não conformidade</th><th>Ação (sugestão do auditor)</th><th>Responsável</th><th>Prazo</th><th>Status</th></tr></thead><tbody>' + rows.join('') + '</tbody></table></div>' +
+    '<div class="rp-idx"><h4>Plano de ação · ' + (fech ? 'situação no fechamento' : 'corrigir até ' + fmtD(r.prazo)) + (pg > nIdx + ls.length + 1 ? ' · continuação' : '') + '</h4><table class="rp-t"><thead><tr><th>Nº</th><th>Não conformidade</th><th>Ação' + (ls.some(n => acoesAtivas(n.id).length) ? ' (5W2H ou sugestão do auditor)' : ' (sugestão do auditor)') + '</th><th>Responsável</th><th>Prazo</th><th>Status</th></tr></thead><tbody>' + rows.join('') + '</tbody></table></div>' +
     (ultima ? '<div class="rp-sig"><div>Auditor · ' + esc(r.auditorNome) + '</div><div>' + (r.acompanhante ? 'Acompanhante · ' + esc(r.acompanhante) : 'Responsável da área') + '</div><div>Gestão da Qualidade</div></div>' : '') +
     '<div class="rp-ft"><span>' + impresso + '</span><span>' + esc(r.numero) + ' · folha ' + esc(pg) + ' de ' + totP + '</span></div></section>';
   /* v2.102.12: mede de verdade antes de imprimir (como o relatório semanal): o índice e o plano que não cabem seguem em folhas
@@ -14022,16 +14612,39 @@ async function rncImprimir(id, modo) {
 /* ---------- ações ---------- */
 function rncAcao(act, id, t) {
   const n = t && t.getAttribute('data-n');
-  if (['rnc-nova-ok', 'rnc-nc-ok', 'rnc-enviar-ok', 'rnc-conf-ok', 'rnc-fechar', 'rnc-prorrogar-ok', 'rnc-cancelar-ok', 'rnc-nc-canc-ok'].indexOf(act) >= 0) {
-    const f = { 'rnc-nova-ok': () => rncNovaOk(), 'rnc-nc-ok': () => rncNcOk(id === '1'), 'rnc-enviar-ok': () => rncEnviarOk(id), 'rnc-conf-ok': () => rncConfOk(id, n), 'rnc-fechar': () => rncFechar(id), 'rnc-prorrogar-ok': () => rncProrrogarOk(id), 'rnc-cancelar-ok': () => rncCancelarOk(id), 'rnc-nc-canc-ok': () => rncNcCancOk(id) }[act];
+  const ac = t && t.getAttribute('data-ac'), ncA = t && t.getAttribute('data-nc'); /* v2.102.16 */
+  if (['rnc-nova-ok', 'rnc-nc-ok', 'rnc-enviar-ok', 'rnc-conf-ok', 'rnc-fechar', 'rnc-prorrogar-ok', 'rnc-cancelar-ok', 'rnc-nc-canc-ok', 'rnc-ac-ok', 'rnc-ac-feita-ok', 'rnc-ac-canc-ok'].indexOf(act) >= 0) {
+    const f = { 'rnc-ac-ok': () => acaoSalvar(id, ncA, ac), 'rnc-ac-feita-ok': () => acaoFim(id, ncA, ac, 'feita'), 'rnc-ac-canc-ok': () => acaoFim(id, ncA, ac, 'cancelada'), 'rnc-nova-ok': () => rncNovaOk(), 'rnc-nc-ok': () => rncNcOk(id === '1'), 'rnc-enviar-ok': () => rncEnviarOk(id), 'rnc-conf-ok': () => rncConfOk(id, n), 'rnc-fechar': () => rncFechar(id), 'rnc-prorrogar-ok': () => rncProrrogarOk(id), 'rnc-cancelar-ok': () => rncCancelarOk(id), 'rnc-nc-canc-ok': () => rncNcCancOk(id) }[act];
     eqUmaVez(f); return true;
   }
   switch (act) {
     case 'rnc-nova': openRncNova(); return true;
     case 'rnc-open': openRnc(id); return true;
     case 'rnc-nc': openRncNc(id, 0); return true;
-    case 'rnc-item': { const r = rncDe(id); if (!r) return true; const s = rncSit(r); if (s === 'registro' && rncPode(r)) openRncNc(id, n); else if ((s === 'retorno' || s === 'pronta') && rncPode(r)) openRncConf(id, n); else toast('Veja a folha dela na RNC impressa.'); return true; }
+    case 'rnc-item': { const r = rncDe(id); if (!r) return true; const s = rncSit(r); if (s === 'registro' && rncPode(r)) openRncNc(id, n); else if ((s === 'retorno' || s === 'pronta') && rncPode(r)) openRncConf(id, n); else if (s === 'retorno' || s === 'pronta' || s === 'fechada') { const x = rncNcs(r).find(y => y.n === Number(n)); if (x) openRncPlano(id, x.id); } else toast('Veja a folha dela na RNC impressa.'); return true; } /* v2.102.13: quem não confere abre a análise */
+    case 'rnc-plano': openRncPlano(id, t.getAttribute('data-nc')); return true;
+    case 'rnc-plano-volta': planoVolta(id, ncA); return true;
+    case 'rnc-ac-nova': openPlanoAcao(id, ncA, ''); return true;
+    case 'rnc-ac-ed': openPlanoAcao(id, ncA, ac); return true;
+    case 'rnc-ac-feita': openAcaoFim(id, ncA, ac, 'feita'); return true;
+    case 'rnc-ac-canc': openAcaoFim(id, ncA, ac, 'cancelada'); return true;
+    case 'rnc-pl-salvar': planoSalvar(); return true;
+    case 'rnc-is-add': ishiMuda('add', id); return true; /* v2.102.18 */
+    case 'rnc-is-pri': ishiMuda('pri', id); return true;
+    case 'rnc-is-x': ishiMuda('x', id); return true;
+    case 'rnc-is-pdf': ishiImprimir(id, ncA); return true;
+    case 'rnc-pl-m6': { const b = S.rncPl; if (b) { b.m6 = b.m6 === id ? '' : id; $$('[data-action="rnc-pl-m6"]').forEach(x => x.classList.toggle('on', x.getAttribute('data-id') === b.m6)); } return true; }
+    case 'rnc-pl-outra': { const b = S.rncPl; if (b) { b.outra = id === '1'; $$('[data-action="rnc-pl-outra"]').forEach(x => x.classList.toggle('on', x.getAttribute('data-id') === id)); const q = $('#pl-outra-q'); if (q) { q.hidden = !b.outra; if (b.outra) try { q.focus(); } catch {} } } return true; }
+    case 'rnc-pl-ultimo': { const l = [5, 4, 3, 2, 1].map(i => (($('#pl-pq' + i) || {}).value || '').trim()).find(Boolean), c = $('#pl-causa'); if (l && c) c.value = l; else toast('Escreva os "por quê" primeiro.'); return true; }
+    case 'rnc-pl-resp': openPlanoResp(id, t.getAttribute('data-nc')); return true;
+    case 'rnc-pl-resp-ok': planoTrocarResp(id, t.getAttribute('data-nc')); return true;
+    case 'rnc-pl-rasc': { const nc = t.getAttribute('data-nc'), d = planoRascunho(nc); if (d) openRncPlano(id, nc, d.dados); return true; }
+    case 'rnc-pl-rasc-x': { const nc = t.getAttribute('data-nc'); Store.del(PL_RASC(nc)); openRncPlano(id, nc); return true; }
+    case 'rnc-pl-duas': { const e = $('#pl-duas'); if (e) e.hidden = !e.hidden; return true; }
+    case 'rnc-pl-outra-fica': { const nc = t.getAttribute('data-nc'); Store.del(PL_RASC(nc)); S.rncPlConf = null; openRncPlano(id, nc); return true; }
+    case 'rnc-pl-minha': { const d = S.rncPlConf; S.rncPlConf = null; if (d) planoSalvar(d); return true; }
     case 'rnc-ch': rncCh(t); return true;
+    case 'rnc-gut-tg': { const b = S.rncNc; if (b) { rncNcLer(); b.gutAberto = !b.gutAberto; rncNcRender(); } return true; } /* v2.102.17 */
     case 'rnc-gut-limpar': { const b = S.rncNc; if (b) { rncNcLer(); b.gut = { g: GUT_G_SUG[b.grav] || 0 }; b.gutGMan = false; rncNcRender(); } return true; } /* v2.102.12 */
     case 'rnc-risco': S.rncRisco = !S.rncRisco; openRnc(id); return true;
     case 'rnc-foto-rm': { const b = rncBag(); if (b) { if (S.rncNc) rncNcLer(); b.fotos.splice(Number(id), 1); rncFotosAtualiza(); } return true; }
@@ -14069,7 +14682,7 @@ const DC_RELS = [
   ['painel', 'Painel de coletas', 'REL 0004 MPG CQA', /^Painel —/],
   ['agua_ac', 'Ação corretiva — água', 'REL 0005 MPG CQA', /^Ação corretiva/],
   ['agua_local', 'Água por local', 'REL 0006 MPG CQA', /^Água por local/],
-  ['reuniao', 'Reunião de apontamentos', 'REL 0007 MPG CQA', /^Reunião de apontamentos/],
+  ['reuniao', 'Relatório de apontamentos', 'REL 0007 MPG CQA', /^(Reunião|Relatório) de apontamentos/],
   ['rel_semana', 'Relatórios da semana', 'REL 0008 MPG CQA', /^Relatórios da semana/],
   ['cal_sol', 'Solicitação de calibração', 'REL 0009 MPG CQA', /^Solicitação de calibração/],
   ['inv_folha', 'Folha de contagem do inventário', 'REL 0010 MPG CQA', /^Folha de contagem/],
@@ -14078,7 +14691,8 @@ const DC_RELS = [
   ['almox_apre', 'Apresentação do almoxarifado', 'REL 0013 MPG CQA', /^Almoxarifado do laboratório/],
   ['rnc', 'Relatório de Não Conformidade (RNC)', 'REL 0014 MPG CQA', null],
   ['rnc_cl', 'Checklist da auditoria interna', 'REL 0015 MPG CQA', /^Checklist da auditoria interna/],
-  ['tf_semana', 'Relatório semanal de atividades', 'REL 0016 MPG CQA', /^Relatório semanal de atividades/] /* v2.94.0 */
+  ['tf_semana', 'Relatório semanal de atividades', 'REL 0016 MPG CQA', /^Relatório semanal de atividades/], /* v2.94.0 */
+  ['rnc_ishi', 'Diagrama de Ishikawa (6M)', 'REL 0017 MPG CQA', /^Ishikawa — /] /* v2.102.18 */
 ];
 const DC_LISTAS = [
   ['docs', 'Catálogo de documentos'], ['lanc', 'Lançamentos'], ['corr', 'Correções de lançamento'], ['caixas', 'Caixas d’água'],
@@ -14136,9 +14750,9 @@ function dcCssImpressao() {
 }
 /* mede e reparte o conteúdo em folhas; devolve o HTML do corpo de cada folha, ou null sem layout */
 function dcMedir(bodyHTML, casca) {
-  const root = $('#print-root'), PX = 96 / 25.4, ALT = 196 * PX;
+  const root = $('#print-root'), PX = 96 / 25.4, ALT = DC_FOLHA.alt * PX; /* v2.102.14: em pé ou deitado */
   const antesSt = root.getAttribute('style');
-  root.setAttribute('style', 'display:block;position:absolute;left:-40000px;top:0;width:285mm;visibility:hidden');
+  root.setAttribute('style', 'display:block;position:absolute;left:-40000px;top:0;width:' + DC_FOLHA.w + 'mm;visibility:hidden');
   root.innerHTML = casca(1);
   const sec0 = root.firstElementChild;
   if (!sec0 || !sec0.offsetHeight) { root.innerHTML = ''; if (antesSt == null) root.removeAttribute('style'); else root.setAttribute('style', antesSt); return null; }
@@ -14225,7 +14839,7 @@ function dcPaginar(bodyHTML, titulo, filtros, chave) {
   try { pags = dcMedir(bodyHTML, i => folha(i, '', true)); } catch (e) { pags = null; }
   if (!pags || !pags.length) pags = [bodyHTML];
   const T = String(pags.length);
-  return '<div class="dc-doc">' + pags.map((h, i) => folha(i + 1, h, false)).join('').split('§T§').join(T) + '</div>';
+  return '<div class="dc-doc' + (DC_FOLHA.w < 250 ? ' dc-retrato' : '') + '">' + pags.map((h, i) => folha(i + 1, h, false)).join('').split('§T§').join(T) + '</div>';
 }
 /* ---------- Opções › Documento controlado (Principal) ---------- */
 function dcLinha(k) {
@@ -14895,7 +15509,7 @@ function prevTitulo(root) { const t = root.querySelector('.dc-tit b') || root.qu
 /* documento completo e independente (sem script): abre em qualquer navegador e imprime igual */
 function prevDoc(html, pagina, titulo, tela) {
   const extra = '#print-root{display:block!important}body{background:#fff;color:#000;margin:0}' +
-    (tela ? 'body{background:#d9d9de;padding:10px}#print-root{width:285mm;margin:0 auto}#print-root .dc-pg,#print-root .rp-pg,#print-root .fx-pg,#print-root .etq-pg,#print-root .pc-pg{background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.25);padding:6mm;margin:0 0 8mm;box-sizing:content-box}' : '@media screen{#print-root{max-width:297mm;margin:0 auto;padding:6mm}}');
+    (tela ? 'body{background:#d9d9de;padding:10px}#print-root{width:' + (/portrait/.test(pagina || '') ? '196' : '285') + 'mm;margin:0 auto}#print-root .dc-pg,#print-root .rp-pg,#print-root .fx-pg,#print-root .etq-pg,#print-root .pc-pg{background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.25);padding:6mm;margin:0 0 8mm;box-sizing:content-box}' : '@media screen{#print-root{max-width:297mm;margin:0 auto;padding:6mm}}');
   return '<!DOCTYPE html>\n<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + esc(titulo) + '</title>' +
     '<style>' + prevCssApp() + '</style><style>@media screen{' + dcCssImpressao() + '}' + extra + '</style><style>' + (pagina || '@page{size:A4 landscape;margin:6mm}') + '</style></head>' +
     '<body><div id="print-root">' + html + '</div></body></html>';
@@ -14913,7 +15527,7 @@ function prevAbrir() {
   prevFechar(true);
   const ov = document.createElement('div'); ov.id = 'prev'; ov.className = 'prev'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-label', 'Pré-visualização da impressão');
   const podeComp = !!(navigator.share && navigator.canShare && (() => { try { return navigator.canShare({ files: [new File(['x'], 'a.html', { type: 'text/html' })] }); } catch (e) { return false; } })());
-  ov.innerHTML = '<div class="prev-top"><b>Pré-visualização</b><span>' + esc(titulo) + ' · ' + n + ' folha' + (n > 1 ? 's' : '') + ' · A4 deitado</span></div>' +
+  ov.innerHTML = '<div class="prev-top"><b>Pré-visualização</b><span>' + esc(titulo) + ' · ' + n + ' folha' + (n > 1 ? 's' : '') + ' · ' + (/portrait/.test(pagina) ? 'A4 em pé' : 'A4 deitado') + '</span></div>' +
     '<iframe class="prev-fr" title="Folhas da impressão"></iframe>' +
     '<div class="prev-bt"><button type="button" class="btn" data-action="prev-fechar">Fechar</button><button type="button" class="btn" data-action="prev-baixar">' + icoI('file') + 'Baixar</button>' +
     (podeComp ? '<button type="button" class="btn" data-action="prev-compartilhar">Compartilhar</button>' : '') +
@@ -15253,7 +15867,7 @@ function pfPreparar(lista, titulo) {
     '<span class="pf-tl"><input class="input" id="pf-est-t" placeholder="Estádio" list="dl-pf-est" autocomplete="off"><button type="button" class="btn sm" data-action="pf-te">Aplicar</button></span></div>' +
     sugestoes('dl-pf-col', pgEquipes()) + sugestoes('dl-pf-est', ['FLORAÇÃO', 'FRUTIFICAÇÃO', 'VEGETATIVO', 'POUSIO']) +
     '<div class="pf-cab"><span>Área</span><span>Nome do coletor</span><span>Estádio fenológico</span></div><div class="pf-lista">' + linhas + '</div>' +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button><button class="btn" data-action="pf-branco">Imprimir em branco</button><button class="btn primary" data-action="pf-imp">' + icoI('print') + 'Imprimir</button></div></div>', { noFocus: true });
+    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button>' + impBtn([{ a: 'pf-imp', t: 'Imprimir preenchida' }, { a: 'pf-branco', t: 'Imprimir em branco' }], { up: true }) + '</div></div>', { noFocus: true });
 }
 function pfAcao(act) {
   const pf = S._pf; if (!pf) return false;
@@ -16713,7 +17327,7 @@ function openNrmCl(rid) {
     '<div class="nrm-f" id="nrm-cl-f">' + nrmClFiltrosHTML(r) + '</div>' +
     '<input class="input nrm-q" id="nrm-cl-q" placeholder="Buscar por código ou texto" autocomplete="off" value="' + esc(f.q) + '">' +
     '<div id="nrm-cl-itens">' + nrmClItensHTML(r) + '</div>' +
-    '<div class="row-actions"><button class="btn" data-action="rnc-open" data-id="' + esc(rid) + '">Voltar à RNC</button><button class="btn" data-action="nrm-cl-print" data-id="' + esc(rid) + '">' + icoI('print') + 'Imprimir</button></div></div>', { noFocus: true });
+    '<div class="row-actions"><button class="btn" data-action="rnc-open" data-id="' + esc(rid) + '">Voltar à RNC</button>' + impBtn([{ a: 'nrm-cl-print', id: rid, t: 'Imprimir' }]) + '</div></div>', { noFocus: true });
 }
 function nrmClItensHTML(r) {
   const ed = nrmEdDe(r.edId); if (!ed) return '';
@@ -17575,8 +18189,8 @@ function openRzProg(id, pk) {
     sugestoes('dl-prg-col', pgEquipes()) + sugestoes('dl-prg-est', ['FLORAÇÃO', 'FRUTIFICAÇÃO', 'VEGETATIVO', 'POUSIO']) + sugestoes('dl-prg-prof', ['00-20', '00-30', '20-40']) +
     '<div class="prg-cab"><span><button type="button" class="fm-link" data-action="prg-todas">Marcar todas</button></span><span>Data prevista</span><span>Coletores</span><span>Pontos</span><span>Profund.</span><span>Estádio</span></div>' +
     '<div class="prg-lista">' + linhas + '</div>' +
-    '<div class="row-actions prg-ac"><span class="prg-cont" id="prg-cont">' + n + ' marcada(s)</span><button class="btn" data-action="close">Fechar</button><button class="btn" data-action="prg-branco">Imprimir em branco</button>' +
-    (pode ? '<button class="btn" data-action="prg-salvar">Salvar</button>' : '') + '<button class="btn primary" data-action="prg-imp">' + icoI('print') + 'Imprimir marcadas</button></div></div>', { noFocus: true });
+    '<div class="row-actions prg-ac"><span class="prg-cont" id="prg-cont">' + n + ' marcada(s)</span><button class="btn" data-action="close">Fechar</button>' +
+    (pode ? '<button class="btn" data-action="prg-salvar">Salvar</button>' : '') + impBtn([{ a: 'prg-imp', t: 'Imprimir as marcadas' }, { a: 'prg-branco', t: 'Imprimir em branco' }], { up: true }) + '</div></div>', { noFocus: true });
 }
 function prgLer() {
   const out = {};
@@ -18521,9 +19135,9 @@ function viewRelatorios() {
   const atalho = (act, id, t, d) => { const p = String(id).split('/'); return abaVisivel(S.user, p[0], p[1]) ? '<button class="rl-at" data-action="' + act + '"' + (id ? ' data-id="' + id + '"' : '') + '><b>' + t + '</b><small>' + d + '</small></button>' : ''; }; /* v2.98.1: só as áreas da atribuição */
   const verColetas = temAtrib(S.user, 'coletas');
   return (verColetas ? '<div class="rl-top"><div><h2 class="rl-tit">Coletas em aberto</h2><small>O que ainda não terminou: envio, laudo e solicitação de compra.</small></div><div class="dp-seg rl-seg"><button class="' + (tipo === 'campo' ? 'on' : '') + '" data-action="rl-tipo" data-id="campo">Campo</button><button class="' + (tipo === 'agua' ? 'on' : '') + '" data-action="rl-tipo" data-id="agua">Água</button></div>' +
-    '<button class="btn sm" data-action="rl-print">' + icoI('print') + 'Imprimir / PDF</button></div>' + relColHTML(tipo) : '') +
+    impBtn([{ a: 'rl-print', t: 'Imprimir / PDF' }]) + '</div>' + relColHTML(tipo) : '') +
     '<h3 class="rl-h rl-out">Outros relatórios</h3><div class="rl-ats">' + atalho('rl-ir', 'documentos/rel', 'Documentos', 'vencidos, a vencer, sem data') + atalho('rl-ir', 'rateios/painel', 'Painel de rateio', 'custo por período, cultura e laboratório') +
-    atalho('rl-ir', 'almox/apre', 'Almoxarifado do mês', 'consumo, compras, estoque') + atalho('rl-ir', 'inspecoes/reuniao', 'Reunião de sexta', 'apontamentos da semana') + (isPrincipal(S.user) ? atalho('rl-ir', 'qualidade/atividade', 'Atividade', 'tudo o que foi feito, por quem') : '') + atalho('rl-ir', 'qualidade/bugs', 'Bugs e sugestões', 'o que a equipe reportou') + '</div>';
+    atalho('rl-ir', 'almox/apre', 'Almoxarifado do mês', 'consumo, compras, estoque') + atalho('rl-ir', 'inspecoes/reuniao', 'Relatório de apontamentos', 'com filtros, para a reunião ou para mandar') + (isPrincipal(S.user) ? atalho('rl-ir', 'qualidade/atividade', 'Atividade', 'tudo o que foi feito, por quem') : '') + atalho('rl-ir', 'qualidade/bugs', 'Bugs e sugestões', 'o que a equipe reportou') + '</div>';
 }
 function rlImprimir() {
   const tipo = S.rlTipo || 'campo', t = 'Coletas em aberto — ' + (tipo === 'agua' ? 'Água' : 'Campo') + ' · ' + fmtD(hojeISO());
@@ -19364,7 +19978,7 @@ const AJ_PADRAO = {
   'aba:rateios/painel': 'Painel do rateio: os números principais num só lugar.',
   'aba:inspecoes/cloro': 'Verificação do cloro livre dos bebedouros e caixas d’água. De 0,20 a 2,00 ppm está conforme; abaixo disso pede aplicação e nova leitura em 24 h.',
   'aba:inspecoes/apont': 'Apontamentos de campo: registre o que viu, com foto e gravidade. A gravidade pode ser reclassificada pelo Principal.',
-  'aba:inspecoes/reuniao': 'Reunião de sexta: os apontamentos da semana e os pendentes de semanas anteriores, prontos para imprimir.',
+  'aba:inspecoes/reuniao': 'Relatório de apontamentos: filtre por período, categoria, área, gravidade, situação ou quem lançou, marque itens soltos e gere o PDF (A4 em pé, fotos no fim).',
   'aba:inspecoes/rnc': 'Auditoria interna: registro das não conformidades encontradas, por área.',
   'aba:documentos/rel': 'Relatórios dos documentos: situação e vencimentos num resumo.',
   'aba:documentos/cat': 'Catálogo dos documentos controlados, com a edição em vigor.',
@@ -19851,7 +20465,7 @@ function viewAlmApre() {
     '<h2>' + esc(alMesTxt(mes).charAt(0).toUpperCase() + alMesTxt(mes).slice(1)) + '</h2>' +
     '<button class="btn sm" data-action="al-mes" data-id="1" aria-label="Próximo mês"' + (alMesAnda(mes, 1) > hoje.slice(0, 7) ? ' disabled' : '') + '>›</button></div>' +
     '<div class="al-apre-ac">' + (mes !== hoje.slice(0, 7) ? '<button class="btn sm" data-action="al-mes" data-id="0">Mês atual</button>' : '') +
-    '<button class="btn sm" data-action="al-apre-print">' + icoI('print') + 'Imprimir / PDF</button></div></div>' +
+    impBtn([{ a: 'al-apre-print', t: 'Imprimir / PDF' }]) + '</div></div>' +
     '<div class="al-apre-sub">Laboratório · ' + d.itensAtivos + ' materiais ativos · fechamento em ' + fmtD(hoje) + '</div>';
   const kpis = '<div class="al-kcs">' +
     kpi(brl(d.gasto), 'Consumo do mês', 'var(--primary)', d.saidas.length + ' saída(s)') +
@@ -19964,7 +20578,7 @@ function abrirRefBtn(n) {
   if (n.refTipo === 'tarefa') return '<button class="btn primary" data-action="tf-ir" data-id="' + esc(n.refId) + '">Abrir a tarefa</button>'; /* v2.81.0 */
   if (n.refTipo === 'bug') return '<button class="btn primary" data-action="bug-ir" data-id="' + esc(n.refId) + '">Abrir</button>'; /* v2.80.0 */
   if (n.refTipo === 'cnq') return '<button class="btn primary" data-action="cnq-ver" data-id="' + esc(n.refId) + '">Ver as conquistas</button>';
-  if (n.refTipo === 'alm_trf_sem' && isSup(S.user)) return '<button class="btn primary" data-action="trf-rel" data-id="' + esc(n.refId) + '">' + icoI('print') + 'Imprimir o relatório</button>';
+  if (n.refTipo === 'alm_trf_sem' && isSup(S.user)) return '<button class="btn primary imp-bt" data-action="trf-rel" data-id="' + esc(n.refId) + '" title="Imprimir o relatório" aria-label="Imprimir o relatório">' + ico('print') + '</button>';
   if (n.refTipo === 'apont' && S.apont.some(r => r.id === n.refId)) return '<button class="btn primary" data-action="ap-open" data-id="' + esc(n.refId) + '">Abrir apontamento</button>';
   return '';
 }
@@ -20283,7 +20897,7 @@ async function doSetup() {
 }
 
 /* ============ SESSÃO ============ */
-function cleanupSession() { S.unsub.forEach(f => { try { f(); } catch {} }); S.unsub = []; S.rncGut = []; S.rncRisco = false; /* v2.102.12 */ S.conq = []; S.apontTeste = []; S.rncTeste = []; S.avatars = {}; S.cloroFaltas = {}; S.almMovErro = ''; S.bugF = null; S.cfgAgua = null; /* v2.99.1 (L8) */ S.tarefas = []; S.cfgTf = null; S.tf = null; S.bugs = []; S.cfgEmp = null; S._empMig = false; S.chat = []; S.chatF = 'todas'; S.cfgDoc = null; S.cfgBk = null; S.cfgArq = null; S.arqDados = null; S.arqVer = null; S.rnc = []; S.normas = []; S.normasEd = []; S.nrmF = null; S.nrmClF = null; S.nrmImpEd = null; S.rncNc = null; S.rncCf = null; S.almEq = []; S.almTransf = []; S.trf = null; S.trfR = null; S.qb = null; S.qbr = null; S.almCal = []; S.almInv = []; S.invNovo = null; S.invMot = null; S.invFreq = null; S.rcSel = null; S.rcF = null; S.eqF = 'todos'; S.eqEv = null; S.eqConf = null; S.rodizios = []; S.respEd = null; S.rzEd = null; S.aguaproj = []; S.aguapontos = []; S.pjEd = null; S.procs = []; S.procNovo = null; S.users = []; S.notifs = []; S.audit = []; S.aprov = []; S.resumos = []; S.docs = []; S.caixas = []; S.lanc = []; S.bebs = []; S.cloro = []; S.talhoes = []; S.analises = []; S.cfgCol = null; S.etqmodelos = []; S.apont = []; S.cfgAp = null; S.almItens = []; S.almMov = []; S.almSol = []; S.cfgAlm = null; S.almPref = null; S.almEquip = []; S.alMes = null; S.prog = []; S.coletas = []; S.aguacol = []; S.alerted = new Set(); S.testBanner = null; }
+function cleanupSession() { S.unsub.forEach(f => { try { f(); } catch {} }); S.unsub = []; S.rncGut = []; S.rncRisco = false; /* v2.102.12 */ S.rncPlano = []; S.rncPl = null; S.rncPlConf = null; /* v2.102.13 */ S.conq = []; S.apontTeste = []; S.rncTeste = []; S.avatars = {}; S.cloroFaltas = {}; S.almMovErro = ''; S.bugF = null; S.cfgAgua = null; /* v2.99.1 (L8) */ S.tarefas = []; S.cfgTf = null; S.tf = null; S.bugs = []; S.cfgEmp = null; S._empMig = false; S.chat = []; S.chatF = 'todas'; S.cfgDoc = null; S.cfgBk = null; S.cfgArq = null; S.arqDados = null; S.arqVer = null; S.rnc = []; S.normas = []; S.normasEd = []; S.nrmF = null; S.nrmClF = null; S.nrmImpEd = null; S.rncNc = null; S.rncCf = null; S.almEq = []; S.almTransf = []; S.trf = null; S.trfR = null; S.qb = null; S.qbr = null; S.almCal = []; S.almInv = []; S.invNovo = null; S.invMot = null; S.invFreq = null; S.rcSel = null; S.rcF = null; S.eqF = 'todos'; S.eqEv = null; S.eqConf = null; S.rodizios = []; S.respEd = null; S.rzEd = null; S.aguaproj = []; S.aguapontos = []; S.pjEd = null; S.procs = []; S.procNovo = null; S.users = []; S.notifs = []; S.audit = []; S.aprov = []; S.resumos = []; S.docs = []; S.caixas = []; S.lanc = []; S.bebs = []; S.cloro = []; S.talhoes = []; S.analises = []; S.cfgCol = null; S.etqmodelos = []; S.apont = []; S.cfgAp = null; S.almItens = []; S.almMov = []; S.almSol = []; S.cfgAlm = null; S.almPref = null; S.almEquip = []; S.alMes = null; S.prog = []; S.coletas = []; S.aguacol = []; S.alerted = new Set(); S.testBanner = null; }
 async function onAuth(id) {
   if (S.busy) return;
   cleanupSession();
@@ -20362,6 +20976,7 @@ function startSession() {
     if (t.id === 'tarefas' || t.id === 'meudia') renderDados(); }, { order: 'criadoEm', limit: 2000 })); /* v2.82: mais novas primeiro */
   S.unsub.push(Data.col('sv2_bugs').watch(list => { S.bugs = list; const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && t && (t.id === 'bugs' || t.id === 'rel')) renderDados(); }, { order: 'ts', limit: 500 })); /* v2.82 */
   if (isPrincipal(S.user)) S.unsub.push(Data.col('sv2_recup').watch(list => cadRecAvisar(list))); /* v2.74.0 · v2.91.0 (G7) */
+  S.unsub.push(Data.col('sv2_rnc_plano').watch(list => { S.rncPlano = list; if (curArea().id === 'inspecoes') renderDados(); })); /* v2.102.13 */
   S.unsub.push(Data.col('sv2_rnc_gut').watch(list => { S.rncGut = list; if (curArea().id === 'inspecoes') renderDados(); })); /* v2.102.12 */
   S.unsub.push(Data.col('sv2_rnc').watch(list => { S.rncTeste = list.filter(x => x.teste); S.rnc = list.filter(x => !x.teste); /* v2.75.0 */ if (curArea().id === 'inspecoes') renderDados(); })); /* v2.91.0 (G7) */
   S.unsub.push(Data.col('sv2_alm_transf').watch(list => { S.almTransf = list; if (curArea().id === 'almox') renderDados(); })); /* v2.91.0 (G7) */
@@ -20628,6 +21243,8 @@ document.addEventListener('change', e => {
   if (e.target.classList && (e.target.classList.contains('rz-area') || e.target.classList.contains('rz-an')) && S.rzEd) { rzEdLer(); const n = $('.rz-sel span'); if (n) n.textContent = S.rzEd.areas.size + ' marcada(s)'; rzResAtu(); }
   if (['cn-tal', 'cn-data', 'cn-lab', 'ce-mat', 'cn-an', 'cn-cult'].indexOf(e.target.id) >= 0 || e.target.classList.contains('cn-an')) colFormAtualiza();
   if (e.target.id === 'cn-an') colPrecoAtualiza(true); /* v2.102.4 */
+  if (e.target.id === 'ac-quando') acAviso(); /* v2.102.16 */
+  if (e.target.id === 'rn-de' || e.target.id === 'rn-ate') { const f = rnF(); f[e.target.id === 'rn-de' ? 'de' : 'ate'] = e.target.value; renderView(); } /* v2.102.14 */
   if (e.target.id === 'rt-ano' || e.target.id === 'rt-per') { S.rtF = S.rtF || {}; S.rtF[e.target.id === 'rt-ano' ? 'ano' : 'per'] = e.target.value; renderView(); }
   if (e.target.id === 'rj-lab' || e.target.id === 'rj-mat') { reajOpcoes(); reajPrevia(); }
   if (e.target.id === 'rj-an') reajPrevia();
@@ -21040,7 +21657,15 @@ document.addEventListener('click', e => {
     case 'ap-set-tg': apSetorToggle(id); break;
     case 'ap-set-desat': apSetorDesat(id); break;
     case 'rn-sem': { const h = apSegunda(hojeISO()); let n = addDias(S.rnSeg || h, +id); if (n > h) n = h; S.rnSeg = n; renderView(); break; }
-    case 'rn-print': apImprimirReuniao(); break;
+    case 'rn-print': apImprimirReuniao(id === 'marcados'); break;
+    case 'imp-pop': { const p = t.nextElementSibling; if (p) { const abre = p.hidden; impFechar(p); p.hidden = !abre; t.setAttribute('aria-expanded', abre ? 'true' : 'false'); } break; }
+    case 'rn-per': { const f = rnF(); f.per = id; if (id === 'datas' && !f.de) { f.de = addDias(hojeISO(), -6); f.ate = hojeISO(); } renderView(); break; } /* v2.102.14 */
+    case 'rn-filtro': openRnFiltro(id); break;
+    case 'rn-f-ok': { const f = rnF(); f[id] = $$('.rn-fck').filter(x => x.checked).map(x => x.value); closeSheet(); renderView(); break; }
+    case 'rn-f-limpar': { rnF()[id] = []; closeSheet(); renderView(); break; }
+    case 'rn-f-todos': { const f = rnF(); Object.keys(RN_FILTROS).forEach(k => { f[k] = []; }); renderView(); break; }
+    case 'rn-sel': { S.rnSel = S.rnSel || new Set(); if (S.rnSel.has(id)) S.rnSel.delete(id); else S.rnSel.add(id); renderView(); break; }
+    case 'rn-sel-limpar': S.rnSel = new Set(); renderView(); break;
     case 'nc-f': S.ncF = id; renderView(); break;
     case 'pw-toggle': { const i = $('#' + id); const show = i.type === 'password'; i.type = show ? 'text' : 'password'; t.textContent = show ? 'Ocultar' : 'Mostrar'; break; }
   }
