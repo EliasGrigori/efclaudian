@@ -456,7 +456,7 @@ body[data-theme="ponto"]::before{background:radial-gradient(rgba(60,60,110,.16) 
 .pl-pq{display:grid;gap:6px}.pl-pq label{display:grid;grid-template-columns:92px 1fr;align-items:center;gap:8px;font-size:12.5px;color:var(--text-muted)}
 @media(max-width:600px){.pl-pq label{grid-template-columns:1fr}}
 .pl-ro{margin:8px 0}.pl-ro span{display:block;font-size:11.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}.pl-ro p,.pl-ro ol{margin:2px 0 0;font-size:13.5px}.pl-ro ol{padding-left:18px}
-.pl-duas td{vertical-align:top;white-space:normal}.pl-chip{white-space:nowrap}.pl-ult{margin-top:8px}
+.pl-duas td{vertical-align:top;white-space:normal}.pl-chip{white-space:nowrap}.pl-ult{margin-top:8px}.cnt{display:block;margin-top:2px;font-size:.78em;color:var(--text-dim)}.cnt:empty{display:none}.cnt.lim{color:var(--crit)}.sheet .row-actions .ra-st{flex:0 0 100%;order:-1;text-align:right;font-size:.78em;color:var(--text-dim)}.ra-st:empty{display:none}.ra-aviso{margin:8px 0}
 /* v2.102.12: GUT na RNC */
 .anl-t{display:block;font-weight:600;color:var(--text);text-align:left}.anl-card .rnc-li-c{display:flex;flex-direction:row;flex-wrap:wrap;gap:4px;justify-content:flex-start;align-items:center}
 .anl-guia{margin-top:10px}.anl-ap{margin:10px 0}
@@ -464,8 +464,8 @@ body[data-theme="ponto"]::before{background:radial-gradient(rgba(60,60,110,.16) 
 #print-root .anl-ik{display:flex;flex-wrap:wrap;gap:3px 16px;margin:0 0 4px}#print-root .anl-ik i{display:block;font-style:normal;font-size:7pt;color:#666;text-transform:uppercase;letter-spacing:.03em}
 #print-root .anl-ip{margin:2px 0 4px;line-height:1.35}
 #print-root .anl-2{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;margin:0 0 4px}#print-root .anl-is h4{margin:0 0 2px;font-size:8pt;text-transform:uppercase;letter-spacing:.03em;color:#444}#print-root .anl-is p,#print-root .anl-is ol{margin:0}#print-root .anl-is ol{padding-left:16px}
-#print-root .ishi-fig.anl-fig{margin:0 0 2px}#print-root .ishi-fig.anl-fig svg{max-height:64mm;width:auto;margin:0 auto}
-#print-root .anl-t{width:100%;font-size:8pt;margin:2px 0 4px}#print-root .anl-t th,#print-root .anl-t td{padding:1px 6px;vertical-align:top}
+#print-root .ishi-fig.anl-fig{margin:0 0 2px}#print-root .ishi-fig.anl-fig svg{max-height:var(--fh,88mm);width:100%;margin:0 auto}
+#print-root .anl-t,#print-root .ishi-tb{width:100%;font-size:9pt;color:#111;margin:2px 0 4px}#print-root .anl-t th,#print-root .anl-t td,#print-root .ishi-tb th,#print-root .ishi-tb td{padding:1px 6px;vertical-align:top;text-align:left;color:#111}#print-root .ishi-tb td:first-child{white-space:nowrap}#print-root .ishi-tb tr.pri td{font-weight:700}
 .par-por{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
 .par-fig{margin:10px 0 6px;overflow-x:auto;border:1px solid var(--border);border-radius:var(--r-ctl);background:var(--surface)}.par-fig svg{display:block;width:100%;min-width:640px;height:auto}
 .par-res{font-size:.9em;color:var(--text-muted);margin:6px 0}.par-res b{color:var(--text)}
@@ -491,9 +491,9 @@ body[data-theme="ponto"]::before{background:radial-gradient(rgba(60,60,110,.16) 
 .ishi-fig{margin-top:10px;overflow-x:auto;border:1px solid var(--border);border-radius:var(--r-ctl);background:var(--surface)}.ishi-fig svg{display:block;width:100%;min-width:640px;height:auto}
 .ishi-svg{--is-l:var(--text-muted);--is-t:var(--text);--is-p:var(--primary);--is-h:var(--surface-2);--is-b:var(--border-light)}
 .ishi-svg .is-sp{stroke:var(--is-t);stroke-width:3}.ishi-svg .is-ar{fill:var(--is-t)}.ishi-svg .is-bn{stroke:var(--is-l);stroke-width:2}
-.ishi-svg .is-hd{fill:var(--is-h);stroke:var(--is-t);stroke-width:1.5}.ishi-svg .is-ht{fill:var(--is-t);font-size:15px;font-weight:600}
+.ishi-svg .is-hd{fill:var(--is-h);stroke:var(--is-t);stroke-width:1.5}.ishi-svg .is-ht{fill:var(--is-t);font-size:13px;font-weight:600}
 .ishi-svg .is-lb{fill:var(--is-h);stroke:var(--is-b)}.ishi-svg .is-lt{fill:var(--is-t);font-size:13px;font-weight:700}
-.ishi-svg .is-cl{stroke:var(--is-l);stroke-width:1}.ishi-svg .is-ct{fill:var(--is-t);font-size:10px}
+.ishi-svg .is-cl{stroke:var(--is-l);stroke-width:1}.ishi-svg .is-ct{fill:var(--is-t);font-size:11px}
 .ishi-svg .is-cl.is-p{stroke:var(--is-p);stroke-width:2.5}.ishi-svg .is-ct.is-p{fill:var(--is-p);font-weight:700}.ishi-svg .is-pc{fill:var(--is-p)}
 .pl-ro .ishi-fig{margin-top:6px}
 #print-root .ishi-svg{--is-l:#555;--is-t:#111;--is-p:#5b3fd6;--is-h:#f3f3f6;--is-b:#bbb}
@@ -2820,7 +2820,7 @@ body[data-theme="sunset"]::before{background:none}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.20 · Análise de problemas: 5 Porquês, Ishikawa, 5W2H, PDCA e eficácia para apontamentos e reclamações de cliente';
+const APP_VERSION = 'v2.102.22 · Ishikawa legível (letra maior, tabela de causas no PDF), contador de letras e limites maiores';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -3707,7 +3707,7 @@ function openSheet(html, opts) {
   const f = $('input,button.btn.primary', ov); if (f && !igual && !(opts && opts.noFocus)) { try { f.focus(); } catch (e) {} }
   return ov.firstChild;
 }
-function closeSheet() { const o = $('#ov'); if (o) o.parentNode.removeChild(o); const mn = $('#tf-menu'); if (mn && mn.dataset.k === 'men') mn.hidden = true; }
+function closeSheet() { try { raFecha(); } catch {} const o = $('#ov'); /* v2.102.21 */ if (o) o.parentNode.removeChild(o); const mn = $('#tf-menu'); if (mn && mn.dataset.k === 'men') mn.hidden = true; }
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !S.lockado) closeSheet(); });
 document.addEventListener('input', e => { if (e.target && e.target.id === 'rz-apelido') rzResAtu(); if (e.target && e.target.id === 'cn-preco') { e.target.setAttribute('data-man', '1'); colPrecoAtualiza(false); } }); /* v2.102.4: + preço da amostra */ /* v2.89.1 */ /* v2.87.0: com a tela bloqueada, Esc não mexe no que está por baixo */
 document.addEventListener('keydown', e => { const t = e.target; if (t && t.classList && t.classList.contains('os-in') && (e.key === 'Enter' || (e.key === 'Tab' && !e.shiftKey))) { e.preventDefault(); osProximo(t); } });
@@ -14083,7 +14083,7 @@ function openAnlNova(apId) {
   const c = a ? apCat(a.categoria) : null, us = anlUsuarios();
   const v = { titulo: a ? c.nome + ' · ' + a.setor : '', descricao: a ? (a.obs || '') : '', local: a ? a.setor : '', data: a ? a.data : hojeISO() };
   openSheet('<h3>Nova análise de problema</h3><div class="sub">' + (a ? 'Origem: apontamento de campo de ' + esc(fmtD(a.data)) + ' · ' + esc(a.porNome || '') : 'Origem: reclamação de cliente') + '</div><div id="ap-msg"></div>' +
-    '<div class="ap-sec" data-g="titulo">Problema <small>em uma frase</small></div><input class="input" id="anl-titulo" autocomplete="off" maxlength="120" value="' + esc(v.titulo) + '" placeholder="Ex.: mamão chegou com manchas de látex">' +
+    '<div class="ap-sec" data-g="titulo">Problema <small>em uma frase</small></div><input class="input" id="anl-titulo" autocomplete="off" maxlength="' + esc(ANL_TIT_MAX) + '" data-cnt="' + esc(ANL_TIT_MAX) + '" value="' + esc(v.titulo) + '" placeholder="Ex.: mamão chegou com manchas de látex">' + cntHTML('anl-titulo') +
     '<div class="ap-sec" data-g="desc">O que aconteceu</div><textarea class="input" id="anl-desc" rows="3" placeholder="O que, quando, quanto, como foi percebido">' + esc(v.descricao) + '</textarea>' +
     (a ? '' : '<div class="ap-sec" data-g="cli">Cliente</div><input class="input" id="anl-cli" autocomplete="off" placeholder="Quem reclamou">' +
       '<div class="fm-row"><div><label class="fm-l">Lote / produto</label><input class="input" id="anl-lote" autocomplete="off" placeholder="Ex.: lote 2026-10-14 · mamão formosa"></div><div><label class="fm-l">Como chegou</label><input class="input" id="anl-canal" autocomplete="off" list="anl-canal-l" placeholder="E-mail, telefone, visita…"><datalist id="anl-canal-l"><option value="E-mail"><option value="Telefone"><option value="WhatsApp"><option value="Visita"></datalist></div></div>') +
@@ -14091,7 +14091,8 @@ function openAnlNova(apId) {
     '<div class="ap-sec" data-g="resp">Responsável pela resposta <small>só ele escreve a análise e as ações</small></div><select class="input" id="anl-resp"><option value="">Escolha…</option>' + us.map(u => '<option value="' + esc(u.id) + '">' + esc(u.nome) + '</option>').join('') + '</select>' +
     '<div class="ap-sec" data-g="prazo">Prazo da análise</div><input class="input" type="date" id="anl-prazo" min="' + esc(hojeISO()) + '" value="' + esc(addDias(hojeISO(), 15)) + '">' +
     '<div class="row-actions"><button class="btn" data-action="' + (a ? 'anl-ap-volta' : 'close') + '"' + (a ? ' data-id="' + esc(a.id) + '"' : '') + '>Voltar</button><button class="btn primary" data-action="anl-nova-ok" data-id="' + esc(a ? a.id : '') + '">Abrir a análise</button></div>', { noFocus: true });
-  fmNumerar();
+  fmNumerar(); cntAtu($('#anl-titulo'));
+  raLigar('nova-' + (apId || 'recl'), raCampos(['anl-titulo', 'anl-desc', 'anl-cli', 'anl-lote', 'anl-canal', 'anl-local', 'anl-data', 'anl-resp', 'anl-prazo']), 0, { anc: '#anl-titulo', usar: raPreenche }); /* v2.102.21 */
 }
 async function anlNovaOk(apId) {
   if (!isSup(S.user)) return;
@@ -14114,6 +14115,7 @@ async function anlNovaOk(apId) {
     S.anl = (S.anl || []).filter(x => x.id !== id).concat([Object.assign({ id: id }, doc)]);
     Audit.log({ acao: 'anl_abrir', entidade: 'analise', entidadeId: id, resumo: 'Abriu a ' + doc.numero + ' (' + ANL_ORIG[doc.origem] + '): ' + doc.titulo + ' · responsável ' + doc.respNome + ' até ' + fmtD(doc.prazo) });
     if (doc.respId !== S.user.id) Notif.send({ nivel: 'aviso', titulo: 'Análise de problema para você', texto: doc.numero + ': ' + doc.titulo + ' — prazo ' + fmtD(doc.prazo) + '. Aberta por ' + S.user.nome + '.', para: [doc.respId], refTipo: 'analise', refId: id }).catch(() => {});
+    raFim('nova-' + (apId || 'recl')); /* v2.102.21 */
     S.anlSalvando = false; toast(doc.numero + ' aberta.', 'ok'); renderView(); openAnl(id);
   } catch (e) { S.anlSalvando = false; apMsg(errMsg(e)); }
 }
@@ -14150,6 +14152,7 @@ function openAnl(id, dados) {
       (lid ? '<button class="btn" data-action="anl-canc" data-id="' + esc(id) + '">Cancelar a análise</button><button class="btn" data-action="anl-efic" data-id="' + esc(id) + '">Verificar eficácia</button>' : '') +
       (ed ? '<button class="btn primary" data-action="anl-salvar" data-id="' + esc(id) + '">Salvar a análise</button>' : '') + '</div>', { noFocus: true });
   if (ed) { fmNumerar(); $$('.sheet .ishi-add .input').forEach(e => e.addEventListener('keydown', ev => { if (ev.key === 'Enter') { ev.preventDefault(); const bt = e.parentNode.querySelector('button'); if (bt) bt.click(); } })); }
+  if (ed) raLigar('anl:' + id, anlLer, x.rev || 0, { dados: !!dados, anc: '#pl-causa', usar: g => openAnl(id, Object.assign({}, anlDe(id), g)) }); /* v2.102.21 */
 }
 function anlLer() {
   const v = id => String((($('#' + id) || {}).value) || '').trim(), b = S.anlPl || {}, x = anlDe(b.id) || {}, ct = x.contencao || {};
@@ -14171,13 +14174,14 @@ async function anlSalvar() {
   const b = S.anlPl, x = b && anlDe(b.id); if (!x || !anlPodeEd(x)) return;
   const dados = anlLer(), f = anlFalta(dados), l = ishiAtivas(dados.ishi);
   if (!await anlGravar(x, dados, 'análise salva' + (dados.causa ? ' · causa: ' + dados.causa : '') + (dados.m6 ? ' (' + dados.m6 + ')' : '') + (l.length ? ' · Ishikawa: ' + l.length + ' causa(s)' + (ishiPriDe(dados) ? ', principal: ' + ishiPriDe(dados).t : '') : '') + (f.length ? ' · falta ' + f.join(', ') : ' · completa'))) return;
+  raFim('anl:' + x.id); /* v2.102.21 */
   toast('Análise salva' + (f.length ? ' (ainda falta ' + f.join(', ') + ').' : '.'), f.length ? '' : 'ok'); renderView(); openAnl(x.id);
 }
 function anlIshiMuda(op, id) {
   const b = S.anlPl, x = b && anlDe(b.id); if (!x || !anlPodeEd(x)) return;
   const dados = anlLer();
   if (op === 'add') {
-    const i = Number(id), m = RNC_6M[i], txt = String((($('#is-in-' + i) || {}).value) || '').trim().replace(/\s+/g, ' ').slice(0, 80), at = ishiAtivas(dados.ishi);
+    const i = Number(id), m = RNC_6M[i], txt = String((($('#is-in-' + i) || {}).value) || '').trim().replace(/\s+/g, ' ').slice(0, ISHI_TXT_MAX), at = ishiAtivas(dados.ishi);
     if (!m) return;
     if (txt.length < 3) { toast('Escreva a causa (pelo menos 3 letras).'); return; }
     if (at.filter(c => c.m === m).length >= ISHI_MAX) { toast('No máximo ' + ISHI_MAX + ' causas em ' + m + '.'); return; }
@@ -14221,6 +14225,7 @@ function openAnlAcao(id, acId) {
     '<div class="ap-sec" data-g="quanto">Quanto custa <small>opcional</small></div><input class="input" id="ac-quanto" autocomplete="off" value="' + esc(a.quanto || '') + '" placeholder="Ex.: R$ 120,00 ou sem custo">' +
     '<div class="row-actions"><button class="btn" data-action="anl-volta" data-id="' + esc(id) + '">Voltar</button><button class="btn primary" data-action="anl-ac-ok" data-id="' + esc(id) + '" data-ac="' + esc(a.id || '') + '">Salvar a ação</button></div>', { noFocus: true });
   fmNumerar();
+  raLigar('aa-' + id + '-' + (acId || 'nova'), raCampos(['ac-oque', 'ac-porque', 'ac-onde', 'ac-quem', 'ac-quando', 'ac-como', 'ac-quanto']), x.rev || 0, { anc: '#ac-oque', usar: raPreenche }); /* v2.102.21 */
 }
 async function anlAcaoSalvar(id, acId) {
   const x = anlDe(id); if (!x || !anlPodeEd(x)) return;
@@ -14239,6 +14244,7 @@ async function anlAcaoSalvar(id, acId) {
   S.anlPl = Object.assign(S.anlPl || {}, { id: id }); if (S.anlPl.rev0 == null) S.anlPl.rev0 = x.rev || 0;
   if (!await anlGravar(x, { acoes: lista }, (velha ? 'ação editada: ' : 'nova ação: ') + o.oque + ' · ' + o.quemNome + ' até ' + fmtD(o.quando))) return;
   if (o.quemId !== S.user.id && (!velha || velha.quemId !== o.quemId)) Notif.send({ nivel: 'aviso', titulo: 'Ação de análise com você', texto: x.numero + ' (' + x.titulo + '): ' + o.oque + ' — até ' + fmtD(o.quando) + '. Responsável pela resposta: ' + x.respNome + '.', para: [o.quemId], refTipo: 'analise', refId: x.id }).catch(() => {});
+  raFim('aa-' + id + '-' + (acId || 'nova')); /* v2.102.21 */
   toast('Ação salva.', 'ok'); anlVoltaTela(id);
 }
 function openAnlAcaoFim(id, acId, tipo) {
@@ -14302,6 +14308,7 @@ function openAnlEfic(id) {
     '<div class="fm-row"><div><label class="fm-l">Data</label><input class="input" type="date" id="anl-ef-d" value="' + esc(hojeISO()) + '" max="' + esc(hojeISO()) + '"></div></div>' +
     '<div class="row-actions"><button class="btn" data-action="anl-open" data-id="' + esc(id) + '">Voltar</button><button class="btn primary" data-action="anl-efic-ok" data-id="' + esc(id) + '">Salvar</button></div>', { noFocus: true });
   fmNumerar();
+  raLigar('ef-' + id, () => Object.assign(raCampos(['anl-ef-t', 'anl-ef-d'])(), { res: S.anlEf || '' }), x.rev || 0, { anc: '#anl-ef-t', usar: g => { raPreenche(g); if (g.res) { S.anlEf = g.res; $$('[data-action="anl-ef-ch"]').forEach(y => y.classList.toggle('on', y.getAttribute('data-id') === g.res)); } } }); /* v2.102.21 */
 }
 async function anlEficOk(id) {
   const x = anlDe(id); if (!x || !anlPodeLider(x)) return;
@@ -14317,6 +14324,7 @@ async function anlEficOk(id) {
   if (res === 'eficaz') Object.assign(patch, { situacao: 'concluida', concluidaEm: nowISO(), concluidaPor: S.user.nome });
   if (!await anlGravar(x, patch, (res === 'eficaz' ? 'eficaz, análise concluída' : 'não eficaz, continua aberta') + ' — ' + txt)) return;
   if (x.respId !== S.user.id) Notif.send({ nivel: 'aviso', titulo: res === 'eficaz' ? 'Análise concluída' : 'Análise: ação não foi eficaz', texto: x.numero + ': ' + x.titulo + ' — ' + txt, para: [x.respId], refTipo: 'analise', refId: id }).catch(() => {});
+  raFim('ef-' + id); /* v2.102.21 */
   toast(res === 'eficaz' ? x.numero + ' concluída.' : 'Registrado: não eficaz. A análise continua aberta.', 'ok'); renderView(); openAnl(id);
 }
 function openAnlCanc(id) {
@@ -14340,6 +14348,7 @@ function anlImprimir(id) {
   const l = ishiAtivas(x.ishi), pr = ishiPriDe(x), ac = (x.acoes || []).filter(a => a.st !== 'cancelada');
   const kv = [['Análise', x.numero], ['Origem', ANL_ORIG[x.origem] || ''], ['Data do problema', fmtD(x.data)], ['Local', x.local || '—'], ['Responsável pela resposta', x.respNome || '—'], ['Prazo', fmtD(x.prazo)], ['Situação', (ANL_SIT[x.situacao] || ANL_SIT.aberta)[0]]];
   const sec = (t, h) => '<div class="ar anl-is"><h4>' + esc(t) + '</h4>' + h + '</div>';
+  const figH = l.length ? '<div class="ar ishi-fig anl-fig" style="--fh:' + esc(ishiAlt(l)) + 'mm">' + ishiSVG(x.titulo, l, x.ishiPri) + '</div><div class="ar anl-ip"><b>Causa principal (Ishikawa):</b> ' + (pr ? esc(pr.m) + ': ' + esc(pr.t) : 'não marcada') + '</div>' + ishiTabHTML(l, x.ishiPri) : '', grande = ishiAlt(l) > 100; /* v2.102.22 */
   const body = '<div class="anl-imp">' +
     '<div class="ar anl-ik">' + kv.map(y => '<span><i>' + esc(y[0]) + '</i>' + esc(y[1]) + '</span>').join('') + '</div>' +
     '<div class="ar anl-ip"><b>Problema:</b> ' + esc(x.titulo) + (x.descricao ? '<br><b>O que aconteceu:</b> ' + esc(x.descricao) : '') +
@@ -14348,11 +14357,11 @@ function anlImprimir(id) {
     '<div class="ar anl-2">' + sec('Contenção', '<p>' + esc(x.contencao ? x.contencao.texto + ' (' + fmtD(x.contencao.data) + ', ' + (x.contencao.porNome || '') + ')' : '—') + '</p>') +
       sec('5 Porquês', (x.porques || []).filter(Boolean).length ? '<ol>' + x.porques.filter(Boolean).map(y => '<li>' + esc(y) + '</li>').join('') + '</ol>' : '<p>—</p>') +
       sec('Causa (raiz)', '<p>' + esc(x.causa || '—') + (x.m6 ? ' <b>(' + esc(x.m6) + ')</b>' : '') + '</p>') + '</div>' +
-    (l.length ? '<div class="ar ishi-fig anl-fig">' + ishiSVG(x.titulo, l, x.ishiPri) + '</div><div class="ar anl-ip"><b>Causa principal (Ishikawa):</b> ' + (pr ? esc(pr.m) + ': ' + esc(pr.t) : 'não marcada') + '</div>' : '') +
+    (grande ? '' : figH) +
     '<table class="t anl-t ar"><thead><tr><th>Plano de ação (5W2H)</th><th>Quem</th><th>Quando</th><th>Situação</th></tr></thead><tbody>' +
       (ac.length ? ac.map(a => '<tr><td><b>' + esc(a.oque) + '</b>' + [a.como, a.quanto].filter(Boolean).map(y => ' · ' + esc(y)).join('') + '</td><td>' + esc(a.quemNome || '') + '</td><td>' + esc(fmtD(a.quando)) + '</td><td>' + esc(PL_AC_ST[acaoSt(a)][0]) + (a.st === 'feita' ? ' em ' + esc(fmtD(a.feitaEm)) : '') + '</td></tr>').join('') : '<tr><td colspan="4">Nenhuma ação ainda.</td></tr>') + '</tbody></table>' +
     '<div class="ar anl-ip"><b>Eficácia:</b> ' + (x.efic ? (x.efic.res === 'eficaz' ? 'Eficaz' : 'Não eficaz') + ' · ' + esc(fmtD(x.efic.data)) + ' · ' + esc(x.efic.porNome || '') + ': ' + esc(x.efic.texto || '') : 'ainda não verificada') +
-      (x.situacao === 'cancelada' ? '<br><b>Cancelada:</b> ' + esc(fmtD(x.cancEm)) + ' · ' + esc(x.cancPor || '') + ': ' + esc(x.cancMotivo || '') : '') + '</div></div>';
+      (x.situacao === 'cancelada' ? '<br><b>Cancelada:</b> ' + esc(fmtD(x.cancEm)) + ' · ' + esc(x.cancPor || '') + ': ' + esc(x.cancMotivo || '') : '') + '</div>' + (grande ? figH : '') + '</div>';
   Audit.log({ acao: 'imprimir', entidade: 'analise', entidadeId: id, resumo: 'Imprimiu a ' + x.numero });
   runPrint(body, 'Análise de problema — ' + x.numero);
 }
@@ -14481,26 +14490,50 @@ function ishiQuebra(s, max, linhas) {
   if (out.length > linhas) { out.length = linhas; out[linhas - 1] = out[linhas - 1].slice(0, max - 1) + '…'; }
   return out.map(x => x.length > max ? x.slice(0, max - 1) + '…' : x);
 }
-/* espinha de peixe: cabeça = a NC; 3 espinhas em cima e 3 embaixo; a causa principal em destaque */
+/* espinha de peixe: cabeça = a NC; 3 espinhas em cima e 3 embaixo; a causa principal em destaque.
+   v2.102.22: letra maior, até 2 linhas por causa (28 letras cada) e altura que acompanha o número de causas; o texto inteiro vai no <title> e, no PDF, na tabela de causas */
+const ISHI_TXT_MAX = 120, ANL_TIT_MAX = 200, ISHI_LIN = 28;
+function ishiCortada(t) { return ishiQuebra(t, ISHI_LIN, 2).join(' ') !== String(t || '').replace(/\s+/g, ' ').trim(); }
 function ishiSVG(ncTxt, l, pri) {
-  const W = 1000, Y = 220, xs = [320, 535, 750], cut = (s, n) => s.length > n ? s.slice(0, n - 1) + '…' : s;
-  let o = '<svg class="ishi-svg" viewBox="0 0 ' + W + ' 440" role="img" aria-label="Diagrama de Ishikawa"><line class="is-sp" x1="50" y1="' + Y + '" x2="790" y2="' + Y + '"/><path class="is-ar" d="M790 ' + (Y - 9) + ' L806 ' + Y + ' L790 ' + (Y + 9) + 'Z"/>';
-  const cab = ishiQuebra(ncTxt, 22, 6);
-  o += '<rect class="is-hd" x="808" y="' + (Y - 82) + '" width="184" height="164" rx="4"/>' + cab.map((t, i) => '<text class="is-ht" x="900" y="' + (Y - (cab.length - 1) * 9.5 + i * 19 + 5) + '" text-anchor="middle">' + esc(t) + '</text>').join('');
+  const W = 1000, SP = 34, T = 40, xs = [330, 545, 760];
+  const mx = Math.max.apply(null, [0].concat(RNC_6M.map(m => Math.min(ISHI_MAX, l.filter(c => c.m === m).length))));
+  const H = Math.max(84, (mx + 1) * SP), Y = T + H, VH = Y + H + 36;
+  let o = '<svg class="ishi-svg" viewBox="0 0 ' + W + ' ' + VH + '" role="img" aria-label="Diagrama de Ishikawa"><line class="is-sp" x1="50" y1="' + Y + '" x2="790" y2="' + Y + '"/><path class="is-ar" d="M790 ' + (Y - 9) + ' L806 ' + Y + ' L790 ' + (Y + 9) + 'Z"/>';
+  const cab = ishiQuebra(ncTxt, 26, 9);
+  o += '<rect class="is-hd" x="808" y="' + (Y - 82) + '" width="184" height="164" rx="4"/>' + cab.map((t, i) => '<text class="is-ht" x="900" y="' + (Y - (cab.length - 1) * 8 + i * 16 + 4) + '" text-anchor="middle">' + esc(t) + '</text>').join('');
   RNC_6M.forEach((m, k) => {
-    const cima = k < 3, xa = xs[k % 3], xe = xa - 150, ye = cima ? 44 : 396;
+    const cima = k < 3, xa = xs[k % 3], xe = xa - 150, ye = cima ? T : Y + H;
     o += '<line class="is-bn" x1="' + xa + '" y1="' + Y + '" x2="' + xe + '" y2="' + ye + '"/>';
     o += '<rect class="is-lb" x="' + (xe - 62) + '" y="' + (cima ? ye - 32 : ye + 4) + '" width="124" height="26" rx="3"/><text class="is-lt" x="' + xe + '" y="' + (cima ? ye - 14 : ye + 22) + '" text-anchor="middle">' + esc(m) + '</text>';
     const cs = l.filter(c => c.m === m).slice(0, ISHI_MAX), n = cs.length;
     cs.forEach((c, i) => {
-      const f = (i + 1) / (n + 1), x = xe + (xa - xe) * f, y = ye + (Y - ye) * f, p = c.id === pri;
-      o += '<line class="is-cl' + (p ? ' is-p' : '') + '" x1="' + (x - 128).toFixed(1) + '" y1="' + y.toFixed(1) + '" x2="' + x.toFixed(1) + '" y2="' + y.toFixed(1) + '"/>' +
-        '<text class="is-ct' + (p ? ' is-p' : '') + '" x="' + (x - 6).toFixed(1) + '" y="' + (y - 4).toFixed(1) + '" text-anchor="end"><title>' + esc(c.t) + '</title>' + esc(cut(c.t, 32)) + '</text>' +
+      const f = (i + 1) / (n + 1), x = xe + (xa - xe) * f, y = ye + (Y - ye) * f, p = c.id === pri, ln = ishiQuebra(c.t, ISHI_LIN, 2);
+      const ax = x - 6 - (cima ? ln.length * 9 : 0); /* nas espinhas de cima o texto sobe junto da linha da espinha: afasta um pouco */
+      o += '<line class="is-cl' + (p ? ' is-p' : '') + '" x1="' + (x - 190).toFixed(1) + '" y1="' + y.toFixed(1) + '" x2="' + x.toFixed(1) + '" y2="' + y.toFixed(1) + '"/>' +
+        '<g class="is-cg"><title>' + esc(c.t) + '</title>' + ln.map((t, j) => '<text class="is-ct' + (p ? ' is-p' : '') + '" x="' + ax.toFixed(1) + '" y="' + (y - 4 - (ln.length - 1 - j) * 12).toFixed(1) + '" text-anchor="end">' + esc(t) + '</text>').join('') + '</g>' +
         (p ? '<circle class="is-pc" cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="5"/>' : '');
     });
   });
   return o + '</svg>';
 }
+/* altura (mm) do desenho no PDF da análise: poucas causas = menor, para a página 1 levar também o plano; 3 ou mais num M = folha inteira (o PDF põe o desenho depois do plano) */
+function ishiAlt(l) { const mx = Math.max.apply(null, [0].concat(RNC_6M.map(m => l.filter(c => c.m === m).length))); return mx <= 2 ? 66 : 136; }
+/* tabela das causas por extenso: só quando alguma não coube inteira no desenho */
+function ishiTabHTML(l, pri) {
+  if (!l.some(c => ishiCortada(c.t))) return '';
+  return '<table class="t ishi-tb ar"><thead><tr><th>Categoria (6M)</th><th>Causa possível (texto completo)</th><th>Principal</th></tr></thead><tbody>' +
+    RNC_6M.map(m => l.filter(c => c.m === m).map(c => '<tr' + (c.id === pri ? ' class="pri"' : '') + '><td>' + esc(m) + '</td><td>' + esc(c.t) + '</td><td>' + (c.id === pri ? 'Sim' : '') + '</td></tr>').join('')).join('') + '</tbody></table>';
+}
+/* contador de letras: só aparece quando falta pouco (um quarto do limite) ou quando o limite foi atingido */
+const cntHTML = id => '<small class="cnt" data-cnt-for="' + esc(id) + '" role="status"></small>';
+function cntAtu(e) {
+  if (!e || !e.getAttribute) return;
+  const mx = Number(e.getAttribute('data-cnt')) || 0, c = mx && e.id ? $('[data-cnt-for="' + e.id + '"]') : null; if (!c) return;
+  const r = mx - String(e.value || '').length;
+  c.textContent = r <= 0 ? 'Limite de ' + mx + ' letras atingido.' : r <= Math.round(mx * 0.25) ? 'Restam ' + r + ' letras.' : '';
+  c.classList.toggle('lim', r <= 0);
+}
+document.addEventListener('input', e => { if (e.target && e.target.hasAttribute && e.target.hasAttribute('data-cnt')) cntAtu(e.target); });
 function ishiEdHTML(nc, pede, b, pre) { /* v2.102.20: b = estado da tela, pre = prefixo das ações (rnc | anl) */
   b = b || S.rncPl; pre = pre || 'rnc'; const l = ishiAtivas(b.ishi);
   return '<div class="ap-sec" data-g="ishi">Diagrama de Ishikawa (6M) <small>' + (pede ? 'causas possíveis por categoria · marque a principal' : 'opcional · causas possíveis por categoria') + '</small></div>' +
@@ -14508,7 +14541,7 @@ function ishiEdHTML(nc, pede, b, pre) { /* v2.102.20: b = estado da tela, pre = 
       const cs = l.filter(c => c.m === m);
       return '<div class="ishi-m"><div class="ishi-mh">' + esc(m) + '<small>' + esc(cs.length) + '/' + esc(ISHI_MAX) + '</small></div>' +
         cs.map(c => { const p = c.id === b.ishiPri; return '<div class="ishi-c' + (p ? ' pri' : '') + '"><span>' + esc(c.t) + '</span><button type="button" class="ishi-pb" data-action="' + esc(pre) + '-is-pri" data-id="' + esc(c.id) + '" aria-pressed="' + (p ? 'true' : 'false') + '" title="' + (p ? 'Causa principal (toque para desmarcar)' : 'Marcar como causa principal') + '">' + (p ? 'Principal' : 'Marcar') + '</button><button type="button" class="ishi-x" data-action="' + esc(pre) + '-is-x" data-id="' + esc(c.id) + '" title="Tirar esta causa" aria-label="Tirar esta causa">×</button></div>'; }).join('') +
-        (cs.length < ISHI_MAX ? '<div class="ishi-add"><input class="input" id="is-in-' + esc(i) + '" maxlength="80" autocomplete="off" placeholder="Causa possível"><button type="button" class="btn sm" data-action="' + esc(pre) + '-is-add" data-id="' + esc(i) + '" title="Pôr a causa em ' + esc(m) + '" aria-label="Pôr a causa em ' + esc(m) + '">+</button></div>' : '') + '</div>';
+        (cs.length < ISHI_MAX ? '<div class="ishi-add"><input class="input" id="is-in-' + esc(i) + '" maxlength="' + esc(ISHI_TXT_MAX) + '" data-cnt="' + esc(ISHI_TXT_MAX) + '" autocomplete="off" placeholder="Causa possível"><button type="button" class="btn sm" data-action="' + esc(pre) + '-is-add" data-id="' + esc(i) + '" title="Pôr a causa em ' + esc(m) + '" aria-label="Pôr a causa em ' + esc(m) + '">+</button></div>' + cntHTML('is-in-' + i) : '') + '</div>';
     }).join('') + '</div>' +
     (l.length ? '<div class="ishi-fig">' + ishiSVG(nc.nc, l, b.ishiPri) + '</div>' : '');
 }
@@ -14520,7 +14553,7 @@ function ishiMuda(op, id) {
   const b = S.rncPl; if (!b) return; const { r, nc } = planoNc(b.rid, b.ncId); if (!r || !nc || !planoPodeEditar(r, nc)) return;
   const dados = planoLer();
   if (op === 'add') {
-    const i = Number(id), m = RNC_6M[i], txt = String((($('#is-in-' + i) || {}).value) || '').trim().replace(/\s+/g, ' ').slice(0, 80), at = ishiAtivas(dados.ishi);
+    const i = Number(id), m = RNC_6M[i], txt = String((($('#is-in-' + i) || {}).value) || '').trim().replace(/\s+/g, ' ').slice(0, ISHI_TXT_MAX), at = ishiAtivas(dados.ishi);
     if (!m) return;
     if (txt.length < 3) { toast('Escreva a causa (pelo menos 3 letras).'); return; }
     if (at.filter(c => c.m === m).length >= ISHI_MAX) { toast('No máximo ' + ISHI_MAX + ' causas em ' + m + '.'); return; }
@@ -14547,7 +14580,7 @@ function ishiImprimir(rid, ncId) {
     '<div class="ar ishi-ik">' + kv.map(x => '<span><i>' + esc(x[0]) + '</i>' + esc(x[1]) + '</span>').join('') + '</div>' +
     '<div class="ar ishi-ip"><b>Não conformidade:</b> ' + esc(nc.nc) + '</div>' +
     '<div class="ar ishi-fig">' + ishiSVG(nc.nc, l, d.ishiPri) + '</div>' +
-    '<div class="ar ishi-ic"><span><i>Causa principal (Ishikawa)</i>' + (pr ? esc(pr.m) + ': ' + esc(pr.t) : 'não marcada') + '</span><span><i>Causa (raiz) da análise</i>' + esc(d.causa || '—') + '</span></div></div>';
+    '<div class="ar ishi-ic"><span><i>Causa principal (Ishikawa)</i>' + (pr ? esc(pr.m) + ': ' + esc(pr.t) : 'não marcada') + '</span><span><i>Causa (raiz) da análise</i>' + esc(d.causa || '—') + '</span></div>' + ishiTabHTML(l, d.ishiPri) + '</div>';
   Audit.log({ acao: 'imprimir', entidade: 'rnc', entidadeId: rid, resumo: 'Imprimiu o Ishikawa da ' + r.numero + ' · ' + rncNum(nc.n) });
   runPrint(body, 'Ishikawa — ' + r.numero + ' · ' + rncNum(nc.n));
 }
@@ -14617,6 +14650,7 @@ function openPlanoAcao(rid, ncId, acId) {
     '<div class="ap-sec" data-g="quanto">Quanto custa <small>opcional</small></div><input class="input" id="ac-quanto" autocomplete="off" value="' + esc(a.quanto || '') + '" placeholder="Ex.: R$ 120,00 ou sem custo">' +
     '<div class="row-actions"><button class="btn" data-action="rnc-plano-volta" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Voltar</button><button class="btn primary" data-action="rnc-ac-ok" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '" data-ac="' + esc(a.id || '') + '">Salvar a ação</button></div>', { noFocus: true });
   fmNumerar(); acAviso();
+  raLigar('ac-' + ncId + '-' + (acId || 'nova'), raCampos(['ac-oque', 'ac-porque', 'ac-onde', 'ac-quem', 'ac-quando', 'ac-como', 'ac-quanto']), p.rev || 0, { anc: '#ac-oque', usar: d => { raPreenche(d); acAviso(); } }); /* v2.102.21 */
 }
 function acAviso() {
   const b = S.rncAc, r = b && rncDe(b.rid), e = $('#ac-aviso'), q = (($('#ac-quando') || {}).value) || ''; if (!e || !r) return;
@@ -14652,6 +14686,7 @@ async function acaoSalvar(rid, ncId, acId) {
   if (!await planoGravarAcoes(r, nc, lista, (velha ? 'ação editada: ' : 'nova ação: ') + o.oque + ' · ' + o.quemNome + ' até ' + fmtD(o.quando) + (fora ? ' (depois do prazo da RNC)' : ''))) return;
   if (o.quemId !== S.user.id && (!velha || velha.quemId !== o.quemId)) Notif.send({ nivel: 'aviso', titulo: 'Ação de NC com você', texto: r.numero + ' · ' + rncNum(nc.n) + ' (' + nc.local + '): ' + o.oque + ' — até ' + fmtD(o.quando) + '. Responsável pela resposta: ' + planoResp(r, nc).nome + '.', para: [o.quemId], refTipo: 'rnc_acao', refId: r.id }).catch(() => {});
   toast('Ação salva' + (fora ? ' (passa do prazo da RNC, ' + fmtD(r.prazo) + ').' : '.'), fora ? '' : 'ok');
+  raFim('ac-' + ncId + '-' + (acId || 'nova')); /* v2.102.21 */
   planoVolta(rid, ncId);
 }
 function openAcaoFim(rid, ncId, acId, tipo) {
@@ -14678,15 +14713,78 @@ async function acaoFim(rid, ncId, acId, tipo) {
 }
 const PL_RASC = ncId => 'sv2-rpl-' + ncId; /* texto guardado no aparelho até a nuvem confirmar (Nº 33: recusa sem perder o texto) */
 function planoRascunho(ncId) { try { return JSON.parse(Store.get(PL_RASC(ncId)) || 'null'); } catch { return null; } }
+/* ============ v2.102.21 — rascunho automático: o que você digita fica guardado neste aparelho até a nuvem confirmar ============ */
+const RA = { ch: '', ler: null, anc: '', rev: 0, base: '', pend: false, t: 0, bases: {} };
+const RA_PAUSA = 800, RA_DIAS = 30;
+function raKey(ch) { return ch.indexOf('pl:') === 0 ? PL_RASC(ch.slice(3)) : 'sv2-ra-' + ((S.user && S.user.id) || '') + '-' + ch; }
+function raLer(ch) { try { const o = JSON.parse(Store.get(raKey(ch)) || 'null'); return o && o.dados && (!o.por || !S.user || o.por === S.user.id) ? o : null; } catch { return null; } }
+function raApagar(ch) { try { Store.del(raKey(ch)); } catch {} }
+function raEstado(t) { const e = $('#ra-st'); if (e) e.textContent = t || ''; }
+function raAgenda(ms) { clearTimeout(RA.t); if (RA.ch) RA.t = setTimeout(raGuardar, ms == null ? RA_PAUSA : ms); }
+function raGuardar() {
+  clearTimeout(RA.t); RA.t = 0;
+  if (!RA.ch || !RA.ler || RA.pend || !S.user) return;
+  if (RA.anc && !$(RA.anc)) return; /* a tela já saiu: nada para ler */
+  let d, js; try { d = RA.ler(); js = JSON.stringify(d); } catch { return; }
+  if (js === RA.base) { if (raLer(RA.ch)) raApagar(RA.ch); raEstado(''); return; } /* igual ao que está na nuvem: não há o que guardar (rascunho de outra pessoa não se mexe) */
+  const dt = new Date(), hm = String(dt.getHours()).padStart(2, '0') + ':' + String(dt.getMinutes()).padStart(2, '0');
+  try { Store.set(raKey(RA.ch), JSON.stringify({ auto: true, por: S.user.id, base: RA.rev, rev: RA.rev + 1, ts: nowISO(), dados: d })); raEstado('Rascunho guardado neste aparelho às ' + hm + '.'); } catch {}
+}
+/* liga o rascunho a uma tela já aberta. o.dados = a tela foi desenhada com texto da tela/rascunho (não da nuvem); o.pend = há aviso esperando resposta;
+   o.usar = função que põe o texto guardado de volta (telas pequenas e Análise de problemas) */
+function raLigar(ch, ler, rev, o) {
+  o = o || {}; clearTimeout(RA.t);
+  let js = ''; try { js = JSON.stringify(ler()); } catch {}
+  if (!o.dados) RA.bases[ch] = js;
+  RA.ch = ch; RA.ler = ler; RA.anc = o.anc || ''; RA.rev = rev || 0; RA.pend = !!o.pend;
+  RA.base = o.dados ? (RA.bases[ch] != null ? RA.bases[ch] : '') : js;
+  const l = $$('.sheet .row-actions'), ra = l[l.length - 1];
+  if (ra && !$('#ra-st')) ra.insertAdjacentHTML('afterbegin', '<span class="ra-st" id="ra-st" role="status"></span>'); /* v2.102.22: dentro da barra de botões */
+  if (!o.dados && o.pend) { /* aviso do HTML da RNC: se o texto guardado já é igual ao da nuvem, não há o que oferecer */
+    const g = raLer(ch);
+    if (g && g.auto && JSON.stringify(g.dados) === js) { raApagar(ch); RA.pend = false; const b = $('.pl-rasc'); if (b) b.remove(); }
+  }
+  if (!o.dados && o.usar) RA.pend = raAviso(ch, o.usar);
+  if (o.dados) raAgenda(60); /* a tela veio de um texto que ainda não está na nuvem: renova o rascunho */
+}
+function raAviso(ch, usar) {
+  const d = raLer(ch), m = $('#ap-msg'); if (!d || !m) return false;
+  if (JSON.stringify(d.dados) === RA.base) { raApagar(ch); return false; }
+  const e = document.createElement('div'); e.className = 'msg info ra-aviso';
+  e.appendChild(document.createTextNode('Há um texto seu que não chegou à nuvem (de ' + fmtDT(d.ts) + ').' + (d.base != null && d.base < RA.rev ? ' Atenção: outra pessoa salvou depois.' : '') + ' '));
+  const u = document.createElement('button'); u.type = 'button'; u.className = 'btn sm ra-usar'; u.textContent = 'Usar o texto guardado';
+  const x = document.createElement('button'); x.type = 'button'; x.className = 'fm-link ra-x'; x.textContent = 'Descartar';
+  u.addEventListener('click', () => { RA.pend = false; e.remove(); usar(d.dados); raAgenda(60); });
+  x.addEventListener('click', () => { RA.pend = false; raApagar(ch); e.remove(); raEstado(''); });
+  e.appendChild(u); e.appendChild(x); m.insertAdjacentElement('afterend', e);
+  return true;
+}
+/* a nuvem confirmou: o rascunho some */
+function raFim(ch) { if (RA.ch === ch) { clearTimeout(RA.t); RA.ch = ''; RA.ler = null; RA.pend = false; } delete RA.bases[ch]; if (raLer(ch)) raApagar(ch); }
+/* a janela vai fechar ou ser desenhada de novo: guarda o que está na tela e solta */
+function raFecha() { try { raGuardar(); } catch {} clearTimeout(RA.t); RA.ch = ''; RA.ler = null; RA.pend = false; }
+const raCampos = ids => () => { const o = {}; ids.forEach(i => { const e = $('#' + i); if (e) o[i] = e.value; }); return o; };
+function raPreenche(d) { Object.keys(d || {}).forEach(i => { const e = $('#' + i); if (e && typeof d[i] === 'string') e.value = d[i]; }); $$('.sheet [data-cnt]').forEach(cntAtu); }
+function raLimpar() { /* rascunhos com mais de 30 dias saem */
+  try {
+    const lim = Date.now() - RA_DIAS * 864e5, ks = [];
+    for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && (k.indexOf('sv2-ra-') === 0 || k.indexOf('sv2-rpl-') === 0)) ks.push(k); }
+    ks.forEach(k => { let o = null; try { o = JSON.parse(localStorage.getItem(k) || 'null'); } catch {} const t = o && o.ts ? Date.parse(o.ts) : 0; if (!t || t < lim) Store.del(k); });
+  } catch {}
+}
+['input', 'change', 'click'].forEach(ev => document.addEventListener(ev, e => { if (RA.ch && e.target && e.target.closest && e.target.closest('.sheet')) raAgenda(); }, true));
+document.addEventListener('visibilitychange', () => { if (document.hidden) raGuardar(); });
+window.addEventListener('pagehide', () => raGuardar());
+setTimeout(raLimpar, 6000);
 function planoNc(rid, ncId) { const r = rncDe(rid); return r ? { r: r, nc: (r.ncs || []).find(x => x.id === ncId && !x.cancelada) } : {}; }
 function openRncPlano(rid, ncId, dados) {
   const { r, nc } = planoNc(rid, ncId); if (!r || !nc) return;
   const p = planoDe(ncId), ed = planoPodeEditar(r, nc), resp = planoResp(r, nc), fx = planoFaixa(nc), g = gutDe(nc.id), F = GUT_FX[fx];
   const d = dados || p || {};
   S.rncPl = { rid: rid, ncId: ncId, rev0: p ? (p.rev || 0) : 0, m6: d.m6 || '', ishi: (d.ishi || []).map(c => Object.assign({}, c)), ishiPri: d.ishiPri || '', outra: d.outra && (d.outra.sim === true || d.outra.sim === false) ? d.outra.sim : null };
-  const rasc = ed && !dados ? planoRascunho(ncId) : null;
-  if (rasc && !(rasc.rev > (p ? p.rev || 0 : 0))) { Store.del(PL_RASC(ncId)); }
-  const temRasc = rasc && rasc.rev > (p ? p.rev || 0 : 0);
+  const crev = p ? p.rev || 0 : 0, rasc = ed && !dados ? planoRascunho(ncId) : null; /* v2.102.21: rascunho automático (auto) fica até salvar ou descartar */
+  const temRasc = !!rasc && (rasc.auto ? (!rasc.por || rasc.por === S.user.id) : rasc.rev > crev);
+  if (rasc && !temRasc && !rasc.auto) { Store.del(PL_RASC(ncId)); }
   const pq = (d.porques || []).concat(['', '', '', '', '']).slice(0, 5), ct = d.contencao || {}, falta = planoFalta(nc, d);
   const ro = (t, v) => v ? '<div class="pl-ro"><span>' + esc(t) + '</span><p>' + esc(v) + '</p></div>' : '';
   const corpo = ed ?
@@ -14708,13 +14806,14 @@ function openRncPlano(rid, ncId, dados) {
     '<div class="rnc-ncc g-' + esc(nc.grav) + '"><p>' + esc(nc.nc) + '</p></div>' +
     '<div class="pl-resp"><span>Responsável pela resposta: <b>' + esc(resp.nome || '—') + '</b></span>' + (planoPodeTrocar(r, nc) ? '<button type="button" class="btn sm" data-action="rnc-pl-resp" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Trocar</button>' : '') + '</div>' +
     '<div class="pl-pede ' + (falta.length ? 'warn' : 'ok') + '"><b>Risco ' + esc(F[0]) + ': a análise pede ' + planoPede(fx).map(k => PL_FALTA_TXT[k]).join(', ') + '.</b>' + (falta.length ? ' Falta: ' + falta.map(k => PL_FALTA_TXT[k]).join(', ') + '.' : ' Completa.') + '</div>' +
-    (temRasc ? '<div class="msg info pl-rasc">Há um texto seu desta análise que não chegou à nuvem (de ' + esc(fmtDT(rasc.ts)) + '). <button type="button" class="btn sm" data-action="rnc-pl-rasc" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Usar o texto guardado</button> <button type="button" class="fm-link" data-action="rnc-pl-rasc-x" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Descartar</button></div>' : '') +
+    (temRasc ? '<div class="msg info pl-rasc">Há um texto seu desta análise que não chegou à nuvem (de ' + esc(fmtDT(rasc.ts)) + ').' + (rasc.auto && rasc.base != null && rasc.base < crev ? ' Atenção: outra pessoa salvou esta análise depois.' : '') + ' <button type="button" class="btn sm" data-action="rnc-pl-rasc" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Usar o texto guardado</button> <button type="button" class="fm-link" data-action="rnc-pl-rasc-x" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Descartar</button></div>' : '') +
     (!ed && rncPlanoAberto(r) ? '<p class="fm-dica">Só ' + esc(resp.nome || 'o responsável') + ' escreve esta análise. Para comentar, use a conversa da RNC.</p>' : '') +
     pdcaHTML(r, nc, d) + /* v2.102.16/17 */
     corpo + acoesHTML(r, nc, ed) + (p ? '<p class="fm-dica pl-ult">Última alteração: ' + esc(p.porNome || '') + ' · ' + esc(fmtDT(p.em)) + '</p>' : '') +
     '<div class="row-actions"><button class="btn" data-action="rnc-open" data-id="' + esc(rid) + '">Voltar</button>' + (ishiAtivas(d.ishi).length ? '<button class="btn" data-action="rnc-is-pdf" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '" title="PDF do diagrama de Ishikawa (A4 deitado)">Ishikawa</button>' : '') + (rncPode(r) && rncPlanoAberto(r) ? '<button class="btn" data-action="rnc-conf" data-id="' + esc(rid) + '" data-n="' + esc(nc.n) + '">Conferir</button>' : '') + (ed ? '<button class="btn primary" data-action="rnc-pl-salvar" data-id="' + esc(rid) + '">Salvar a análise</button>' : '') + '</div>', { noFocus: true });
   if (ed) fmNumerar();
   $$('.sheet .ishi-add .input').forEach(e => e.addEventListener('keydown', ev => { if (ev.key === 'Enter') { ev.preventDefault(); const bt = e.parentNode.querySelector('button'); if (bt) bt.click(); } })); /* v2.102.18 */
+  if (ed) raLigar('pl:' + ncId, planoLer, crev, { dados: !!dados, anc: '#pl-causa', pend: temRasc }); /* v2.102.21 */
   try { chatAnexar('rnc', rid); } catch {}
 }
 function planoLer() {
@@ -14742,6 +14841,7 @@ async function planoSalvar(forcar) {
     const f = planoFalta(nc, doc);
     Audit.log({ acao: 'rnc_analise', entidade: 'rnc', entidadeId: r.id, resumo: r.numero + ' · ' + rncNum(nc.n) + ': análise salva' + (doc.causa ? ' · causa: ' + doc.causa : '') + (doc.m6 ? ' (' + doc.m6 + ')' : '') + (ishiAtivas(doc.ishi).length ? ' · Ishikawa: ' + ishiAtivas(doc.ishi).length + ' causa(s)' + (ishiPriDe(doc) ? ', principal: ' + ishiPriDe(doc).t : '') : '') + (f.length ? ' · falta ' + f.map(k => PL_FALTA_TXT[k]).join(', ') : ' · completa'), depois: dados });
     toast('Análise da ' + rncNum(nc.n) + ' salva' + (f.length ? ' (ainda falta ' + f.map(k => PL_FALTA_TXT[k]).join(', ') + ').' : '.'), f.length ? '' : 'ok');
+    raFim('pl:' + nc.id); /* v2.102.21: a nuvem confirmou */
     S.rncPl = null; renderView(); openRnc(r.id);
   } catch (e) { apMsg(errMsg(e) + ' O texto ficou guardado neste aparelho.'); }
 }
@@ -15098,7 +15198,7 @@ function rncAcao(act, id, t) {
   }
   switch (act) {
     case 'rnc-nova': openRncNova(); return true;
-    case 'rnc-par-open': openRncPareto(); return true; /* v2.102.19 */
+    case 'rnc-par-open': prF().ano = hojeISO().slice(0, 4); openRncPareto(); return true; /* v2.102.22: abre no ano atual */ /* v2.102.19 */
     case 'rnc-par-ano': { const f = prF(), a = String(Number(f.ano) + Number(id)); if (a <= hojeISO().slice(0, 4)) f.ano = a; openRncPareto(); return true; }
     case 'rnc-par-per': prF().per = id; openRncPareto(); return true;
     case 'rnc-par-por': prF().por = id; openRncPareto(); return true;
@@ -20479,7 +20579,7 @@ const AJ_PADRAO = {
   'aba:qualidade/aprov': 'Aprovações: pedidos que esperam a sua decisão e os que você pediu. Cada decisão fica registrada.',
   'aba:qualidade/semana': 'Semana: as coletas e atividades da semana, dia a dia.',
   'aba:qualidade/nc': 'Não conformidades: abertura, acompanhamento e fechamento, sempre com motivo.',
-  'aba:qualidade/anl': 'Análise de problemas: reclamação de cliente ou apontamento de campo, com 5 Porquês, Ishikawa, plano de ação (5W2H), PDCA e verificação de eficácia. Abre o líder ★ ou o Principal; só o responsável escreve.', /* v2.102.20 */
+  'aba:qualidade/anl': 'Análise de problemas: reclamação de cliente ou apontamento de campo (5 Porquês, Ishikawa, 5W2H, PDCA, eficácia). Abre o líder ★ ou o Principal; só o responsável escreve. O texto fica guardado até salvar.', /* v2.102.20 */
   'aba:qualidade/bugs': 'Bugs e sugestões: conte o que deu errado ou o que pode melhorar. O Principal acompanha a situação.',
   'aba:qualidade/rel': 'Relatórios: atalhos para os relatórios das áreas que você acompanha.',
   'aba:almox/painel': 'Painel do almoxarifado: estoque utilizável, vencidos e o que precisa repor.',
