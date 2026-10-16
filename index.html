@@ -409,6 +409,27 @@ body[data-theme="ponto"]::before{background:radial-gradient(rgba(60,60,110,.16) 
 .rn-item{display:grid;gap:6px}
 .rn-ac{display:flex;gap:6px;flex-wrap:wrap}
 .rn-ac .btn{flex:1 1 auto;min-height:42px}
+/* v2.102.12: GUT na RNC */
+.gut-box{display:grid;gap:8px;padding:10px;border:1px solid var(--border);border-radius:var(--r-ctl);background:var(--surface-2)}
+.gut-l{display:grid;grid-template-columns:92px auto;column-gap:10px;row-gap:2px;align-items:center}
+.gut-k{font-size:12.5px;font-weight:700}
+.gut-bs{display:flex;gap:4px}.gut-b{min-width:38px;min-height:34px;padding:0 8px;justify-content:center}
+.gut-tx{grid-column:2;font-size:11.5px;color:var(--text-muted);line-height:1.35}
+.gut-res{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;border-top:1px solid var(--border);padding-top:8px}
+.gut-res small{color:var(--text-muted)}.gut-vazio{color:var(--text-muted)}
+.gut-chip{white-space:nowrap}
+.dt-sec .rnc-risco{margin-left:auto}.dt-sec:has(.rnc-risco){display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+@media(max-width:600px){.gut-l{grid-template-columns:1fr}.gut-tx{grid-column:1}}
+.rp-gut{white-space:nowrap}
+/* v2.102.11: Reunião de sexta — as áreas se encaixam lado a lado (antes cada área ocupava a largura toda, mesmo com 1 apontamento) */
+@media(min-width:860px){
+  .rn-gs{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px 14px;align-items:start}
+  .rn-gs .rn-g{margin:0;min-width:0}
+  .rn-gs .rn-g.n2{grid-column:span 2}
+  .rn-gs .rn-g.n3{grid-column:1/-1}
+  .rn-gs .rn-g>h4{gap:8px}
+  .rn-ac .btn{min-height:36px}
+}
 /* ---------- almoxarifado (celular em pé primeiro) ---------- */
 .al-top{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
 .al-big{display:flex;align-items:center;justify-content:center;gap:8px;min-height:66px;border-radius:var(--r-card);font-weight:800;font-size:17.5px;touch-action:manipulation;box-shadow:var(--shadow)}
@@ -1006,6 +1027,12 @@ button.rel-li:last-child{border-bottom:0}
 #print-root .rp-res{display:inline-block;color:#fff;font-weight:900;font-size:10pt;padding:1.2mm 4mm;border-radius:3mm;margin-bottom:2.5mm}
 #print-root .rp-man .rp-cx{display:flex;gap:5mm;font-size:10pt;font-weight:700;margin-bottom:3mm}
 #print-root .rp-lin{border-bottom:.3mm solid #aaa;height:8mm;font-size:8.5pt;color:#555;display:flex;align-items:flex-end;padding-bottom:.8mm}
+/* v2.102.12: texto comprido na folha da NC — a letra diminui até caber (nada é cortado) */
+#print-root .rp-fit1 .rp-big{font-size:10pt}#print-root .rp-fit1 .rp-kv{font-size:8pt;gap:1mm 3mm}
+#print-root .rp-fit2 .rp-big{font-size:9pt;margin-bottom:1.5mm}#print-root .rp-fit2 .rp-kv{font-size:7.4pt;gap:.8mm 2.5mm}
+#print-root .rp-fit3 .rp-big{font-size:8pt;line-height:1.25;margin-bottom:1.2mm}#print-root .rp-fit3 .rp-kv{font-size:6.8pt;gap:.6mm 2mm}
+#print-root .rp-fit4 .rp-big{font-size:7pt;line-height:1.2;margin-bottom:1mm}#print-root .rp-fit4 .rp-kv{font-size:6.2pt;gap:.4mm 2mm}#print-root .rp-fit4 .rp-hb{padding:2mm}
+#print-root .rp-cont .rp-idx{margin-top:4mm}
 
 /* v2.47.0: documento controlado (cabeçalho do FOR 0016 em todas as folhas) */
 #print-root .dc-pg{min-height:196mm;display:flex;flex-direction:column;break-after:page;page-break-after:always;color:#000}
@@ -1933,6 +1960,11 @@ body[data-tablet="1"] .nrm-r{min-width:60px;min-height:52px;font-size:14.5px}
   .prg-li .prg-c{grid-column:1/-1}
   .prg-lista{max-height:none}
 }
+/* v2.102.10: Rateios — quadro das marcadas e nota dos filtros */
+.kpis.rt-kpis4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:600px){.kpis.rt-kpis4{grid-template-columns:repeat(2,1fr)}}
+.rt-kpi-marc{border-color:var(--primary)!important}.rt-kpi-marc b{color:var(--primary)}
+.rt-filnota{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12.5px;color:var(--text-muted);margin:-4px 0 10px}
 /* v2.102.9: Espaço deste aparelho */
 .arm-barra{height:8px;border-radius:4px;background:var(--surface-2);border:1px solid var(--border);overflow:hidden;margin:4px 0 10px}
 .arm-barra i{display:block;height:100%;background:var(--primary)}.arm-barra.cheio i{background:var(--crit)}
@@ -2694,7 +2726,7 @@ body[data-theme="sunset"]::before{background:none}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.9 · memória do navegador cheia não derruba a sessão; Espaço deste aparelho; Sair limpa o cache offline';
+const APP_VERSION = 'v2.102.12 · GUT 1 na RNC: notas G, U e T, faixas, Ver por risco e selo no PDF';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -3094,7 +3126,7 @@ const Data = (function () {
    A promessa do Firestore (add/set/update) só termina quando o servidor confirma;
    sem sinal, ela fica aberta e o dado fica guardado no aparelho até a conexão voltar.
    A fila é guardada no aparelho (sv2-fila) para sobreviver a fechar o app sem sinal. */
-const SYNC_NOMES = { sv2_bugs_foto: 'Fotos dos bugs', sv2_tarefas: 'Tarefas', sv2_bugs: 'Bugs e sugestões', sv2_users: 'Usuários', sv2_notifs: 'Notificações', sv2_audit: 'Registro de atividade', sv2_aprov: 'Pedidos de autorização', sv2_resumos: 'Resumo da semana', sv2_docs: 'Documentos', sv2_caixas: 'Caixas d’água', sv2_lanc: 'Lançamentos de documentos', sv2_bebs: 'Bebedouros', sv2_cloro: 'Verificações de cloro', sv2_talhoes: 'Talhões', sv2_analises: 'Análises e preços', sv2_cfg: 'Configurações', sv2_etqmodelos: 'Modelos de etiqueta', sv2_prog: 'Programação de coletas', sv2_coletas: 'Coletas', sv2_aguacol: 'Coletas de água', sv2_apont: 'Apontamentos', sv2_fotos: 'Fotos dos apontamentos', sv2_alm_itens: 'Materiais do almoxarifado', sv2_alm_mov: 'Movimentações do almoxarifado', sv2_alm_sol: 'Solicitações ao almoxarifado', sv2_alm_pref: 'Seus motivos guardados', sv2_avatar: 'Foto de perfil', sv2_cloro_falta: 'Justificativas de cloro', sv2_cloro_foto: 'Fotos do clorímetro', sv2_agua_foto: 'Fotos das ações corretivas', sv2_rodizio: 'Planos de coleta', sv2_aguaproj: 'Projetos de coleta de água', sv2_aguaponto: 'Pontos de água', sv2_proc: 'Procedimentos de coleta', sv2_alm_equip: 'Equipamentos', sv2_alm_cal: 'Solicitações de calibração', sv2_alm_inv: 'Inventários', sv2_alm_equip_foto: 'Fotos dos equipamentos', sv2_alm_transf: 'Transferências', sv2_alm_foto: 'Fotos do almoxarifado', sv2_rnc: 'Auditorias internas (RNC)', sv2_rnc_foto: 'Fotos das RNC', sv2_chat: 'Conversas', sv2_meta: 'Instalação', sv2_conquistas: 'Conquistas', sv2_normas: 'Normas da auditoria', sv2_normas_ed: 'Editais das normas', sv2_login: 'Login → e-mail', sv2_recup: 'Pedidos de recuperação de senha' };
+const SYNC_NOMES = { sv2_bugs_foto: 'Fotos dos bugs', sv2_tarefas: 'Tarefas', sv2_bugs: 'Bugs e sugestões', sv2_users: 'Usuários', sv2_notifs: 'Notificações', sv2_audit: 'Registro de atividade', sv2_aprov: 'Pedidos de autorização', sv2_resumos: 'Resumo da semana', sv2_docs: 'Documentos', sv2_caixas: 'Caixas d’água', sv2_lanc: 'Lançamentos de documentos', sv2_bebs: 'Bebedouros', sv2_cloro: 'Verificações de cloro', sv2_talhoes: 'Talhões', sv2_analises: 'Análises e preços', sv2_cfg: 'Configurações', sv2_etqmodelos: 'Modelos de etiqueta', sv2_prog: 'Programação de coletas', sv2_coletas: 'Coletas', sv2_aguacol: 'Coletas de água', sv2_apont: 'Apontamentos', sv2_fotos: 'Fotos dos apontamentos', sv2_alm_itens: 'Materiais do almoxarifado', sv2_alm_mov: 'Movimentações do almoxarifado', sv2_alm_sol: 'Solicitações ao almoxarifado', sv2_alm_pref: 'Seus motivos guardados', sv2_avatar: 'Foto de perfil', sv2_cloro_falta: 'Justificativas de cloro', sv2_cloro_foto: 'Fotos do clorímetro', sv2_agua_foto: 'Fotos das ações corretivas', sv2_rodizio: 'Planos de coleta', sv2_aguaproj: 'Projetos de coleta de água', sv2_aguaponto: 'Pontos de água', sv2_proc: 'Procedimentos de coleta', sv2_alm_equip: 'Equipamentos', sv2_alm_cal: 'Solicitações de calibração', sv2_alm_inv: 'Inventários', sv2_alm_equip_foto: 'Fotos dos equipamentos', sv2_alm_transf: 'Transferências', sv2_alm_foto: 'Fotos do almoxarifado', sv2_rnc: 'Auditorias internas (RNC)', sv2_rnc_foto: 'Fotos das RNC', sv2_rnc_gut: 'Prioridade GUT das NCs', sv2_chat: 'Conversas', sv2_meta: 'Instalação', sv2_conquistas: 'Conquistas', sv2_normas: 'Normas da auditoria', sv2_normas_ed: 'Editais das normas', sv2_login: 'Login → e-mail', sv2_recup: 'Pedidos de recuperação de senha' };
 const Sync = (function () {
   const KEY = 'sv2-fila';
   let fila = [];   /* {k, col, op, doc, ts, st: 'pend' | 'antes' | 'erro', erro} */
@@ -3713,6 +3745,12 @@ const Aprov = {
     if (a.tipo === 'cloro_tratado' || a.tipo === 'novo_bebedouro') {
       try { await aoDecidirCloro(a, ok, id); }
       catch (e) { toast('Decisão gravada, mas não foi aplicada: ' + (e.message || errMsg(e)), 'err'); }
+    }
+    if (ok && a.tipo === 'cancelar_coleta' && a.refId) { /* v2.102.11 (Nº 20) */
+      const cc = S.coletas.find(x => x.id === a.refId);
+      if (!cc || cc.situacao === 'cancelada') toast('Aprovado. A coleta já estava cancelada.');
+      else if (!colPodeCancelar(cc)) toast('Aprovado, mas você não pode cancelar esta coleta (depois do envio ou com o plano encerrado, só o Principal).', 'err');
+      else await cancelarCol(a.refId, (a.payload && a.payload.motivo) || 'Cancelamento pedido', Object.assign({ id: id }, a));
     }
     if (ok && a.tipo === 'corrigir_coleta' && a.payload) {
       try { await aplicarCorrColeta(a.refId, a.payload, Object.assign({ id: id }, a)); }
@@ -7433,7 +7471,10 @@ function openColDetail(id) {
   const bts = ['<button class="btn" data-action="hist-open" data-ent="coleta" data-id="' + esc(c.id) + '">Histórico</button>', '<button class="btn" data-action="etq-ids" data-id="' + esc(irmas.map(x => x.id).join(',')) + '">Etiqueta' + (irmas.length > 1 ? 's do lote (' + irmas.length + ')' : '') + '</button>'];
   if (pend) bts.push('<button class="btn" data-action="aprov-open" data-id="' + esc(pend.id) + '">Ver correção pendente</button>');
   else {
-    if (colPodeCancelar(c)) bts.push('<button class="btn" data-action="col-cancel" data-id="' + esc(c.id) + '">Cancelar coleta</button>'); /* v2.85.0 */
+    { const cp = cancColPendente(c.id); /* v2.102.11 (Nº 20) */
+      if (cp) bts.push('<button class="btn" data-action="aprov-open" data-id="' + esc(cp.id) + '">Ver cancelamento pendente</button>');
+      else if (colPodeCancelar(c)) bts.push('<button class="btn" data-action="col-cancel" data-id="' + esc(c.id) + '">Cancelar coleta</button>'); /* v2.85.0 */
+      else if (colPodePedirCanc(c)) bts.push('<button class="btn" data-action="col-cancel" data-id="' + esc(c.id) + '">Pedir cancelamento</button>'); }
     if (podeLancar(S.user) && c.situacao !== 'cancelada' && (podeCadastrar(S.user) || colCorrModo(c))) bts.push('<button class="btn" data-action="col-edit" data-id="' + esc(c.id) + '">' + (colCorrModo(c) || c.enviado ? (prin ? 'Corrigir dados' : 'Pedir correção dos dados') : 'Editar') + '</button>'); /* v2.102.5 (Nº 17): enviada ou plano encerrado = pedir correção */
     if (pode) bts.push(c.enviado || enc ? '<button class="btn primary" data-action="col-env" data-id="' + esc(c.id) + '">' + (enc ? (prin ? 'Corrigir envio' : 'Pedir correção do envio') : 'Dados do envio') + '</button>' : '<button class="btn primary" data-action="col-enviar" data-id="' + esc(c.id) + '">Enviar</button>');
   }
@@ -7519,14 +7560,40 @@ function colPodeCancelar(c) {
   return isSup(S.user) || c.criadoPor === S.user.id;
 }
 const COL_CANC_MOT = ['Descartada', 'Lançada errado', 'Outro'];
+/* v2.102.11 (Nº 20): quem tem Coletas mas não pode cancelar direto PEDE o cancelamento. Quem decide segue a regra do
+   cancelar: antes do envio, líder ★ ou Principal (os superiores de quem pede); depois do envio ou com o período do plano
+   encerrado, só o Principal. Ao aprovar, cancela pelo mesmo caminho (cancelarCol), com o nome de quem pediu. */
+function cancColPendente(id) { return S.aprov.find(a => a.tipo === 'cancelar_coleta' && a.refId === id && a.status === 'pendente'); }
+function colCancSoPrin(c) { const t = rzTrancado(c.tipo, c.talhao, c.data); return !!c.enviado || !!(t && !rzFechadoAuto(t)); }
+function colPodePedirCanc(c) { return !!c && c.situacao !== 'cancelada' && !encerradaCol(c) && podeLancar(S.user) && !colPodeCancelar(c); }
+function paraCancCol(c) {
+  if (colCancSoPrin(c)) return S.users.filter(x => isPrincipal(x) && !x.bloqueado && x.id !== S.user.id).map(x => x.id);
+  return paraCorrecaoCol(S.user);
+}
+async function pedirCancCol(id, motivo) {
+  const c = S.coletas.find(x => x.id === id); if (!c) return;
+  const m = t => { const e = $('#tx-msg'); if (e) e.innerHTML = '<div class="msg">' + esc(t) + '</div>'; };
+  if (!colPodePedirCanc(c)) { toast('Esta coleta não pode mais ter o cancelamento pedido.', 'err'); return; }
+  if (cancColPendente(id)) { m('Já existe um pedido de cancelamento para esta coleta.'); return; }
+  if (!motivo || motivo.length < 5) { m(S._ccMot === 'Outro' || !S._ccMot ? 'Escolha o motivo ou escreva o que aconteceu.' : 'Escreva o motivo.'); return; }
+  const para = paraCancCol(c); if (!para.length) { m('Não há líder ★ ou Principal para aprovar. Fale com o Principal.'); return; }
+  const rot = (TIPO_ANALISE_TXT[c.tipo] || c.tipo) + ' ' + (c.talhao || c.loteComp || '') + ' (' + fmtD(c.data) + ')';
+  try {
+    const aid = await Aprov.pedir({ tipo: 'cancelar_coleta', titulo: 'Cancelar coleta: ' + rot, descricao: 'Motivo: ' + motivo + (c.enviado ? '\nJá foi enviada ao laboratório.' : ''), refTipo: 'coleta', refId: id, payload: { motivo: motivo }, para: para });
+    if (!aid) return;
+    toast('Pedido de cancelamento enviado para ' + para.map(nomeDe).join(', ') + '.', 'ok'); closeSheet(); renderView();
+  } catch (e) { toast(errMsg(e), 'err'); }
+}
 function openCancelCol(id) {
   const c = S.coletas.find(x => x.id === id); if (!c) return;
   S._ccMot = '';
-  openSheet('<h3>Cancelar coleta</h3><div class="sub">' + esc((TIPO_ANALISE_TXT[c.tipo] || c.tipo) + ' · ' + (c.talhao || c.loteComp || '') + ' · ' + fmtD(c.data)) + '</div><div id="tx-msg"></div>' +
+  const pedir = !colPodeCancelar(c) && colPodePedirCanc(c); /* v2.102.11 (Nº 20) */
+  openSheet('<h3>' + (pedir ? 'Pedir cancelamento da coleta' : 'Cancelar coleta') + '</h3><div class="sub">' + esc((TIPO_ANALISE_TXT[c.tipo] || c.tipo) + ' · ' + (c.talhao || c.loteComp || '') + ' · ' + fmtD(c.data)) + '</div><div id="tx-msg"></div>' +
     '<div class="fm-dica">' + (c.enviado ? 'Já foi enviada ao laboratório: continua na aba como "Cancelada" e sai dos rateios e das pendências.' : 'Ainda não foi enviada: sai da aba do material e fica na tabela da Programação como "Cancelada".') + ' Nada é apagado.</div>' + colCancPlanoAviso(c) + (rzFechadoAuto(rzTrancado(c.tipo, c.talhao, c.data)) ? '<div class="fm-aviso"><span><b>O plano estava concluído (100%).</b> Com o cancelamento ele reabre e volta para "Em andamento" (o prazo ainda não passou).</span></div>' : '') +
     '<div class="field"><label>Motivo</label><div class="ap-chips">' + COL_CANC_MOT.map(m => '<button type="button" class="ap-b" data-action="cc-mot" data-id="' + esc(m) + '">' + esc(m) + '</button>').join('') + '</div></div>' +
     '<div class="field"><label>Detalhe' + ' <small>(obrigatório em "Outro")</small></label><textarea class="input" id="tx-txt" rows="2"></textarea></div>' +
-    '<div class="row-actions"><button class="btn" data-action="col-open" data-id="' + esc(id) + '">Voltar</button><button class="btn danger" data-action="col-cancel-ok" data-id="' + esc(id) + '">Cancelar a coleta</button></div>', { noFocus: true });
+    (pedir ? '<div class="msg info" style="margin-bottom:12px">Vira pedido para ' + esc(paraCancCol(c).map(nomeDe).join(', ') || 'ninguém cadastrado') + '. A coleta só é cancelada depois de aprovado.</div>' : '') +
+    '<div class="row-actions"><button class="btn" data-action="col-open" data-id="' + esc(id) + '">Voltar</button>' + (pedir ? '<button class="btn danger" data-action="col-cancel-pedir" data-id="' + esc(id) + '">Enviar pedido</button>' : '<button class="btn danger" data-action="col-cancel-ok" data-id="' + esc(id) + '">Cancelar a coleta</button>') + '</div>', { noFocus: true });
 }
 /* v2.86.0: se a amostra conta num plano, avisa que a área volta a ficar pendente (e que só o que falta é lançado de novo) */
 function colCancPlanoAviso(c) {
@@ -7537,14 +7604,14 @@ function colCancPlanoAviso(c) {
     : '<b>A área ' + esc(c.talhao) + ' continua contando</b> no plano "' + esc(x.r.nome) + '", mas vai aparecer "falta ' + mt + '".') + ' Ao lançar de novo, só entra o que falta.</span></div>';
 }
 function ccMotivo() { const m = S._ccMot || '', t = String(($('#tx-txt') || {}).value || '').trim(); return m && m !== 'Outro' ? m + (t ? ': ' + t : '') : t; }
-async function cancelarCol(id, motivo) {
+async function cancelarCol(id, motivo, aprov) { /* v2.102.11: aprov = pedido de cancelamento aprovado (Nº 20) */
   const c = S.coletas.find(x => x.id === id); if (!c) return;
   const m = t => { const e = $('#tx-msg'); if (e) e.innerHTML = '<div class="msg">' + esc(t) + '</div>'; };
   if (encerradaCol(c)) { toast('Amostra encerrada não pode ser cancelada.', 'err'); return; }
   const tr0 = rzTrancado(c.tipo, c.talhao, c.data), reabre = rzFechadoAuto(tr0), tr = reabre ? null : tr0;
   if (!colPodeCancelar(c)) { toast(c.enviado || tr ? (tr ? 'O plano de coleta "' + tr.r.nome + '" (' + tr.p.nome + ') foi encerrado' : 'A amostra já foi enviada') + ': só o Principal cancela.' : 'Só quem lançou, o líder ★ ou o Principal cancela.', 'err'); return; }
   if (!motivo || motivo.length < 5) { m(S._ccMot === 'Outro' || !S._ccMot ? 'Escolha o motivo ou escreva o que aconteceu.' : 'Escreva o motivo.'); return; }
-  const ts = nowISO(), passo = { ts: ts, porNome: S.user.nome, acao: 'cancelada', texto: motivo + (c.enviado ? ' (depois do envio)' : '') + (tr ? ' (período do plano encerrado)' : '') };
+  const ts = nowISO(), passo = { ts: ts, porNome: S.user.nome, acao: 'cancelada', texto: motivo + (c.enviado ? ' (depois do envio)' : '') + (tr ? ' (período do plano encerrado)' : '') + (aprov ? ' · pedido de ' + aprov.solicitanteNome : '') };
   try {
     await Data.col('sv2_coletas').push(id, 'hist', passo, { situacao: 'cancelada', canceladaMotivo: motivo, canceladaPor: S.user.nome, canceladaPorId: S.user.id, canceladaEm: ts, canceladaAposEnvio: !!c.enviado });
     let volta = false, reaberto = '';
@@ -7557,7 +7624,7 @@ async function cancelarCol(id, motivo) {
     }
     if (c.progId) { const pg = (S.prog || []).find(x => x.id === c.progId), outras = S.coletas.filter(x => x.progId === c.progId && x.id !== id && x.situacao !== 'cancelada');
       if (pg && pg.situacao !== 'cancelada' && !outras.length) { await Data.col('sv2_prog').update(pg.id, { coletadaEm: '', coletadaDesfeita: { em: ts, por: S.user.nome, motivo: motivo } }); volta = true; } }
-    Audit.log({ acao: 'cancelar_coleta', entidade: 'coleta', entidadeId: id, resumo: 'Cancelou a coleta ' + TIPO_ANALISE_TXT[c.tipo] + ' ' + (c.talhao || c.loteComp || '') + ' (' + fmtD(c.data) + '): ' + motivo + (c.enviado ? ' — já enviada' : '') + (volta ? ' · a programação voltou a pendente' : ''), autorizadoPor: { id: S.user.id, nome: S.user.nome } });
+    Audit.log({ acao: 'cancelar_coleta', entidade: 'coleta', entidadeId: id, resumo: 'Cancelou a coleta ' + TIPO_ANALISE_TXT[c.tipo] + ' ' + (c.talhao || c.loteComp || '') + ' (' + fmtD(c.data) + '): ' + motivo + (c.enviado ? ' — já enviada' : '') + (volta ? ' · a programação voltou a pendente' : '') + (aprov ? ' · pedido de ' + aprov.solicitanteNome + ' (aprovado)' : ''), autorizadoPor: { id: S.user.id, nome: S.user.nome } });
     toast('Coleta cancelada' + (volta ? '. A programação voltou a pendente.' : '.') + (reaberto ? ' O plano "' + reaberto + '" voltou para Em andamento.' : ''), 'ok'); closeSheet(); renderView();
   } catch (e) { toast(errMsg(e), 'err'); }
 }
@@ -9020,17 +9087,20 @@ function viewRateio(kind) {
   if (kind === 'campo' && fts.length) rows = rows.filter(r => fts.indexOf(r.tipo) >= 0);
   rows = rows.filter(r => periodoOk(r.envio || r.data, f.ano, f.per));
   if (f.pend) rows = rows.filter(r => !r.cancelada && r.compra !== 'solicitado');
-  const validas = rows.filter(r => !r.cancelada);
-  const total = validas.reduce((s, r) => s + r.valor * r.qtd, 0), qtd = validas.reduce((s, r) => s + r.qtd, 0);
+  let validas = rows.filter(r => !r.cancelada);
+  let total = validas.reduce((s, r) => s + r.valor * r.qtd, 0), qtd = validas.reduce((s, r) => s + r.qtd, 0);
   const pct = r => r.cancelada || !total ? '-' : Math.round(r.valor * r.qtd / total * 100) + '%';
   const pendAll = pendentesSolicitacao();
   const maisAntiga = pendAll.map(r => r.envio).filter(Boolean).sort()[0];
   const aviso = pendAll.length ? '<div class="msg info rt-linha"><span><b>' + pendAll.length + '</b> amostra(s) enviada(s) sem solicitação' + (maisAntiga ? ' — a mais antiga de ' + fmtD(maisAntiga) : '') + '.</span><button class="btn sm" data-action="rt-pend">' + (f.pend ? 'Mostrar todas' : 'Ver só as pendentes') + '</button></div>' : '<div class="msg rt-linha" style="background:var(--ok-soft);color:var(--ok)">Nenhuma amostra enviada ficou sem solicitação.</div>';
   const segT = kind === 'campo' ? '<div class="seg3">' + [['', 'Todos'], ['NEMATOIDE', 'Nematoide'], ['SOLO', 'Solo'], ['FOLHA', 'Folha'], ['FRUTA', 'Fruta'], ['COMPOSTO', 'Composto']].map(o => '<button class="btn sm' + ((o[0] ? fts.indexOf(o[0]) >= 0 : !fts.length) ? ' on' : '') + '" data-action="rt-tipo" data-id="' + o[0] + '">' + o[1] + '</button>').join('') + '</div>' : '';
   const filtros = '<div class="seg3"><select class="input" id="rt-ano" style="width:auto;height:38px">' + anos.map(a => '<option' + (a === f.ano ? ' selected' : '') + '>' + a + '</option>').join('') + '</select><select class="input" id="rt-per" style="width:auto;height:38px">' + [['', 'Ano todo'], ['T1', '1º trimestre'], ['T2', '2º trimestre'], ['T3', '3º trimestre'], ['T4', '4º trimestre'], ['S1', '1º semestre'], ['S2', '2º semestre']].map(o => '<option value="' + o[0] + '"' + (f.per === o[0] ? ' selected' : '') + '>' + o[1] + '</option>').join('') + '</select></div>';
-  const porCult = {}; validas.forEach(r => { porCult[r.cultura] = (porCult[r.cultura] || 0) + r.valor * r.qtd; });
-  const kpi = '<div class="kpis" style="grid-template-columns:repeat(3,1fr)"><div class="kpi"><b>' + qtd + '</b><span>Qtd total</span></div><div class="kpi"><b>' + brl(total) + '</b><span>Valor total</span></div><div class="kpi"><b>100%</b><span>Total rateio</span></div></div>' + insResumoHTML(validas) + /* v2.65.0 */
-    (Object.keys(porCult).length > 1 ? '<div class="legend" style="margin:-4px 0 12px">' + Object.keys(porCult).sort().map(k => '<span><b>' + esc(k) + '</b> ' + brl(porCult[k]) + ' (' + (total ? Math.round(porCult[k] / total * 100) : 0) + '%)</span>').join('') + '</div>' : '');
+  /* v2.102.10 (Nº 15): os quadros são montados DEPOIS de aplicar os filtros das colunas (ver abaixo) */
+  const kpiHTML = (marc, nota) => { const porCult = {}; validas.forEach(r => { porCult[r.cultura] = (porCult[r.cultura] || 0) + r.valor * r.qtd; });
+    const mv = marc.filter(r => !r.cancelada), mq = mv.reduce((s, r) => s + r.qtd, 0), mt = mv.reduce((s, r) => s + r.valor * r.qtd, 0);
+    return '<div class="kpis' + (marc.length ? ' rt-kpis4' : '" style="grid-template-columns:repeat(3,1fr)') + '"><div class="kpi"><b>' + qtd + '</b><span>Qtd total</span></div><div class="kpi"><b>' + brl(total) + '</b><span>Valor total</span></div><div class="kpi"><b>100%</b><span>Total rateio</span></div>' +
+      (marc.length ? '<div class="kpi rt-kpi-marc"><b>' + brl(mt) + '</b><span>Marcadas · ' + esc(mq) + ' amostra(s)</span></div>' : '') + '</div>' + (nota || '') + insResumoHTML(validas) + /* v2.65.0 */
+    (Object.keys(porCult).length > 1 ? '<div class="legend" style="margin:-4px 0 12px">' + Object.keys(porCult).sort().map(k => '<span><b>' + esc(k) + '</b> ' + brl(porCult[k]) + ' (' + (total ? Math.round(porCult[k] / total * 100) : 0) + '%)</span>').join('') + '</div>' : ''); };
   const pode = podeLancar(S.user);
   const selVis = rows.filter(r => S.rtSel.has(r.ref)).length;
   const antes = pode ? (S.rtSel.size ? '<button class="btn sm" data-action="rt-selnone" title="Desmarcar todas">Limpar (' + S.rtSel.size + ')</button>' : '<button class="btn sm" data-action="rt-selall" title="Marcar as pendentes que estão na tela">Marcar pendentes</button>') : '';
@@ -9058,7 +9128,13 @@ function viewRateio(kind) {
   const marc = S.rtSel.size ? linhasRateio('campo').concat(linhasRateio('agua')).filter(r => S.rtSel.has(r.ref)) : [];
   const porT = {}; marc.forEach(r => { const k = r.kind === 'agua' ? 'Água' : TIPO_ANALISE_TXT[r.tipo]; porT[k] = (porT[k] || 0) + 1; });
   /* v2.56.0: "Marcadas para a solicitação" ao lado do Emitir (a explicação ficou na dica do botão) */
-  const marcHTML = marc.length ? '<span class="rt-marc2" title="Pode trocar o filtro (ou marcar vários tipos) e somar mais antes de emitir.">Marcadas para a solicitação: <b>' + Object.keys(porT).map(k => esc(k) + ' ' + porT[k]).join(' · ') + '</b></span>' : '';
+  const marcV = marc.filter(r => !r.cancelada).reduce((s, r) => s + r.valor * r.qtd, 0); /* v2.102.10 */
+  const marcHTML = marc.length ? '<span class="rt-marc2" title="Pode trocar o filtro (ou marcar vários tipos) e somar mais antes de emitir.">Marcadas para a solicitação: <b>' + Object.keys(porT).map(k => esc(k) + ' ' + porT[k]).join(' · ') + '</b> · <b>' + esc(brl(marcV)) + '</b></span>' : '';
+  /* v2.102.10 (Nº 15): os totais lá em cima seguem os filtros das colunas — somam só o que a tabela está mostrando */
+  const tid = 'rat_' + kind, nFil = Object.keys(tState(tid).filters).length;
+  let nLin = rows.length;
+  if (nFil) { const vis = tRows({ id: tid, rows: rows, cols: cols }); nLin = vis.length; validas = vis.filter(r => !r.cancelada); total = validas.reduce((s, r) => s + r.valor * r.qtd, 0); qtd = validas.reduce((s, r) => s + r.qtd, 0); }
+  const kpi = kpiHTML(marc, nFil ? '<div class="rt-filnota"><span>Totais das <b>' + esc(nLin) + '</b> linha(s) filtrada(s) na tabela.</span><button class="fm-link" data-action="t-clear" data-t="' + esc(tid) + '">Limpar filtros</button></div>' : '');
   return aviso + '<div class="rt-filtros">' + segT + filtros + '</div>' + kpi + tableHTML({ id: 'rat_' + kind, title: kind === 'agua' ? 'Rateio de água' : 'Rateio de campo', rows: rows, acoes: marcHTML + acoes, antes: antes, centro: true, onRow: r => r.kind === 'agua' ? openAguaDetail(r.id) : openColDetail(r.id), cols: cols, docHeader: true });
 }
 /* ============ O.S POR REMESSA, CORREÇÃO DE LAUDO E PRAZO DE ENVIO (v2.33.0) ============
@@ -10241,8 +10317,8 @@ function viewReuniao() {
   const nav = '<div class="rn-sem"><button class="btn" data-action="rn-sem" data-id="-7" aria-label="Semana anterior">‹</button><b>' + fmtD(d.seg).slice(0, 5) + ' a ' + fmtD(d.fim) + (d.seg === d.hoje ? '<br><small style="font-weight:600;color:var(--text-muted)">esta semana</small>' : '') + '</b><button class="btn" data-action="rn-sem" data-id="7"' + (d.seg >= d.hoje ? ' disabled' : '') + ' aria-label="Próxima semana">›</button></div>';
   const barra = '<div class="seg3"><button class="btn sm" data-action="rn-print">' + ico('print') + ' Imprimir a reunião</button></div>';
   const ant = d.anteriores.length ? '<div class="rn-g"><h4><span>↩ Pendentes de semanas anteriores</span><span>' + d.anteriores.length + '</span></h4><div class="ap-list">' + d.anteriores.map(a => rnItemHTML(a, true)).join('') + '</div></div>' : '';
-  const sem = setores.map(s => '<div class="rn-g"><h4><span>' + esc(s) + '</span><span>' + grupos[s].length + '</span></h4><div class="ap-list">' + grupos[s].map(a => rnItemHTML(a, false)).join('') + '</div></div>').join('');
-  return nav + kpis + barra + ant + (sem || '<div class="empty" style="margin:20px auto"><p>Nenhum apontamento nesta semana.</p></div>');
+  const sem = setores.map(s => '<div class="rn-g' + (grupos[s].length >= 3 ? ' n3' : grupos[s].length === 2 ? ' n2' : '') + '"><h4><span>' + esc(s) + '</span><span>' + grupos[s].length + '</span></h4><div class="ap-list">' + grupos[s].map(a => rnItemHTML(a, false)).join('') + '</div></div>').join('');
+  return nav + kpis + barra + ant + (sem ? '<div class="rn-gs">' + sem + '</div>' : '<div class="empty" style="margin:20px auto"><p>Nenhum apontamento nesta semana.</p></div>'); /* v2.102.11: áreas lado a lado */
 }
 async function apImprimirReuniao() {
   const d = rnDados();
@@ -13414,6 +13490,37 @@ const RNC_TIPOS = ['Global G.A.P.', 'Ecocert Orgânico'];
 const RNC_MAX_FOTOS = 8, RNC_AVISO_DIAS = 3;
 const RNC_PASSOS = [['abrir', 'Abrir'], ['registrar', 'Registrar'], ['enviar', 'Enviar RNC'], ['conferir', 'Conferir'], ['fechar', 'Fechar']];
 const RNC_CACHE = {};
+/* ============ v2.102.12 — GUT 1 (prioridade das NCs) ============
+   Uma linha por NC na coleção sv2_rnc_gut (id = id da NC): { rid, ncId, g, u, t, gut, faixa, porId, porNome, em, hist[] }.
+   Opcional. Quem registra a NC dá a nota; o líder (★ ou Principal) ajusta a nota de outra pessoa com motivo (fica no hist).
+   Depois de a RNC ser enviada, a nota não muda (reavaliar depois = A6, outra versão). Nada se apaga: tirar a nota = cancelada. */
+const GUT_FX = { alto: ['Alto', 'crit', '#b3443c'], medio: ['Médio', 'warn', '#b0781f'], baixo: ['Baixo', 'info', '#2f7486'] };
+const GUT_G_SUG = { maior: 5, media: 3, baixa: 1 };
+const GUT_TXT = {
+  g: ['Gravidade', [['Sem gravidade', 'Oportunidade de melhoria, sem descumprir requisito'], ['Pouco grave', 'Falha de documento ou organização (ex.: assinatura faltando)'], ['Grave', 'Procedimento não seguido, sem chegar ao produto (ex.: falta um dia no registro de cloro)'], ['Muito grave', 'Afeta o produto ou o certificado, mas dá para segurar (ex.: lote sem rastreabilidade)'], ['Extremamente grave', 'Risco à saúde de quem come ou trabalha, ou perda de certificação (ex.: produto não permitido no orgânico)']]],
+  u: ['Urgência', [['Longuíssimo prazo', 'Na próxima revisão'], ['Longo prazo', 'Até 90 dias'], ['Médio prazo', 'Até 30 dias'], ['Curto prazo', 'Até 7 dias'], ['Imediatamente', 'Hoje (produto saindo, auditoria nesta semana)']]],
+  t: ['Tendência', [['Desaparece', 'Some sozinha'], ['Reduz-se ligeiramente', 'Melhora um pouco sozinha'], ['Permanece', 'Fica igual'], ['Aumenta', 'Piora em semanas'], ['Piora muito', 'Piora a cada dia (ex.: praga se espalhando)']]]
+};
+function gutCalc(g, u, t) {
+  g = Number(g) || 0; u = Number(u) || 0; t = Number(t) || 0; if (!g || !u || !t) return null;
+  const v = g * u * t; let fx = v >= 48 ? 'alto' : v >= 18 ? 'medio' : 'baixo';
+  if (g === 5 && fx === 'baixo') fx = 'medio'; /* M3: piso de risco */
+  return { v: v, fx: fx };
+}
+const gutDe = ncId => (S.rncGut || []).find(x => x.ncId === ncId && !x.cancelada) || null;
+function gutChip(x, curto) { if (!x || !x.gut) return ''; const f = GUT_FX[x.faixa] || GUT_FX.baixo; return '<span class="chip ' + esc(f[1]) + ' gut-chip" title="G ' + esc(x.g) + ' × U ' + esc(x.u) + ' × T ' + esc(x.t) + '">' + (curto ? '' : 'GUT ') + esc(x.gut) + ' · ' + esc(f[0]) + '</span>'; }
+function gutBlocoHTML(b) {
+  const gt = b.gut || {}, c = gutCalc(gt.g, gt.u, gt.t);
+  const linha = k => { const v = Number(gt[k]) || 0, T = GUT_TXT[k];
+    return '<div class="gut-l"><span class="gut-k">' + esc(T[0]) + '</span><div class="gut-bs">' + [1, 2, 3, 4, 5].map(i => '<button type="button" class="ap-b gut-b' + (v === i ? ' on' : '') + '" data-action="rnc-ch" data-g="g' + esc(k) + '" data-id="' + esc(i) + '" title="' + esc(T[1][i - 1][0]) + '">' + esc(i) + '</button>').join('') + '</div>' +
+      '<small class="gut-tx">' + (v ? '<b>' + esc(T[1][v - 1][0]) + '</b> · ' + esc(T[1][v - 1][1]) : (k === 'g' ? 'Vem da gravidade; pode trocar' : 'Toque numa nota')) + '</small></div>'; };
+  const dono = b.gutDono && b.gutDono !== S.user.id;
+  return '<div class="gut-box">' + linha('g') + linha('u') + linha('t') +
+    '<div class="gut-res">' + (c ? '<span>GUT = ' + esc(gt.g) + ' × ' + esc(gt.u) + ' × ' + esc(gt.t) + ' = <b>' + esc(c.v) + '</b></span>' + gutChip({ gut: c.v, faixa: c.fx, g: gt.g, u: gt.u, t: gt.t }, true) + (Number(gt.g) === 5 && c.v < 18 ? '<small>Gravidade 5 nunca fica Baixo</small>' : '')
+      : '<span class="gut-vazio">' + (gt.u || gt.t ? 'Marque as três notas para calcular' : 'Sem GUT (opcional)') + '</span>') +
+      (gt.u || gt.t ? '<button type="button" class="fm-link" data-action="rnc-gut-limpar">Tirar a GUT</button>' : '') + '</div>' +
+    (dono ? '<label class="fm-l" style="margin-top:8px">Motivo para mudar a nota dada por ' + esc(b.gutDonoNome || 'outra pessoa') + '</label><input class="input" id="rnc-gut-mot" autocomplete="off" value="' + esc(b.gutMot || '') + '">' : '') + '</div>';
+}
 const rncDe = id => (S.rnc || []).find(r => r.id === id) || null;
 const rncNcs = r => (r.ncs || []).filter(n => !n.cancelada).slice().sort((a, b) => a.n - b.n);
 const rncAreaNome = a => (RNC_AREAS.find(x => x[0] === a) || ['', a || '—'])[1];
@@ -13514,14 +13621,17 @@ function openRnc(id) {
     : s === 'retorno' ? b('rnc-conf', 'Conferir ' + (falta.length ? rncNum(falta[0].n) : ''), true, ' data-n="' + (falta.length ? falta[0].n : '') + '"')
     : s === 'pronta' ? b('rnc-fechar', 'Fechar a RNC', true) + b('rnc-conf', 'Rever a conferência', false, ' data-n=""') : '';
   let area = '';
-  const lista = ls.map(n => { let h = ''; if (n.area !== area) { area = n.area; h = '<div class="rnc-sec">' + esc(rncAreaNome(n.area)) + '</div>'; }
+  /* v2.102.12 (A4): "Ver por risco" só muda a ordem desta lista; o relatório e a conferência seguem a ordem oficial */
+  const temGut = ls.some(n => gutDe(n.id)), risco = !!S.rncRisco && temGut;
+  if (risco) ls.sort((a, c) => ((gutDe(c.id) || {}).gut || 0) - ((gutDe(a.id) || {}).gut || 0) || a.n - c.n);
+  const lista = ls.map(n => { let h = ''; if (!risco && n.area !== area) { area = n.area; h = '<div class="rnc-sec">' + esc(rncAreaNome(n.area)) + '</div>'; }
     const rt = n.ret ? RNC_RES[n.ret.res] : null, g = RNC_GRAV[n.grav] || RNC_GRAV.baixa, ri = rncReinc(r, n);
-    return h + '<button class="rnc-li g-' + esc(n.grav) + '" data-action="rnc-item" data-id="' + esc(r.id) + '" data-n="' + n.n + '"><span class="rnc-n">' + rncNum(n.n) + '</span><span class="rnc-li-t"><b>' + esc(n.nc) + '</b><small>' + esc(n.local) + ' · ' + esc(n.respNome || '') + (n.ciente ? ' · ciente' : ' · não ciente') + (ri ? ' · reincidente' : '') + '</small></span><span class="rnc-li-c"><span class="chip ' + g[1] + '">' + g[0] + '</span>' + (rt ? '<span class="chip ' + rt[1] + '">' + rt[0] + '</span>' : s !== 'registro' ? '<span class="chip">sem retorno</span>' : '') + '</span></button>'; }).join('');
+    return h + '<button class="rnc-li g-' + esc(n.grav) + '" data-action="rnc-item" data-id="' + esc(r.id) + '" data-n="' + n.n + '"><span class="rnc-n">' + rncNum(n.n) + '</span><span class="rnc-li-t"><b>' + esc(n.nc) + '</b><small>' + esc(n.local) + ' · ' + esc(n.respNome || '') + (n.ciente ? ' · ciente' : ' · não ciente') + (ri ? ' · reincidente' : '') + '</small></span><span class="rnc-li-c"><span class="chip ' + g[1] + '">' + g[0] + '</span>' + gutChip(gutDe(n.id)) + (rt ? '<span class="chip ' + rt[1] + '">' + rt[0] + '</span>' : s !== 'registro' ? '<span class="chip">sem retorno</span>' : '') + '</span></button>'; }).join('');
   openSheet('<h3>' + esc(r.numero) + ' · ' + esc(r.tipo || '') + '</h3><div class="sub">' + rncChip(r) + ' ' + fmtD(r.data) + ' · auditor ' + esc(r.auditorNome || '') + (r.acompanhante ? ' · com ' + esc(r.acompanhante) : '') + '</div>' +
     rncStepper(r, true) +
     '<div class="rnc-agora"><b>' + agora[0] + '</b><span>' + esc(agora[1]) + '</span>' + (acao ? '<div class="rnc-agora-b">' + acao + '</div>' : '') + '</div>' +
     keyval([['Prazo para todas', fmtD(r.prazo) + (s === 'retorno' || s === 'registro' ? ' · ' + rncPrazoSit(r) : '') + ((r.prazoHist || []).length ? ' (prorrogado ' + r.prazoHist.length + 'x)' : '')]].concat(r.preparacao ? [['Preparação para', r.preparacao]] : [])) +
-    nrmRncBloco(r) + '<div class="dt-sec">Não conformidades <small>' + seq.length + ' · na ordem do relatório (Campo → Estrutura)</small></div>' + (lista || '<p class="fm-dica">Nenhuma ainda.</p>') +
+    nrmRncBloco(r) + '<div class="dt-sec">Não conformidades <small>' + seq.length + ' · ' + (risco ? 'por risco (GUT), só para ver' : 'na ordem do relatório (Campo → Estrutura)') + '</small>' + (temGut ? '<button class="btn sm rnc-risco" data-action="rnc-risco" data-id="' + esc(r.id) + '">' + (risco ? 'Ordem do relatório' : 'Ver por risco') + '</button>' : '') + '</div>' + (lista || '<p class="fm-dica">Nenhuma ainda.</p>') +
     '<div class="row-actions eq-acoes">' + (seq.length ? b('rnc-print', icoI('print') + 'RNC de abertura', false, ' data-m="abertura"') : '') + (seq.some(n => n.ret) ? b('rnc-print', icoI('print') + 'RNC de fechamento', false, ' data-m="fechamento"') : '') +
       (isSup(S.user) && (s === 'retorno' || s === 'registro') ? b('rnc-prorrogar', 'Prorrogar prazo') : '') + (isSup(S.user) && s !== 'fechada' && s !== 'cancelada' ? b('rnc-cancelar', 'Cancelar') : '') + '<button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
 }
@@ -13560,8 +13670,9 @@ function openRncNc(rid, n) {
   if (rncSit(r) !== 'registro') { toast('A RNC já foi enviada: as NCs não mudam mais. Use a conferência.', 'err'); return; }
   const x = n ? (r.ncs || []).find(y => y.n === Number(n) && !y.cancelada) : null;
   const ult = rncNcs(r).slice(-1)[0];
-  S.rncNc = x ? { rid: rid, id: x.id, n: x.n, area: x.area, local: x.local, nc: x.nc, lei: x.lei || '', resp: x.respId || (x.respNome ? '__outro' : ''), respTxt: x.respId ? '' : (x.respNome || ''), ciente: x.ciente, grav: x.grav, obs: x.obs || '', sug: x.sug || '', fotos: (x.fotosAntes || []).map(id => ({ id: id })) }
-    : { rid: rid, id: '', n: (Math.max(0, ...(r.ncs || []).map(y => y.n)) + 1), area: ult ? ult.area : 'campo', local: ult ? ult.local : '', nc: '', lei: '', resp: '', respTxt: '', ciente: null, grav: '', obs: '', sug: '', fotos: [] };
+  const gx = x ? gutDe(x.id) : null; /* v2.102.12 */
+  S.rncNc = x ? { rid: rid, id: x.id, n: x.n, area: x.area, local: x.local, nc: x.nc, lei: x.lei || '', resp: x.respId || (x.respNome ? '__outro' : ''), respTxt: x.respId ? '' : (x.respNome || ''), ciente: x.ciente, grav: x.grav, obs: x.obs || '', sug: x.sug || '', fotos: (x.fotosAntes || []).map(id => ({ id: id })), gut: gx ? { g: gx.g, u: gx.u, t: gx.t } : { g: GUT_G_SUG[x.grav] || 0 }, gutGMan: !!gx, gutDono: gx ? gx.porId : '', gutDonoNome: gx ? gx.porNome : '' }
+    : { rid: rid, id: '', n: (Math.max(0, ...(r.ncs || []).map(y => y.n)) + 1), area: ult ? ult.area : 'campo', local: ult ? ult.local : '', nc: '', lei: '', resp: '', respTxt: '', ciente: null, grav: '', obs: '', sug: '', fotos: [], gut: {}, gutGMan: false, gutDono: '' };
   rncNcRender();
 }
 function rncNcLer() {
@@ -13571,6 +13682,7 @@ function rncNcLer() {
   ['nc', 'lei', 'obs', 'sug'].forEach(k => { const x = v('rnc-' + k); if (x != null) b[k] = x; });
   if (v('rnc-resp') != null) b.resp = v('rnc-resp');
   if (v('rnc-resp-o') != null) b.respTxt = v('rnc-resp-o');
+  if (v('rnc-gut-mot') != null) b.gutMot = v('rnc-gut-mot'); /* v2.102.12 */
 }
 function rncNcRender() {
   const b = S.rncNc; if (!b) return; const r = rncDe(b.rid); if (!r) return;
@@ -13591,7 +13703,8 @@ function rncNcRender() {
     '<input class="input" id="rnc-resp-o" placeholder="Nome do responsável" autocomplete="off" value="' + esc(b.respTxt) + '"' + (b.resp === '__outro' ? '' : ' hidden') + ' style="margin-top:8px">' +
     '<div class="ap-oc" style="margin-top:8px">' + ch('ciente', '1', b.ciente === true, 'Estava ciente') + ch('ciente', '0', b.ciente === false, 'Não estava ciente') + '</div>' +
     passo(7, 'Gravidade', 'grav') + '<div class="ap-oc rnc-grav">' + Object.keys(RNC_GRAV).map(k => ch('grav', k, b.grav === k, RNC_GRAV[k][0], 'g-' + k)).join('') + '</div>' +
-    passo(8, 'Observação e sugestão <small>opcionais</small>', 'obs') + '<textarea class="input" id="rnc-obs" rows="2" placeholder="Observação">' + esc(b.obs) + '</textarea><textarea class="input" id="rnc-sug" rows="2" placeholder="Sugestão (se for o caso)" style="margin-top:8px">' + esc(b.sug) + '</textarea>' +
+    passo(8, 'Prioridade GUT <small>opcional · Gravidade × Urgência × Tendência</small>', 'gut') + gutBlocoHTML(b) + /* v2.102.12 */
+    passo(9, 'Observação e sugestão <small>opcionais</small>', 'obs') + '<textarea class="input" id="rnc-obs" rows="2" placeholder="Observação">' + esc(b.obs) + '</textarea><textarea class="input" id="rnc-sug" rows="2" placeholder="Sugestão (se for o caso)" style="margin-top:8px">' + esc(b.sug) + '</textarea>' +
     '<div class="ap-foot"><button type="button" class="btn" data-action="' + (b.clItem ? 'nrm-cl' : 'rnc-open') + '" data-id="' + esc(r.id) + '">Voltar</button>' + (b.id ? '<button type="button" class="btn" data-action="rnc-nc-canc" data-id="' + esc(r.id) + '">Tirar esta NC</button><button type="button" class="btn primary" data-action="rnc-nc-ok" data-id="0">Salvar</button>' : '<button type="button" class="btn" data-action="rnc-nc-ok" data-id="0">Salvar</button><button type="button" class="btn primary" data-action="rnc-nc-ok" data-id="1">' + (b.clItem ? 'Salvar e voltar' : 'Salvar e registrar a ' + rncNum(b.n + 1)) + '</button>') + '</div>', { noFocus: true });
   fmNumerar(); rncFotosCarregar($('.sheet'));
 }
@@ -13600,7 +13713,8 @@ function rncCh(t) {
   if (S.rncNc && g === 'area') { rncNcLer(); b.area = v; b.local = ''; rncNcRender(); return; }
   if (g === 'local') { b.local = v; const o = $('#rnc-local-o'); if (o) { o.hidden = v !== '__outro'; if (!o.hidden) try { o.focus(); } catch (e) {} } }
   if (g === 'ciente') b.ciente = v === '1';
-  if (g === 'grav') b.grav = v;
+  if (g === 'grav') { b.grav = v; if (S.rncNc && !b.gutGMan) { b.gut = Object.assign({}, b.gut, { g: GUT_G_SUG[v] || 0 }); rncNcLer(); rncNcRender(); return; } }
+  if (S.rncNc && /^g[gut]$/.test(g)) { b.gut = Object.assign({}, b.gut); b.gut[g[1]] = Number(v); if (g === 'gg') b.gutGMan = true; rncNcLer(); rncNcRender(); return; } /* v2.102.12 */
   if (g === 'res') b.res = v;
   $$('[data-action="rnc-ch"][data-g="' + g + '"]').forEach(x => x.classList.toggle('on', x === t));
   const s = $('.ap-sec[data-g="' + g + '"]'); if (s) s.classList.remove('falta');
@@ -13614,8 +13728,13 @@ async function rncNcOk(proxima) {
   if (!b.area) falta.push('area'); if (!local) falta.push('local'); if (String(b.nc).trim().length < 5) falta.push('nc');
   if (!respNome || (b.resp === '__outro' && respNome.length < 3) || (b.ciente !== true && b.ciente !== false)) falta.push('resp');
   if (!b.grav) falta.push('grav');
+  /* v2.102.12: GUT opcional — conta só se marcou U ou T; aí precisa das três */
+  const gt = b.gut || {}, gutUsa = !!(gt.u || gt.t), gc = gutUsa ? gutCalc(gt.g, gt.u, gt.t) : null, gAnt = b.id ? gutDe(b.id) : null;
+  const gutMuda = gAnt ? (!gc || gAnt.g !== Number(gt.g) || gAnt.u !== Number(gt.u) || gAnt.t !== Number(gt.t)) : !!gc;
+  if (gutUsa && !gc) falta.push('gut');
+  if (gutMuda && gAnt && gAnt.porId !== S.user.id && String(b.gutMot || '').trim().length < 5) falta.push('gutmot');
   $$('.sheet .ap-sec').forEach(s => s.classList.toggle('falta', falta.indexOf(s.getAttribute('data-g')) >= 0));
-  if (falta.length) { const nomes = { area: 'área', local: 'local', nc: 'o que está errado', resp: 'responsável e se estava ciente', grav: 'gravidade' }; return apMsg('Falta: ' + falta.map(k => nomes[k]).join(', ') + '.'); }
+  if (falta.length) { const nomes = { area: 'área', local: 'local', nc: 'o que está errado', resp: 'responsável e se estava ciente', grav: 'gravidade', gut: 'as três notas da GUT (ou tire a GUT)', gutmot: 'o motivo para mudar a nota GUT de outra pessoa' }; return apMsg('Falta: ' + falta.map(k => nomes[k]).join(', ') + '.'); }
   if (b.salvando) return; b.salvando = true;
   const id = b.id || uid(), f = rncFotosGravar(b, r.id, id, 'antes');
   const antes = (r.ncs || []).find(x => x.id === id);
@@ -13626,6 +13745,16 @@ async function rncNcOk(proxima) {
     const clp = nrmClDoNc(r, b, id); /* v2.70.0 */
     await Promise.all(f.ps); await Data.col('sv2_rnc').update(r.id, Object.assign({ ncs: ncs, atualizadoEm: nowISO() }, clp));
     Audit.log({ acao: antes ? 'rnc_nc_editar' : 'rnc_nc', entidade: 'rnc', entidadeId: r.id, resumo: r.numero + ' · ' + rncNum(nc.n) + ' (' + rncAreaNome(nc.area) + ' › ' + local + ', ' + RNC_GRAV[nc.grav][0] + '): ' + nc.nc + ' · resp. ' + respNome + (f.ids.length ? ' · ' + f.ids.length + ' foto(s)' : ''), depois: nc });
+    if (gutMuda) { /* v2.102.12: a nota GUT, numa linha própria (sv2_rnc_gut) */
+      const ts = nowISO(), passoG = { ts: ts, porNome: S.user.nome, de: gAnt ? { g: gAnt.g, u: gAnt.u, t: gAnt.t, gut: gAnt.gut } : null, para: gc ? { g: Number(gt.g), u: Number(gt.u), t: Number(gt.t), gut: gc.v } : null, motivo: gAnt && gAnt.porId !== S.user.id ? String(b.gutMot || '').trim() : '' };
+      const gRaw = (S.rncGut || []).find(x => x.ncId === id) || null; /* a linha existe mesmo se a nota foi tirada: o dono não muda (regra do Firestore) */
+      const docG = gc ? { rid: r.id, ncId: id, g: Number(gt.g), u: Number(gt.u), t: Number(gt.t), gut: gc.v, faixa: gc.fx, cancelada: false, porId: gRaw ? gRaw.porId : S.user.id, porNome: gRaw ? gRaw.porNome : S.user.nome, em: ts, hist: ((gRaw && gRaw.hist) || []).concat([passoG]) }
+        : Object.assign({}, gRaw, { cancelada: true, em: ts, hist: ((gRaw && gRaw.hist) || []).concat([passoG]) });
+      delete docG.id;
+      try { await Data.col('sv2_rnc_gut').set(id, docG); const lg = (S.rncGut || []).filter(x => x.ncId !== id); lg.push(Object.assign({ id: id }, docG)); S.rncGut = lg; }
+      catch (e) { toast('A ' + rncNum(nc.n) + ' foi salva, mas a nota GUT não (' + errMsg(e) + '). Se for "sem permissão", publique as regras do Firestore da v2.102.12.', 'err'); }
+      Audit.log({ acao: 'rnc_gut', entidade: 'rnc', entidadeId: r.id, resumo: r.numero + ' · ' + rncNum(nc.n) + ': GUT ' + (gAnt ? gAnt.gut + ' → ' : '') + (gc ? gc.v + ' (' + GUT_FX[gc.fx][0] + ')' : 'tirada') + (passoG.motivo ? ' · motivo: ' + passoG.motivo : ''), antes: passoG.de, depois: passoG.para });
+    }
     toast(rncNum(nc.n) + ' salva.', 'ok');
     const loc = rncDe(r.id); if (loc) { loc.ncs = ncs; if (clp.cl) loc.cl = clp.cl; }
     S.rncNc = null; renderView();
@@ -13782,6 +13911,43 @@ function rncRosca(fatias, centro, sub) {
     fatias.filter(f => f.v).map(f => { const l = f.v / tot * c, s = '<circle cx="21" cy="21" r="' + r + '" fill="none" stroke="' + f.cor + '" stroke-width="6" stroke-dasharray="' + l.toFixed(2) + ' ' + (c - l).toFixed(2) + '" stroke-dashoffset="' + (-off).toFixed(2) + '" transform="rotate(-90 21 21)"/>'; off += l; return s; }).join('') +
     '<text x="21" y="22" text-anchor="middle" font-size="8" font-weight="800" fill="#1f231b">' + esc(centro) + '</text><text x="21" y="28" text-anchor="middle" font-size="3.2" fill="#555">' + esc(sub) + '</text></svg>';
 }
+/* v2.102.12: medir folhas da RNC (mesmo método do dcMedir: #print-root fora da tela, com as regras de impressão) */
+function rncMedirIni() {
+  const root = $('#print-root'), st = root.getAttribute('style');
+  root.setAttribute('style', 'display:block;position:absolute;left:-40000px;top:0;width:285mm;visibility:hidden');
+  let css = $('#dc-medir-css'); const novo = !css;
+  if (novo) { css = document.createElement('style'); css.id = 'dc-medir-css'; css.textContent = dcCssImpressao(); document.head.appendChild(css); }
+  return () => { root.innerHTML = ''; if (st == null) root.removeAttribute('style'); else root.setAttribute('style', st); if (novo && css.parentNode) css.parentNode.removeChild(css); };
+}
+const RNC_ALT_MM = 194; /* A4 deitado com margem de 6 mm = 198 mm; 4 mm de folga */
+function rncSecMedir(h) { const root = $('#print-root'); root.innerHTML = '<div class="rp">' + h + '</div>'; return root.querySelector('.rp-pg'); }
+/* reparte as linhas (cada uma um <tr>) em folhas; devolve quantas linhas vão em cada folha. Sem layout (testes): uma folha. */
+function rncPaginar(montar, linhas) {
+  const PX = 96 / 25.4, ALT = RNC_ALT_MM * PX;
+  const s0 = rncSecMedir(montar(linhas, 0)); if (!s0 || !s0.offsetHeight) return [linhas.length];
+  const hs = Array.from(s0.querySelectorAll('.rp-idx tbody > tr')).map(t => t.offsetHeight);
+  if (hs.length !== linhas.length) return [linhas.length];
+  const base0 = s0.offsetHeight - hs.reduce((a, b) => a + b, 0);
+  const s1 = rncSecMedir(montar([], 1)), base1 = s1 && s1.offsetHeight ? s1.offsetHeight : base0;
+  const cs = []; let n = 0, usado = 0, lim = ALT - base0;
+  hs.forEach((h, k) => {
+    if (n && usado + h > lim) { const volta = /class="rp-ts"/.test(linhas[k - 1]) && n > 1 ? 1 : 0; /* faixa da área não fica sozinha no pé */
+      cs.push(n - volta); n = volta; usado = volta ? hs[k - 1] : 0; lim = ALT - base1; }
+    n++; usado += h;
+  });
+  cs.push(n); return cs.filter(c => c > 0).length ? cs.filter(c => c > 0) : [linhas.length];
+}
+/* folha da NC: se algum texto não cabe no quadro, diminui a letra (até 4 passos); devolve o passo (0 = sem mudança) */
+function rncAjustarFolha(h) {
+  for (let k = 0; k <= 4; k++) {
+    const s = rncSecMedir(k ? h.replace('<section class="rp-pg rp-nc"', '<section class="rp-pg rp-nc rp-fit' + k + '"') : h);
+    if (!s || !s.offsetHeight) return 0;
+    if (!Array.from(s.querySelectorAll('.rp-half')).some(e => e.scrollHeight > e.clientHeight + 1)) return k;
+  }
+  return 4;
+}
+/* v2.102.12 (A7): selo GUT na impressão (só quando a NC tem nota) */
+function gutPrint(x, idx) { if (!x || !x.gut) return ''; const f = GUT_FX[x.faixa] || GUT_FX.baixo; return '<span class="rp-g rp-gut" style="background:' + esc(f[2]) + '">' + (idx ? '' : 'GUT ') + esc(x.gut) + ' · ' + esc(f[0]) + '</span>'; }
 async function rncImprimir(id, modo) {
   const r = rncDe(id); if (!r) return;
   const fech = modo === 'fechamento', ls = rncOrdem(r); if (!ls.length) { toast('Nenhuma NC registrada.', 'err'); return; }
@@ -13790,7 +13956,7 @@ async function rncImprimir(id, modo) {
   await Promise.all(ids.map(rncFotoGet));
   const G = { maior: '#b3443c', media: '#b0781f', baixa: '#2f7486' }, R = { resolvida: '#3f7d3a', parcial: '#b0781f', nao: '#b3443c' };
   const cnt = k => ls.filter(n => n.grav === k).length, cr = k => ls.filter(n => n.ret && n.ret.res === k).length, sem = ls.filter(n => !n.ret).length;
-  const totP = 2 + ls.length, cab = '<span class="rp-logo">MP</span>'; /* v2.58.0: + a folha do Plano de ação */
+  let totP = 2 + ls.length, nIdx = 1, nPl = 1; const cab = '<span class="rp-logo">MP</span>'; /* v2.58.0: + a folha do Plano de ação. v2.102.12: índice e plano podem ter folhas de continuação */
   const info = [['Auditoria', r.tipo], ['Data', fmtD(r.data)], ['Auditor', r.auditorNome + (r.acompanhante ? ' · com ' + r.acompanhante : '')], ['Prazo para todas', fmtD(r.prazo) + ((r.prazoHist || []).length ? ' (prorrogado de ' + fmtD(r.prazoHist[0].de) + ')' : '')]].concat(r.preparacao ? [['Preparação para', r.preparacao]] : []);
   const rosca = fech ? rncRosca([{ v: cr('resolvida'), cor: R.resolvida }, { v: cr('parcial'), cor: R.parcial }, { v: cr('nao'), cor: R.nao }, { v: sem, cor: '#bdb6a3' }], Math.round(cr('resolvida') / ls.length * 100) + '%', 'resolvidas')
     : rncRosca([{ v: cnt('maior'), cor: G.maior }, { v: cnt('media'), cor: G.media }, { v: cnt('baixa'), cor: G.baixa }], String(ls.length), 'NCs');
@@ -13798,21 +13964,26 @@ async function rncImprimir(id, modo) {
     : [['Maior', cnt('maior'), G.maior], ['Média', cnt('media'), G.media], ['Baixa', cnt('baixa'), G.baixa]];
   const passos = fech ? '<ol><li><b>Resultado:</b> ' + cr('resolvida') + ' de ' + ls.length + ' resolvida(s)' + (cr('parcial') ? ', ' + cr('parcial') + ' parcial(is)' : '') + (cr('nao') ? ', ' + cr('nao') + ' não resolvida(s)' : '') + '.</li><li>Cada folha mostra a <b>1ª visita</b> (o que foi encontrado) em cima e a <b>2ª visita</b> (o retorno conferido) embaixo.</li><li>As não resolvidas e parciais seguem para a próxima auditoria interna.</li></ol>'
     : '<ol><li><b>Leia</b> as suas NCs: uma por folha, na ordem Campo → Estrutura.</li><li><b>Corrija</b> até <b>' + fmtD(r.prazo) + '</b> e anote na parte de baixo da folha o que foi feito.</li><li><b>Avise</b> o auditor (' + esc(r.auditorNome) + ').</li><li>O auditor <b>volta ao local</b>, confere uma por uma e tira as fotos do depois.</li><li>Sai a <b>RNC de fechamento</b>, com o antes e o depois.</li></ol>';
-  const pgOf = {}; ls.forEach((n, i) => { pgOf[n.id] = i + 2; });
+  const pgOf = {}; const numerar = () => { ls.forEach((n, i) => { pgOf[n.id] = i + 1 + nIdx; }); totP = nIdx + ls.length + nPl; }; numerar();
   let area = '';
-  const indice = '<table class="rp-t"><thead><tr><th>Nº</th><th>Área › local</th><th>Não conformidade</th><th>Responsável</th><th>Gravidade</th>' + (fech ? '<th>Retorno</th>' : '') + '<th>Folha</th></tr></thead><tbody>' +
-    ls.map(n => { const sec = n.area !== area ? (area = n.area, '<tr class="rp-ts"><td colspan="' + (fech ? 7 : 6) + '">' + esc(rncAreaNome(n.area).toUpperCase()) + '</td></tr>') : '';
-      return sec + '<tr><td class="nw"><b>' + rncNum(n.n) + '</b></td><td>' + esc(n.local) + '</td><td>' + esc(n.nc) + '</td><td>' + esc(n.respNome) + '</td><td class="nw"><span class="rp-g" style="background:' + G[n.grav] + '">' + RNC_GRAV[n.grav][0] + '</span></td>' + (fech ? '<td class="nw">' + (n.ret ? '<span class="rp-g" style="background:' + R[n.ret.res] + '">' + RNC_RES[n.ret.res][0] + '</span>' : '—') + '</td>' : '') + '<td class="nw">' + pgOf[n.id] + '</td></tr>'; }).join('') + '</tbody></table>';
+  const temGutP = ls.some(n => gutDe(n.id)); /* v2.102.12: coluna GUT só quando alguma NC tem nota */
+  const idxCab = '<table class="rp-t"><thead><tr><th>Nº</th><th>Área › local</th><th>Não conformidade</th><th>Responsável</th><th>Gravidade</th>' + (temGutP ? '<th>GUT</th>' : '') + (fech ? '<th>Retorno</th>' : '') + '<th>Folha</th></tr></thead><tbody>';
+  const idxTab = rows => idxCab + rows.join('') + '</tbody></table>';
+  const idxLinhas = () => { area = ''; return [].concat.apply([], ls.map(n => { const sec = n.area !== area ? (area = n.area, '<tr class="rp-ts"><td colspan="' + ((fech ? 7 : 6) + (temGutP ? 1 : 0)) + '">' + esc(rncAreaNome(n.area).toUpperCase()) + '</td></tr>') : '';
+      return [sec, '<tr><td class="nw"><b>' + rncNum(n.n) + '</b></td><td>' + esc(n.local) + '</td><td>' + esc(n.nc) + '</td><td>' + esc(n.respNome) + '</td><td class="nw"><span class="rp-g" style="background:' + G[n.grav] + '">' + RNC_GRAV[n.grav][0] + '</span></td>' + (temGutP ? '<td class="nw">' + (gutPrint(gutDe(n.id), true) || '—') + '</td>' : '') + (fech ? '<td class="nw">' + (n.ret ? '<span class="rp-g" style="background:' + R[n.ret.res] + '">' + RNC_RES[n.ret.res][0] + '</span>' : '—') + '</td>' : '') + '<td class="nw">' + pgOf[n.id] + '</td></tr>']; })).filter(Boolean); };
   const agora = new Date(), impresso = 'Impresso por ' + esc(S.user.nome) + ' em ' + fmtD(hojeISO()) + ' às ' + pad(agora.getHours()) + ':' + pad(agora.getMinutes());
   const dci = dcInfo('rnc');
-  const capa = '<section class="rp-pg rp-capa">' + dcCabHTML(dci, r.numero + ' · ' + r.tipo + ' · ' + (fech ? 'fechamento' : 'abertura'), 1, totP) +
+  const capaHTML = rows => '<section class="rp-pg rp-capa">' + dcCabHTML(dci, r.numero + ' · ' + r.tipo + ' · ' + (fech ? 'fechamento' : 'abertura'), 1, totP) +
     '<div class="rp-kick rp-kick2">Relatório de Não Conformidade · ' + (fech ? 'fechamento' : 'abertura') + ' · <b>' + esc(r.numero) + '</b> · emitido em ' + fmtD(hojeISO()) + '</div>' +
     '<div class="rp-top3"><div class="rp-box"><h4>Auditoria</h4><div class="rp-kv">' + info.map(x => '<span>' + esc(x[0]) + '</span><b>' + esc(x[1]) + '</b>').join('') + '</div></div>' +
     '<div class="rp-box rp-dn"><h4>' + (fech ? 'Situação no fechamento' : 'Por gravidade') + '</h4><div class="rp-dnw">' + rosca + '<div class="rp-leg">' + leg.map(x => '<div><i style="background:' + x[2] + '"></i>' + x[0] + ' <b>' + x[1] + '</b></div>').join('') + '<div class="rp-mini">Cientes antes: <b>' + ls.filter(n => n.ciente).length + ' de ' + ls.length + '</b>' + (ls.some(n => rncReinc(r, n)) ? ' · reincidentes: <b>' + ls.filter(n => rncReinc(r, n)).length + '</b>' : '') + '</div></div></div></div>' +
     '<div class="rp-box rp-pass"><h4>' + (fech ? 'Como ler' : 'Como seguir') + '</h4>' + passos + '</div></div>' +
-    '<div class="rp-idx"><h4>Índice das não conformidades · Campo → Estrutura</h4>' + indice + '</div>' +
+    '<div class="rp-idx"><h4>Índice das não conformidades · Campo → Estrutura' + (nIdx > 1 ? ' · continua na folha 2' : '') + '</h4>' + idxTab(rows) + '</div>' +
     '<div class="rp-sig"><div>Auditor · ' + esc(r.auditorNome) + '</div><div>' + (r.acompanhante ? 'Acompanhante · ' + esc(r.acompanhante) : 'Responsável da área') + '</div><div>Gestão da Qualidade</div></div>' +
     '<div class="rp-ft"><span>' + impresso + '</span><span>' + esc(r.numero) + ' · folha 1 de ' + totP + '</span></div></section>';
+  const contHTML = (rows, pg) => '<section class="rp-pg rp-capa rp-cont">' + dcCabHTML(dci, r.numero + ' · índice (continuação)', pg, totP) +
+    '<div class="rp-idx" style="margin-top:4mm"><h4>Índice das não conformidades · continuação</h4>' + idxTab(rows) + '</div>' +
+    '<div class="rp-ft"><span>' + impresso + '</span><span>' + esc(r.numero) + ' · folha ' + esc(pg) + ' de ' + totP + '</span></div></section>';
   const W = 186, HF = 72;
   const folha = n => { const g = RNC_GRAV[n.grav], ri = rncReinc(r, n), rt = n.ret ? RNC_RES[n.ret.res] : null;
     const campos = [['Lei / requisito', n.lei || '—'], ['Responsável', n.respNome + (n.ciente ? ' · estava ciente' : ' · não estava ciente')], ['Prazo', fmtD(r.prazo)]].concat(n.obs ? [['Observação', n.obs]] : []).concat(n.sug ? [['Sugestão', n.sug]] : []).concat(ri ? [['Reincidência', 'mesmo local e requisito na ' + ri.rnc + ' (' + rncNum(ri.n) + ')']] : []);
@@ -13821,17 +13992,32 @@ async function rncImprimir(id, modo) {
     const baixo = fech && n.ret ? '<div class="rp-l"><div class="rp-res" style="background:' + R[n.ret.res] + '">' + rt[0] + '</div><div class="rp-big">' + esc(n.ret.texto) + '</div><div class="rp-kv"><span>Conferido por</span><b>' + esc(n.ret.porNome) + '</b><span>Em</span><b>' + fmtD(n.ret.data) + '</b></div></div><div class="rp-r">' + (fd || '<div class="rp-sf">Sem foto do depois</div>') + '</div>'
       : fech ? '<div class="rp-l"><div class="rp-res" style="background:#bdb6a3">Sem retorno</div><div class="rp-big">Ainda não conferida.</div></div><div class="rp-r"></div>'
       : '<div class="rp-l rp-man"><div class="rp-cx"><span>☐ Resolvida</span><span>☐ Parcial</span><span>☐ Não resolvida</span></div><div class="rp-lin">O que foi feito:</div><div class="rp-lin"></div><div class="rp-lin"></div><div class="rp-lin">Data do retorno:</div><div class="rp-lin">Assinatura do responsável:</div></div><div class="rp-r"><div class="rp-sf">As fotos do depois são tiradas pelo auditor no app, na conferência.</div></div>';
-    return '<section class="rp-pg rp-nc"><div class="rp-strip"><span class="rp-nn">' + rncNum(n.n) + '</span><span>' + esc(rncAreaNome(n.area).toUpperCase()) + ' › ' + esc(n.local) + '</span><span class="rp-g" style="background:' + G[n.grav] + '">' + g[0] + '</span>' + (rt ? '<span class="rp-g" style="background:' + R[n.ret.res] + '">' + rt[0] + '</span>' : '') + '<span class="rp-sp"></span><span>' + esc(r.numero) + ' · ' + esc(dci.codigo) + ' · Rev. ' + esc(dci.revisao) + ' · folha ' + pgOf[n.id] + ' de ' + totP + '</span></div>' +
+    return '<section class="rp-pg rp-nc"><div class="rp-strip"><span class="rp-nn">' + rncNum(n.n) + '</span><span>' + esc(rncAreaNome(n.area).toUpperCase()) + ' › ' + esc(n.local) + '</span><span class="rp-g" style="background:' + G[n.grav] + '">' + g[0] + '</span>' + gutPrint(gutDe(n.id)) + (rt ? '<span class="rp-g" style="background:' + R[n.ret.res] + '">' + rt[0] + '</span>' : '') + '<span class="rp-sp"></span><span>' + esc(r.numero) + ' · ' + esc(dci.codigo) + ' · Rev. ' + esc(dci.revisao) + ' · folha ' + pgOf[n.id] + ' de ' + totP + '</span></div>' +
       '<div class="rp-half"><div class="rp-ht"><i>1</i>1ª visita · apontamento · ' + fmtD(r.data) + '<span>' + (n.fotosAntes || []).length + ' foto(s) do antes</span></div><div class="rp-hb"><div class="rp-l"><div class="rp-big">' + esc(n.nc) + '</div><div class="rp-kv">' + campos.map(x => '<span>' + esc(x[0]) + '</span><b>' + esc(x[1]) + '</b>').join('') + '</div></div><div class="rp-r">' + (fa || '<div class="rp-sf">Sem foto</div>') + '</div></div></div>' +
       '<div class="rp-half dep"><div class="rp-ht"><i>2</i>2ª visita · retorno' + (n.ret ? ' · ' + fmtD(n.ret.data) : ' · preencher até ' + fmtD(r.prazo)) + '<span>' + (fech && n.ret ? (n.ret.fotosDepois || []).length + ' foto(s) do depois' : '') + '</span></div><div class="rp-hb">' + baixo + '</div></div>' +
       '<div class="rp-ft"><span>' + impresso + '</span><span>Auditor: ' + esc(r.auditorNome) + '</span></div></section>'; };
   Audit.log({ acao: 'imprimir', entidade: 'rnc', entidadeId: id, resumo: 'RNC de ' + (fech ? 'fechamento' : 'abertura') + ' ' + r.numero + ' (' + ls.length + ' NCs, ' + totP + ' folhas)' });
-  const plano = '<section class="rp-pg rp-pa">' + dcCabHTML(dci, r.numero + ' · plano de ação', totP, totP) +
-    '<div class="rp-idx"><h4>Plano de ação · ' + (fech ? 'situação no fechamento' : 'corrigir até ' + fmtD(r.prazo)) + '</h4><table class="rp-t"><thead><tr><th>Nº</th><th>Não conformidade</th><th>Ação (sugestão do auditor)</th><th>Responsável</th><th>Prazo</th><th>Status</th></tr></thead><tbody>' +
-    ls.map(n => '<tr><td class="nw"><b>' + rncNum(n.n) + '</b></td><td>' + esc(n.nc) + '</td><td>' + esc(n.sug || '—') + '</td><td>' + esc(n.respNome) + '</td><td class="nw">' + fmtD(r.prazo) + '</td><td class="nw">' + (n.ret ? '<span class="rp-g" style="background:' + R[n.ret.res] + '">' + RNC_RES[n.ret.res][0] + '</span>' : 'Aberta') + '</td></tr>').join('') + '</tbody></table></div>' +
-    '<div class="rp-sig"><div>Auditor · ' + esc(r.auditorNome) + '</div><div>' + (r.acompanhante ? 'Acompanhante · ' + esc(r.acompanhante) : 'Responsável da área') + '</div><div>Gestão da Qualidade</div></div>' +
-    '<div class="rp-ft"><span>' + impresso + '</span><span>' + esc(r.numero) + ' · folha ' + totP + ' de ' + totP + '</span></div></section>';
-  runPrintRaw('<div class="rp">' + capa + ls.map(folha).join('') + plano + '</div>');
+  const plLinhas = () => ls.map(n => '<tr><td class="nw"><b>' + rncNum(n.n) + '</b></td><td>' + esc(n.nc) + '</td><td>' + esc(n.sug || '—') + '</td><td>' + esc(n.respNome) + '</td><td class="nw">' + fmtD(r.prazo) + '</td><td class="nw">' + (n.ret ? '<span class="rp-g" style="background:' + R[n.ret.res] + '">' + RNC_RES[n.ret.res][0] + '</span>' : 'Aberta') + '</td></tr>');
+  const planoHTML = (rows, pg, ultima) => '<section class="rp-pg rp-pa">' + dcCabHTML(dci, r.numero + ' · plano de ação' + (pg > nIdx + ls.length + 1 ? ' (continuação)' : ''), pg, totP) +
+    '<div class="rp-idx"><h4>Plano de ação · ' + (fech ? 'situação no fechamento' : 'corrigir até ' + fmtD(r.prazo)) + (pg > nIdx + ls.length + 1 ? ' · continuação' : '') + '</h4><table class="rp-t"><thead><tr><th>Nº</th><th>Não conformidade</th><th>Ação (sugestão do auditor)</th><th>Responsável</th><th>Prazo</th><th>Status</th></tr></thead><tbody>' + rows.join('') + '</tbody></table></div>' +
+    (ultima ? '<div class="rp-sig"><div>Auditor · ' + esc(r.auditorNome) + '</div><div>' + (r.acompanhante ? 'Acompanhante · ' + esc(r.acompanhante) : 'Responsável da área') + '</div><div>Gestão da Qualidade</div></div>' : '') +
+    '<div class="rp-ft"><span>' + impresso + '</span><span>' + esc(r.numero) + ' · folha ' + esc(pg) + ' de ' + totP + '</span></div></section>';
+  /* v2.102.12: mede de verdade antes de imprimir (como o relatório semanal): o índice e o plano que não cabem seguem em folhas
+     de continuação (com cabeçalho e "folha X de N" certos); a folha da NC com texto comprido diminui a letra até caber (nada é cortado) */
+  const fim = rncMedirIni();
+  let ci = [idxLinhas().length], cp = [ls.length], fit = [];
+  try {
+    ci = rncPaginar((rows, k) => k === 0 ? capaHTML(rows) : contHTML(rows, 2), idxLinhas());
+    cp = rncPaginar(rows => planoHTML(rows, totP, true), plLinhas());
+    nIdx = ci.length; nPl = cp.length; numerar();
+    fit = ls.map(n => rncAjustarFolha(folha(n)));
+  } catch (e) { console.warn('rnc medir', e); } finally { fim(); }
+  const fatia = (l, cs) => { const o = []; let i = 0; cs.forEach(c => { o.push(l.slice(i, i + c)); i += c; }); return o; };
+  const li = fatia(idxLinhas(), ci), lp = fatia(plLinhas(), cp);
+  const html = li.map((rows, k) => k === 0 ? capaHTML(rows) : contHTML(rows, k + 1)).join('') +
+    ls.map((n, i) => { const h = folha(n); return fit[i] ? h.replace('<section class="rp-pg rp-nc"', '<section class="rp-pg rp-nc rp-fit' + fit[i] + '"') : h; }).join('') +
+    lp.map((rows, k) => planoHTML(rows, nIdx + ls.length + 1 + k, k === lp.length - 1)).join('');
+  runPrintRaw('<div class="rp">' + html + '</div>');
 }
 /* ---------- ações ---------- */
 function rncAcao(act, id, t) {
@@ -13846,6 +14032,8 @@ function rncAcao(act, id, t) {
     case 'rnc-nc': openRncNc(id, 0); return true;
     case 'rnc-item': { const r = rncDe(id); if (!r) return true; const s = rncSit(r); if (s === 'registro' && rncPode(r)) openRncNc(id, n); else if ((s === 'retorno' || s === 'pronta') && rncPode(r)) openRncConf(id, n); else toast('Veja a folha dela na RNC impressa.'); return true; }
     case 'rnc-ch': rncCh(t); return true;
+    case 'rnc-gut-limpar': { const b = S.rncNc; if (b) { rncNcLer(); b.gut = { g: GUT_G_SUG[b.grav] || 0 }; b.gutGMan = false; rncNcRender(); } return true; } /* v2.102.12 */
+    case 'rnc-risco': S.rncRisco = !S.rncRisco; openRnc(id); return true;
     case 'rnc-foto-rm': { const b = rncBag(); if (b) { if (S.rncNc) rncNcLer(); b.fotos.splice(Number(id), 1); rncFotosAtualiza(); } return true; }
     case 'rnc-nc-canc': rncNcLer(); openRncNcCanc(id); return true;
     case 'rnc-enviar': openRncEnviar(id); return true;
@@ -19844,7 +20032,7 @@ function openAprovDetail(id) {
     (a.descricao ? '<p style="margin-bottom:12px;white-space:pre-wrap">' + esc(a.descricao) + '</p>' : '') +
     (a.tipo === 'cloro_tratado' && a.refId ? '<p style="margin-bottom:12px"><button class="btn sm" data-action="cl-open" data-id="' + esc(a.refId) + '">Ver a verificação</button></p>' : '') +
     (a.tipo === 'corrigir_lancamento' && a.refId ? '<p style="margin-bottom:12px"><button class="btn sm" data-action="lanc-open" data-id="' + esc(a.refId) + '">Ver o lançamento</button></p>' : '') +
-    (a.tipo === 'corrigir_coleta' && a.refId ? '<p style="margin-bottom:12px"><button class="btn sm" data-action="col-open" data-id="' + esc(a.refId) + '">Ver a amostra</button></p>' : '') +
+    ((a.tipo === 'corrigir_coleta' || a.tipo === 'cancelar_coleta') && a.refId ? '<p style="margin-bottom:12px"><button class="btn sm" data-action="col-open" data-id="' + esc(a.refId) + '">Ver a amostra</button></p>' : '') +
     keyval([['Pedido por', a.solicitanteNome], ['Quando', fmtDT(a.ts)], ['Enviado para', (a.paraIds || []).map(nomeDe).join(', ')]]) + dec + campo +
     '<div class="row-actions"><button class="btn" data-action="hist-open" data-ent="aprovacao" data-id="' + esc(a.id) + '">Histórico</button>' + botoes + '</div>');
 }
@@ -20095,7 +20283,7 @@ async function doSetup() {
 }
 
 /* ============ SESSÃO ============ */
-function cleanupSession() { S.unsub.forEach(f => { try { f(); } catch (e) {} }); S.unsub = []; S.conq = []; S.apontTeste = []; S.rncTeste = []; S.avatars = {}; S.cloroFaltas = {}; S.almMovErro = ''; S.bugF = null; S.cfgAgua = null; /* v2.99.1 (L8) */ S.tarefas = []; S.cfgTf = null; S.tf = null; S.bugs = []; S.cfgEmp = null; S._empMig = false; S.chat = []; S.chatF = 'todas'; S.cfgDoc = null; S.cfgBk = null; S.cfgArq = null; S.arqDados = null; S.arqVer = null; S.rnc = []; S.normas = []; S.normasEd = []; S.nrmF = null; S.nrmClF = null; S.nrmImpEd = null; S.rncNc = null; S.rncCf = null; S.almEq = []; S.almTransf = []; S.trf = null; S.trfR = null; S.qb = null; S.qbr = null; S.almCal = []; S.almInv = []; S.invNovo = null; S.invMot = null; S.invFreq = null; S.rcSel = null; S.rcF = null; S.eqF = 'todos'; S.eqEv = null; S.eqConf = null; S.rodizios = []; S.respEd = null; S.rzEd = null; S.aguaproj = []; S.aguapontos = []; S.pjEd = null; S.procs = []; S.procNovo = null; S.users = []; S.notifs = []; S.audit = []; S.aprov = []; S.resumos = []; S.docs = []; S.caixas = []; S.lanc = []; S.bebs = []; S.cloro = []; S.talhoes = []; S.analises = []; S.cfgCol = null; S.etqmodelos = []; S.apont = []; S.cfgAp = null; S.almItens = []; S.almMov = []; S.almSol = []; S.cfgAlm = null; S.almPref = null; S.almEquip = []; S.alMes = null; S.prog = []; S.coletas = []; S.aguacol = []; S.alerted = new Set(); S.testBanner = null; }
+function cleanupSession() { S.unsub.forEach(f => { try { f(); } catch {} }); S.unsub = []; S.rncGut = []; S.rncRisco = false; /* v2.102.12 */ S.conq = []; S.apontTeste = []; S.rncTeste = []; S.avatars = {}; S.cloroFaltas = {}; S.almMovErro = ''; S.bugF = null; S.cfgAgua = null; /* v2.99.1 (L8) */ S.tarefas = []; S.cfgTf = null; S.tf = null; S.bugs = []; S.cfgEmp = null; S._empMig = false; S.chat = []; S.chatF = 'todas'; S.cfgDoc = null; S.cfgBk = null; S.cfgArq = null; S.arqDados = null; S.arqVer = null; S.rnc = []; S.normas = []; S.normasEd = []; S.nrmF = null; S.nrmClF = null; S.nrmImpEd = null; S.rncNc = null; S.rncCf = null; S.almEq = []; S.almTransf = []; S.trf = null; S.trfR = null; S.qb = null; S.qbr = null; S.almCal = []; S.almInv = []; S.invNovo = null; S.invMot = null; S.invFreq = null; S.rcSel = null; S.rcF = null; S.eqF = 'todos'; S.eqEv = null; S.eqConf = null; S.rodizios = []; S.respEd = null; S.rzEd = null; S.aguaproj = []; S.aguapontos = []; S.pjEd = null; S.procs = []; S.procNovo = null; S.users = []; S.notifs = []; S.audit = []; S.aprov = []; S.resumos = []; S.docs = []; S.caixas = []; S.lanc = []; S.bebs = []; S.cloro = []; S.talhoes = []; S.analises = []; S.cfgCol = null; S.etqmodelos = []; S.apont = []; S.cfgAp = null; S.almItens = []; S.almMov = []; S.almSol = []; S.cfgAlm = null; S.almPref = null; S.almEquip = []; S.alMes = null; S.prog = []; S.coletas = []; S.aguacol = []; S.alerted = new Set(); S.testBanner = null; }
 async function onAuth(id) {
   if (S.busy) return;
   cleanupSession();
@@ -20174,6 +20362,7 @@ function startSession() {
     if (t.id === 'tarefas' || t.id === 'meudia') renderDados(); }, { order: 'criadoEm', limit: 2000 })); /* v2.82: mais novas primeiro */
   S.unsub.push(Data.col('sv2_bugs').watch(list => { S.bugs = list; const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && t && (t.id === 'bugs' || t.id === 'rel')) renderDados(); }, { order: 'ts', limit: 500 })); /* v2.82 */
   if (isPrincipal(S.user)) S.unsub.push(Data.col('sv2_recup').watch(list => cadRecAvisar(list))); /* v2.74.0 · v2.91.0 (G7) */
+  S.unsub.push(Data.col('sv2_rnc_gut').watch(list => { S.rncGut = list; if (curArea().id === 'inspecoes') renderDados(); })); /* v2.102.12 */
   S.unsub.push(Data.col('sv2_rnc').watch(list => { S.rncTeste = list.filter(x => x.teste); S.rnc = list.filter(x => !x.teste); /* v2.75.0 */ if (curArea().id === 'inspecoes') renderDados(); })); /* v2.91.0 (G7) */
   S.unsub.push(Data.col('sv2_alm_transf').watch(list => { S.almTransf = list; if (curArea().id === 'almox') renderDados(); })); /* v2.91.0 (G7) */
   S.unsub.push(Data.col('sv2_alm_cal').watch(list => { S.almCal = list; if (curArea().id === 'almox' || curArea().id === 'rateios') renderDados(); })); /* v2.91.0 (G7) */
@@ -20725,6 +20914,7 @@ document.addEventListener('click', e => {
     case 'col-cancel': openCancelCol(id); break; /* v2.85.0 */
     case 'cc-mot': S._ccMot = id; $$('[data-action="cc-mot"]').forEach(b => b.classList.toggle('on', b === t)); break;
     case 'col-cancel-ok': cancelarCol(id, ccMotivo()); break;
+    case 'col-cancel-pedir': pedirCancCol(id, ccMotivo()); break; /* v2.102.11 */
     case 'ag-new': openAguaNew(id || ''); break;
     case 'ag-tipo': agTipoTrocar(id); break;
     case 'an-ponto-pick': agPontoAbrir(); break;
