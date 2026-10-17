@@ -3012,7 +3012,7 @@ table.t td{vertical-align:middle}
 @media(min-width:760px){.md2 .tf-hd{flex-wrap:nowrap}.md2 .tf-hd>div:first-child{flex:1 1 0;min-width:0}.md2 .tf-hd .tf-sp{display:none}.md2 .tf-hd .tf-sub{white-space:normal}.md2 .tf-hd>*{flex-shrink:0}.md2 .tf-hd>div:first-child{flex-shrink:1}}
 @media(max-width:859px){
   .rl-g{grid-template-columns:minmax(0,1fr)}.rl-g>*{min-width:0}
-  .tbar.has-dica:not(.tb-prog) h2{flex:1 1 0;min-width:0;order:-3}.tbar.has-dica:not(.tb-prog) .tprint{order:-2}.tbar.has-dica:not(.tb-prog) .count,.tbar.has-dica:not(.tb-prog) .tdica{display:none}
+  .tbar[class*="tb-col_"] h2{flex:1 1 0;min-width:0;order:-3}.tbar[class*="tb-col_"] .tprint{order:1}.tbar[class*="tb-col_"] .tacoes{order:-2;flex:0 0 auto}.tbar[class*="tb-col_"] .tacoes .btn.sm{flex:0 0 auto;padding-left:10px;padding-right:10px;font-size:12px}.tbar[class*="tb-col_"] .tprint{margin-left:auto}.tbar[class*="tb-col_"]:has(.tacoes) h2{flex:1 1 100%}.tbar[class*="tb-col_"] .count{order:0;flex:0 1 auto;white-space:nowrap}.tbar[class*="tb-col_"].has-dica .count,.tbar[class*="tb-col_"].has-dica .tdica{display:none} /* v2.102.36: vale com ou sem registros */
   .rel-h.rel-h-ac{flex-wrap:wrap}.rel-h-t{flex:1 1 150px}.rel-h-ac .rlm-bar{flex-wrap:wrap}
 }
 @media(max-width:600px){.kpis.rt-kpis3 .kpi b{font-size:17px}.kpis.rt-kpis3 .kpi{padding:10px 4px}}
@@ -3029,7 +3029,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.35 · Acertos do celular (Rateios, Composto, Relatórios, login), Lançar vários, Meu dia, Pareto e plural das Conquistas';
+const APP_VERSION = 'v2.102.37 · Celular: botão Atualizar e impressora na mesma linha, impressora rente à tabela, nas abas de material';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
