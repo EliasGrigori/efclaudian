@@ -466,7 +466,7 @@ body[data-theme="ponto"]::before{background:radial-gradient(rgba(60,60,110,.16) 
 #print-root .anl-2{display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;margin:0 0 4px}#print-root .anl-is h4{margin:0 0 2px;font-size:8pt;text-transform:uppercase;letter-spacing:.03em;color:#444}#print-root .anl-is p,#print-root .anl-is ol{margin:0}#print-root .anl-is ol{padding-left:16px}
 #print-root .ishi-fig.anl-fig{margin:0 0 2px}#print-root .ishi-fig.anl-fig svg{max-height:var(--fh,88mm);width:100%;margin:0 auto}
 #print-root .anl-t,#print-root .ishi-tb{width:100%;font-size:9pt;color:#111;margin:2px 0 4px}#print-root .anl-t th,#print-root .anl-t td,#print-root .ishi-tb th,#print-root .ishi-tb td{padding:1px 6px;vertical-align:top;text-align:left;color:#111}#print-root .ishi-tb td:first-child{white-space:nowrap}#print-root .ishi-tb tr.pri td{font-weight:700}
-.par-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0 6px}.par-top .par-ano{gap:4px;justify-content:flex-start}.par-top .par-ano h2{font-size:18px;min-width:3em;text-align:center}.par-imp{margin-left:auto;display:flex}
+.par-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:10px 0 6px}.par-top .par-ano{gap:4px;justify-content:flex-start}.par-top .par-ano h2{font-size:18px;min-width:3em;text-align:center}.par-top .par-imp{margin-left:auto;display:flex}
 .dd{position:relative;display:inline-flex}.dd-bt{gap:4px;white-space:nowrap}.dd-bt b{font-weight:600}.dd-r{font-weight:400;color:var(--text-muted)}.dd-s{font-size:.8em;color:var(--text-muted)}
 .dd-pop{position:absolute;top:calc(100% + 4px);left:0;z-index:40;display:flex;flex-direction:column;gap:2px;min-width:max(100%,150px);padding:4px;background:var(--surface);border:1px solid var(--border-light);border-radius:var(--r-ctl);box-shadow:0 10px 28px rgba(0,0,0,.28)}.dd-pop[hidden]{display:none}
 .dd-pop .dd-op{justify-content:flex-start;width:100%;border-color:transparent;background:transparent;color:var(--text);font-weight:500}.dd-pop .dd-op:hover{background:var(--surface-2)}
@@ -2827,6 +2827,166 @@ body[data-theme="sunset"]::before{background:none}
   .tf-eqn{grid-template-columns:repeat(3,minmax(0,1fr))}.tf-eqn div:nth-child(4){border-left:0}.tf-eqn div:nth-child(n+4){border-top:1px solid var(--border)}
 }
 
+
+/* ============ v2.102.28 — padrões do app inteiro ============ */
+/* janelas: fundo escurecido 25% com desfoque leve; mais largas no PC */
+.overlay{background:rgba(0,0,0,.25);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+@media(min-width:860px){.sheet{max-width:min(760px,94vw)}.sheet:has(.par-top){max-width:min(980px,94vw)}}
+/* tabelas: tudo centralizado; texto longo (al-e) à esquerda, com o cabeçalho também à esquerda */
+table th.al-c,table td.al-c{text-align:center!important}
+table th.al-e,table td.al-e{text-align:left!important}
+table.t th.al-c .th-in{justify-content:center;position:relative;padding:0 22px}
+table.t th.al-c .th-in .fbtn{position:absolute;right:0;top:50%;transform:translateY(-50%);width:22px;height:30px}
+table.t th.al-c .th-in .fbtn svg{width:13px;height:13px}
+table.t th.al-e .th-in{justify-content:flex-start}
+/* impressora na ponta direita da barra, mesmo quando a barra quebra de linha */
+.tbar .tprint,.tbar .imp-w,.rl-top .imp-w,.al-apre-ac .imp-w{margin-left:auto}
+/* PDF: o mesmo alinhamento (vale também para as tabelas que já alinhavam números à direita) */
+#print-root table th.al-c,#print-root table td.al-c{text-align:center!important}
+#print-root table th.al-e,#print-root table td.al-e{text-align:left!important}
+#print-root table.t th{color:inherit}
+#print-root table.t tbody tr:hover td{background:none}
+#print-root .par-t tr.vital td:first-child{color:inherit;font-weight:700}
+/* Pareto: unidade do cabeçalho da lista sem caixa alta ("NCs"); trilho das barras com contorno visível; menu Agrupar com nome curto no celular */
+.par-lh span:last-child{text-transform:none}
+.par-bar{box-shadow:inset 0 0 0 1px var(--text-dim)}
+.dd-c{display:none}
+.sheet[tabindex="-1"]:focus{outline:none}
+@media(max-width:560px){.dd-l{display:none}.dd-c{display:inline}}
+/* Ishikawa: janela larga o bastante para o desenho inteiro */
+@media(min-width:860px){.sheet:has(.ishi-fig){max-width:min(1100px,94vw)}}
+
+/* ============ v2.102.29 — telas ============ */
+.ap-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:0 0 10px}
+.ap-bar .dd,.nrm-topo .dd,.bug-bts .dd{display:inline-flex}
+.btn.ap-nv{gap:8px;font-weight:800}.btn.ap-nv svg{width:16px;height:16px}
+@media(max-width:560px){.ap-nv-l{display:none}.ap-bar{gap:5px}.ap-bar .btn.sm,.ap-bar .dd-bt{padding-left:9px;padding-right:9px}.ap-bar .ap-nv svg{display:none}}
+.nrm-topo{align-items:center}.nrm-topo>.btn.sm{flex:0 0 auto}
+@media(max-width:600px){.nrm-topo>.btn.sm{flex:0 1 auto}}
+.bug-bts{align-items:stretch}.bug-bts .dd-bt{min-height:44px;font-size:14px;padding:0 16px}
+@media(max-width:600px){.bug-bts .bug-pdf{grid-column:auto}.bug-bts .dd{grid-column:auto;justify-self:stretch}.bug-bts .dd-bt{width:100%;justify-content:center}}
+
+/* ===== Documentos (v2.102.29) ===== */
+.doc-bar{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:0 0 10px}
+.doc-bar .dd{display:inline-flex}
+.doc-bar .btn.doc-nv{font-weight:800}
+.doc-bar .dd-r,.rel-seg-dd .dd-r{display:inline!important}
+.doc-nota{align-self:center;font-size:12px;color:var(--text-muted)}
+@media(max-width:600px){.doc-bar{display:grid;grid-template-columns:1fr 1fr}.doc-bar .dd{justify-self:stretch}.doc-bar .dd-bt{width:100%;justify-content:center}.doc-nota{grid-column:1 / -1}}
+@media(max-width:859px){.tbar:not(:has(.tacoes)):not(.has-dica) h2{flex:1 1 0;min-width:0;flex-basis:0}}
+/* Relatório: rosca maior com título e legenda lado a lado */
+.rel-a-cx .rel-rosca-w{flex-wrap:nowrap;gap:14px;align-items:center}
+.rel-a-cx .rel-cx-r{flex:1;min-width:0;display:grid;gap:6px}
+.rel-a-cx .rel-cx-r .rel-h{margin:0;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.rel-a-cx .rel-leg{min-width:0;gap:3px;font-size:12px}
+.rel-a-cx .rel-rosca{width:clamp(104px,17vh,150px)!important;height:clamp(104px,17vh,150px)!important}
+/* Relatório: Tipo ▾ e Status ▾ lado a lado; Responsáveis com 28 px por nome */
+.rel-a-seg{overflow:visible!important}
+.rel-a-seg .rel-seg-in{display:flex!important;flex-direction:column;gap:8px}
+.rel-seg-dd{display:flex;gap:6px;flex-wrap:wrap}
+.rel-seg-dd .dd{display:inline-flex;flex:1 1 0;min-width:0}
+.rel-seg-dd .dd-bt{width:100%;height:32px;min-height:32px;padding:0 10px;font-size:12px;justify-content:space-between;border-width:1px}
+.rel-seg-dd .dd-bt b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rel-a-seg .rel-seg-r{display:flex;flex-direction:column;min-height:0;flex:1}
+.rel-a-seg .rel-resp{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:4px;max-height:none;flex:1;min-height:0;overflow:auto}
+.rel-a-seg .rel-ri{height:28px;min-height:28px;padding:0 10px;font-size:11.5px}
+.rel-a-seg .rel-ri span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.5}
+
+/* ===== Almoxarifado (v2.102.29) ===== */
+.al-barra{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 10px}
+.al-barra .dd{display:inline-flex}
+.al-barra .btn.sm,.al-barra .dd-bt,.al-sol-top .dd-bt,.tjunto .dd-bt{min-height:36px}
+.al-barra .al-modo{display:inline-flex;gap:6px}
+.al-bar-busca{flex:1 1 200px;min-width:160px}
+.al-bar-busca .alb{margin:0}
+.al-bar-busca .alb .input{min-height:36px}
+.al-barra .al-fim{margin-left:auto}
+.tjunto{display:flex;gap:6px;align-items:center;flex:1 1 150px;min-width:0}
+.tjunto .al-bar-busca{flex:1 1 90px;min-width:90px}
+@media(min-width:861px){.tbar:has(.tjunto) .tacoes{gap:4px}.tbar:has(.tjunto) .tacoes .btn.sm{padding-left:10px;padding-right:10px}}
+.tjunto .dd{display:inline-flex;flex:0 0 auto}
+.tbar:has(.tjunto) h2{flex:0 0 auto}
+@media(max-width:600px){.al-barra .dd{flex:1 1 0}.al-barra .dd-bt{width:100%;justify-content:center}.al-barra .al-bar-busca{flex-basis:100%;order:9}.tjunto{flex-basis:100%;order:-1}.tbar:has(.tjunto) h2{order:-2}.tjunto .dd{flex:1 1 0}.tjunto .dd-bt{width:100%;justify-content:center}.tbar:has(.tjunto) h2{flex-basis:100%}}
+@media(max-width:600px){.al-barra:has(.al-fim) .al-fim{margin-left:auto}}
+/* Solicitações: menu na mesma altura dos botões de ação */
+.al-sol-dd-w{display:inline-flex}
+@media(min-width:860px){.al-sol-top .al-sol-dd-w{order:1}}
+@media(max-width:859px){.al-sol-top .al-sol-dd-w{align-self:stretch}.al-sol-top .al-sol-dd-w .dd-bt{width:100%;justify-content:center}}
+/* Painel: quadros do resumo com número e legenda centralizados e altura igual */
+.al-kpis .kpi{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:76px}
+
+/* ===== Janela do material e Rateios (v2.102.29) ===== */
+@media(min-width:860px){.sheet:has(.al-saldo-big){max-width:min(880px,94vw)}}
+select.input.al-ano{width:auto;height:36px;min-height:36px;padding:0 28px 0 12px;font-size:13px;font-weight:600}
+.dp-fil{gap:6px}
+.dp .al-kcs .al-kc{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.dp-fil .dd{display:inline-flex}
+.dp-fil .dd-bt{min-height:36px}
+@media(max-width:600px){.dp-fil .dd{flex:1 1 0}.dp-fil .dd-bt{width:100%;justify-content:center}}
+
+/* ===== Linhas que rolam, barras de tabela e Meu dia (v2.102.29) ===== */
+@media(max-width:859px){
+  .rola-x{overflow-x:auto;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,black calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,black calc(100% - 28px),transparent)}
+  .rola-x.fim{-webkit-mask-image:none;mask-image:none}
+  .rola-x::-webkit-scrollbar{display:none}
+  .seg3.rola-x,.cl-bar.rola-x{flex-wrap:nowrap}
+  .seg3.rola-x>.btn,.cl-bar.rola-x>.btn{flex:0 0 auto}
+  .cl-bar.rola-x .btn.primary{flex:1 0 auto;overflow:visible}
+  .cl-bar .btn{min-height:40px}
+}
+@media(max-width:600px){
+  .tbar.tb-cad_an .tacoes{gap:4px}.tbar.tb-cad_an .tacoes .btn.sm{padding-left:9px;padding-right:9px}.tbar.tb-cad_an .count{font-size:12px}
+  .tbar[class*="tb-col_"] .tacoes{flex:1 1 100%}.tbar[class*="tb-col_"] .tacoes .btn.sm{flex:1 1 auto;justify-content:center;min-height:36px}.tbar[class*="tb-col_"] .tacoes .chip{align-self:center}
+}
+@media(min-width:1000px){
+  .md2 .tf-main.com-lado{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:stretch}
+  .md2 .tf-main.com-lado>.tf-side{display:flex;flex-direction:column}
+  .md2 .tf-main.com-lado>.tf-side>*:last-child{flex:1}
+}
+
+/* ===== Opções (v2.102.29) ===== */
+.op-top{display:grid;grid-template-columns:1fr;gap:0}
+.op-cols{display:block}
+@media(min-width:860px){
+  .sheet:has(.op-cols){max-width:min(820px,94vw)}
+  .op-top{grid-template-columns:1fr 1fr;gap:10px}
+  .op-cols{display:grid;grid-template-columns:1fr 1fr;gap:0 18px;align-items:start}
+}
+.op-adm-ov[hidden]{display:none}
+.op-adm-ov{position:absolute;inset:0;z-index:5;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.35)}
+.op-adm{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card) var(--r-card) 0 0;width:100%;max-width:520px;max-height:85dvh;overflow:auto;padding:16px 16px calc(16px + env(safe-area-inset-bottom));box-shadow:var(--shadow)}
+.op-adm-h{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.op-adm-h h3{margin:0}
+@media(min-width:860px){.op-adm-ov{align-items:center}.op-adm{border-radius:var(--r-card)}}
+@media(max-width:600px){.sheet .row-actions.op-foot{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px}.sheet .row-actions.op-foot .btn{width:100%;justify-content:center;padding-left:6px;padding-right:6px}}
+
+/* v2.102.28 — retoques: dados da linha alinhados ao meio (foto + nome × Login/Perfil); "NCs" na folha do Pareto sem caixa alta */
+table.t td{vertical-align:middle}
+#print-root .par-ik i{text-transform:none}
+
+/* ============ v2.102.30 — acertos do teste da v2.102.29 ============ */
+/* alturas: tudo 36 px nas barras (a busca tinha 46 e os botões de Bugs e Pedir equipamento novo 44) */
+.al-bar-busca .alb .input,.al-mat-busca .alb .input{height:36px;min-height:36px}
+.al-sol-top{gap:6px}
+.al-sol-top .ap-novo,.al-sol-top .ap-novo.cq-novo{min-height:36px;padding:0 16px;font-size:13.5px}
+.al-sol-top .ap-novo.cq-novo{margin:0}
+@media(max-width:859px){.al-sol-top .ap-novo{margin-bottom:0}}
+.bug-bts .btn,.bug-bts .dd-bt{min-height:36px}
+/* Equipamentos: o bloco filtro + busca não encolhe abaixo de 220 px (se faltar espaço, desce de linha em vez de passar por cima dos botões) */
+.tjunto{flex:1 1 220px;min-width:220px}
+.tjunto .alb .input{padding:0 10px;font-size:13px}
+/* Pareto: o número da barra ganha contorno do fundo (não se perde sobre a linha tracejada dos 80%) */
+.par-svg .pa-n{paint-order:stroke;stroke:var(--surface);stroke-width:4px;stroke-linejoin:round}
+#print-root .par-svg .pa-n{stroke:white}
+/* Materiais no celular: uma linha que rola de lado */
+@media(max-width:600px){
+  .al-barra.rola-x{flex-wrap:nowrap}
+  .al-barra.rola-x>*{flex:0 0 auto}
+  .al-barra.rola-x .dd{flex:0 0 auto}
+  .al-barra.rola-x .dd-bt{width:auto}
+  .al-barra.rola-x .al-fim{margin-left:0}
+}
+@media(max-width:859px){.rola-x.dd-aberto{-webkit-mask-image:none;mask-image:none}}
 </style></head>
 <body data-theme="dark">
 <div id="boot" class="boot">Carregando…</div>
@@ -2838,7 +2998,7 @@ body[data-theme="sunset"]::before{background:none}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.27 · Pareto: barra única com menus, gráfico próprio no celular e mais contraste; aviso das causas resumidas no Ishikawa';
+const APP_VERSION = 'v2.102.32 · Acertos: Status do Relatório mostra o filtro ativo e fica aberto ao marcar, Pareto com 1 casa decimal e mais folga na linha dos 80%';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -3713,7 +3873,7 @@ function openSheet(html, opts) {
   /* v2.75.0: a mesma janela desenhada de novo (marcar uma caixinha, trocar um filtro) mantém a rolagem e não puxa o foco */
   const velha = $('#ov .sheet'); let fica = null;
   if (velha) { const h3 = velha.querySelector('h3'); fica = { h: h3 ? h3.textContent : '', top: velha.scrollTop, dentro: Array.from(velha.querySelectorAll('*')).map((e, i) => e.scrollTop > 0 ? [i, e.scrollTop] : null).filter(Boolean) }; }
-  closeSheet();
+  const antes = !$('#ov') ? document.activeElement : null; S._reabre = true; closeSheet(); S._reabre = false; if (antes && antes !== document.body) S._focoAntes = antes; /* v2.102.28: guarda quem abriu */
   const ov = document.createElement('div');
   ov.className = 'overlay'; ov.id = 'ov';
   ov.innerHTML = '<div class="sheet" role="dialog" aria-modal="true">' + html + '</div>';
@@ -3721,11 +3881,12 @@ function openSheet(html, opts) {
   document.body.appendChild(ov);
   const igual = !!(fica && fica.h && fica.h === ((ov.querySelector('.sheet h3') || {}).textContent || ''));
   try { ajJanela(ov); } catch (e) {} /* v2.102.0 */
+  try { alinhaTabelas(ov); } catch {} /* v2.102.28 */
   if (igual) { const sh = ov.firstChild; sh.scrollTop = fica.top; const els = Array.from(sh.querySelectorAll('*')); fica.dentro.forEach(x => { if (els[x[0]]) els[x[0]].scrollTop = x[1]; }); }
   const f = $('input,button.btn.primary', ov); if (f && !igual && !(opts && opts.noFocus)) { try { f.focus(); } catch (e) {} }
   return ov.firstChild;
 }
-function closeSheet() { try { raFecha(); } catch {} const o = $('#ov'); /* v2.102.21 */ if (o) o.parentNode.removeChild(o); const mn = $('#tf-menu'); if (mn && mn.dataset.k === 'men') mn.hidden = true; }
+function closeSheet() { try { raFecha(); } catch {} const o = $('#ov'); /* v2.102.21 */ if (o) { o.parentNode.removeChild(o); if (!S._reabre && S._focoAntes) { const f = S._focoAntes; S._focoAntes = null; if (document.contains(f)) try { f.focus({ preventScroll: true }); } catch {} } } const mn = $('#tf-menu'); if (mn && mn.dataset.k === 'men') mn.hidden = true; }
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !S.lockado) closeSheet(); });
 document.addEventListener('input', e => { if (e.target && e.target.id === 'rz-apelido') rzResAtu(); if (e.target && e.target.id === 'cn-preco') { e.target.setAttribute('data-man', '1'); colPrecoAtualiza(false); } }); /* v2.102.4: + preço da amostra */ /* v2.89.1 */ /* v2.87.0: com a tela bloqueada, Esc não mexe no que está por baixo */
 document.addEventListener('keydown', e => { const t = e.target; if (t && t.classList && t.classList.contains('os-in') && (e.key === 'Enter' || (e.key === 'Tab' && !e.shiftKey))) { e.preventDefault(); osProximo(t); } });
@@ -4005,7 +4166,7 @@ function tableHTML(cfg) {
   }).join('');
   const body = shown.map((r, i) => '<tr' + (cfg.onRow ? ' class="click" data-action="t-row" data-t="' + esc(cfg.id) + '" data-i="' + i + '"' : '') + '>' + cfg.cols.map((c, ci) => '<td class="' + (L[ci].long ? 'wrap" style="min-width:' + L[ci].ch + 'ch' : 'nw') + '">' + (c.html ? c.html(r) : esc(cellText(c, r))) + '</td>').join('') + '</tr>').join('');
   cfg._shown = shown;
-  return '<div class="tbar' + (cfg.dica ? ' has-dica' : '') + (cfg.centro ? ' t-centro' : '') + '">' + (cfg.antes ? '<span class="tantes">' + cfg.antes + '</span>' : '') + '<h2>' + esc(cfg.title) + '</h2>' + (cfg.dica ? '<span class="tdica">' + esc(cfg.dica) + '</span>' : '') + (cfg.acoes ? '<span class="tacoes">' + cfg.acoes + '</span>' : '') + '<span class="count">' + rows.length + (rows.length === 1 ? ' registro' : ' registros') + (nAtivos ? ' · ' + nAtivos + ' filtro(s)' : '') + '</span>' +
+  return '<div class="tbar tb-' + esc(cfg.id) + (cfg.dica ? ' has-dica' : '') + (cfg.centro ? ' t-centro' : '') + '">' + (cfg.antes ? '<span class="tantes">' + cfg.antes + '</span>' : '') + '<h2>' + esc(cfg.title) + '</h2>' + (cfg.junto ? '<span class="tjunto">' + cfg.junto + '</span>' : '') + (cfg.dica ? '<span class="tdica">' + esc(cfg.dica) + '</span>' : '') + (cfg.acoes ? '<span class="tacoes">' + cfg.acoes + '</span>' : '') + '<span class="count">' + rows.length + (rows.length === 1 ? ' registro' : ' registros') + (nAtivos ? ' · ' + nAtivos + ' filtro(s)' : '') + '</span>' +
     (nAtivos || st.sort ? '<button class="btn sm" data-action="t-clear" data-t="' + esc(cfg.id) + '">Limpar filtros</button>' : '') +
     '<button class="btn sm tprint" data-action="t-print" data-t="' + esc(cfg.id) + '" title="Imprimir / PDF" aria-label="Imprimir / PDF">' + ico('print') + '</button></div>' +
     '<div class="tw"><table class="t"><thead><tr>' + head + '</tr></thead><tbody>' + (body || '<tr><td colspan="' + cfg.cols.length + '" style="text-align:center;color:var(--text-muted);padding:28px">Nenhum registro com esses filtros.</td></tr>') + '</tbody></table>' +
@@ -4149,8 +4310,10 @@ function viewDocsCat() {
   const ativos = todas.filter(r => !r.desativado);
   const tipo = S.docTipo || 'todos';
   const rows = tipo === 'todos' ? todas : todas.filter(r => r.tipo === tipo);
-  const seg = '<div class="seg3">' + [['todos', 'Todos'], ['FORMULARIO', 'Formulários'], ['REGULATORIO', 'Regulatórios']].map(o => '<button class="btn sm' + (tipo === o[0] ? ' on' : '') + '" data-action="doc-tipo" data-id="' + o[0] + '">' + o[1] + '</button>').join('') +
-    (podeCadastrar(S.user) ? '<button class="btn primary" data-action="doc-new" style="margin-left:auto">+ Novo documento</button>' : '<span style="margin-left:auto;font-size:12px;color:var(--text-muted)">Para cadastrar, peça ao Líder ★ ou ao Principal.</span>') + '</div>';
+  const tiposL = [['todos', 'Todos'], ['FORMULARIO', 'Formulários'], ['REGULATORIO', 'Regulatórios']]; /* v2.102.29: barra única */
+  const seg = '<div class="doc-bar">' + (podeCadastrar(S.user) ? '<button class="btn sm primary doc-nv" data-action="doc-new">+ Novo documento</button>' : '') +
+    ddHTML('Tipo', (tiposL.find(o => o[0] === tipo) || tiposL[0])[1], tiposL.map(o => ({ a: 'doc-tipo', id: o[0], t: o[1], on: tipo === o[0] })), { cls: 'doc-tp' }) +
+    (podeCadastrar(S.user) ? '' : '<span class="doc-nota">Para cadastrar, peça ao Líder ★ ou ao Principal.</span>') + '</div>';
   const faltam = isPrincipal(S.user) ? seedFaltando() : 0;
   const aviso = faltam ? '<div class="msg info" style="margin-bottom:12px">A carga inicial ficou incompleta: faltam ' + faltam + ' itens. <button class="btn sm" data-action="seed-ask" style="margin-left:6px">Completar</button></div>' : '';
   return aviso + seg + kpisHTML('docs', contarStatus(tipo === 'todos' ? ativos : ativos.filter(r => r.tipo === tipo))) + tableHTML({
@@ -5259,7 +5422,7 @@ function viewCloro() {
     return '<div class="li"><span class="dot aviso"></span><span style="flex:1;min-width:0"><span class="t">' + esc(b.codigo) + ' — ' + esc(b.local || 'sem local') + '</span><br><span class="d">Digitado por ' + esc(b.criadoPorNome || nomeDe(b.criadoPor)) + (n ? ' · ' + n + ' leitura(s) esperando para contar' : '') + '</span></span><span style="display:flex;gap:6px;flex:0 0 auto"><button class="btn sm" data-action="beb-rec" data-id="' + esc(b.id) + '">Recusar</button><button class="btn sm primary" data-action="beb-lib" data-id="' + esc(b.id) + '">Liberar</button></span></div>';
   }).join('') + '</div>' : '';
   const podeL = podeLancar(S.user);
-  const bar = '<div class="cl-bar">' + (podeL ? '<button class="btn primary" data-action="cl-new">Nova verificação</button>' : '') + '<button class="btn" data-action="beb-list">Bebedouros</button><button class="btn" data-action="cl-rel">Relatório</button></div>';
+  const bar = '<div class="cl-bar rola-x">' + (podeL ? '<button class="btn primary" data-action="cl-new">Nova verificação</button>' : '') + '<button class="btn" data-action="beb-list">Bebedouros</button><button class="btn" data-action="cl-rel">Relatório</button></div>';
   const fc = isSup(S.user) ? clFotoPendentes() : [];
   const fotoLi = r => '<button class="li" data-action="cl-open" data-id="' + esc(r.id) + '"><span class="dot info"></span><span><span class="t">' + esc(r.pontoNome) + ' · ' + ppm(r.valor) + ' ppm</span><br><span class="d">' + esc(fmtD(r.data) + ' ' + r.hora + ' · ' + (r.lancadoPorNome || '')) + (r.foto.origem === 'galeria' ? ' · da galeria' : '') + '</span></span><span class="chev">›</span></button>';
   return '<div class="cl-top">' + bar + gaugesHTML() + '</div>' + bebPendHTML + clAfazerHTML(pend, fc, pendLi, fotoLi) + faltasCloroHTML() + tableHTML({
@@ -8683,7 +8846,7 @@ function irParaCad(aba) { S.cadAba = aba || S.cadAba || 'analises'; try { closeS
 function viewCadastros() {
   if (!S.talhoes.length || !S.cfgCol) return colVazio();
   const aba = S.cadAba || 'analises', pode = podeCadastrar(S.user);
-  const seg = '<div class="seg3">' + [['analises', 'Análises e preços'], ['labs', 'Laboratórios'], ['talhoes', 'Talhões'], ['resp', 'Responsáveis'], ['fazendas', 'Fazendas'], ['tipos', 'Tipos de coleta'], ['pontos', 'Pontos de água'], ['proc', 'Procedimentos'], ['etq', 'Criação de etiquetas'], ['impressao', 'Impressão']].concat(isSup(S.user) ? [['importar', 'Importar coletas antigas']] : []).map(o => '<button class="btn sm' + (aba === o[0] ? ' on' : '') + '" data-action="cad-aba" data-id="' + o[0] + '">' + o[1] + '</button>').join('') + '</div>';
+  const seg = '<div class="seg3 rola-x">' + [['analises', 'Análises e preços'], ['labs', 'Laboratórios'], ['talhoes', 'Talhões'], ['resp', 'Responsáveis'], ['fazendas', 'Fazendas'], ['tipos', 'Tipos de coleta'], ['pontos', 'Pontos de água'], ['proc', 'Procedimentos'], ['etq', 'Criação de etiquetas'], ['impressao', 'Impressão']].concat(isSup(S.user) ? [['importar', 'Importar coletas antigas']] : []).map(o => '<button class="btn sm' + (aba === o[0] ? ' on' : '') + '" data-action="cad-aba" data-id="' + o[0] + '">' + o[1] + '</button>').join('') + '</div>';
   const aviso = pode ? '' : '<p style="color:var(--text-muted);font-size:13px;margin-bottom:10px">Só líder e Principal alteram os cadastros.</p>';
   let corpo = '';
   if (aba === 'analises') {
@@ -9177,11 +9340,10 @@ function dpCampoHTML() {
 function viewPainelRateio() {
   if (!S.talhoes.length || !S.cfgCol) return colVazio();
   const f = dpEstado(), anoAtual = hojeISO().slice(0, 4);
-  const seg = (v, t) => '<button class="' + (f.tipo === v ? 'on' : '') + '" data-action="dp-tipo" data-id="' + v + '" aria-pressed="' + (f.tipo === v) + '">' + t + '</button>';
-  const per = (v, t) => '<button class="btn sm' + (f.per === v ? ' primary' : '') + '" data-action="dp-per" data-id="' + v + '">' + t + '</button>';
   const topo = '<div class="al-apre-top"><div class="al-apre-mes"><button class="btn sm" data-action="dp-ano" data-id="-1" aria-label="Ano anterior">‹</button><h2>' + (f.tipo === 'agua' ? 'Água' : 'Campo') + ' · ' + esc(dpPerTxt()) + '</h2><button class="btn sm" data-action="dp-ano" data-id="1" aria-label="Próximo ano"' + (f.ano >= anoAtual ? ' disabled' : '') + '>›</button></div>' +
     '<div class="al-apre-ac">' + impBtn([{ a: 'dp-print', t: 'Imprimir / PDF' }]) + '</div></div>' +
-    '<div class="dp-fil"><div class="seg dp-seg">' + seg('agua', 'Água') + seg('campo', 'Campo') + '</div><div class="dp-per">' + per('', 'Ano') + ['T1', 'T2', 'T3', 'T4'].map(p => per(p, p[1] + 'º tri')).join('') + per('S1', '1º sem') + per('S2', '2º sem') + '</div></div>' +
+    '<div class="dp-fil">' + ddHTML('Mostrar', f.tipo === 'agua' ? 'Água' : 'Campo', [['agua', 'Água'], ['campo', 'Campo']].map(o => ({ a: 'dp-tipo', id: o[0], t: o[1], on: f.tipo === o[0] })), { cls: 'al-dd' }) +
+      ddHTML('Período', f.per ? (f.per[0] === 'T' ? f.per[1] + 'º trimestre' : f.per[1] + 'º semestre') : 'Ano todo', [['', 'Ano todo'], ['T1', '1º trimestre'], ['T2', '2º trimestre'], ['T3', '3º trimestre'], ['T4', '4º trimestre'], ['S1', '1º semestre'], ['S2', '2º semestre']].map(o => ({ a: 'dp-per', id: o[0], t: o[1], on: f.per === o[0] })), { cls: 'al-dd' }) + '</div>' + /* v2.102.29 */
     (f.tipo === 'agua' ? (() => { const tem = PJ_TIPOS.filter(t => agAtivas().some(c => pjTipoColeta(c) === t[0])); return tem.length > 1 || f.pt ? '<div class="dp-pt"><button class="btn sm' + (!f.pt ? ' primary' : '') + '" data-action="dp-pt" data-id="">Todos os pontos</button>' + tem.map(t => '<button class="btn sm' + (f.pt === t[0] ? ' primary' : '') + '" data-action="dp-pt" data-id="' + t[0] + '">' + t[1] + '</button>').join('') + '</div>' : ''; })() : '');
   return '<div class="dp">' + topo + (f.tipo === 'agua' ? dpAguaHTML() : dpCampoHTML()) + '</div>';
 }
@@ -9874,7 +10036,7 @@ function viewDocsRel() {
   const cxc = k => cx.filter(c => c._s.st === k).length;
   const fatias = [{ k: 'OK', n: 'Em dia', v: cxc('OK'), cor: 'var(--ok)' }, { k: 'ATENÇÃO', n: 'A vencer', v: cxc('ATENÇÃO'), cor: 'var(--warn)' }, { k: 'VENCIDO', n: 'Vencidas', v: cxc('VENCIDO'), cor: 'var(--crit)' }, { k: 'PENDENTE', n: 'Sem data', v: cxc('PENDENTE'), cor: 'var(--info)' }, { k: 'DESATIVADO', n: 'Desativadas', v: cxc('DESATIVADO'), cor: 'var(--text-dim)' }];
   const totCx = cx.length || 1;
-  const rosca = '<div class="rel-rosca-w">' + roscaSVG(fatias) + '<div class="rel-leg">' + fatias.map(x => '<div><i style="background:' + x.cor + '"></i><span>' + x.n + '</span><b>' + x.v + '</b><em>' + Math.round(x.v / totCx * 100) + '%</em></div>').join('') + '</div></div>';
+  const rosca = '<div class="rel-rosca-w">' + roscaSVG(fatias) + '<div class="rel-cx-r"><div class="rel-h"><b>Caixas d’água — limpeza</b><span>' + esc(cx.length) + ' caixa(s)</span></div><div class="rel-leg">' + fatias.map(x => '<div><i style="background:' + x.cor + '"></i><span>' + x.n + '</span><b>' + x.v + '</b><em>' + Math.round(x.v / totCx * 100) + '%</em></div>').join('') + '</div></div></div>'; /* v2.102.29 */
   const base = docsVisiveis();
   const passaSt = d => !S.relSt.size || S.relSt.has(d._s.st);
   const passaResp = d => !S.relResp.size || S.relResp.has(respDe(d));
@@ -9882,9 +10044,10 @@ function viewDocsRel() {
   const todosResp = Array.from(new Set(base.map(respDe))).sort((a, b) => (contResp[b] || 0) - (contResp[a] || 0) || a.localeCompare(b, 'pt-BR'));
   const contSt = {}; base.filter(passaResp).forEach(d => { contSt[d._s.st] = (contSt[d._s.st] || 0) + 1; });
   const kpis = '<div class="rel-kpis">' + REL_ST.map(x => '<button class="kpi ' + x[2] + (S.relSt.has(x[0]) ? ' on' : '') + '" data-action="rel-st" data-id="' + x[0] + '"><b>' + (contSt[x[0]] || 0) + '</b><span>' + (x[0] === 'VENCIDO' ? 'Vencidos' : x[1]) + '</span></button>').join('') + '</div>';
-  const tipoSeg = '<div class="rel-sl-t">Tipo</div><div class="seg3">' + [['FORMULARIO', 'Formulários'], ['REGULATORIO', 'Regulatórios']].map(o => '<button class="btn sm' + ((S.relTipo || '') === o[0] ? ' on' : '') + '" data-action="rel-tipo" data-id="' + o[0] + '">' + o[1] + '</button>').join('') + '</div>';
-  /* v2.57.0: sem os números nos botões; "A vencer" fora da segmentação (continua no cartão de número) */
-  const stSeg = '<div class="rel-sl-t">Status</div><div class="rel-chips">' + REL_ST_SEG.filter(x => x[0] !== 'ATENÇÃO').map(x => '<button class="rel-chip ' + x[2] + (S.relSt.has(x[0]) ? ' on' : '') + '" data-action="rel-st" data-id="' + x[0] + '"><span>' + x[1] + '</span></button>').join('') + '</div>';
+  const tiposR = [['FORMULARIO', 'Formulários'], ['REGULATORIO', 'Regulatórios']], stsR = REL_ST_SEG.filter(x => x[0] !== 'ATENÇÃO'); /* v2.102.29: dois menus ▾ lado a lado */
+  const stSel = REL_ST.filter(x => S.relSt.has(x[0])).map(x => x[1]); /* v2.102.32: conta também A vencer e Sem data (caixas do topo) */
+  const tipoSeg = ddHTML('Tipo', (tiposR.find(o => o[0] === (S.relTipo || '')) || [0, 'Todos'])[1], tiposR.map(o => ({ a: 'rel-tipo', id: o[0], t: o[1], on: (S.relTipo || '') === o[0] })), { cls: 'rel-dd' });
+  const stSeg = ddHTML('Status', stSel.length > 2 ? stSel.length + ' status' : stSel.length ? stSel.join(' + ') : 'Todos', stsR.map(x => ({ a: 'rel-st', id: x[0], t: x[1], on: S.relSt.has(x[0]) })), { cls: 'rel-dd', multi: 'rel-st', tit: 'Status: ' + (stSel.join(' + ') || 'Todos') });
   const rsSeg = '<div class="rel-sl-t">Responsáveis</div><div class="rel-resp">' + todosResp.filter(k => (contResp[k] || 0) > 0 || S.relResp.has(k)).map(k => '<button class="rel-ri' + (S.relResp.has(k) ? ' on' : '') + ((contResp[k] || 0) === 0 ? ' zero' : '') + '" data-action="rel-resp" data-id="' + esc(k) + '"><span>' + esc(k) + '</span></button>').join('') + '</div>';
   const ordem = { 'VENCIDO': 0, 'ATENÇÃO': 1, 'PENDENTE': 2, 'OK': 3 };
   const lista = base.filter(d => passaSt(d) && passaResp(d)).sort((a, b) => (ordem[a._s.st] - ordem[b._s.st]) || ((a._s.dias == null ? 1e9 : a._s.dias) - (b._s.dias == null ? 1e9 : b._s.dias)) || a.titulo.localeCompare(b.titulo, 'pt-BR'));
@@ -9893,10 +10056,10 @@ function viewDocsRel() {
   const listaHTML = '<div class="rel-lista">' + (lista.length ? lista.map(d => '<button type="button" class="rel-li' + (S.relMulti ? (S.relMulti.has(d.id) ? ' sel' : ' marcavel') : '') + '" data-action="rel-lanc" data-id="' + esc(d.id) + '"><span class="rel-id" title="' + (d.tipo === 'REGULATORIO' ? 'Regulatório' : 'Formulário') + '">' + esc(d.codigo || (d.tipo === 'REGULATORIO' ? 'Reg.' : 'Form.')) + '</span><div class="rel-li-t"><b>' + esc(d.titulo) + '</b><span>' + esc(respDe(d)) + (d._s.prox ? ' · vence ' + fmtD(d._s.prox) : '') + '</span></div><span class="rel-chip-s ' + stInfo(d._s.st)[2] + '">' + esc(stInfo(d._s.st)[1]) + '</span></button>').join('') : '<div class="rel-vazio">Nenhum documento com esses filtros.</div>') + '</div>';
   return '<div class="rel-dash">' +
     '<div class="rel-a-kpi">' + kpis + '</div>' +
-    card('cx', 'Caixas d’água — limpeza', cx.length + ' caixa(s)', rosca) +
+    card('cx', '', '', rosca) +
     card('lista', 'Documentos filtrados', lista.length + ' documento(s)' + (S.relMulti ? ' · toque para marcar' : podeLancar(S.user) ? ' · toque para lançar' : ''), relMultiBarHTML(lista) + listaHTML) + /* v2.67.0 */
     card('form', 'Formulários vencidos por responsável', f.reduce((a, x) => a + x.v, 0) + ' vencido(s) · toque num ponto para filtrar', linhaSVG(f, 'var(--info)')) +
-    card('seg', '', '', '<div class="rel-seg-in"><div class="rel-seg-l">' + tipoSeg + stSeg + '</div><div class="rel-seg-r">' + rsSeg + '</div></div>') +
+    card('seg', '', '', '<div class="rel-seg-in"><div class="rel-seg-dd">' + tipoSeg + stSeg + '</div><div class="rel-seg-r">' + rsSeg + '</div></div>') +
     card('reg', 'Regulatórios vencidos por responsável', r.reduce((a, x) => a + x.v, 0) + ' vencido(s)', linhaSVG(r, 'var(--primary)')) +
     '</div>';
 }
@@ -10223,13 +10386,15 @@ function viewApont() {
   const base = S.apont.slice().sort((a, b) => String(b.criadoEm).localeCompare(String(a.criadoEm)));
   const F = { semana: a => a.data >= seg, abertos: apAberto, urgentes: a => a.grav === 'urgente' && apAberto(a), meus: a => a.porId === u.id, todos: () => true };
   const lst = base.filter(F[f] || F.semana).filter(apOrigPassa), nUrg = base.filter(F.urgentes).length;
-  const topo = podeLancar(u) ? '<button class="ap-novo" data-action="ap-new">' + icoI('camera') + 'Novo apontamento</button>' : '';
   const urg = nUrg && f !== 'urgentes' ? '<button class="ap-urg" data-action="ap-f" data-id="urgentes"><span>' + icoI('sirene') + nUrg + (nUrg > 1 ? ' urgentes' : ' urgente') + ' em aberto</span><span>Ver ›</span></button>' : '';
   const fil = [['semana', 'Esta semana'], ['abertos', 'Em aberto'], ['meus', 'Meus'], ['todos', 'Todos']].concat(f === 'urgentes' ? [['urgentes', 'Urgentes']] : []);
-  const seg3 = '<div class="seg3">' + fil.map(x => '<button class="btn sm' + (f === x[0] ? ' on' : '') + '" data-action="ap-f" data-id="' + x[0] + '">' + x[1] + ' · ' + base.filter(F[x[0]]).length + '</button>').join('') + (base.length ? '<button class="btn sm" data-action="ap-par-open">Pareto</button>' : '') + (isSup(u) ? '<button class="btn sm" data-action="ap-setores">Setores</button>' : '') + '</div>'; /* v2.102.23 */
+  const nF = k => base.filter(F[k]).length, atualF = fil.find(x => x[0] === f) || fil[0];
+  const seg3 = '<div class="ap-bar">' + (podeLancar(u) ? '<button class="btn sm primary ap-nv" data-action="ap-new" aria-label="Novo apontamento">' + icoI('camera') + '<span>Novo<span class="ap-nv-l"> apontamento</span></span></button>' : '') +
+    ddHTML('Filtro', atualF[1] + ' · ' + nF(atualF[0]), fil.map(x => ({ a: 'ap-f', id: x[0], t: x[1] + ' · ' + nF(x[0]), on: f === x[0] })), { cls: 'ap-fil', semRot: true }) +
+    (base.length ? '<button class="btn sm" data-action="ap-par-open">Pareto</button>' : '') + (isSup(u) ? '<button class="btn sm" data-action="ap-setores">Setores</button>' : '') + '</div>'; /* v2.102.23 */
   const vazio = f === 'semana' ? 'Nenhum apontamento nesta semana.' : f === 'meus' ? 'Você ainda não registrou apontamentos.' : 'Nada por aqui.';
   const lista = lst.length ? '<div class="ap-list">' + lst.map(apCardHTML).join('') + '</div>' : '<div class="empty" style="margin:24px auto"><p>' + vazio + '</p></div>';
-  return topo + urg + seg3 + apOrigFiltroHTML(base) + lista;
+  return seg3 + urg + apOrigFiltroHTML(base) + lista;
 }
 
 /* ---------- detalhe ---------- */
@@ -10879,9 +11044,11 @@ function viewAlmMateriais() {
   const modo = S.alMatModo || ((window.innerWidth || 0) >= 860 ? 'tabela' : 'lista');
   let itens = f === 'inativos' ? S.almItens.filter(i => i.ativo === false) : alAtivos();
   if (f === 'atencao') itens = itens.filter(i => ['vencido', 'zero', 'min', 'avencer'].indexOf(alSit(i).id) >= 0);
-  const seg = '<div class="seg3">' + [['todos', 'Todos'], ['atencao', 'Pedem atenção'], ['inativos', 'Inativos']].map(o => '<button class="btn sm' + (f === o[0] ? ' on' : '') + '" data-action="al-matf" data-id="' + o[0] + '">' + o[1] + '</button>').join('') +
-    ((window.innerWidth || 0) >= 860 ? '<span class="al-mat-busca">' + albHTML() + '</span>' : '<span style="flex:1"></span>') + '<button class="btn sm' + (modo === 'lista' ? ' on' : '') + '" data-action="al-matmodo" data-id="lista">Lista</button><button class="btn sm' + (modo === 'tabela' ? ' on' : '') + '" data-action="al-matmodo" data-id="tabela">Tabela</button>' +
-    (alSup() ? '<button class="btn sm" data-action="imp-open" data-id="est">Importar planilha</button>' : '') + (alPode() ? '<button class="btn sm primary" data-action="al-item-novo">+ Item novo</button>' : '') + '</div>';
+  const matL = [['todos', 'Todos'], ['atencao', 'Pedem atenção'], ['inativos', 'Inativos']], grande = (window.innerWidth || 0) >= 860; /* v2.102.29 */
+  const seg = '<div class="al-barra' + (grande ? '' : ' rola-x') + '">' + ddHTML('Mostrar', (matL.find(o => o[0] === f) || matL[0])[1], matL.map(o => ({ a: 'al-matf', id: o[0], t: o[1], on: f === o[0] })), { cls: 'al-dd' }) +
+    '<span class="al-modo"><button class="btn sm' + (modo === 'lista' ? ' on' : '') + '" data-action="al-matmodo" data-id="lista">Lista</button><button class="btn sm' + (modo === 'tabela' ? ' on' : '') + '" data-action="al-matmodo" data-id="tabela">Tabela</button></span>' +
+    (grande ? '<span class="al-bar-busca">' + albHTML() + '</span>' : '') +
+    (alSup() ? '<button class="btn sm" data-action="imp-open" data-id="est">Importar planilha</button>' : '') + (alPode() ? '<button class="btn sm primary al-fim" data-action="al-item-novo">+ Item novo</button>' : '') + '</div>';
   if (!S.almItens.length) return alVazioHTML('');
   const tot = itens.reduce((s, i) => s + alValorEst(i.id), 0);
   const cab = alBannerConf() + ((window.innerWidth || 0) >= 860 ? '' : albHTML()) + seg + '<div style="color:var(--text-muted);font-size:13px;margin:-4px 0 10px">' + itens.length + ' item(ns) · valor em estoque ' + brl(tot) + ' (pelo preço de cada lote)</div>';
@@ -10902,7 +11069,7 @@ function viewAlmMateriais() {
     ] });
   }
   return cab + '<input class="input" id="al-busca" data-alvo="#al-mat-l" placeholder="Buscar item, código ou local" autocomplete="off" style="margin-bottom:10px">' +
-    '<div class="list" id="al-mat-l">' + itens.map(i => alItemBtn(i, 'al-item', (alSit(i).id === 'ok' ? '' : alSitChip(i)) + alFimChip(i))).join('') + '<div class="al-nada" hidden>Nenhum item com esse nome.</div></div>';
+    '<div class="list" id="al-mat-l">' + itens.map(i => alItemBtn(i, 'al-item', (alSit(i).id === 'ok' ? '' : alSitChip(i)) + alFimChip(i))).join('') + '<div class="al-nada"' + (itens.length ? ' hidden' : '') + '>' + (itens.length ? 'Nenhum item com esse nome.' : 'Nenhum item neste filtro.') + '</div></div>'; /* v2.102.31 */
 }
 const AL_TIPO = { inicial: 'Conferência inicial', entrada: 'Entrada', saida: 'Saída', ajuste: 'Ajuste', abrir: 'Frasco aberto', fim: 'Frasco terminou' };
 /* v2.82: limite da escuta das movimentações e aviso de erro / lista cheia */
@@ -10923,8 +11090,9 @@ function viewAlmMov() {
   rows.sort((a, b) => String(b.data).localeCompare(String(a.data)) || String(b.criadoEm).localeCompare(String(a.criadoEm)));
   const val = rows.filter(m => m.tipo === 'saida' && !m.anulada).reduce((s, m) => s + m.qtd * (Number(m.preco) || 0), 0);
   const ent = rows.filter(m => m.tipo === 'entrada' && !m.anulada).reduce((s, m) => s + m.qtd * (Number(m.preco) || 0), 0);
-  const seg = '<div class="seg3">' + [['mes', 'Este mês'], ['ant', 'Mês passado'], ['tudo', 'Tudo']].map(o => '<button class="btn sm' + (f.per === o[0] ? ' on' : '') + '" data-action="al-movper" data-id="' + o[0] + '">' + o[1] + '</button>').join('') + '<span style="width:8px"></span>' +
-    [['', 'Todas'], ['saida', 'Saídas'], ['entrada', 'Entradas'], ['ajuste', 'Ajustes'], ['crit', 'Produto crítico']].map(o => '<button class="btn sm' + (f.tipo === o[0] ? ' on' : '') + '" data-action="al-movtipo" data-id="' + o[0] + '">' + o[1] + '</button>').join('') + '</div>';
+  const perL = [['mes', 'Este mês'], ['ant', 'Mês passado'], ['tudo', 'Tudo']], tipL = [['', 'Todas'], ['saida', 'Saídas'], ['entrada', 'Entradas'], ['ajuste', 'Ajustes'], ['crit', 'Produto crítico']]; /* v2.102.29 */
+  const seg = '<div class="al-barra">' + ddHTML('Período', (perL.find(o => o[0] === f.per) || perL[0])[1], perL.map(o => ({ a: 'al-movper', id: o[0], t: o[1], on: f.per === o[0] })), { cls: 'al-dd' }) +
+    ddHTML('Tipo', (tipL.find(o => o[0] === f.tipo) || tipL[0])[1], tipL.map(o => ({ a: 'al-movtipo', id: o[0], t: o[1], on: f.tipo === o[0] })), { cls: 'al-dd' }) + '<span class="al-bar-busca">' + albHTML() + '</span></div>';
   const kpi = '<div class="kpis" style="grid-template-columns:repeat(2,1fr)"><div class="kpi"><b style="font-size:17px">' + brl(val) + '</b><span>Saídas no período</span></div><div class="kpi"><b style="font-size:17px">' + brl(ent) + '</b><span>Entradas no período</span></div></div>';
   const sit = m => m.anulada ? 'Anulada' : alCritPendMov(m) ? 'Aguardando confirmação' : alCorrPend(m) ? 'Correção pendente' : /* v2.90.1 */ m.critico && m.critico.st === 'nao_confere' ? 'Não confere' : (m.historico && m.historico.length ? 'Corrigida' : '');
   return alMovAvisoHTML() + seg + kpi + tableHTML({ id: 'alm_mov', title: 'Movimentações', rows: rows, onRow: r => openAlMov(r.id), docHeader: true, cols: [
@@ -10949,7 +11117,8 @@ function viewAlmSol() {
   const imp = alSup() && !alCfg().solImportadas && ALM_SEED.sol.length ? '<div class="msg info" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span>A planilha tem <b>' + ALM_SEED.sol.length + '</b> solicitação(ões) ainda pendente(s) (' + ALM_SEED.sol.map(x => 'Nº ' + esc(x.numero)).join(', ') + ').</span><button class="btn sm primary" data-action="al-sol-imp">Trazer para cá</button></div>' : '';
   let l = S.almSol.slice().sort((a, b) => String(b.data).localeCompare(String(a.data)) || String(b.criadoEm).localeCompare(String(a.criadoEm)));
   if (f !== 'todas') l = l.filter(x => x.situacao === f);
-  const seg = '<div class="seg3">' + [['pendente', 'Pendentes'], ['atendida', 'Atendidas'], ['cancelada', 'Canceladas'], ['todas', 'Todas']].map(o => '<button class="btn sm' + (f === o[0] ? ' on' : '') + '" data-action="al-solf" data-id="' + o[0] + '">' + o[1] + '</button>').join('') + '</div>';
+  const solL = [['pendente', 'Pendentes'], ['atendida', 'Atendidas'], ['cancelada', 'Canceladas'], ['todas', 'Todas']]; /* v2.102.29 */
+  const seg = ddHTML('Mostrar', (solL.find(o => o[0] === f) || solL[0])[1], solL.map(o => ({ a: 'al-solf', id: o[0], t: o[1], on: f === o[0] })), { cls: 'al-sol-dd' });
   const nova = alPode() ? '<button class="ap-novo" data-action="al-sol-nova">' + icoI('nota') + 'Nova solicitação ao almoxarifado</button><button class="ap-novo cq-novo" data-action="cq-nova">+ Pedir equipamento novo</button>' : ''; /* v2.61.0 */
   const cards = l.map(x => {
     const st = AL_SOL_ST[x.situacao] || AL_SOL_ST.pendente, atras = x.situacao === 'pendente' && x.previsao && x.previsao < hoje;
@@ -11938,8 +12107,8 @@ function viewAlmEquip() {
   const kpis = '<div class="al-kcs">' + kc('todos', r.ind.length, 'Equipamentos', '#4aa3f0', r.vid.length + ' vidraria(s) · ' + r.vid.reduce((s, e) => s + eqQtd(e), 0) + ' un.') + kc('vencida', r.vencida.length, 'Calibração vencida', 'var(--crit)') + kc('avencer', r.avencer.length, 'Calibração vence em até ' + EQ_AVENCER + ' dias', 'var(--warn)') + kc('sem', r.sem.length, 'Necessários sem calibração', 'var(--crit)') + kc('cal', r.cal.length, 'No plano de calibração', 'var(--primary)', r.reprov.length ? r.reprov.length + ' reprovado(s)' : '') + '</div>';
   const todos = (S.almEq || []).slice().sort((a, b) => (a.tipo === 'qtd') - (b.tipo === 'qtd') || String(a.nome).localeCompare(String(b.nome), 'pt-BR') || String(a.tag || '').localeCompare(String(b.tag || '')));
   const rows = todos.filter(e => f === 'baixa' ? e.situacao === 'baixa' : e.situacao !== 'baixa' && (f === 'todos' || (f === 'cal' && e.precisaCal) || (f === 'vid' && e.tipo === 'qtd') || (f === 'guardado' && eqGuardado(e)) || eqCalSit(e) === f));
-  const chips = '<div class="ap-chips eq-fil">' + EQ_FILTROS.map(x => '<button class="ap-b' + (f === x[0] ? ' on' : '') + '" data-action="eq-f" data-id="' + x[0] + '">' + esc(x[1]) + '</button>').join('') + '</div>';
-  return eqBannerConf() + calBanner() + trfBanner() + kpis + chips + tableHTML({ id: 'equip', title: 'Equipamentos e vidrarias', rows: rows, acoes: (eqSup() ? '<button class="btn sm" data-action="cal-lista">Calibração</button>' : '') + (pode ? '<button class="btn sm" data-action="trf-lista">Transferências</button><button class="btn sm" data-action="qb-nova" data-id="">Quebrou vidraria</button>' : '') + (eqSup() ? '<button class="btn sm" data-action="qb-rel">Quebras por pessoa</button>' : '') + (pode ? '<button class="btn sm primary" data-action="eq-novo">Novo</button>' : ''), onRow: e => openEq(e.id),
+  const eqDd = ddHTML('Filtro', (EQ_FILTROS.find(x => x[0] === f) || EQ_FILTROS[0])[1], EQ_FILTROS.map(x => ({ a: 'eq-f', id: x[0], t: x[1], on: f === x[0] })), { cls: 'eq-dd' }); /* v2.102.29 */
+  return eqBannerConf() + calBanner() + trfBanner() + kpis + tableHTML({ id: 'equip', title: 'Equipamentos e vidrarias', rows: rows, junto: eqDd + '<span class="al-bar-busca">' + albHTML(true) + '</span>', acoes: (eqSup() ? '<button class="btn sm" data-action="cal-lista">Calibração</button>' : '') + (pode ? '<button class="btn sm" data-action="trf-lista">Transferências</button><button class="btn sm" data-action="qb-nova" data-id="">Quebrou vidraria</button>' : '') + (eqSup() ? '<button class="btn sm" data-action="qb-rel">Quebras por pessoa</button>' : '') + (pode ? '<button class="btn sm primary" data-action="eq-novo">Novo</button>' : ''), onRow: e => openEq(e.id),
     cols: [
       { key: 'tag', label: 'TAG', get: e => e.tag || '' },
       { key: 'nome', label: 'Equipamento', get: e => e.nome },
@@ -12312,8 +12481,8 @@ function viewRateioCal() {
   const f = S.rcF = S.rcF || { unid: 'matriz', ano: hojeISO().slice(0, 4) }, pode = eqSup(), un = CAL_UNID[f.unid];
   const todas = linhasCal(), anos = Array.from(new Set(todas.map(r => r.ano).concat([hojeISO().slice(0, 4)]))).sort().reverse();
   const rows = todas.filter(r => r.unidade === f.unid && r.ano === f.ano), total = rows.reduce((s, r) => s + r.valor, 0);
-  const segU = '<div class="seg3">' + Object.keys(CAL_UNID).map(k => '<button class="btn sm' + (f.unid === k ? ' primary' : '') + '" data-action="rc-unid" data-id="' + k + '"' + (CAL_UNID[k].pausada ? ' title="Em pausa até o sistema por unidades"' : '') + '>' + esc(CAL_UNID[k].curto) + (CAL_UNID[k].pausada ? ' · em pausa' : '') + '</button>').join('') +
-    '<select class="input" id="rc-ano" style="width:auto;height:38px">' + anos.map(a => '<option' + (a === f.ano ? ' selected' : '') + '>' + a + '</option>').join('') + '</select></div>';
+  const segU = '<div class="al-barra">' + ddHTML('Unidade', CAL_UNID[f.unid].curto + (CAL_UNID[f.unid].pausada ? ' · em pausa' : ''), Object.keys(CAL_UNID).map(k => ({ a: 'rc-unid', id: k, t: CAL_UNID[k].curto + (CAL_UNID[k].pausada ? ' · em pausa' : ''), on: f.unid === k })), { cls: 'al-dd' }) +
+    '<select class="input al-ano" id="rc-ano">' + anos.map(a => '<option' + (a === f.ano ? ' selected' : '') + '>' + a + '</option>').join('') + '</select></div>'; /* v2.102.29 */
   const pend = rows.filter(r => !r.compra), kpi = '<div class="kpis" style="grid-template-columns:repeat(3,1fr)"><div class="kpi"><b>' + rows.length + '</b><span>Equipamentos</span></div><div class="kpi"><b>' + brl(total) + '</b><span>Valor total</span></div><div class="kpi"><b>' + pend.length + '</b><span>Sem solicitação de compras</span></div></div>';
   const aviso = un.pausada ? '<div class="msg info" style="margin-bottom:10px"><b>' + esc(un.nome) + '</b> está em pausa até o sistema por unidades: dá para ver, mas não emitir a solicitação.</div>' : '';
   const podeEmitir = pode && !un.pausada;
@@ -13830,7 +13999,7 @@ function rncStepper(r, grande) {
 }
 function viewRnc() {
   const u = S.user, l = (S.rnc || []).slice().sort((a, b) => String(b.criadoEm).localeCompare(String(a.criadoEm)));
-  const topo = '<div class="nrm-topo">' + (isSup(u) ? '<button class="ap-novo" data-action="rnc-nova">' + icoI('prancheta') + 'Nova auditoria interna</button><button class="btn" data-action="nrm-open">Normas e editais</button>' : '') + (l.length ? '<button class="btn" data-action="rnc-par-open">Pareto</button>' : '') + '</div>'; /* v2.70.0; Pareto v2.102.19 */
+  const topo = '<div class="nrm-topo">' + (isSup(u) ? '<button class="btn sm primary ap-nv" data-action="rnc-nova">' + icoI('prancheta') + 'Nova auditoria interna</button><button class="btn sm" data-action="nrm-open">Normas e editais</button>' : '') + (l.length ? '<button class="btn sm" data-action="rnc-par-open">Pareto</button>' : '') + '</div>'; /* v2.70.0; Pareto v2.102.19 */
   const guia = '<div class="rnc-guia">' + RNC_PASSOS.map((x, i) => '<span><i>' + (i + 1) + '</i><b>' + x[1] + '</b><small>' + ['tipo, auditor e prazo', 'uma NC por vez, com fotos', 'relatório de abertura', 'o retorno, uma por uma', 'antes e depois'][i] + '</small></span>').join('') + '</div>';
   const card = r => { const ls = rncNcs(r), cf = ls.filter(n => n.ret).length, res = ls.filter(n => n.ret && n.ret.res === 'resolvida').length;
     return '<button class="rnc-card ' + rncSit(r) + '" data-action="rnc-open" data-id="' + esc(r.id) + '"><span class="rnc-c-h"><b>' + esc(r.numero) + '</b><span>' + esc(r.tipo || '') + '</span>' + rncChip(r) + '</span>' + rncStepper(r, false) +
@@ -14427,14 +14596,23 @@ function anlMeuDia(u, add) {
    Esc ou toque fora fecham só o menu. Reaproveitável nas outras telas (v2.102.28). */
 function ddHTML(rot, atual, ops, o) {
   o = o || {};
-  return '<span class="dd' + (o.cls ? ' ' + esc(o.cls) + '-w' : '') + '"><button type="button" class="btn sm dd-bt" data-action="dd-tg" aria-haspopup="true" aria-expanded="false" title="' + esc(rot) + '">' +
-    '<span class="dd-r">' + esc(rot) + ': </span><b>' + esc(atual) + '</b><span class="dd-s" aria-hidden="true">▾</span></button>' +
-    '<span class="dd-pop' + (o.cls ? ' ' + esc(o.cls) : '') + '" role="menu" hidden>' +
-    ops.map(x => '<button type="button" class="btn sm dd-op' + (x.on ? ' primary' : '') + '" role="menuitemradio" aria-checked="' + (x.on ? 'true' : 'false') + '" data-action="' + esc(x.a) + '" data-id="' + esc(x.id) + '">' + esc(x.t) + '</button>').join('') +
+  return '<span class="dd' + (o.cls ? ' ' + esc(o.cls) + '-w' : '') + '"><button type="button" class="btn sm dd-bt" data-action="dd-tg" aria-haspopup="true" aria-expanded="false" title="' + esc(o.tit || rot) + '">' +
+    (o.semRot ? '' : '<span class="dd-r">' + esc(rot) + ': </span>') + (o.curto ? '<b class="dd-l">' + esc(atual) + '</b><b class="dd-c">' + esc(o.curto) + '</b>' : '<b>' + esc(atual) + '</b>') + '<span class="dd-s" aria-hidden="true">▾</span></button>' +
+    '<span class="dd-pop' + (o.cls ? ' ' + esc(o.cls) : '') + '" role="menu"' + (o.multi ? ' data-multi="' + esc(o.multi) + '"' : '') + ' hidden>' +
+    ops.map(x => '<button type="button" class="btn sm dd-op' + (x.on ? ' primary' : '') + '" role="' + (o.multi ? 'menuitemcheckbox' : 'menuitemradio') + '" aria-checked="' + (x.on ? 'true' : 'false') + '" data-action="' + esc(x.a) + '" data-id="' + esc(x.id) + '">' + esc(x.t) + '</button>').join('') +
     '</span></span>';
 }
-function ddFechar(fora) { let n = 0; $$('.dd-pop').forEach(p => { if (p !== fora && !p.hidden) { p.hidden = true; n++; const b = p.previousElementSibling; if (b) b.setAttribute('aria-expanded', 'false'); } }); return n; }
-document.addEventListener('click', ev => { const w = ev.target.closest && ev.target.closest('.dd'); if (!w) { ddFechar(); return; } if (ev.target.closest('.dd-pop')) setTimeout(ddFechar, 0); }, true);
+/* v2.102.30: menu ▾ dentro de linha que rola (rola-x) abre em posição fixa, senão a rolagem o corta */
+function ddFixa(bt, pop) {
+  const rx = bt.closest('.rola-x'); if (!rx) return; rx.classList.add('dd-aberto');
+  const r = bt.getBoundingClientRect(); pop.style.position = 'fixed'; pop.style.right = 'auto'; pop.style.minWidth = Math.max(150, r.width) + 'px';
+  pop.style.top = (r.bottom + 4) + 'px'; pop.style.left = Math.max(8, Math.min(r.left, (window.innerWidth || 360) - pop.offsetWidth - 8)) + 'px';
+}
+window.addEventListener('scroll', e => { const t = e.target; if (t && t.classList && t.classList.contains('rola-x') && t.classList.contains('dd-aberto')) ddFechar(); }, true);
+function ddFechar(fora) { $$('.rola-x.dd-aberto').forEach(x => { if (!fora || !x.contains(fora)) x.classList.remove('dd-aberto'); }); let n = 0; $$('.dd-pop').forEach(p => { if (p !== fora && !p.hidden) { p.hidden = true; p.removeAttribute('style'); n++; const b = p.previousElementSibling; if (b) b.setAttribute('aria-expanded', 'false'); } }); return n; }
+document.addEventListener('click', ev => { const w = ev.target.closest && ev.target.closest('.dd'); if (!w) { ddFechar(); return; } const pp = ev.target.closest('.dd-pop'); if (pp) { const mk = pp.getAttribute('data-multi'); setTimeout(mk ? () => ddReabre(mk) : ddFechar, 0); } }, true);
+/* v2.102.32: menu de várias escolhas (data-multi) continua aberto depois de marcar; fecha ao tocar fora ou no Esc */
+function ddReabre(mk) { const p = $$('.dd-pop').find(x => x.getAttribute('data-multi') === mk); if (!p || !p.hidden) return; const b = p.previousElementSibling; p.hidden = false; if (b) { b.setAttribute('aria-expanded', 'true'); ddFixa(b, p); } }
 window.addEventListener('keydown', e => { if (e.key === 'Escape' && $$('.dd-pop').some(p => !p.hidden)) { e.stopImmediatePropagation(); e.preventDefault(); ddFechar(); } }, true);
 
 /* barra única do Pareto: ‹ ano › · Período ▾ · Agrupar ▾ · impressora (na ponta direita) */
@@ -14445,7 +14623,7 @@ function parTopo(pre, f, porLista, total) {
     '<div class="al-apre-mes par-ano"><button class="btn sm" data-action="' + esc(pre) + '-par-ano" data-id="-1" aria-label="Ano anterior">‹</button><h2>' + esc(f.ano) + '</h2>' +
     '<button class="btn sm" data-action="' + esc(pre) + '-par-ano" data-id="1" aria-label="Próximo ano"' + (f.ano >= anoAtual ? ' disabled' : '') + '>›</button></div>' +
     ddHTML('Período', per[1], PAR_PERS.map(x => ({ a: pre + '-par-per', id: x[0], t: x[1], on: x[0] === (f.per || '') })), { cls: 'par-per' }) +
-    ddHTML('Agrupar', por[1], porLista.map(x => ({ a: pre + '-par-por', id: x[0], t: x[1], on: x[0] === f.por })), { cls: 'par-por' }) +
+    ddHTML('Agrupar', por[1], porLista.map(x => ({ a: pre + '-par-por', id: x[0], t: x[1], on: x[0] === f.por })), { cls: 'par-por', curto: ({ 'Categoria 6M': '6M', 'Lei / requisito': 'Lei', 'Quem apontou': 'Quem' })[por[1]] }) +
     '<span class="par-imp">' + (total ? impBtn([{ a: pre + '-par-print', t: 'Imprimir / PDF' }]) : '') + '</span></div>';
 }
 /* Ishikawa: aviso na tela quando alguma causa aparece resumida no desenho */
@@ -14453,6 +14631,66 @@ function ishiAvHTML(l, lista) {
   if (!l.some(c => ishiCortada(c.t))) return '';
   return '<p class="fm-dica ishi-av">Algumas causas aparecem resumidas no desenho. O texto inteiro está ' + (lista ? 'na lista acima, ' : '') + 'ao passar o mouse sobre a causa e na tabela do PDF.</p>';
 }
+/* ============ v2.102.28 — padrões do app inteiro ============
+   1) Tabelas (tela e PDF): colunas centralizadas; só texto longo (título, item, descrição… ou mais de 28 letras) fica à esquerda,
+      com o cabeçalho também à esquerda, sempre em cima dos dados.
+   2) Rolagem: se um toque redesenha a mesma tela e a posição volta ao topo sem querer, ela é devolvida.
+   Ficam de fora as colunas sem título (botões) e as tabelas de formulário (sem cabeçalho de uma linha só). */
+const AL_ESQ = /^(t[ií]tulo|item|descri|observa|motivo|mensagem|detalhe|assunto|pedido|mudan[cç]a|o que )/i;
+function alinhaTabelas(raiz) {
+  Array.from((raiz || document).querySelectorAll('table:not([data-al])')).forEach(tb => {
+    tb.setAttribute('data-al', '1');
+    const cab = tb.tHead && tb.tHead.rows.length === 1 ? tb.tHead.rows[0] : null; if (!cab || cab.cells.length < 2) return;
+    const linhas = Array.from(tb.tBodies).reduce((a, b) => a.concat(Array.from(b.rows)), []);
+    if (linhas.some(r => Array.from(r.cells).some(c => c.rowSpan > 1))) return;
+    const n = cab.cells.length, util = linhas.filter(r => r.cells.length === n && !Array.from(r.cells).some(c => c.colSpan > 1));
+    for (let i = 0; i < n; i++) {
+      const h = cab.cells[i], rot = (h.textContent || '').trim(); if (!rot || h.colSpan > 1) continue;
+      let longo = AL_ESQ.test(rot);
+      for (let j = 0; !longo && j < util.length && j < 400; j++) { if ((util[j].cells[i].textContent || '').trim().length > 28 || util[j].cells[i].querySelector('.mp-linha')) longo = true; }
+      const cls = longo ? 'al-e' : 'al-c';
+      h.classList.add(cls); util.forEach(r => r.cells[i].classList.add(cls));
+    }
+  });
+}
+if (document.body) {
+  let _alTm = 0;
+  try { new MutationObserver(() => { if (!_alTm) _alTm = setTimeout(() => { _alTm = 0; try { alinhaTabelas(document); } catch {} }, 0); }).observe(document.body, { childList: true, subtree: true }); } catch {}
+}
+
+/* rolagem: guarda a posição no toque e devolve depois do redesenho (só se a mesma tela/janela voltou ao topo) */
+function rolaAssin(sh) { return sh ? ((sh.firstElementChild || {}).className || '') + '|' + ((sh.querySelector('h3') || {}).textContent || '') : ''; }
+function rolaVolta(g) {
+  if (!g || S._rota !== g.rota) return;
+  const sh = $('.sheet'); if (!!sh !== g.tem) return;
+  if (sh) { if (g.sh > 20 && sh.scrollTop === 0 && rolaAssin(sh) === g.ass && !sh.querySelector('.msg:not(:empty)')) sh.scrollTop = g.sh; return; }
+  if (g.y > 20 && window.scrollY === 0 && !document.querySelector('#view .msg:not(:empty)')) window.scrollTo(0, g.y);
+}
+document.addEventListener('click', ev => {
+  const t = ev.target && ev.target.closest && ev.target.closest('[data-action]'); if (!t) return;
+  const sh = $('.sheet'), g = { y: window.scrollY, sh: sh ? sh.scrollTop : 0, tem: !!sh, ass: rolaAssin(sh), rota: S._rota };
+  setTimeout(() => rolaVolta(g), 0); setTimeout(() => rolaVolta(g), 160);
+}, true);
+
+/* v2.102.29: Esc volta um nível — se a janela aberta tem o botão "Voltar", o Esc faz o mesmo que ele (senão fecha, como sempre) */
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape' || S.lockado) return;
+  const sh = $('#ov .sheet'); if (!sh) return;
+  const v = Array.from(sh.querySelectorAll('.row-actions .btn')).find(b => /^(‹\s*)?Voltar(\s|$)/.test((b.textContent || '').trim()) && !b.disabled);
+  if (v) { e.stopPropagation(); e.preventDefault(); v.click(); }
+}, true);
+/* v2.102.29: linha que rola de lado com degradê no fim (o degradê some quando chega ao fim) */
+function rolaFade(raiz) { Array.from((raiz || document).querySelectorAll('.rola-x')).forEach(el => { el.classList.toggle('fim', el.scrollWidth - el.clientWidth - el.scrollLeft <= 2); }); }
+document.addEventListener('scroll', e => { const t = e.target; if (t && t.classList && t.classList.contains('rola-x')) rolaFade(t.parentNode); }, true);
+window.addEventListener('resize', () => { try { rolaFade(document); } catch {} });
+if (document.body) { let _rf = 0; try { new MutationObserver(() => { if (!_rf) _rf = setTimeout(() => { _rf = 0; try { rolaFade(document); } catch {} }, 0); }).observe(document.body, { childList: true, subtree: true }); } catch {} }
+/* v2.102.29: painel "Administração" por cima das Opções (o resto fica escurecido); Esc / ‹ Voltar fecha só o painel */
+function opAdm(on) {
+  const p = $('#op-adm'); if (!p) return; p.hidden = !on;
+  if (on) { const b = p.querySelector('.menu-btn'); if (b) { try { b.focus({ preventScroll: true }); } catch {} } }
+  else { const o = $('[data-action="adm-open"]'); if (o) { try { o.focus({ preventScroll: true }); } catch {} } }
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#op-adm') && !$('#op-adm').hidden) { e.stopImmediatePropagation(); e.preventDefault(); opAdm(false); } }, true);
 /* ============ v2.102.19 — Pareto das NCs ============
    Só lê (RNCs e análises). Estado: S.prF = { ano, per, por }. Item vazio: "Sem análise" (6M), "Sem lei informada"; ficam sempre no fim. */
 const PAR_POR = [['6m', 'Categoria 6M'], ['local', 'Local'], ['lei', 'Lei / requisito'], ['grav', 'Gravidade'], ['area', 'Área']];
@@ -14478,11 +14716,20 @@ function paretoDados() {
   if (com.length > PAR_MAX) { const resto = com.slice(PAR_MAX); itens = com.slice(0, PAR_MAX).concat([{ nome: 'Outros (' + resto.length + ')', n: resto.reduce((s, x) => s + x.n, 0), outros: true }]); }
   itens = itens.concat(sem);
   let ac = 0, passou = false;
-  itens.forEach(x => { ac += x.n; x.pct = total ? x.n / total * 100 : 0; x.acum = total ? ac / total * 100 : 0; x.vital = !passou && !x.sem && !x.outros; if (total && ac / total * 100 >= 80) passou = true; if (x.sem || x.outros) x.vital = false; });
+  itens.forEach(x => { ac += x.n; x.pct = total ? x.n / total * 100 : 0; x.acum = total ? ac / total * 100 : 0; x.vital = !passou && !x.sem && !x.outros; if (total && ac / total * 100 >= 80) passou = true; if (x.sem || x.outros) x.vital = false; }); parArred(itens);
   return { itens: itens, total: total, rncs: rs.length };
 }
+/* v2.102.28: % inteiras que somam 100 (maior resto). v2.102.32: 1 casa decimal, sem forçar a soma — itens iguais mostram o mesmo número; o acumulado é o real (termina em 100) */
+function parFoco(sh) { if (!sh) return; if (!sh.hasAttribute('tabindex')) sh.setAttribute('tabindex', '-1'); try { sh.focus({ preventScroll: true }); } catch {} }
+function parArred(it) {
+  const r1 = v => Math.round((v || 0) * 10 + 1e-9) / 10; let ac = 0;
+  it.forEach(x => { ac += x.pct || 0; x.pctR = r1(x.pct); x.acumR = Math.min(100, r1(ac)); });
+}
+function parPc(v) { v = +v || 0; return v >= 99.95 ? '100' : v.toFixed(1).replace('.', ','); }
+/* v2.102.31: se o número da barra cairia em cima da linha tracejada dos 80%, ele sobe para acima da linha. v2.102.32: folga maior (8 em vez de 5) */
+function parNumY(ly, y80, fs) { return (y80 > ly - fs * 0.85 - 2 && y80 < ly + 3) ? y80 - 8 : ly; }
 function paretoSVG(d, ap, cel) { /* v2.102.23: ap = Pareto dos apontamentos; v2.102.27: cel = desenho estreito do celular (números no lugar dos nomes) */
-  const W = cel ? 400 : 1000, H = cel ? 270 : 360, L = cel ? 30 : 56, R = cel ? 42 : 56, T = 24, B = cel ? 30 : 92, pw = W - L - R, ph = H - T - B, it = d.itens, k = it.length || 1, bw = Math.min(70, pw / k * 0.62), mx = Math.max(1, ...it.map(x => x.n));
+  const W = cel ? 400 : 1000, H = cel ? 270 : 360, L = cel ? 30 : 56, R = cel ? 42 : 56, T = cel ? 46 : 28, it = d.itens, B = cel ? 30 : Math.max(1, ...it.map(x => ishiQuebra(x.nome, 14, 3).length)) * 14 + 28, pw = W - L - R, ph = H - T - B, k = it.length || 1, bw = Math.min(70, pw / k * 0.62), mx = Math.max(1, ...it.map(x => x.n));
   const nice = mx <= 20 ? Math.ceil(mx / 4) * 4 : (() => { const e = Math.pow(10, Math.floor(Math.log10(mx))), f = mx / e; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * e; })(), tk = [0, 1, 2, 3, 4].map(i => nice * i / 4);
   const X = i => L + pw / k * (i + 0.5), Y = v => T + ph - ph * v / nice, YP = p => T + ph - ph * p / 100;
   let o = '<svg class="par-svg' + (cel ? ' cel' : '') + '" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + (ap ? 'Pareto dos apontamentos' : 'Pareto das não conformidades') + '">';
@@ -14491,7 +14738,7 @@ function paretoSVG(d, ap, cel) { /* v2.102.23: ap = Pareto dos apontamentos; v2.
   o += '<line class="pa-80" x1="' + L + '" y1="' + YP(80).toFixed(1) + '" x2="' + (W - R) + '" y2="' + YP(80).toFixed(1) + '"/>';
   it.forEach((x, i) => {
     const h = ph * x.n / nice, cx = X(i);
-    o += '<rect class="pa-b' + (x.vital ? ' pa-v' : '') + '" x="' + (cx - bw / 2).toFixed(1) + '" y="' + (T + ph - h).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + h.toFixed(1) + '"><title>' + esc(x.nome) + ': ' + esc(x.n) + (ap ? ' apontamento(s) · ' : ' NC(s) · ') + esc(x.pct.toFixed(0)) + '%</title></rect><text class="pa-n" x="' + cx.toFixed(1) + '" y="' + (T + ph - h - 5).toFixed(1) + '" text-anchor="middle">' + esc(x.n) + '</text>';
+    o += '<rect class="pa-b' + (x.vital ? ' pa-v' : '') + '" x="' + (cx - bw / 2).toFixed(1) + '" y="' + (T + ph - h).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + h.toFixed(1) + '"><title>' + esc(x.nome) + ': ' + esc(x.n) + (ap ? ' apontamento(s) · ' : ' NC(s) · ') + esc(parPc(x.pctR)) + '%</title></rect><text class="pa-n" x="' + cx.toFixed(1) + '" y="' + parNumY(T + ph - h - 5, YP(80), cel ? 16 : 12).toFixed(1) + '" text-anchor="middle">' + esc(x.n) + '</text>';
     (cel ? [String(i + 1)] : ishiQuebra(x.nome, 14, 3)).forEach((t, j) => { o += '<text class="pa-lb" x="' + cx.toFixed(1) + '" y="' + (T + ph + (cel ? 20 : 16) + j * 14) + '" text-anchor="middle">' + esc(t) + '</text>'; });
   });
   if (it.length) {
@@ -14504,21 +14751,21 @@ function paretoLista(itens, nome, unid) {
   return '<div class="par-lista"><div class="par-lh"><span>' + esc(nome) + '</span><span>' + esc(unid) + ' · % · acum.</span></div>' +
     itens.map((x, i) => '<div class="par-it' + (x.vital ? ' vital' : '') + '"><span class="par-it-i">' + esc(i + 1) + '</span><span class="par-it-nm">' + esc(x.nome) + '</span><span class="par-it-n">' + esc(x.n) + '</span>' +
       '<span class="par-bar"><i style="width:' + esc(Math.max(2, Math.round(x.pct))) + '%"></i></span>' +
-      '<span class="par-it-pc">' + esc(x.pct.toFixed(0)) + '% · acum. ' + esc(x.acum.toFixed(0)) + '%</span></div>').join('') + '</div>';
+      '<span class="par-it-pc">' + esc(parPc(x.pctR)) + '% · acum. ' + esc(parPc(x.acumR)) + '%</span></div>').join('') + '</div>';
 }
 function paretoCorpo(d) {
   const f = prF(), nome = (PAR_POR.find(x => x[0] === f.por) || ['', ''])[1];
   if (!d.total) return '<p class="fm-dica">Nenhuma NC neste período.</p>';
   const vit = d.itens.filter(x => x.vital);
   return '<div class="par-cq"><div class="par-fig">' + paretoSVG(d) + paretoSVG(d, false, true) + '</div>' +
-    '<p class="par-res">' + esc(d.rncs) + (d.rncs > 1 ? ' RNCs' : ' RNC') + ' · ' + esc(d.total) + (d.total > 1 ? ' NCs' : ' NC') + ' · ' + (vit.length ? 'poucos vitais: <b>' + vit.map(x => esc(x.nome)).join(', ') + '</b> (' + esc(Math.round(vit[vit.length - 1].acum)) + '% das NCs)' : 'sem destaque') + '</p>' +
-    '<table class="t par-t"><thead><tr><th>' + esc(nome) + '</th><th>NCs</th><th>%</th><th>% acum.</th></tr></thead><tbody>' + d.itens.map(x => '<tr' + (x.vital ? ' class="vital"' : '') + '><td>' + esc(x.nome) + '</td><td>' + esc(x.n) + '</td><td>' + esc(x.pct.toFixed(0)) + '%</td><td>' + esc(x.acum.toFixed(0)) + '%</td></tr>').join('') + '</tbody></table>' + paretoLista(d.itens, nome, 'NCs') + '</div>'; /* v2.102.26 */
+    '<p class="par-res">' + esc(d.rncs) + (d.rncs > 1 ? ' RNCs' : ' RNC') + ' · ' + esc(d.total) + (d.total > 1 ? ' NCs' : ' NC') + ' · ' + (vit.length ? 'poucos vitais: <b>' + vit.map(x => esc(x.nome)).join(', ') + '</b> (' + esc(parPc(vit[vit.length - 1].acumR)) + '% das NCs)' : 'sem destaque') + '</p>' +
+    '<table class="t par-t"><thead><tr><th>' + esc(nome) + '</th><th>NCs</th><th>%</th><th>% acum.</th></tr></thead><tbody>' + d.itens.map(x => '<tr' + (x.vital ? ' class="vital"' : '') + '><td>' + esc(x.nome) + '</td><td>' + esc(x.n) + '</td><td>' + esc(parPc(x.pctR)) + '%</td><td>' + esc(parPc(x.acumR)) + '%</td></tr>').join('') + '</tbody></table>' + paretoLista(d.itens, nome, 'NCs') + '</div>'; /* v2.102.26 */
 }
 function openRncPareto() { /* v2.102.27: barra única (ano, Período ▾, Agrupar ▾, impressora) */
   const f = prF(), d = paretoDados();
-  openSheet('<h3>Pareto das NCs</h3><div class="sub">O que mais se repete nas auditorias internas. As barras até 80% do total são os "poucos vitais".</div>' +
+  parFoco(openSheet('<h3>Pareto das NCs</h3><div class="sub">O que mais se repete nas auditorias internas. As barras até 80% do total são os "poucos vitais".</div>' +
     parTopo('rnc', f, PAR_POR, d.total) + paretoCorpo(d) +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
+    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button></div>', { noFocus: true }));
 }
 function paretoImprimir() {
   const f = prF(), d = paretoDados(); if (!d.total) { toast('Nenhuma NC neste período.'); return; }
@@ -14526,8 +14773,8 @@ function paretoImprimir() {
   const vit = d.itens.filter(x => x.vital);
   const body = '<div class="par-imp"><div class="ar par-ik"><span><i>Agrupado por</i>' + esc(nome) + '</span><span><i>Período</i>' + esc(prPerTxt()) + '</span><span><i>RNCs</i>' + esc(d.rncs) + '</span><span><i>NCs</i>' + esc(d.total) + '</span></div>' +
     '<div class="ar par-fig">' + paretoSVG(d) + '</div>' +
-    '<div class="ar par-res">' + (vit.length ? 'Poucos vitais: <b>' + vit.map(x => esc(x.nome)).join(', ') + '</b> (' + esc(Math.round(vit[vit.length - 1].acum)) + '% das NCs).' : '') + '</div>' +
-    '<table class="t par-t ar"><thead><tr><th>' + esc(nome) + '</th><th>NCs</th><th>%</th><th>% acum.</th></tr></thead><tbody>' + d.itens.map(x => '<tr' + (x.vital ? ' class="vital"' : '') + '><td>' + esc(x.nome) + '</td><td>' + esc(x.n) + '</td><td>' + esc(x.pct.toFixed(0)) + '%</td><td>' + esc(x.acum.toFixed(0)) + '%</td></tr>').join('') + '</tbody></table></div>';
+    '<div class="ar par-res">' + (vit.length ? 'Poucos vitais: <b>' + vit.map(x => esc(x.nome)).join(', ') + '</b> (' + esc(parPc(vit[vit.length - 1].acumR)) + '% das NCs).' : '') + '</div>' +
+    '<table class="t par-t ar"><thead><tr><th>' + esc(nome) + '</th><th>NCs</th><th>%</th><th>% acum.</th></tr></thead><tbody>' + d.itens.map(x => '<tr' + (x.vital ? ' class="vital"' : '') + '><td>' + esc(x.nome) + '</td><td>' + esc(x.n) + '</td><td>' + esc(parPc(x.pctR)) + '%</td><td>' + esc(parPc(x.acumR)) + '%</td></tr>').join('') + '</tbody></table></div>';
   Audit.log({ acao: 'imprimir', entidade: 'rnc_pareto', entidadeId: f.por, resumo: 'Imprimiu o Pareto das NCs por ' + nome + ' · ' + prPerTxt() });
   runPrint(body, 'Pareto das NCs — por ' + nome + ' · ' + prPerTxt(), 'landscape', 'Agrupado por ' + nome + ' · ' + prPerTxt());
 }
@@ -14555,24 +14802,24 @@ function papDados() {
   if (com.length > PAR_MAX) { const resto = com.slice(PAR_MAX); itens = com.slice(0, PAR_MAX).concat([{ nome: 'Outros (' + resto.length + ')', n: resto.reduce((s, x) => s + x.n, 0), outros: true }]); }
   itens = itens.concat(sem);
   let ac = 0, passou = false;
-  itens.forEach(x => { ac += x.n; x.pct = total ? x.n / total * 100 : 0; x.acum = total ? ac / total * 100 : 0; x.vital = !passou && !x.sem && !x.outros; if (total && ac / total * 100 >= 80) passou = true; if (x.sem || x.outros) x.vital = false; });
+  itens.forEach(x => { ac += x.n; x.pct = total ? x.n / total * 100 : 0; x.acum = total ? ac / total * 100 : 0; x.vital = !passou && !x.sem && !x.outros; if (total && ac / total * 100 >= 80) passou = true; if (x.sem || x.outros) x.vital = false; }); parArred(itens);
   return { itens: itens, total: total, regs: total };
 }
 function papTabela(d, nome) {
-  return '<table class="t par-t' + '"><thead><tr><th>' + esc(nome) + '</th><th>Apont.</th><th>%</th><th>% acum.</th></tr></thead><tbody>' + d.itens.map(x => '<tr' + (x.vital ? ' class="vital"' : '') + '><td>' + esc(x.nome) + '</td><td>' + esc(x.n) + '</td><td>' + esc(x.pct.toFixed(0)) + '%</td><td>' + esc(x.acum.toFixed(0)) + '%</td></tr>').join('') + '</tbody></table>';
+  return '<table class="t par-t' + '"><thead><tr><th>' + esc(nome) + '</th><th>Apont.</th><th>%</th><th>% acum.</th></tr></thead><tbody>' + d.itens.map(x => '<tr' + (x.vital ? ' class="vital"' : '') + '><td>' + esc(x.nome) + '</td><td>' + esc(x.n) + '</td><td>' + esc(parPc(x.pctR)) + '%</td><td>' + esc(parPc(x.acumR)) + '%</td></tr>').join('') + '</tbody></table>';
 }
 function papCorpo(d) {
   const f = papF(), nome = (PAP_POR.find(x => x[0] === f.por) || ['', ''])[1];
   if (!d.total) return '<p class="fm-dica">Nenhum apontamento neste período.</p>';
   const vit = d.itens.filter(x => x.vital);
   return '<div class="par-cq"><div class="par-fig">' + paretoSVG(d, true) + paretoSVG(d, true, true) + '</div>' +
-    '<p class="par-res">' + esc(d.total) + (d.total > 1 ? ' apontamentos' : ' apontamento') + ' · ' + (vit.length ? 'poucos vitais: <b>' + vit.map(x => esc(x.nome)).join(', ') + '</b> (' + esc(Math.round(vit[vit.length - 1].acum)) + '% dos apontamentos)' : 'sem destaque') + '</p>' + papTabela(d, nome) + paretoLista(d.itens, nome, 'Apont.') + '</div>'; /* v2.102.26; v2.102.27: a moldura começa no gráfico */
+    '<p class="par-res">' + esc(d.total) + (d.total > 1 ? ' apontamentos' : ' apontamento') + ' · ' + (vit.length ? 'poucos vitais: <b>' + vit.map(x => esc(x.nome)).join(', ') + '</b> (' + esc(parPc(vit[vit.length - 1].acumR)) + '% dos apontamentos)' : 'sem destaque') + '</p>' + papTabela(d, nome) + paretoLista(d.itens, nome, 'Apont.') + '</div>'; /* v2.102.26; v2.102.27: a moldura começa no gráfico */
 }
 function openApPareto() { /* v2.102.27: barra única (ano, Período ▾, Agrupar ▾, impressora) */
   const f = papF(), d = papDados();
-  openSheet('<h3>Pareto dos apontamentos</h3><div class="sub">O que mais se repete no campo. As barras até 80% do total são os "poucos vitais". Os "Não procede" não entram.</div>' +
+  parFoco(openSheet('<h3>Pareto dos apontamentos</h3><div class="sub">O que mais se repete no campo. As barras até 80% do total são os "poucos vitais". Os "Não procede" não entram.</div>' +
     parTopo('ap', f, PAP_POR, d.total) + papCorpo(d) +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
+    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button></div>', { noFocus: true }));
 }
 function apParetoImprimir() {
   const f = papF(), d = papDados(); if (!d.total) { toast('Nenhum apontamento neste período.'); return; }
@@ -14580,7 +14827,7 @@ function apParetoImprimir() {
   const vit = d.itens.filter(x => x.vital);
   const body = '<div class="par-imp"><div class="ar par-ik"><span><i>Agrupado por</i>' + esc(nome) + '</span><span><i>Período</i>' + esc(papPerTxt()) + '</span><span><i>Apontamentos</i>' + esc(d.total) + '</span></div>' +
     '<div class="ar par-fig">' + paretoSVG(d, true) + '</div>' +
-    '<div class="ar par-res">' + (vit.length ? 'Poucos vitais: <b>' + vit.map(x => esc(x.nome)).join(', ') + '</b> (' + esc(Math.round(vit[vit.length - 1].acum)) + '% dos apontamentos).' : '') + ' Não entram os apontamentos marcados como "Não procede".</div>' +
+    '<div class="ar par-res">' + (vit.length ? 'Poucos vitais: <b>' + vit.map(x => esc(x.nome)).join(', ') + '</b> (' + esc(parPc(vit[vit.length - 1].acumR)) + '% dos apontamentos).' : '') + ' Não entram os apontamentos marcados como "Não procede".</div>' +
     papTabela(d, nome).replace('class="t par-t"', 'class="t par-t ar"') + '</div>';
   Audit.log({ acao: 'imprimir', entidade: 'ap_pareto', entidadeId: f.por, resumo: 'Imprimiu o Pareto dos apontamentos por ' + nome + ' · ' + papPerTxt() });
   runPrint(body, 'Pareto dos apontamentos — por ' + nome + ' · ' + papPerTxt(), 'landscape', 'Agrupado por ' + nome + ' · ' + papPerTxt());
@@ -15303,7 +15550,7 @@ function rncAcao(act, id, t) {
   }
   switch (act) {
     case 'rnc-nova': openRncNova(); return true;
-    case 'rnc-par-open': prF().ano = hojeISO().slice(0, 4); openRncPareto(); return true; /* v2.102.22: abre no ano atual */ /* v2.102.19 */
+    case 'rnc-par-open': { const f = prF(); f.ano = hojeISO().slice(0, 4); f.per = ''; f.por = '6m'; } openRncPareto(); return true; /* v2.102.28: abre do zero */ /* v2.102.22: abre no ano atual */ /* v2.102.19 */
     case 'rnc-par-ano': { const f = prF(), a = String(Number(f.ano) + Number(id)); if (a <= hojeISO().slice(0, 4)) f.ano = a; openRncPareto(); return true; }
     case 'rnc-par-per': prF().per = id; openRncPareto(); return true;
     case 'rnc-par-por': prF().por = id; openRncPareto(); return true;
@@ -16212,6 +16459,7 @@ function prevNomeArquivo(titulo) {
 }
 function prevAbrir() {
   const root = $('#print-root'); if (!root || !root.innerHTML.trim()) return;
+  try { alinhaTabelas(root); } catch {} /* v2.102.28: colunas centralizadas também no PDF */
   const pagina = ($('#page-style') || {}).textContent || '', n = prevFolhas(root);
   let titulo = prevTitulo(root); if (S.user && S.user.contaTeste && !/^TESTE/i.test(titulo)) titulo = 'TESTE (sem valor) · ' + titulo; /* v2.89.1: nome do arquivo */
   const html = root.innerHTML.replace(/<script[\s\S]*?<\/script>/gi, '');
@@ -16429,7 +16677,7 @@ function ptTexto(c, r) { return ptCorta(c.pfmt ? c.pfmt(r) : cellText(c, r), c.p
 function ptLarguras(specs) {
   const w = specs.map(s => {
     if (s.pw) return { w: s.pw, fixa: true };
-    if (s.date) return { w: 17, fixa: true };
+    if (s.date) { let m = 0; (s.txts || []).forEach(t => { const n = String(t == null ? '' : t).length; if (n > m) m = n; }); return { w: m > 10 ? Math.max(17, m * 1.55 + 3) : 17, fixa: true }; } /* v2.102.28: data com hora */
     const palavra = String(s.label || '').split(/\s+/).reduce((a, x) => Math.max(a, x.length), 0);
     let max = 0; (s.txts || []).forEach(t => { const n = String(t == null ? '' : t).length; if (n > max) max = n; });
     const longa = !!s.flex || max > 30;
@@ -17596,9 +17844,9 @@ function albResHTML(q) {
   const l = albBusca(q);
   return l.length ? l.map((r, k) => '<button type="button" class="alb-it' + (k === 0 ? ' prim' : '') + '" data-action="' + (r.t === 'eq' ? 'eq-open' : 'al-item') + '" data-id="' + esc(r.id) + '"><b>' + esc(r.nome) + '</b><small>' + esc(r.sub) + '</small></button>').join('') : '<div class="alb-nada">Nada encontrado com "' + esc(q) + '".</div>';
 }
-function albHTML() {
+function albHTML(curto) {
   const q = S.albQ || '';
-  return '<div class="alb"><input class="input" id="alb-q" type="search" placeholder="Buscar TAG, equipamento ou material (ex.: PHM, pip 19, luva)" autocomplete="off" enterkeyhint="search" value="' + esc(q) + '"><div class="alb-r" id="alb-r"' + (albNorm(q).length < 2 ? ' hidden' : '') + '>' + albResHTML(q) + '</div></div>';
+  return '<div class="alb"><input class="input" id="alb-q" type="search" placeholder="' + (curto ? 'Buscar…' : 'Buscar TAG, equipamento ou material (ex.: PHM, pip 19, luva)') + '" autocomplete="off" title="Buscar por TAG, equipamento ou material" enterkeyhint="search" value="' + esc(q) + '"><div class="alb-r" id="alb-r"' + (albNorm(q).length < 2 ? ' hidden' : '') + '>' + albResHTML(q) + '</div></div>';
 }
 function albInput(inp) {
   S.albQ = inp.value; const r = $('#alb-r'); if (!r) return;
@@ -19670,14 +19918,14 @@ function viewBugs() {
   const f = bugFiltro(), todos = (S.bugs || []).slice().sort((a, b) => String(b.ts).localeCompare(String(a.ts)));
   const l = todos.filter(b => f === 'todos' ? true : f === 'meus' ? b.porId === S.user.id : f === 'abertos' ? bugAberto(b) : b.status === f);
   const n = k => todos.filter(b => k === 'meus' ? b.porId === S.user.id : k === 'abertos' ? bugAberto(b) : b.status === k).length;
-  const chip = (k, t) => '<button class="chip-f' + (f === k ? ' on' : '') + '" data-action="bug-f" data-id="' + k + '">' + t + ' <b>' + (k === 'todos' ? todos.length : n(k)) + '</b></button>';
+  const bugFl = [['abertos', 'Abertos'], ['resolvido', 'Resolvidos'], ['naoprocede', 'Não procede'], ['meus', 'Meus'], ['todos', 'Todos']], nB = k => k === 'todos' ? todos.length : n(k);
+  const bugDd = ddHTML('Filtro', (bugFl.find(x => x[0] === f) || bugFl[0])[1] + ' ' + nB(f), bugFl.map(x => ({ a: 'bug-f', id: x[0], t: x[1] + ' ' + nB(x[0]), on: f === x[0] })), { cls: 'bug-fil', semRot: true });
   const linhas = l.map(b => '<tr data-action="bug-open" data-id="' + esc(b.id) + '" class="click"><td>' + esc(bugNum(b)) + '</td><td><span class="chip ' + BUG_TIPOS[b.tipo || 'bug'][1] + '">' + BUG_TIPOS[b.tipo || 'bug'][0] + '</span></td>' +
     '<td><b>' + esc(b.titulo) + '</b>' + (b.foto || b.temFoto ? ' <span class="bug-clip" title="Com foto">' + icoI('camera') + '</span>' : '') + '</td><td>' + esc(bugAreaNome(b.area)) + '</td><td>' + esc(b.porNome || '') + '</td><td>' + esc(fmtD(diaLocal(b.ts))) + '</td>' +
     '<td><span class="chip ' + BUG_SIT[b.status || 'novo'][1] + '">' + BUG_SIT[b.status || 'novo'][0] + (b.status === 'resolvido' && b.versaoResolvido ? ' · ' + esc(b.versaoResolvido) : '') + '</span></td></tr>').join('');
   /* v2.86.0 (nº 8): os dois botões lado a lado (também no celular), filtros numa linha própria e "Relatório PDF" */
   return '<div class="bug-top"><div class="bug-bts"><button class="btn primary" data-action="bug-novo" data-id="bug">Reportar problema</button><button class="btn" data-action="bug-novo" data-id="sugestao">Sugerir melhoria</button>' +
-    (l.length ? '<button class="btn bug-pdf" data-action="bug-pdf" title="Os itens do filtro atual, com a descrição, o histórico e as fotos">' + icoI('print') + 'Relatório PDF</button>' : '') + '</div>' +
-    '<div class="bug-chips">' + chip('abertos', 'Abertos') + chip('resolvido', 'Resolvidos') + chip('naoprocede', 'Não procede') + chip('meus', 'Meus') + chip('todos', 'Todos') + '</div></div>' +
+    (l.length ? '<button class="btn bug-pdf" data-action="bug-pdf" title="Os itens do filtro atual, com a descrição, o histórico e as fotos">' + icoI('print') + 'Relatório PDF</button>' : '') + bugDd + '</div></div>' +
     (l.length ? '<div class="tw"><table class="t bug-t"><thead><tr><th>Nº</th><th>Tipo</th><th>Título</th><th>Tela</th><th>Quem</th><th>Data</th><th>Situação</th></tr></thead><tbody>' + linhas + '</tbody></table></div>'
       : '<div class="empty" style="margin:20px auto"><p>' + (f === 'abertos' ? 'Nenhum problema ou sugestão em aberto.' : 'Nada por aqui.') + '</p></div>');
 }
@@ -21356,10 +21604,11 @@ function openGear() {
   const meus = THEMES.filter(t => (t.grupo === 'nivel' || t.niveis) && temaPermitido(t, u));
   const th = '<div class="tema-box" id="tema-box"><button type="button" class="tema-bola" data-action="tema-abrir" aria-expanded="false" aria-controls="tema-grupos"><i style="background:' + atual.cor + '"></i><span><b>' + esc(atual.nome) + '</b><small>toque para trocar</small></span></button>' +
     '<div class="tema-grupos" id="tema-grupos" hidden>' + (meus.length ? '<div class="ap-hint" style="margin-top:0">Exclusivo do seu nível · ' + esc(NIVEL_NOME[nivelDe(u)] || '') + '</div><div class="themes">' + meus.map(thB).join('') + '</div>' : '') + '<div class="ap-hint"' + (meus.length ? '' : ' style="margin-top:0"') + '>Limpos</div><div class="themes">' + THEMES.filter(t => !t.grupo).map(thB).join('') + '</div><div class="ap-hint">Com desenho discreto</div><div class="themes">' + THEMES.filter(t => t.grupo === 'fundo').map(thB).join('') + '</div></div></div>';
-  const adm = isPrincipal(u) ? '<div class="sec">Administração</div><button class="menu-btn" data-action="users">Usuários<span>›</span></button><button class="menu-btn" data-action="emp-open">Empresa (nome, unidades e endereços)<span>›</span></button><button class="menu-btn" data-action="dc-open">Documento controlado (cabeçalho das impressões)<span>›</span></button><button class="menu-btn" data-action="teste-open">Ambiente de teste' + (fbTesteAtivo() ? ' <span class="chip warn">em teste</span>' : '') + '<span>›</span></button><button class="menu-btn" data-action="arq-open" data-id="novo">Arquivo por ano' + (arqCfg().ateAno ? ' <small>fechado até ' + arqCfg().ateAno + '</small>' : '') + '<span>›</span></button><button class="menu-btn" data-action="v75-teste">Registros de teste<span>›</span></button><button class="menu-btn" data-action="bk-open">Backup e exportação' + (bkAtrasado() ? ' <span class="chip warn">fazer</span>' : '') + '<span>›</span></button><button class="menu-btn" data-action="alert-test">Testar alerta crítico neste aparelho<span>›</span></button>' : '';
-  openSheet('<h3 class="op-h">Opções</h3><button class="menu-btn mp-linha" data-action="meu-perfil">' + avatarHTML(u, 40) + '<span><b>' + nomeFmt(u) + '</b>' + cnqTituloHTML(u) + '<small>' + esc((u.cargo ? u.cargo + ' · ' : '') + perfilLabel(u)) + ' · Meu perfil</small></span><span>›</span></button><button class="menu-btn mp-linha cnq-menu" data-action="cnq-open">' + cnqInsig('constancia', 5, 32) + '<span><b>Conquistas</b><small>As suas, as da equipe e as dos colegas · sem ranking</small></span><span>›</span></button><div class="sec">Tema</div>' + th + tabletMenuHTML() + adm +
-    (DEMO ? '<div class="sec">Modo teste</div>' + (testeOrigem() ? '<button class="menu-btn" data-action="teste-open">Ambiente de teste (cópia)<span>›</span></button>' : '') + '<button class="menu-btn" data-action="demo-off">Sair da demonstração e voltar para a nuvem<span>›</span></button>' : '') + '' + (rsPode(u) ? '<div class="sec">Relatórios</div><button class="menu-btn" data-action="rs-open">Relatórios da semana<span>›</span></button>' : '') + pwaMenuHTML() + '<div class="sec">Sobre</div>' + (DEMO ? '' : RC_NOTA) + keyval([['Versão', APP_VERSION], ['Dados', Data.mode === 'demo' ? 'Demonstração (só neste aparelho)' : 'Nuvem, sincronizado'], ['Conexão', Sync.texto()]]).replace('<span>Conexão</span><b>', '<span>Conexão</span><b id="sync-sobre">') + '<button class="menu-btn" data-action="arm-open">Espaço deste aparelho' + (Store.falha.cota || S._semCache === 22 ? ' <b class="arm-cheio">cheio</b>' : '') + '<span>›</span></button>' +
-    '<div class="row-actions"><button class="btn danger" data-action="logout">Sair</button><button class="btn" data-action="bloquear">Bloquear</button><button class="btn primary" data-action="close">Fechar</button></div>');
+  const admItens = isPrincipal(u) ? '<button class="menu-btn" data-action="users">Usuários<span>›</span></button><button class="menu-btn" data-action="emp-open">Empresa (nome, unidades e endereços)<span>›</span></button><button class="menu-btn" data-action="dc-open">Documento controlado (cabeçalho das impressões)<span>›</span></button><button class="menu-btn" data-action="teste-open">Ambiente de teste' + (fbTesteAtivo() ? ' <span class="chip warn">em teste</span>' : '') + '<span>›</span></button><button class="menu-btn" data-action="arq-open" data-id="novo">Arquivo por ano' + (arqCfg().ateAno ? ' <small>fechado até ' + arqCfg().ateAno + '</small>' : '') + '<span>›</span></button><button class="menu-btn" data-action="v75-teste">Registros de teste<span>›</span></button><button class="menu-btn" data-action="bk-open">Backup e exportação' + (bkAtrasado() ? ' <span class="chip warn">fazer</span>' : '') + '<span>›</span></button><button class="menu-btn" data-action="alert-test">Testar alerta crítico neste aparelho<span>›</span></button>' : '';
+  const adm = isPrincipal(u) ? '<div class="sec">Administração</div><button class="menu-btn" data-action="adm-open">Administração<span>›</span></button><div class="op-adm-ov" id="op-adm" hidden><div class="op-adm" role="dialog" aria-label="Administração"><div class="op-adm-h"><button type="button" class="btn sm" data-action="adm-close">‹ Voltar</button><h3>Administração</h3></div><div class="op-adm-l">' + admItens + '</div></div></div>' : ''; /* v2.102.29: painel escondido; os botões continuam na tela */
+  openSheet('<h3 class="op-h">Opções</h3><div class="op-top"><button class="menu-btn mp-linha" data-action="meu-perfil">' + avatarHTML(u, 40) + '<span><b>' + nomeFmt(u) + '</b>' + cnqTituloHTML(u) + '<small>' + esc((u.cargo ? u.cargo + ' · ' : '') + perfilLabel(u)) + ' · Meu perfil</small></span><span>›</span></button><button class="menu-btn mp-linha cnq-menu" data-action="cnq-open">' + cnqInsig('constancia', 5, 32) + '<span><b>Conquistas</b><small>As suas, as da equipe e as dos colegas · sem ranking</small></span><span>›</span></button></div><div class="op-cols"><div class="op-c1"><div class="sec">Tema</div>' + th + tabletMenuHTML() +
+    (DEMO ? '<div class="sec">Modo teste</div>' + (testeOrigem() ? '<button class="menu-btn" data-action="teste-open">Ambiente de teste (cópia)<span>›</span></button>' : '') + '<button class="menu-btn" data-action="demo-off">Sair da demonstração e voltar para a nuvem<span>›</span></button>' : '') + '</div><div class="op-c2">' + adm + (rsPode(u) ? '<div class="sec">Relatórios</div><button class="menu-btn" data-action="rs-open">Relatórios da semana<span>›</span></button>' : '') + pwaMenuHTML() + '<div class="sec">Sobre</div>' + (DEMO ? '' : RC_NOTA) + keyval([['Versão', APP_VERSION], ['Dados', Data.mode === 'demo' ? 'Demonstração (só neste aparelho)' : 'Nuvem, sincronizado'], ['Conexão', Sync.texto()]]).replace('<span>Conexão</span><b>', '<span>Conexão</span><b id="sync-sobre">') + '<button class="menu-btn" data-action="arm-open">Espaço deste aparelho' + (Store.falha.cota || S._semCache === 22 ? ' <b class="arm-cheio">cheio</b>' : '') + '<span>›</span></button>' +
+    '</div></div><div class="row-actions op-foot"><button class="btn danger" data-action="logout">Sair</button><button class="btn" data-action="bloquear">Bloquear</button><button class="btn primary" data-action="close">Fechar</button></div>');
 }
 /* v2.14.1 — os temas saem de dentro da bolinha para os lugares deles (e voltam ao tocar de novo) */
 function temaAbrir() {
@@ -21411,7 +21660,7 @@ function renderShell() {
     '<button class="rail-user" data-action="meu-perfil">' + avatarHTML(u, 36) + '<span class="ru-t"><b>' + nomeFmt(u, true) + '</b><span>' + esc(u.cargo || perfilLabel(u)) + (statusDe(u) !== 'ativo' ? ' · ' + esc(statusNome(statusDe(u))) : '') + '</span></span></button></aside>' +
     '<div class="col"><header class="topbar"><div class="topbar-row"><div class="tb-tit"><h1>' + esc(a.titulo || a.nome) + '</h1><span id="aj-aba"></span></div>' +
     Sync.botaoHTML() + '<button class="iconbtn" data-action="bell" aria-label="Notificações">' + ico('bell') + '<span class="badge" id="bell-badge" hidden></span></button>' +
-    '<button class="iconbtn" data-action="gear" aria-label="Opções">' + ico('gear') + '</button></div><nav class="tabs" id="tabs" aria-label="Seções"></nav></header>' +
+    '<button class="iconbtn" data-action="gear" aria-label="Opções">' + ico('gear') + '</button></div><nav class="tabs rola-x" id="tabs" aria-label="Seções"></nav></header>' +
     '<main class="main" id="view"></main></div></div>' +
     '<nav class="bottomnav" style="--n:' + areas.length + '" aria-label="Áreas">' +
     nav.map(n => '<button class="bn' + (n.on ? ' active' : '') + '" data-action="area" data-id="' + n.x.id + '"><span class="pill">' + ico(n.x.icon) + '</span>' + esc(n.x.nome) + '</button>').join('') + '</nav>';
@@ -21448,9 +21697,9 @@ function renderView() {
   else if (a.id === 'almox' && t.id === 'painel') host.innerHTML = albHTML() + viewAlmPainel();
   else if (a.id === 'almox' && t.id === 'apre') host.innerHTML = viewAlmApre();
   else if (a.id === 'almox' && t.id === 'mat') host.innerHTML = (S.almItens.length ? '' : albHTML()) + viewAlmMateriais(); /* v2.75.0: a busca fica na barra dos filtros */
-  else if (a.id === 'almox' && t.id === 'mov') host.innerHTML = albHTML() + viewAlmMov();
+  else if (a.id === 'almox' && t.id === 'mov') host.innerHTML = viewAlmMov(); /* v2.102.29: busca na barra */
   else if (a.id === 'almox' && t.id === 'sol') host.innerHTML = albHTML() + viewAlmSol();
-  else if (a.id === 'almox' && t.id === 'equip') host.innerHTML = albHTML() + viewAlmEquip();
+  else if (a.id === 'almox' && t.id === 'equip') host.innerHTML = viewAlmEquip(); /* v2.102.29: busca na barra */
   else if (a.id === 'almox' && t.id === 'inv') host.innerHTML = albHTML() + viewAlmInv();
   else if (a.id === 'coletas' && t.id === 'prog') host.innerHTML = viewProg();
   else if (a.id === 'coletas' && t.id === 'agua') host.innerHTML = viewAgua();
@@ -21475,6 +21724,7 @@ function renderView() {
   if ($('[data-chart]')) (window.requestAnimationFrame || setTimeout)(desenharGraficos);
   if ($('img[data-foto]', host)) apCarregarFotos(host);
   ajustarTabelas();
+  try { alinhaTabelas(host); } catch {} /* v2.102.28 */
   if (tws.length) $$('#view .tw').forEach((e, i) => { if (tws[i]) { e.scrollTop = tws[i][0]; e.scrollLeft = tws[i][1]; } });
 }
 /* v2.13.1 — no PC, a tabela desce até o pé da tela (antes parava num tamanho fixo).
@@ -22004,6 +22254,8 @@ document.addEventListener('click', e => {
     case 'sync': Sync.abrir(); break;
     case 'sync-limpar': Sync.limparErros(); break;
     case 'gear': openGear(); break;
+    case 'adm-open': opAdm(true); break; /* v2.102.29 */
+    case 'adm-close': opAdm(false); break;
     case 'close': closeSheet(); break;
     case 'tema-abrir': temaAbrir(); break;
     case 'md-ir': { if (String(id || '') === 'bk:') { openBackup(); break; } if (String(id || '') === 'pc:') { procIrTela(); break; } if (String(id || '').indexOf('ac:') === 0) { openAcao(String(id).slice(3)); break; } const p = String(id || '').split('/'); S.area = p[0]; if (p[1]) S.tabs[p[0]] = p[1]; renderShell(); renderView(); window.scrollTo(0, 0); break; }
@@ -22348,7 +22600,7 @@ document.addEventListener('click', e => {
     case 'ap-nc-ok': apNCOk(id); break;
     case 'ap-nc-fechar': openApNCFechar(id); break;
     case 'ap-nc-fechar-ok': apNCFecharOk(id); break;
-    case 'ap-par-open': papF().ano = hojeISO().slice(0, 4); openApPareto(); break; /* v2.102.23 */
+    case 'ap-par-open': { const f = papF(); f.ano = hojeISO().slice(0, 4); f.per = ''; f.por = 'cat'; } openApPareto(); break; /* v2.102.28: abre do zero */ /* v2.102.23 */
     case 'ap-par-ano': { const f = papF(), a = String(Number(f.ano) + Number(id)); if (a <= hojeISO().slice(0, 4)) f.ano = a; openApPareto(); break; }
     case 'ap-par-per': papF().per = id; openApPareto(); break;
     case 'ap-par-por': papF().por = id; openApPareto(); break;
@@ -22359,7 +22611,7 @@ document.addEventListener('click', e => {
     case 'ap-set-desat': apSetorDesat(id); break;
     case 'rn-sem': { const h = apSegunda(hojeISO()); let n = addDias(S.rnSeg || h, +id); if (n > h) n = h; S.rnSeg = n; renderView(); break; }
     case 'rn-print': apImprimirReuniao(id === 'marcados'); break;
-    case 'dd-tg': { const p = t.nextElementSibling; if (p) { const abre = p.hidden; ddFechar(p); p.hidden = !abre; t.setAttribute('aria-expanded', abre ? 'true' : 'false'); } break; } /* v2.102.27 */
+    case 'dd-tg': { const p = t.nextElementSibling; if (p) { const abre = p.hidden; ddFechar(p); p.hidden = !abre; t.setAttribute('aria-expanded', abre ? 'true' : 'false'); if (abre) ddFixa(t, p); } break; } /* v2.102.27 */
     case 'imp-pop': { const p = t.nextElementSibling; if (p) { const abre = p.hidden; impFechar(p); p.hidden = !abre; t.setAttribute('aria-expanded', abre ? 'true' : 'false'); } break; }
     case 'rn-per': { const f = rnF(); f.per = id; if (id === 'datas' && !f.de) { f.de = addDias(hojeISO(), -6); f.ate = hojeISO(); } renderView(); break; } /* v2.102.14 */
     case 'rn-filtro': openRnFiltro(id); break;
