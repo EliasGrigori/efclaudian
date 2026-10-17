@@ -1780,6 +1780,8 @@ textarea.input{font-family:inherit;font-size:inherit} /* v2.61.0: as caixas de t
 
 /* v2.67.0 — lançar vários e cobrar */
 .rlm-bar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:0 0 8px}
+/* v2.102.33: Lançar vários / Cobrar na linha do título de Documentos filtrados */
+.rel-h.rel-h-ac{display:flex;align-items:center;flex-wrap:nowrap;gap:10px}.rel-h-t{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;flex:1;min-width:0}.rel-h-ac .rlm-bar{margin:0;flex:0 0 auto;flex-wrap:nowrap}
 .rlm-bar.on{position:sticky;top:0;z-index:2;background:var(--surface-2);border:1px solid var(--primary);border-radius:var(--r-ctl);padding:6px 8px}
 .rlm-bar b{font-size:13px}.rlm-sp{flex:1}
 .rel-li.marcavel{opacity:.85}.rel-li.sel{outline:2px solid var(--primary);outline-offset:-2px;background:color-mix(in srgb,var(--primary) 10%,var(--surface))}
@@ -2998,7 +3000,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.32 · Acertos: Status do Relatório mostra o filtro ativo e fica aberto ao marcar, Pareto com 1 casa decimal e mais folga na linha dos 80%';
+const APP_VERSION = 'v2.102.33 · Lançar vários na linha do título; botão "Lançar coleta avulsa" de volta; sai a janela antiga Nova coleta';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -6421,12 +6423,6 @@ async function rzUnicaAuto() {
   }
   return n;
 }
-function rzProgramar(id, pk, area) {
-  const r = (S.rodizios || []).find(x => x.id === id); if (!r) return;
-  const p = rzPeriodos(r).find(x => x.k === pk); if (!p) return;
-  const areas = area ? [area] : rzStatus(r, p).filter(a => a.st === 'falta').map(a => a.area);
-  closeSheet(); openProgNew({ tipo: r.tipo, talhoes: areas, analiseIds: r.analiseIds || [], de: r.nome + ' · ' + p.nome });
-}
 function openRzLista() {
   const l = (S.rodizios || []).slice().sort((a, b) => String(b.ano).localeCompare(String(a.ano)) || a.nome.localeCompare(b.nome, 'pt-BR'));
   openSheet('<h3>Planos de coleta</h3><div class="sub">Todos, inclusive os de anos anteriores e os desativados.</div>' +
@@ -6679,7 +6675,7 @@ const UNIDADES = [['matriz', 'Matriz'], ['filial', 'Filial']]; /* v2.79.0: os no
 function fazUnidade(f) { return (f && f.unidade) || 'matriz'; }
 function unidadeNome(f) { const u = fazUnidade(f); return (UNIDADES.find(x => x[0] === u) || UNIDADES[0])[1]; }
 function pgSoComposto(tipo) { const g = tipoGera(tipo); return g.length > 0 && g.every(x => x === 'COMPOSTO'); }
-function pgLoteRow() { return '<div class="fm-row pg-lote-r"><div><label class="fm-l">Lote / pilha</label><input class="input pgl-l" autocomplete="off" placeholder="Ex.: COM-071-25" style="text-transform:uppercase"></div><div><label class="fm-l">Fabricação</label><input class="input pgl-f" type="date"></div></div>'; }
+/* v2.102.33: pgLoteRow saiu com a janela antiga Nova coleta */
 function cpxRow() { return '<div class="fm-row cp-x"><div><label class="fm-l">Outro lote / pilha</label><input class="input cpx-l" autocomplete="off" placeholder="Ex.: COM-072-25" style="text-transform:uppercase"></div><div><label class="fm-l">Fabricação</label><input class="input cpx-f" type="date"></div></div>'; }
 
 /* ---------- enviar a amostra (só ela ou numa remessa) ---------- */
@@ -6963,15 +6959,15 @@ function rzFolha(id, pk) {
 /* "Lançar direto": a coleta já feita, fora da programação (fruta de outro local, hora, maturação, vários lotes de composto) */
 function openColDireto() {
   if (!podeLancar(S.user)) return;
-  openSheet('<h3>Lançar coleta já feita</h3><div class="sub">Sem passar pela programação. Escolha o material.</div>' +
+  openSheet('<h3>Lançar coleta avulsa</h3><div class="sub">Coleta já feita, fora do plano (cliente externo, outro local, composto). Escolha o material.</div>' + /* v2.102.33 */
     '<div class="cd-mats">' + ABAS_COL.map(a => '<button class="btn" data-action="col-new" data-id="' + esc(a.tipo) + '">' + esc(a.nome) + '</button>').join('') + '</div>' +
-    '<div class="row-actions"><button class="btn" data-action="prog-new">Voltar</button></div>', { noFocus: true });
+    '<div class="row-actions"><button class="btn" data-action="close">Cancelar</button></div>', { noFocus: true });
 }
 function viewProg() {
   if (!S.talhoes.length || !S.cfgCol) return colVazio();
   const pode = podeLancar(S.user), np = pgPendentes().length, ncd = pode ? cdItens().length : 0;
   /* v2.55.0: o "Coletado" de cima saiu (toque na fileira); as áreas dos planos entram na tabela, por data */
-  const acoes = (pode ? '<button class="btn sm primary" data-action="rz-new">Nova programação</button>' : '') + (ncd ? '' : '');
+  const acoes = (pode ? '<button class="btn sm primary" data-action="rz-new">Nova programação</button><button class="btn sm" data-action="col-direto">Lançar coleta avulsa</button>' : '') + (ncd ? '' : ''); /* v2.102.33: avulsa de volta */
   const rows = pgLinhasTodas();
   const stTxt = r => r._st === 'cancelada' ? 'Cancelada' : r._st === 'coletada' ? 'Coletada' + (r.coletadaEm ? ' ' + fmtD(r.coletadaEm) : '') : 'Pendente';
   return rzCardsHTML() + tableHTML({
@@ -7254,42 +7250,10 @@ function openRzHist(id) {
       return '<div class="pj-oc"><span><b>' + esc(p ? p.nome : x.pk) + '</b><small>' + esc(x.depois.length + ' áreas' + (mais.length ? ' · entraram ' + mais.join(', ') : '') + (menos.length ? ' · saíram ' + menos.join(', ') : '') + ' · ' + x.porNome + ', ' + fmtD(diaLocal(x.ts))) + '</small></span></div>'; }).join('') : '') +
     '<div class="row-actions"><button class="btn" data-action="rz-open" data-id="' + esc(r.id) + '" data-p="">Voltar</button></div>', { noFocus: true });
 }
-function openProgNew(pre) {
-  /* v2.26.0: blocos numerados (1 Quando e o quê · 2 Análises · 3 Talhões · 4 Detalhes); mesmos ids de antes */
-  const tal = S.talhoes.filter(t => t.ativo !== false).sort((a, b) => cmpTalhao(a.codigo, b.codigo));
-  const tipos = cfgCol().tipos.filter(t => t.ativo !== false);
-  const passo = (n, t) => '<div class="fm-step"><i>' + n + '</i>' + t + '</div>', L = t => '<label class="fm-l">' + t + '</label>';
-  openSheet('<h3>Nova coleta</h3><div class="sub">Vira a lista dos coletores. As amostras entram quando você marcar Coletado.</div><div class="fm-links"><button type="button" class="fm-link" data-action="col-direto">Já coletada? Lançar direto</button><button type="button" class="fm-link" data-action="cad-open">Cadastros</button></div><div id="pg-msg"></div><div class="fm">' +
-    passo(1, 'Quando e o quê') + '<div class="fm-row"><div>' + L('Data da programação') + '<input class="input" type="date" id="pg-data" value="' + hojeISO() + '"></div>' +
-      '<div>' + L('Tipo') + '<select class="input" id="pg-tipo">' + tipos.map(t => '<option value="' + esc(t.nome) + '">' + esc(t.nome) + '</option>').join('') + '</select></div></div>' +
-      '<div class="fm-row"><div>' + L('Profundidade') + '<div id="pg-prof-w" data-tipo="' + esc((tipos[0] || {}).nome || '') + '">' + profSelHTML('pg-prof', profsDoTipo((tipos[0] || {}).nome), '') + '</div></div><div class="fm-dica" id="pg-sem" style="align-self:end;margin:0 0 12px">Semana ' + semanaNum(hojeISO()) + '</div></div>' +
-    passo(2, 'Análises') + '<div class="fl-list" id="pg-ans" style="max-height:none">' + progAnalisesHTML((tipos[0] || {}).nome) + '</div>' +
-    '<div class="fm-step" id="pg-p3"><i>3</i><span>Talhões</span></div><div id="pg-lotes-w" hidden><div class="fm-dica">Composto: o lote (pilha) e a fabricação. Cada lote vira uma programação.</div><div id="pg-lotes">' + pgLoteRow() + '</div><button type="button" class="fm-link" data-action="pg-lote-mais">+ outro lote</button></div><div class="fl-list" id="pg-tal-w" style="max-height:34dvh">' + tal.map(t => '<label class="fl-item"><input type="checkbox" class="pg-tal" value="' + esc(t.codigo) + '"><span>' + esc(t.codigo) + '</span><span class="n">' + String(t.hectares).replace('.', ',') + ' ha · ' + esc(t.cultura) + '</span></label>').join('') + '</div>' +
-    passo(4, 'Detalhes · opcional') + '<div class="fm-row"><div>' + L('Prazo') + '<input class="input" type="date" id="pg-prazo"></div><div class="fm-dica" style="align-self:end;margin:0 0 12px">Até quando os coletores têm para trazer.</div></div><div class="fm-row"><div>' + L('Coletor') + '<input class="input" id="pg-col" list="dl-coletor" autocomplete="off" enterkeyhint="next">' + sugestoes('dl-coletor', S.coletas.map(c => c.coletor).concat(S.users.map(u => u.nome))) + '</div>' +
-      '<div id="pg-est-w">' + L('Estádio') + '<input class="input" id="pg-est" list="dl-est" autocomplete="off" enterkeyhint="next">' + sugestoes('dl-est', ['FLORAÇÃO', 'FRUTIFICAÇÃO', 'VEGETATIVO', 'POUSIO'].concat(S.coletas.map(c => c.estadio))) + '</div></div>' +
-      '<input class="input" id="pg-obs" autocomplete="off" enterkeyhint="done" placeholder="Observação, se for o caso">' +
-    '</div><div class="row-actions"><button class="btn" data-action="close">Cancelar</button><button class="btn primary" data-action="prog-save">Programar</button></div>', { noFocus: true });
-  if (pre && typeof pre === 'object') {
-    const tp = $('#pg-tipo'); if (tp && tipos.some(t => t.nome === pre.tipo)) { tp.value = pre.tipo; progAtualizaForm(); }
-    const ans = $$('.pg-an'); if ((pre.analiseIds || []).some(id => ans.some(x => x.value === id))) ans.forEach(x => { x.checked = pre.analiseIds.indexOf(x.value) >= 0; });
-    const lista = $$('.pg-tal'), box = lista.length ? lista[0].closest('.fl-list') : null;
-    (pre.talhoes || []).slice().reverse().forEach(cod => { const x = lista.find(i => i.value === cod); if (x) { x.checked = true; if (box) box.insertBefore(x.closest('.fl-item'), box.firstChild); } });
-    const m = $('#pg-msg'); if (m && pre.de) m.innerHTML = '<div class="fm-dica">Do plano de coleta ' + esc(pre.de) + ': ' + (pre.talhoes || []).length + ' área(s) já marcada(s). Confira a data e programe.</div>';
-  }
-}
 function analisesDoMaterial(tipo) { return S.analises.filter(a => a.tipo === tipo && a.ativo !== false).sort((a, b) => (a.criadoEm || '').localeCompare(b.criadoEm || '')); }
 function progAnalisesHTML(tipoNome) {
   const gera = tipoGera(tipoNome);
   return gera.map(g => '<div style="font-size:12px;font-weight:700;color:var(--text-muted);padding:8px 14px 2px">' + esc(TIPO_ANALISE_TXT[g]) + '</div>' + analisesDoMaterial(g).map((a, i) => '<label class="fl-item"><input type="checkbox" class="pg-an" value="' + esc(a.id) + '"' + (i === 0 ? ' checked' : '') + '><span>' + esc(a.nome) + '</span><span class="n">' + esc(a.lab || '—') + '</span></label>').join('')).join('');
-}
-function progAtualizaForm() {
-  const d = $('#pg-data'), s = $('#pg-sem'); if (d && s) s.textContent = d.value ? 'Semana ' + semanaNum(d.value) : '';
-  const tp = $('#pg-tipo'), pr = $('#pg-prof-w');
-  if (tp && pr && pr.getAttribute('data-tipo') !== tp.value) {
-    pr.innerHTML = profSelHTML('pg-prof', profsDoTipo(tp.value), ''); pr.setAttribute('data-tipo', tp.value);
-    { const cp = pgSoComposto(tp.value), lw = $('#pg-lotes-w'), tw = $('#pg-tal-w'), p3 = $('#pg-p3 span'); if (lw) lw.hidden = !cp; if (tw) tw.hidden = cp; { const ew = $('#pg-est-w'); if (ew) ew.hidden = cp; } if (p3) p3.textContent = cp ? 'Lotes' : 'Talhões'; }
-    const an = $('#pg-ans'); if (an) an.innerHTML = progAnalisesHTML(tp.value);
-  }
 }
 function analisePadrao(tipo) { return analisesDoMaterial(tipo)[0] || null; }
 function maturacaoCurta(m) { return String(m || 'VERDE').toUpperCase().replace(/^FRUTA\s+/, '') || 'VERDE'; }
@@ -7324,27 +7288,6 @@ async function criarProgramacao(p0, anIds) {
   const pid = await Data.col('sv2_prog').add(p);
   Audit.log({ acao: 'criar_programacao', entidade: 'programacao', entidadeId: pid, resumo: 'Programou ' + p.tipo + ' no ' + p.talhao + ' (' + fmtD(p.data) + ', ' + pontos + ' pontos) — pendente de coleta', depois: { data: p.data, talhao: p.talhao, tipo: p.tipo, pontos: pontos, prazo: p.prazo } });
   return 0;
-}
-async function saveProg() {
-  const msg = t => { const e = $('#pg-msg'); if (e) e.innerHTML = '<div class="msg">' + esc(t) + '</div>'; const sh = $('.sheet'); if (sh) sh.scrollTop = 0; };
-  const data = $('#pg-data').value, tipo = $('#pg-tipo').value, prof = profLer('pg-prof'), prazo = ($('#pg-prazo') || {}).value || '';
-  const lotesP = pgSoComposto(tipo) ? $$('.pg-lote-r').map(r => ({ l: (r.querySelector('.pgl-l').value || '').trim().toUpperCase(), f: r.querySelector('.pgl-f').value })).filter(x => x.l) : null;
-  const tals = lotesP ? lotesP.map(x => x.l) : $$('.pg-tal').filter(c => c.checked).map(c => c.value);
-  const ans = $$('.pg-an').filter(c => c.checked).map(c => c.value);
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(data)) return msg('Informe a data.');
-  if (!tals.length) return msg(lotesP ? 'Informe o lote (pilha) do composto.' : 'Marque pelo menos um talhão.');
-  const gera = tipoGera(tipo);
-  const falta = gera.filter(g => !ans.some(id => (S.analises.find(a => a.id === id) || {}).tipo === g));
-  if (falta.length) return msg('Marque pelo menos uma análise de ' + falta.map(x => TIPO_ANALISE_TXT[x]).join(' e ') + '.');
-  if (prazo && prazo < data) return msg('O prazo não pode ser antes da programação.');
-  { const ja = tals.filter(tl => pgPendentes().some(x => x.talhao === tl && tipoGera(x.tipo).some(g => gera.indexOf(g) >= 0))); if (ja.length) return msg('Já programada e ainda pendente: ' + ja.join(', ') + '. Marque Coletado ou cancele antes.'); }
-  { const bl = []; tals.forEach(tl => gera.forEach(g => { const m = rzBarrar(g, tl, data); if (m && bl.indexOf(m) < 0) bl.push(m); })); if (bl.length) return msg(bl.slice(0, 3).join(' ') + (bl.length > 3 ? ' (e mais ' + (bl.length - 3) + ')' : '')); }
-  const btn = $('[data-action=prog-save]'); if (btn) { btn.disabled = true; btn.textContent = 'Programando…'; }
-  try {
-    let n = 0;
-    for (const tal of tals) n += await criarProgramacao({ data: data, tipo: tipo, talhao: tal, prof: prof, coletor: $('#pg-col').value.trim(), estadio: lotesP ? '' : $('#pg-est').value.trim(), obs: $('#pg-obs').value.trim(), prazo: prazo, dataFabr: lotesP ? ((lotesP.find(x => x.l === tal) || {}).f || '') : '' }, ans);
-    toast(tals.length + ' programação(ões) pendente(s). Marque Coletado quando as amostras chegarem.', 'ok'); closeSheet(); renderView();
-  } catch (e) { msg(errMsg(e)); if (btn) { btn.disabled = false; btn.textContent = 'Programar'; } }
 }
 function openProgRepetir(id) {
   const p = S.prog.find(x => x.id === id); if (!p) return;
@@ -10031,7 +9974,7 @@ function viewDocsRel() {
     return Object.keys(m).map(k => ({ key: k, label: k, v: m[k], tipo: tipo })).sort((a, b) => b.v - a.v || a.label.localeCompare(b.label, 'pt-BR'));
   };
   const f = porResp('FORMULARIO'), r = porResp('REGULATORIO');
-  const card = (area, tit, sub, corpo) => '<div class="rel-card rel-a-' + area + '">' + (tit ? '<div class="rel-h"><b>' + tit + '</b>' + (sub ? '<span>' + sub + '</span>' : '') + '</div>' : '') + corpo + '</div>';
+  const card = (area, tit, sub, corpo, ac) => '<div class="rel-card rel-a-' + area + '">' + (tit ? (ac ? '<div class="rel-h rel-h-ac"><div class="rel-h-t"><b>' + tit + '</b>' + (sub ? '<span>' + sub + '</span>' : '') + '</div>' + ac + '</div>' : '<div class="rel-h"><b>' + tit + '</b>' + (sub ? '<span>' + sub + '</span>' : '') + '</div>') : '') + corpo + '</div>'; /* v2.102.33: ac = botões à direita do título */
   const cx = comSituacao('caixa', S.caixas);
   const cxc = k => cx.filter(c => c._s.st === k).length;
   const fatias = [{ k: 'OK', n: 'Em dia', v: cxc('OK'), cor: 'var(--ok)' }, { k: 'ATENÇÃO', n: 'A vencer', v: cxc('ATENÇÃO'), cor: 'var(--warn)' }, { k: 'VENCIDO', n: 'Vencidas', v: cxc('VENCIDO'), cor: 'var(--crit)' }, { k: 'PENDENTE', n: 'Sem data', v: cxc('PENDENTE'), cor: 'var(--info)' }, { k: 'DESATIVADO', n: 'Desativadas', v: cxc('DESATIVADO'), cor: 'var(--text-dim)' }];
@@ -10057,7 +10000,7 @@ function viewDocsRel() {
   return '<div class="rel-dash">' +
     '<div class="rel-a-kpi">' + kpis + '</div>' +
     card('cx', '', '', rosca) +
-    card('lista', 'Documentos filtrados', lista.length + ' documento(s)' + (S.relMulti ? ' · toque para marcar' : podeLancar(S.user) ? ' · toque para lançar' : ''), relMultiBarHTML(lista) + listaHTML) + /* v2.67.0 */
+    card('lista', 'Documentos filtrados', lista.length + ' documento(s)' + (S.relMulti ? ' · toque para marcar' : podeLancar(S.user) ? ' · toque para lançar' : ''), (S.relMulti ? relMultiBarHTML(lista) : '') + listaHTML, S.relMulti ? '' : relMultiBarHTML(lista)) + /* v2.67.0 */
     card('form', 'Formulários vencidos por responsável', f.reduce((a, x) => a + x.v, 0) + ' vencido(s) · toque num ponto para filtrar', linhaSVG(f, 'var(--info)')) +
     card('seg', '', '', '<div class="rel-seg-in"><div class="rel-seg-dd">' + tipoSeg + stSeg + '</div><div class="rel-seg-r">' + rsSeg + '</div></div>') +
     card('reg', 'Regulatórios vencidos por responsável', r.reduce((a, x) => a + x.v, 0) + ' vencido(s)', linhaSVG(r, 'var(--primary)')) +
@@ -20946,7 +20889,8 @@ const AJ_PADRAO = {
 };
 const AJ_J = {
   'Nova verificação': 'Registre a leitura de cloro livre de um ponto. A faixa conforme é de 0,20 a 2,00 ppm.',
-  'Nova coleta': 'Programe uma coleta: tipo, local e data. Ela entra na Programação.',
+  'Nova coleta': 'Lance uma coleta já feita: local, data, coletor e análises. Ela entra direto na aba do material.',
+  'Lançar coleta avulsa': 'Coleta já feita fora do plano (cliente externo, outro local, composto). Escolha o material. Para coletas do plano, use o cartão do plano › Lançar coletadas.',
   'Nova coleta de água': 'Registre uma coleta de água num local. Os prazos de cada ponto ficam em Prazos da água.',
   'Novo apontamento': 'Registre o que viu no campo, com foto e gravidade.',
   'Nova auditoria interna': 'Registre uma não conformidade da auditoria interna, com a área.',
@@ -22162,7 +22106,6 @@ document.addEventListener('input', e => {
 document.addEventListener('change', e => {
   if (!e.target) return;
   if (e.target.id === 'cv-ponto') previaCloro();
-  if (e.target.id === 'pg-data' || e.target.id === 'pg-tipo') progAtualizaForm();
   if (e.target.id === 'an-ponto') { const w = $('#an-outro-w'); if (w) w.hidden = e.target.value !== 'outro'; agPontoBtn(); }
   if (e.target.id === 'ad-res') adResSet(e.target.value);
   if (e.target.id === 'ac-resp') acRespBtn();
@@ -22336,7 +22279,6 @@ document.addEventListener('click', e => {
     case 'rz-open': openRz(id, t.getAttribute('data-p') || ''); break;
     case 'rz-ed': rzEdAcao(t.getAttribute('data-g'), id); break;
     case 'rz-save': rzSalvar(); break;
-    case 'rz-prog': rzProgramar(id, t.getAttribute('data-p'), t.getAttribute('data-a') || ''); break;
     case 'rz-desat': { const r = (S.rodizios || []).find(x => x.id === id); if (r) openMotivo('Desativar plano de coleta', r.nome, 'rz-desat-ok', id); break; }
     case 'rz-desat-ok': rzDesativar(id, ($('#tx-txt') || {}).value ? $('#tx-txt').value.trim() : ''); break;
     case 'rz-rec': openRzRec(id, t.getAttribute('data-p'), t.getAttribute('data-a')); break;
@@ -22388,7 +22330,6 @@ document.addEventListener('click', e => {
     case 'tp-gera': t.classList.toggle('on'); break;
     case 'tip-save': saveTip(id); break;
     case 'lab-add': addLab(); break;
-    case 'prog-new': openProgNew(); break;
     case 'pc-ir': procIrTela(); break;
     case 'pc-ver': openProcVer(id, t.getAttribute('data-q') || 'vig'); break;
     case 'pc-print': procImprimir(id, t.getAttribute('data-q') || 'vig'); break;
@@ -22406,7 +22347,6 @@ document.addEventListener('click', e => {
     case 'col-enviar': openEnviarAmostra(id); break;
     case 'col-env-so': colEnviarSo(id); break;
     case 'col-env-rem': colEnviarRem(id); break;
-    case 'pg-lote-mais': { const w = $('#pg-lotes'); if (w) w.insertAdjacentHTML('beforeend', pgLoteRow()); break; }
     case 'cp-mais': { const w = $('#cp-mais-w'); if (w) w.insertAdjacentHTML('beforeend', cpxRow()); break; }
     case 'lab-del': openLabExcluir(id); break;
     case 'lab-del-ok': labExcluirOk(id); break;
@@ -22439,7 +22379,6 @@ document.addEventListener('click', e => {
     case 'rz-ren-ok': rzRenovarOk(id, t.getAttribute('data-p')); break;
     case 'rz-hist': openRzHist(id); break;
     case 'rz-col': rzColAbrir(id, t.getAttribute('data-p'), t.getAttribute('data-a')); break; /* v2.85.0 */
-    case 'prog-save': saveProg(); break;
     case 'prog-open': openProgDetail(id); break;
     case 'prog-cancel': { const p = S.prog.find(x => x.id === id); if (p) openMotivo('Cancelar programação', p.tipo + ' · ' + p.talhao + ' · ' + fmtD(p.data), 'prog-cancel-ok', id); break; }
     case 'prog-cancel-ok': cancelarProg(id, ($('#tx-txt') || {}).value ? $('#tx-txt').value.trim() : ''); break;
