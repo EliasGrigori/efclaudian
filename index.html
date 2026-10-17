@@ -3002,6 +3002,22 @@ table.t td{vertical-align:middle}
   .tbar.tb-prog .count{order:-1}
   .tbar.tb-prog .tacoes{flex-wrap:nowrap}
 }
+
+/* v2.102.35: acertos do teste do Grok (itens 2 a 14) */
+.kpis.rt-kpis3{grid-template-columns:repeat(3,1fr)}
+.kpis.rt-kpis3 .kpi b,.kpis.rt-kpis4 .kpi b{white-space:nowrap}
+.rlm-bts{display:flex;gap:6px;flex:0 0 auto;margin-left:auto}
+.rlm-bar.on b{flex:1 1 auto}
+.md2 .tf-hd .tf-nw{white-space:nowrap;flex:0 0 auto}
+@media(min-width:760px){.md2 .tf-hd{flex-wrap:nowrap}.md2 .tf-hd>div:first-child{flex:1 1 0;min-width:0}.md2 .tf-hd .tf-sp{display:none}.md2 .tf-hd .tf-sub{white-space:normal}.md2 .tf-hd>*{flex-shrink:0}.md2 .tf-hd>div:first-child{flex-shrink:1}}
+@media(max-width:859px){
+  .rl-g{grid-template-columns:minmax(0,1fr)}.rl-g>*{min-width:0}
+  .tbar.has-dica:not(.tb-prog) h2{flex:1 1 0;min-width:0;order:-3}.tbar.has-dica:not(.tb-prog) .tprint{order:-2}.tbar.has-dica:not(.tb-prog) .count,.tbar.has-dica:not(.tb-prog) .tdica{display:none}
+  .rel-h.rel-h-ac{flex-wrap:wrap}.rel-h-t{flex:1 1 150px}.rel-h-ac .rlm-bar{flex-wrap:wrap}
+}
+@media(max-width:600px){.kpis.rt-kpis3 .kpi b{font-size:17px}.kpis.rt-kpis3 .kpi{padding:10px 4px}}
+@media(max-width:859px){.auth-card input,.auth-card select,.auth-card textarea{font-size:16px}}
+.cad-rec-link.demo-volta{display:block;margin-top:8px;text-align:center;text-decoration:none}
 </style></head>
 <body data-theme="dark">
 <div id="boot" class="boot">Carregando…</div>
@@ -3013,7 +3029,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.34 · Relatório: número em cima nas caixas do PC; Programação: impressora na linha dos botões no celular';
+const APP_VERSION = 'v2.102.35 · Acertos do celular (Rateios, Composto, Relatórios, login), Lançar vários, Meu dia, Pareto e plural das Conquistas';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -6973,7 +6989,7 @@ function rzFolha(id, pk) {
 function openColDireto() {
   if (!podeLancar(S.user)) return;
   openSheet('<h3>Lançar coleta avulsa</h3><div class="sub">Coleta já feita, fora do plano (cliente externo, outro local, composto). Escolha o material.</div>' + /* v2.102.33 */
-    '<div class="cd-mats">' + ABAS_COL.map(a => '<button class="btn" data-action="col-new" data-id="' + esc(a.tipo) + '">' + esc(a.nome) + '</button>').join('') + '</div>' +
+    '<div class="cd-mats">' + ABAS_COL.map(a => '<button class="btn" data-action="col-new" data-av="1" data-id="' + esc(a.tipo) + '">' + esc(a.nome) + '</button>').join('') + '</div>' +
     '<div class="row-actions"><button class="btn" data-action="close">Cancelar</button></div>', { noFocus: true });
 }
 function viewProg() {
@@ -7537,7 +7553,7 @@ function openColNew(tipo, id) {
   /* v2.25.0: blocos numerados na sequência (1 Data e local · 2 Análises · 3 Coleta · 4 Identificação · 5 Observação);
      talhão pela janela própria; mesmos ids de campo de antes */
   const c = id ? S.coletas.find(x => x.id === id) : { tipo: tipo, data: hojeISO(), talhao: '', analiseId: '', coletor: S.user.nome, prof: '', estadio: '', obs: '' };
-  if (!c) return; tipo = c.tipo;
+  if (!c) return; tipo = c.tipo; const colAv = !id && S.colAv; S.colAv = false;
   const tal = S.talhoes.filter(t => t.ativo !== false || t.codigo === c.talhao).sort((a, b) => cmpTalhao(a.codigo, b.codigo));
   const outro = !!(id && c.talhao && !talhaoDe(c.talhao));
   const ans = analisesDoMaterial(tipo).concat(id && !analisesDoMaterial(tipo).some(a => a.id === c.analiseId) ? S.analises.filter(a => a.id === c.analiseId) : []);
@@ -7552,7 +7568,7 @@ function openColNew(tipo, id) {
   const outroHTML = fr ? '<div id="cn-outro-w"' + (outro ? '' : ' hidden') + '>' + L('Nome do local') + '<input class="input" id="cn-outro" value="' + esc(outro ? c.talhao : '') + '" placeholder="Ex.: QUADRANTE 03-04" autocomplete="off" enterkeyhint="next">' +
     '<div class="fm-row"><div>' + L('Cultura') + '<input class="input" id="cn-cult" list="dl-cul2" value="' + esc(c.cultura || '') + '" autocomplete="off" enterkeyhint="next">' + sugestoes('dl-cul2', S.talhoes.map(t => t.cultura)) + '</div>' +
     '<div>' + L('Variedade') + '<input class="input" id="cn-var" list="dl-var2" value="' + esc(c.variedade || '') + '" autocomplete="off" enterkeyhint="next">' + sugestoes('dl-var2', S.talhoes.map(t => t.variedade)) + '</div></div></div>' : '';
-  openSheet('<h3>' + (id ? 'Editar coleta' : 'Nova coleta') + ' · ' + esc(TIPO_ANALISE_TXT[tipo]) + '</h3><div class="sub">' + (id ? (colCorrModo(c) ? '' : 'Fica registrado com antes e depois.') : fmtD(hojeISO()) + ' · ' + esc(S.user.nome)) + '</div><div id="cn-msg"></div>' + (id && colCorrModo(c) ? colAvisoCorr(c) : '') + '<div class="fm">' +
+  openSheet('<h3>' + (id ? 'Editar coleta' : colAv ? 'Coleta avulsa' : 'Nova coleta') + ' · ' + esc(TIPO_ANALISE_TXT[tipo]) + '</h3><div class="sub">' + (id ? (colCorrModo(c) ? '' : 'Fica registrado com antes e depois.') : fmtD(hojeISO()) + ' · ' + esc(S.user.nome)) + '</div><div id="cn-msg"></div>' + (id && colCorrModo(c) ? colAvisoCorr(c) : '') + '<div class="fm">' +
     passo(semTal ? 'Data' : 'Data e local') + L('Data da coleta') + '<input class="input" type="date" id="cn-data" value="' + esc(c.data) + '" max="' + hojeISO() + '">' + (semTal ? '' : L(fr ? 'Talhão / local' : 'Talhão') + talSel + outroHTML) +
     passo(id ? 'Análise' : 'Análises') + anHTML +
     passo('Coleta') + '<div class="fm-row"><div>' + L('Laboratório') + '<select class="input" id="cn-lab"><option value="">' + (id ? '—' : 'O de cada análise') + '</option>' + opcoes(cfgCol().labs, id ? c.lab : '') + '</select></div>' +
@@ -9332,7 +9348,7 @@ function viewRateio(kind) {
   /* v2.102.10 (Nº 15): os quadros são montados DEPOIS de aplicar os filtros das colunas (ver abaixo) */
   const kpiHTML = (marc, nota) => { const porCult = {}; validas.forEach(r => { porCult[r.cultura] = (porCult[r.cultura] || 0) + r.valor * r.qtd; });
     const mv = marc.filter(r => !r.cancelada), mq = mv.reduce((s, r) => s + r.qtd, 0), mt = mv.reduce((s, r) => s + r.valor * r.qtd, 0);
-    return '<div class="kpis' + (marc.length ? ' rt-kpis4' : '" style="grid-template-columns:repeat(3,1fr)') + '"><div class="kpi"><b>' + qtd + '</b><span>Qtd total</span></div><div class="kpi"><b>' + brl(total) + '</b><span>Valor total</span></div><div class="kpi"><b>100%</b><span>Total rateio</span></div>' +
+    return '<div class="kpis' + (marc.length ? ' rt-kpis4' : ' rt-kpis3') + '"><div class="kpi"><b>' + qtd + '</b><span>Qtd total</span></div><div class="kpi"><b>' + brl(total) + '</b><span>Valor total</span></div><div class="kpi"><b>100%</b><span>Total rateio</span></div>' +
       (marc.length ? '<div class="kpi rt-kpi-marc"><b>' + brl(mt) + '</b><span>Marcadas · ' + esc(mq) + ' amostra(s)</span></div>' : '') + '</div>' + (nota || '') + insResumoHTML(validas) + /* v2.65.0 */
     (Object.keys(porCult).length > 1 ? '<div class="legend" style="margin:-4px 0 12px">' + Object.keys(porCult).sort().map(k => '<span><b>' + esc(k) + '</b> ' + brl(porCult[k]) + ' (' + (total ? Math.round(porCult[k] / total * 100) : 0) + '%)</span>').join('') + '</div>' : ''); };
   const pode = podeLancar(S.user);
@@ -12439,7 +12455,7 @@ function viewRateioCal() {
   const rows = todas.filter(r => r.unidade === f.unid && r.ano === f.ano), total = rows.reduce((s, r) => s + r.valor, 0);
   const segU = '<div class="al-barra">' + ddHTML('Unidade', CAL_UNID[f.unid].curto + (CAL_UNID[f.unid].pausada ? ' · em pausa' : ''), Object.keys(CAL_UNID).map(k => ({ a: 'rc-unid', id: k, t: CAL_UNID[k].curto + (CAL_UNID[k].pausada ? ' · em pausa' : ''), on: f.unid === k })), { cls: 'al-dd' }) +
     '<select class="input al-ano" id="rc-ano">' + anos.map(a => '<option' + (a === f.ano ? ' selected' : '') + '>' + a + '</option>').join('') + '</select></div>'; /* v2.102.29 */
-  const pend = rows.filter(r => !r.compra), kpi = '<div class="kpis" style="grid-template-columns:repeat(3,1fr)"><div class="kpi"><b>' + rows.length + '</b><span>Equipamentos</span></div><div class="kpi"><b>' + brl(total) + '</b><span>Valor total</span></div><div class="kpi"><b>' + pend.length + '</b><span>Sem solicitação de compras</span></div></div>';
+  const pend = rows.filter(r => !r.compra), kpi = '<div class="kpis rt-kpis3"><div class="kpi"><b>' + rows.length + '</b><span>Equipamentos</span></div><div class="kpi"><b>' + brl(total) + '</b><span>Valor total</span></div><div class="kpi"><b>' + pend.length + '</b><span>Sem solicitação de compras</span></div></div>';
   const aviso = un.pausada ? '<div class="msg info" style="margin-bottom:10px"><b>' + esc(un.nome) + '</b> está em pausa até o sistema por unidades: dá para ver, mas não emitir a solicitação.</div>' : '';
   const podeEmitir = pode && !un.pausada;
   const antes = podeEmitir ? (S.rcSel.size ? '<button class="btn sm" data-action="rc-selnone">Limpar (' + S.rcSel.size + ')</button>' : '<button class="btn sm" data-action="rc-selall">Marcar pendentes</button>') : '';
@@ -14685,7 +14701,7 @@ function parPc(v) { v = +v || 0; return v >= 99.95 ? '100' : v.toFixed(1).replac
 /* v2.102.31: se o número da barra cairia em cima da linha tracejada dos 80%, ele sobe para acima da linha. v2.102.32: folga maior (8 em vez de 5) */
 function parNumY(ly, y80, fs) { return (y80 > ly - fs * 0.85 - 2 && y80 < ly + 3) ? y80 - 8 : ly; }
 function paretoSVG(d, ap, cel) { /* v2.102.23: ap = Pareto dos apontamentos; v2.102.27: cel = desenho estreito do celular (números no lugar dos nomes) */
-  const W = cel ? 400 : 1000, H = cel ? 270 : 360, L = cel ? 30 : 56, R = cel ? 42 : 56, T = cel ? 46 : 28, it = d.itens, B = cel ? 30 : Math.max(1, ...it.map(x => ishiQuebra(x.nome, 14, 3).length)) * 14 + 28, pw = W - L - R, ph = H - T - B, k = it.length || 1, bw = Math.min(70, pw / k * 0.62), mx = Math.max(1, ...it.map(x => x.n));
+  const W = cel ? 400 : 1000, H = cel ? 270 : 360, L = cel ? 30 : 56, R = cel ? 42 : 56, T = cel ? 46 : 36, /* v2.102.35: 36 (era 28) */ it = d.itens, B = cel ? 30 : Math.max(1, ...it.map(x => ishiQuebra(x.nome, 14, 3).length)) * 14 + 28, pw = W - L - R, ph = H - T - B, k = it.length || 1, bw = Math.min(70, pw / k * 0.62), mx = Math.max(1, ...it.map(x => x.n));
   const nice = mx <= 20 ? Math.ceil(mx / 4) * 4 : (() => { const e = Math.pow(10, Math.floor(Math.log10(mx))), f = mx / e; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * e; })(), tk = [0, 1, 2, 3, 4].map(i => nice * i / 4);
   const X = i => L + pw / k * (i + 0.5), Y = v => T + ph - ph * v / nice, YP = p => T + ph - ph * p / 100;
   let o = '<svg class="par-svg' + (cel ? ' cel' : '') + '" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + (ap ? 'Pareto dos apontamentos' : 'Pareto das não conformidades') + '">';
@@ -17488,7 +17504,7 @@ function cnqCardHTML(c, nivel, cont, comProgresso, certUid) {
   const pct = prox ? Math.max(0, Math.min(100, Math.round(((cont || 0) - ant) / (prox - ant) * 100))) : 100;
   const unP = (n, un) => n + ' ' + (n === 1 ? un : un === 'mês' ? 'meses' : un === 'período' ? 'períodos' : un + 's');
   return '<div class="cnq-card' + (t ? '' : ' zero') + '" data-k="' + esc(c.k) + '">' + cnqInsig(c.k, nivel, 44) + '<div class="cnq-tx"><div class="cnq-nl"><b>' + esc(c.nome) + '</b><span class="cnq-niv">' + (t ? esc(t.nome) + ' · nível ' + nivel + ' de 10' : 'Ainda sem nível') + '</span></div>' +
-    (comProgresso ? '<span class="cnq-bar" style="--c:var(--cnq-' + (t ? t.id : 'prata') + ')"><i style="width:' + pct + '%"></i></span><small>' + (cont != null ? unP(cont, c.un) + ' válid' + (c.un === 'semana' ? 'as' : 'os') : '') + (prox ? ' · ' + (prox - (cont || 0) === 1 ? 'falta ' : 'faltam ') + unP(Math.max(0, prox - (cont || 0)), c.un) + ' para o próximo' : ' · nível máximo') + '</small>' : '') +
+    (comProgresso ? '<span class="cnq-bar" style="--c:var(--cnq-' + (t ? t.id : 'prata') + ')"><i style="width:' + pct + '%"></i></span><small>' + (cont != null ? unP(cont, c.un) + ' válid' + (c.un === 'semana' ? 'a' : 'o') + (cont === 1 ? '' : 's') : '') + (prox ? ' · ' + (prox - (cont || 0) === 1 ? 'falta ' : 'faltam ') + unP(Math.max(0, prox - (cont || 0)), c.un) + ' para o próximo' : ' · nível máximo') + '</small>' : '') +
     '<small class="cnq-desc">' + esc(c.desc) + '</small>' + (certUid && nivel >= 10 ? cnqCertBt(certUid, c.k) : '') + '</div></div>';
 }
 function cnqRarasHTML(defs, raras, mostrarBloq) {
@@ -17845,7 +17861,7 @@ function relMultiBarHTML(lista) {
   const pode = podeLancar(S.user), sup = isSup(S.user);
   if (S.relMulti) {
     const n = S.relMulti.size;
-    return '<div class="rlm-bar on"><b>' + n + ' marcado(s)</b><span class="rlm-sp"></span><button class="btn sm" data-action="rlm-todos">Marcar os da lista</button><button class="btn sm" data-action="rlm-sair">Cancelar</button><button class="btn sm primary" data-action="rlm-lancar"' + (n ? '' : ' disabled') + '>Lançar marcados</button></div>';
+    return '<div class="rlm-bar on"><b>' + n + ' marcado(s)</b><span class="rlm-bts"><button class="btn sm" data-action="rlm-todos">Marcar os da lista</button><button class="btn sm" data-action="rlm-sair">Cancelar</button><button class="btn sm primary" data-action="rlm-lancar"' + (n ? '' : ' disabled') + '>Lançar marcados</button></span></div>'; /* v2.102.35: botões num grupo só */
   }
   const bts = [];
   if (pode && lista.length) bts.push('<button class="btn sm" data-action="rlm-entrar">Lançar vários</button>');
@@ -20903,6 +20919,7 @@ const AJ_PADRAO = {
 const AJ_J = {
   'Nova verificação': 'Registre a leitura de cloro livre de um ponto. A faixa conforme é de 0,20 a 2,00 ppm.',
   'Nova coleta': 'Lance uma coleta já feita: local, data, coletor e análises. Ela entra direto na aba do material.',
+  'Coleta avulsa': 'Coleta já feita fora do plano: local, data, coletor e análises. Ela entra direto na aba do material.',
   'Lançar coleta avulsa': 'Coleta já feita fora do plano (cliente externo, outro local, composto). Escolha o material. Para coletas do plano, use o cartão do plano › Lançar coletadas.',
   'Nova coleta de água': 'Registre uma coleta de água num local. Os prazos de cada ponto ficam em Prazos da água.',
   'Novo apontamento': 'Registre o que viu no campo, com foto e gravidade.',
@@ -21748,7 +21765,7 @@ async function showLogin(msg) {
   } else {
     lgQuadro(host, authCard('<h2>Entrar</h2><p class="lead">Use o seu login (ou o seu e-mail) e a sua senha.</p>' + (DEMO && testeOrigem() ? '<div class="teste-senha">Ambiente de teste: entre com o seu login e a senha definida ao abrir a cópia.</div>' : '') + m + '<form data-form="login"><div id="f-msg"></div>' +
       '<div class="field"><label for="l-login">Login ou e-mail</label><input class="input" id="l-login" autocapitalize="none" autocomplete="username"></div>' + pwField('l-senha', 'Senha') +
-      '<button class="btn primary block" type="submit">Entrar</button></form><button type="button" class="cad-rec-link" data-action="cad-rec">Esqueci a senha</button>'));
+      '<button class="btn primary block" type="submit">Entrar</button></form><button type="button" class="cad-rec-link" data-action="cad-rec">Esqueci a senha</button>' + (!DEMO && Store.get('sv2demo_setup') === '1' ? '<a class="cad-rec-link demo-volta" href="?demo=1">Abrir o demo guardado neste navegador</a>' : '')));  /* v2.102.35 */
   }
   const f = $('input', host); if (f) f.focus();
 }
@@ -22395,7 +22412,7 @@ document.addEventListener('click', e => {
     case 'prog-open': openProgDetail(id); break;
     case 'prog-cancel': { const p = S.prog.find(x => x.id === id); if (p) openMotivo('Cancelar programação', p.tipo + ' · ' + p.talhao + ' · ' + fmtD(p.data), 'prog-cancel-ok', id); break; }
     case 'prog-cancel-ok': cancelarProg(id, ($('#tx-txt') || {}).value ? $('#tx-txt').value.trim() : ''); break;
-    case 'col-new': openColNew(id, ''); break;
+    case 'col-new': S.colAv = t.getAttribute('data-av') === '1'; openColNew(id, ''); break; /* v2.102.35: data-av = veio de Lançar coleta avulsa */
     case 'col-edit': openColNew('', id); break;
     case 'col-save': saveCol(id, t.getAttribute('data-ent')); break;
     case 'col-open': openColDetail(id); break;
