@@ -2989,6 +2989,19 @@ table.t td{vertical-align:middle}
   .al-barra.rola-x .al-fim{margin-left:0}
 }
 @media(max-width:859px){.rola-x.dd-aberto{-webkit-mask-image:none;mask-image:none}}
+
+/* v2.102.34: Relatório no PC — caixas com o número em cima (maior) e o texto embaixo */
+@media(min-width:1280px){
+  .rel-kpis .kpi{flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 8px}
+  .rel-kpis .kpi b{font-size:clamp(28px,2.5vw,40px);line-height:1}
+  .rel-kpis .kpi span{font-size:13px;text-align:center}
+}
+/* v2.102.34: Programação no celular — título e "N registros" numa linha; botões e impressora na linha de baixo */
+@media(max-width:859px){
+  .tbar.tb-prog h2{flex:1 1 auto;flex-basis:auto;order:-2}
+  .tbar.tb-prog .count{order:-1}
+  .tbar.tb-prog .tacoes{flex-wrap:nowrap}
+}
 </style></head>
 <body data-theme="dark">
 <div id="boot" class="boot">Carregando…</div>
@@ -3000,7 +3013,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.33 · Lançar vários na linha do título; botão "Lançar coleta avulsa" de volta; sai a janela antiga Nova coleta';
+const APP_VERSION = 'v2.102.34 · Relatório: número em cima nas caixas do PC; Programação: impressora na linha dos botões no celular';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
