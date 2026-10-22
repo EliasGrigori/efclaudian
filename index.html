@@ -1177,6 +1177,8 @@ button.rel-li:last-child{border-bottom:0}
 .foto-mk{position:absolute;left:3px;bottom:3px;display:inline-flex;align-items:center;gap:3px;height:22px;padding:0 7px;border-radius:var(--r-ctl);border:0;background:rgba(0,0,0,.66);color:#fff;font:700 11px/22px inherit;cursor:pointer}
 .foto-mk .ic-i{width:12px;height:12px}
 .alf-th,.rnc-th{position:relative}
+.lsug{position:relative}.lsug-l{border:1px solid var(--border);border-top:0;background:var(--surface);max-height:232px;overflow:auto}.lsug-i{display:flex;align-items:center;gap:8px;width:100%;min-height:40px;padding:8px 12px;border:0;border-bottom:1px solid var(--border);background:transparent;color:var(--text);font:inherit;text-align:left;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:pan-y}.lsug-i:last-child{border-bottom:0}.lsug-i:hover{background:var(--surface-2)}.lsug-vz{padding:10px 12px;font-size:12.5px;color:var(--text-muted)}.lsug-lixo{position:fixed;left:0;right:0;bottom:0;z-index:9999;display:flex;align-items:center;justify-content:center;gap:10px;min-height:76px;padding-bottom:env(safe-area-inset-bottom,0px);background:var(--surface);border-top:2px dashed var(--crit);color:var(--crit);font-size:14px;font-weight:700}.lsug-lixo .ic-i{width:26px;height:26px}.lsug-lixo.on{background:var(--crit);color:#fff}.lsug-i.arr{opacity:.35}.lsug-fan{position:fixed;z-index:10000;display:flex;align-items:center;padding:0 12px;background:var(--surface-3);border:1px solid var(--primary);box-shadow:0 8px 20px rgba(0,0,0,.35);color:var(--text);pointer-events:none}.lsug-rest{margin-top:6px} /* v2.102.41 (Nº 40): Local com sugestões */
+.nc-orig{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.ap-card .ap-img .ic-i{width:30px;height:30px} /* v2.102.41: origem na aba Não conformidades */
 .rfg .rnc-th{padding:0;cursor:pointer}.rfg-p{position:absolute;left:4px;bottom:4px;background:rgba(0,0,0,.66);color:#fff;font-size:10.5px;font-weight:700;padding:1px 5px;border-radius:2px}.rfv{background:#111;border:1px solid var(--border);display:flex;justify-content:center;margin:6px 0}.rfv img{max-width:100%;max-height:62vh;object-fit:contain;display:block} /* v2.102.40: fotos da RNC */
 .eq-fi{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap}
 .eq-fi .eq-fth{position:relative;display:inline-block}.eq-fi .eq-fth img{width:56px;height:56px;object-fit:cover;border-radius:var(--r-ctl);display:block}
@@ -3031,7 +3033,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.40 · Fotos: até 3 por fileira, mesma altura e inteiras; marcar a qualquer momento; baixar com ou sem marcas';
+const APP_VERSION = 'v2.102.41 · Local da NC com sugestões (segurar e arrastar para a lixeira); NCs das auditorias na aba Não conformidades';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -3711,6 +3713,7 @@ const ICONS = {
   gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
   funnel: '<path d="M3 5h18l-7 8.5V19l-4 2v-7.5z"/>',
   baixar: '<path d="M12 3.5v11.5M7 10.5l5 5 5-5"/><path d="M4 17.5v3h16v-3"/>',
+  lixo: '<path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10.2 10.5v6.5M13.8 10.5v6.5"/>',
   print: '<path d="M7 9V3h10v6M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><rect x="7" y="14" width="10" height="7" rx="1"/>'
 };
 ICONS.camera = '<path d="M4 8h3l1.6-2.2h6.8L17 8h3v11H4z"/><circle cx="12" cy="13.2" r="3.6"/>';
@@ -10558,15 +10561,37 @@ function apNCFecharOk(id) {
   Audit.log({ acao: 'fechar_nc', entidade: 'apontamento', entidadeId: a.id, resumo: 'Fechou a NC (' + apCat(a.categoria).nome + ', ' + a.setor + ') — ' + v, antes: { nc: 'aberta' }, depois: { nc: 'fechada', verificacao: v } });
   return apAplicar(a, patch, 'NC fechada.');
 }
+/* v2.102.41 (achado do Grok, Elias disse sim): a aba junta as NCs dos apontamentos e as das auditorias internas (RNC enviada).
+   NC da auditoria: fechada = RNC fechada ou retorno Resolvida; vencida = passou do prazo da RNC sem isso; senão aberta. */
+function ncRncSit(r, n) { if (rncSit(r) === 'fechada' || (n.ret && n.ret.res === 'resolvida')) return 'fechada'; return r.prazo && r.prazo < hojeISO() ? 'vencida' : 'aberta'; }
+function ncItens() {
+  const ap = S.apont.filter(a => a.nc).map(a => ({ k: 'ap', a: a, prazo: a.nc.prazo || '', sit: ncSit(a) }));
+  const rn = []; (S.rnc || []).forEach(r => { const s = rncSit(r); if (s === 'registro' || s === 'cancelada') return; rncNcs(r).forEach(n => rn.push({ k: 'rnc', r: r, n: n, prazo: r.prazo || '', sit: ncRncSit(r, n) })); });
+  return ap.concat(rn).sort((x, y) => String(x.prazo).localeCompare(String(y.prazo)) || (x.k === 'rnc' && y.k === 'rnc' ? x.n.n - y.n.n : 0));
+}
+function ncRncCardHTML(x) {
+  const r = x.r, n = x.n, g = RNC_GRAV[n.grav] || RNC_GRAV.baixa, f = (n.fotosAntes || [])[0];
+  const img = f && RNC_CACHE[f] ? '<img src="' + esc(RNC_CACHE[f]) + '" alt="">' : icoI('prancheta');
+  const st = x.sit === 'fechada' ? ['Fechada', 'ok'] : x.sit === 'vencida' ? ['Vencida', 'crit'] : n.ret ? [RNC_RES[n.ret.res][0], 'warn'] : ['Aberta', 'warn'];
+  return '<button class="ap-card g-' + (n.grav === 'maior' ? 'urgente' : n.grav === 'media' ? 'media' : 'baixa') + '" data-action="rnc-item" data-id="' + esc(r.id) + '" data-n="' + esc(n.n) + '"><span class="ap-img">' + img + '</span><span class="ap-body">' +
+    '<span class="ap-t">Auditoria · ' + esc(r.numero) + ' · ' + rncNum(n.n) + '</span><span class="ap-d"><b>' + esc(n.local) + '</b> · ' + esc(n.nc) + '</span>' +
+    '<span class="ap-m"><span class="chip ' + esc(g[1]) + '">' + esc(g[0]) + '</span><span class="chip ' + esc(st[1]) + '">' + esc(st[0]) + '</span>' + gutChip(gutDe(n.id)) + '</span>' +
+    '<span class="ap-meta">' + esc(r.tipo || '') + ' · ' + fmtD(r.data) + ' · auditor ' + esc(r.auditorNome || '') + '</span></span></button>';
+}
 function viewNC() {
-  const f = S.ncF || 'abertas';
-  const base = S.apont.filter(a => a.nc).sort((a, b) => String(a.nc.prazo).localeCompare(String(b.nc.prazo)));
-  const F = { abertas: a => ncSit(a) !== 'fechada', vencidas: a => ncSit(a) === 'vencida', fechadas: a => ncSit(a) === 'fechada', todas: () => true };
+  const f = S.ncF || 'abertas', o = S.ncO || 'todas';
+  const tudo = ncItens(), base = tudo.filter(x => o === 'todas' || x.k === o);
+  const F = { abertas: x => x.sit !== 'fechada', vencidas: x => x.sit === 'vencida', fechadas: x => x.sit === 'fechada', todas: () => true };
   const kp = [['abertas', 'Abertas', 'warn'], ['vencidas', 'Vencidas', 'crit'], ['fechadas', 'Fechadas', 'ok'], ['todas', 'Todas', 'info']];
   const kpis = '<div class="kpis">' + kp.map(k => '<button class="kpi ' + k[2] + (f === k[0] ? ' on' : '') + '" data-action="nc-f" data-id="' + k[0] + '"><b>' + base.filter(F[k[0]]).length + '</b><span>' + k[1] + '</span></button>').join('') + '</div>';
+  const nAp = tudo.filter(x => x.k === 'ap').length, nRn = tudo.length - nAp;
+  const orig = '<div class="nc-orig ap-chips">' + [['todas', 'Todas', tudo.length], ['ap', 'Apontamentos', nAp], ['rnc', 'Auditorias internas', nRn]].map(z => '<button type="button" class="ap-b' + (o === z[0] ? ' on' : '') + '" data-action="nc-o" data-id="' + esc(z[0]) + '">' + esc(z[1]) + ' (' + esc(z[2]) + ')</button>').join('') + '</div>';
   const lst = base.filter(F[f] || F.abertas);
-  if (!base.length) return '<div class="empty"><div class="empty-ic">' + ico('shield') + '</div><h2>Nenhuma NC ainda</h2><p>Uma NC nasce de um apontamento: em Inspeções › Apontamentos, abra o apontamento e toque em “Abrir NC”.</p></div>';
-  return kpis + (lst.length ? '<div class="ap-list">' + lst.map(a => '<div class="rn-item">' + apCardHTML(a) + '<div class="ap-hint">Responsável: <b>' + esc(a.nc.responsavel) + '</b> · prazo ' + fmtD(a.nc.prazo) + (ncSit(a) === 'vencida' ? ' · <b style="color:var(--crit)">vencida há ' + difDias(a.nc.prazo, hojeISO()) + ' dia(s)</b>' : '') + '</div></div>').join('') + '</div>' : '<div class="empty" style="margin:20px auto"><p>Nada neste filtro.</p></div>');
+  if (!tudo.length) return '<div class="empty"><div class="empty-ic">' + ico('shield') + '</div><h2>Nenhuma NC ainda</h2><p>Uma NC nasce de um apontamento (Inspeções › Apontamentos › “Abrir NC”) ou de uma auditoria interna (Inspeções › Auditoria interna, depois de enviar a RNC).</p></div>';
+  const card = x => x.k === 'ap'
+    ? '<div class="rn-item">' + apCardHTML(x.a) + '<div class="ap-hint">Responsável: <b>' + esc(x.a.nc.responsavel) + '</b> · prazo ' + fmtD(x.a.nc.prazo) + (x.sit === 'vencida' ? ' · <b style="color:var(--crit)">vencida há ' + difDias(x.a.nc.prazo, hojeISO()) + ' dia(s)</b>' : '') + '</div></div>'
+    : '<div class="rn-item">' + ncRncCardHTML(x) + '<div class="ap-hint">Responsável: <b>' + esc(x.n.respNome || '—') + '</b> · prazo ' + fmtD(x.r.prazo) + (x.sit === 'vencida' ? ' · <b style="color:var(--crit)">vencida há ' + difDias(x.r.prazo, hojeISO()) + ' dia(s)</b>' : '') + '</div></div>';
+  return orig + kpis + (lst.length ? '<div class="ap-list">' + lst.map(card).join('') + '</div>' : '<div class="empty" style="margin:20px auto"><p>Nada neste filtro.</p></div>');
 }
 
 /* v2.102.14 (pedido do Elias, 16/10 02:33): botão de imprimir só com o desenho da impressora, em todas as abas.
@@ -14143,6 +14168,7 @@ function rncNcLer() {
   const b = S.rncNc; if (!b) return;
   const v = id => { const e = $('#' + id); return e ? e.value : null; };
   if (v('rnc-local-o') != null && b.local === '__outro') b.localTxt = v('rnc-local-o');
+  if (v('rnc-local') != null) { const t = String(v('rnc-local')).trim(), m = rncLocaisDe(b.area).find(l => l.toUpperCase() === t.toUpperCase()); b.local = m || t; b.localTxt = ''; } /* v2.102.41 */
   ['nc', 'lei', 'obs', 'sug'].forEach(k => { const x = v('rnc-' + k); if (x != null) b[k] = x; });
   if (v('rnc-resp') != null) b.resp = v('rnc-resp');
   if (v('rnc-resp-o') != null) b.respTxt = v('rnc-resp-o');
@@ -14152,14 +14178,14 @@ function rncNcRender() {
   const b = S.rncNc; if (!b) return; const r = rncDe(b.rid); if (!r) return;
   const tot = rncNcs(r).length + (b.id ? 0 : 1);
   const ch = (g, v, on, t, cls) => '<button type="button" class="ap-b' + (cls ? ' ' + cls : '') + (on ? ' on' : '') + '" data-action="rnc-ch" data-g="' + g + '" data-id="' + esc(v) + '">' + t + '</button>';
-  const locs = rncLocaisDe(b.area), outro = b.local === '__outro' || (b.local && !locs.some(l => l.toUpperCase() === String(b.local).toUpperCase()));
   const us = S.users.filter(u => !u.bloqueado && u.perfil !== 'visitante');
   const passo = (n, t, g) => '<div class="ap-sec" data-g="' + g + '">' + t + '</div>';
   openSheet('<div class="rnc-top"><small>' + esc(r.numero) + ' · ' + esc(r.tipo) + ' · passo 2 de 5</small>' + rncStepper(r, false) + '</div>' +
     '<h3>Registrar · ' + rncNum(b.n) + '</h3><div class="sub">' + (b.clItem ? '<b>Do checklist:</b> ' + esc(b.clTexto || '') + '<br>' : '') + (b.id ? 'Corrigindo antes de enviar' : 'NC ' + b.n + ' de ' + tot + ' · a ordem do registro é a ordem da conferência') + '</div><div id="ap-msg"></div>' +
     passo(1, 'Área', 'area') + '<div class="ap-oc">' + RNC_AREAS.map(a => ch('area', a[0], b.area === a[0], a[1])).join('') + '</div>' +
-    passo(2, 'Local <small>escolha ou escreva um novo</small>', 'local') + '<div class="ap-oc">' + locs.map(l => ch('local', l, !outro && String(b.local).toUpperCase() === l.toUpperCase(), esc(l))).join('') + ch('local', '__outro', outro, '+ outro', 'rnc-mais') + '</div>' +
-    '<input class="input" id="rnc-local-o" placeholder="Qual local?" autocomplete="off" value="' + esc(outro && b.local !== '__outro' ? b.local : (b.localTxt || '')) + '"' + (outro ? '' : ' hidden') + ' style="margin-top:8px">' +
+    passo(2, 'Local <small>escreva; as sugestões aparecem embaixo</small>', 'local') + /* v2.102.41 (Nº 40): campo com sugestões no lugar dos botões */
+    '<div class="lsug"><input class="input" id="rnc-local" placeholder="Digite ou escolha o local" autocomplete="off" value="' + esc(b.local === '__outro' ? (b.localTxt || '') : (b.local || '')) + '"><div class="lsug-l" id="rnc-local-l" hidden></div>' +
+    '<div class="lsug-lixo" hidden>' + icoI('lixo') + 'Solte aqui para apagar a sugestão</div></div>' + (lsugOcultos().length ? '<button type="button" class="fm-link lsug-rest" data-action="rnc-lsug-rest">Mostrar as sugestões apagadas (' + esc(lsugOcultos().length) + ')</button>' : '') +
     passo(3, 'Fotos do antes <small>até ' + RNC_MAX_FOTOS + '</small>', 'fotos') + rncFotosHTML() +
     passo(4, 'Não conformidade <small>o que está errado</small>', 'nc') + '<textarea class="input" id="rnc-nc" rows="3" placeholder="Ex.: banheiro sem sabonete e sem papel toalha">' + esc(b.nc) + '</textarea>' +
     passo(5, 'Lei / requisito aplicável', 'lei') + '<input class="input" id="rnc-lei" list="rnc-lei-l" autocomplete="off" placeholder="Ex.: NR-31 (31.17) · GG IFA AF 3.2" value="' + esc(b.lei) + '"><datalist id="rnc-lei-l">' + rncLeis().map(x => '<option value="' + esc(x) + '">').join('') + '</datalist>' +
@@ -14172,6 +14198,62 @@ function rncNcRender() {
     '<div class="ap-foot"><button type="button" class="btn" data-action="' + (b.clItem ? 'nrm-cl' : 'rnc-open') + '" data-id="' + esc(r.id) + '">Voltar</button>' + (b.id ? '<button type="button" class="btn" data-action="rnc-nc-canc" data-id="' + esc(r.id) + '">Tirar esta NC</button><button type="button" class="btn primary" data-action="rnc-nc-ok" data-id="0">Salvar</button>' : '<button type="button" class="btn" data-action="rnc-nc-ok" data-id="0">Salvar</button><button type="button" class="btn primary" data-action="rnc-nc-ok" data-id="1">' + (b.clItem ? 'Salvar e voltar' : 'Salvar e registrar a ' + rncNum(b.n + 1)) + '</button>') + '</div>', { noFocus: true });
   fmNumerar(); rncFotosCarregar($('.sheet'));
 }
+/* ---------- v2.102.41 (Nº 40): sugestões do Local ----------
+   Toque = escolhe. Tocar e segurar = aparece a lixeira; arrastar até ela = a sugestão some da lista
+   (só neste aparelho, para esta pessoa; nenhuma NC muda). "Mostrar as sugestões apagadas" traz de volta. */
+const LSUG_K = () => 'sv2-loc-oculto-' + ((S.user && S.user.id) || '');
+function lsugOcultos() { try { const l = JSON.parse(Store.get(LSUG_K()) || '[]'); return Array.isArray(l) ? l : []; } catch { return []; } }
+function lsugOcultar(v) { const l = lsugOcultos(), k = String(v).toUpperCase(); if (l.indexOf(k) < 0) l.push(k); try { Store.set(LSUG_K(), JSON.stringify(l)); } catch {} }
+function rncLocSug(area, q) {
+  const oc = lsugOcultos(), n = mdNorm(q || '');
+  return rncLocaisDe(area).filter(l => oc.indexOf(String(l).toUpperCase()) < 0 && (!n || mdNorm(l).indexOf(n) >= 0) && mdNorm(l) !== n).slice(0, 12);
+}
+function lsugMostra() {
+  const inp = $('#rnc-local'), box = $('#rnc-local-l'), b = S.rncNc; if (!inp || !box || !b) return;
+  const l = rncLocSug(b.area, inp.value);
+  box.innerHTML = l.length ? l.map(x => '<button type="button" class="lsug-i" data-v="' + esc(x) + '">' + esc(x) + '</button>').join('') : '<div class="lsug-vz">' + (b.area ? 'Nenhuma sugestão. O que você escrever vira um local novo.' : 'Escolha a área para ver as sugestões.') + '</div>';
+  box.hidden = false;
+}
+document.addEventListener('focusin', e => { if (e.target && e.target.id === 'rnc-local') lsugMostra(); });
+document.addEventListener('input', e => { if (e.target && e.target.id === 'rnc-local') lsugMostra(); });
+document.addEventListener('focusout', e => { if (!e.target || e.target.id !== 'rnc-local') return; setTimeout(() => { const box = $('#rnc-local-l'), a = document.activeElement; if (box && !LS.arr && !(a && a.closest && a.closest('.lsug'))) box.hidden = true; }, 180); });
+const LS = { t: 0, el: null, arr: false, x: 0, y: 0, ign: false, fan: null };
+function lsugAlvo(x, y) { const lixo = $('.lsug-lixo'); if (!lixo || lixo.hidden) return false; const q = lixo.getBoundingClientRect(); return x >= q.left && x <= q.right && y >= q.top - 12 && y <= q.bottom; }
+function lsugFim(ok, x, y) {
+  clearTimeout(LS.t); const el = LS.el, lixo = $('.lsug-lixo'); let apagou = false;
+  if (LS.arr && el && ok && lsugAlvo(x, y)) { lsugOcultar(el.getAttribute('data-v')); apagou = true; }
+  if (el) el.classList.remove('arr'); if (LS.fan) { LS.fan.remove(); LS.fan = null; }
+  if (lixo) { lixo.hidden = true; lixo.classList.remove('on'); }
+  if (LS.arr) { LS.ign = true; setTimeout(() => { LS.ign = false; }, 400); } LS.arr = false; LS.el = null;
+  if (apagou) { toast('Sugestão apagada da lista. As NCs não mudam.', 'ok'); lsugMostra(); }
+}
+function lsugArrastar(x, y) {
+  if (LS.fan) LS.fan.style.transform = 'translate(' + (x - LS.x) + 'px,' + (y - LS.y) + 'px)';
+  const lixo = $('.lsug-lixo'); if (lixo) lixo.classList.toggle('on', lsugAlvo(x, y));
+}
+document.addEventListener('pointerdown', e => {
+  const el = e.target && e.target.closest && e.target.closest('.lsug-i'); if (!el) return;
+  LS.el = el; LS.x = e.clientX; LS.y = e.clientY; LS.arr = false; clearTimeout(LS.t);
+  LS.t = setTimeout(() => { if (LS.el !== el) return; LS.arr = true; el.classList.add('arr');
+    const q = el.getBoundingClientRect(), f = document.createElement('div'); f.className = 'lsug-fan'; f.textContent = el.getAttribute('data-v');
+    f.style.cssText = 'left:' + q.left + 'px;top:' + q.top + 'px;width:' + q.width + 'px;height:' + q.height + 'px'; document.body.appendChild(f); LS.fan = f;
+    const lixo = $('.lsug-lixo'); if (lixo) lixo.hidden = false; try { navigator.vibrate && navigator.vibrate(20); } catch {} }, 450);
+});
+document.addEventListener('pointermove', e => {
+  if (!LS.el) return;
+  if (!LS.arr) { if (Math.abs(e.clientX - LS.x) > 8 || Math.abs(e.clientY - LS.y) > 8) { clearTimeout(LS.t); LS.el = null; } return; }
+  e.preventDefault(); lsugArrastar(e.clientX, e.clientY);
+}, { passive: false });
+document.addEventListener('touchmove', e => { if (LS.arr) { e.preventDefault(); const t = e.touches[0]; if (t) lsugArrastar(t.clientX, t.clientY); } }, { passive: false }); /* no celular, segurar e arrastar não rola a tela */
+document.addEventListener('pointerup', e => { if (LS.el) lsugFim(true, e.clientX, e.clientY); });
+document.addEventListener('touchend', e => { if (LS.arr) { const t = e.changedTouches[0]; lsugFim(true, t ? t.clientX : 0, t ? t.clientY : 0); } });
+document.addEventListener('pointercancel', () => { if (LS.el && !LS.arr) { clearTimeout(LS.t); LS.el = null; } });
+document.addEventListener('contextmenu', e => { if (e.target && e.target.closest && e.target.closest('.lsug-i')) e.preventDefault(); });
+document.addEventListener('click', e => {
+  const el = e.target && e.target.closest && e.target.closest('.lsug-i'); if (!el) return;
+  e.preventDefault(); e.stopPropagation(); if (LS.ign) { LS.ign = false; return; }
+  const inp = $('#rnc-local'), box = $('#rnc-local-l'); if (inp) inp.value = el.getAttribute('data-v'); if (box) box.hidden = true; rncNcLer();
+}, true);
 function rncCh(t) {
   const g = t.getAttribute('data-g'), v = t.getAttribute('data-id'), b = g === 'res' ? S.rncCf : (S.rncNc || S.rncCf); if (!b) return;
   if (S.rncNc && g === 'area') { rncNcLer(); b.area = v; b.local = ''; rncNcRender(); return; }
@@ -15633,6 +15715,7 @@ function rncAcao(act, id, t) {
     case 'rnc-par-por': prF().por = id; openRncPareto(); return true;
     case 'rnc-par-print': paretoImprimir(); return true;
     case 'rnc-open': openRnc(id); return true;
+    case 'rnc-lsug-rest': { try { Store.del(LSUG_K()); } catch {} rncNcLer(); rncNcRender(); toast('As sugestões apagadas voltaram.', 'ok'); return true; } /* v2.102.41 */
     case 'rnc-fotos': openRncFotos(id); return true; /* v2.102.40 */
     case 'rnc-fv': openRncFotoVer(id); return true;
     case 'rnc-fv-ed': rncFotoEditar(id); return true;
@@ -22715,6 +22798,7 @@ document.addEventListener('click', e => {
     case 'rn-sel': { S.rnSel = S.rnSel || new Set(); if (S.rnSel.has(id)) S.rnSel.delete(id); else S.rnSel.add(id); renderView(); break; }
     case 'rn-sel-limpar': S.rnSel = new Set(); renderView(); break;
     case 'nc-f': S.ncF = id; renderView(); break;
+    case 'nc-o': S.ncO = id; renderView(); break; /* v2.102.41 */
     case 'pw-toggle': { const i = $('#' + id); const show = i.type === 'password'; i.type = show ? 'text' : 'password'; t.textContent = show ? 'Ocultar' : 'Mostrar'; break; }
   }
 });
