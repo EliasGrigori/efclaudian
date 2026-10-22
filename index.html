@@ -435,7 +435,7 @@ body[data-theme="ponto"]::before{background:radial-gradient(rgba(60,60,110,.16) 
 .imp-bt{position:relative;min-width:40px;padding:0 10px;justify-content:center}.imp-bt svg{width:18px;height:18px;margin:0}
 .imp-n{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--primary);color:var(--on-primary,#fff);font-size:11px;font-weight:700;line-height:18px;text-align:center}
 .imp-pop{position:absolute;right:0;top:calc(100% + 4px);z-index:40;display:flex;flex-direction:column;gap:4px;min-width:230px;padding:6px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-ctl);box-shadow:0 8px 22px rgba(0,0,0,.18)}
-.imp-pop[hidden]{display:none}.imp-w.imp-up .imp-pop{top:auto;bottom:calc(100% + 4px)}
+.imp-pop{max-width:calc(100vw - 16px)}.imp-pop[hidden]{display:none}.imp-w.imp-up .imp-pop{top:auto;bottom:calc(100% + 4px)}
 .imp-pop .btn{justify-content:flex-start;white-space:nowrap;width:100%}.imp-pop .fm-dica{margin:4px 6px;max-width:230px;white-space:normal}
 .rn-item{position:relative}.rn-ck{position:absolute;top:6px;right:6px;z-index:2;width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}.rn-ck svg{width:18px;height:18px}
 .rn-ck.on{background:var(--primary);color:var(--on-primary,#fff);border-color:var(--primary)}.rn-item.rn-marc .ap-card{box-shadow:0 0 0 2px var(--primary)}
@@ -647,6 +647,7 @@ body[data-theme="ponto"]::before{background:radial-gradient(rgba(60,60,110,.16) 
 .al-kl{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
 .al-kl>div:first-child{flex:1;min-width:0}.al-kl b{display:block;font-size:14px}.al-kl small{display:block;color:var(--text-dim);font-size:11.5px}
 .al-kl .al-step{flex:0 0 190px}.al-kl .al-step button{flex-basis:48px;height:48px;font-size:22px}.al-kl .al-step input{height:48px;font-size:20px;padding:0 4px}
+.al-kl>input.input{flex:0 0 110px;width:110px;font-size:18px;font-weight:800;text-align:center;padding:0 6px} /* v2.102.39 (Nº 41): o campo não cobre mais o texto do lote */
 .al-x{flex:0 0 40px;height:40px;border-radius:var(--r-ctl);background:var(--surface-3);font-weight:800;color:var(--text-muted)}
 .al-el{display:flex;align-items:center;gap:8px;padding:6px 8px;border-bottom:1px solid var(--border)}
 .al-el-b{flex:1;text-align:left;padding:6px}.al-el-b b{display:block;font-size:14px}.al-el-b small{display:block;color:var(--text-dim);font-size:12px;margin-top:2px}
@@ -3029,7 +3030,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.38 · Só Principal e líder ★ decidem pedidos; responsável da NC na RNC; Equipe no 1º acesso; nomes de status iguais';
+const APP_VERSION = 'v2.102.39 · Contagem legível; menu de imprimir no celular; bebedouro reativado; Sair com espaço cheio; coletas e RNC; N registros só com filtro';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -3329,6 +3330,13 @@ const Data = (function () {
     async signOut() {
       if (DEMO) { Store.del('sv2demo_session'); if (demoAuthCb) demoAuthCb(null); return; }
       await fauth.signOut();
+    },
+    /* v2.102.39 (Nº 43): com o espaço do navegador cheio o signOut pode falhar e a conta fica; aqui se apaga a sessão guardada à força */
+    aindaLogado() { return !DEMO && !!(fauth && fauth.currentUser); },
+    async forcarSaida() {
+      try { Object.keys(localStorage).filter(k => k.indexOf('firebase:authUser') === 0).forEach(k => localStorage.removeItem(k)); } catch {}
+      try { Object.keys(sessionStorage).filter(k => k.indexOf('firebase:') === 0).forEach(k => sessionStorage.removeItem(k)); } catch {}
+      try { await new Promise(r => { const q = indexedDB.deleteDatabase('firebaseLocalStorageDb'); q.onsuccess = q.onerror = q.onblocked = () => r(); setTimeout(r, 1500); }); } catch {}
     },
     /* cria a conta de acesso SEM trocar a sessão de quem está logado */
     async createAccount(login, senha, emailInterno) {
@@ -4197,7 +4205,7 @@ function tableHTML(cfg) {
   }).join('');
   const body = shown.map((r, i) => '<tr' + (cfg.onRow ? ' class="click" data-action="t-row" data-t="' + esc(cfg.id) + '" data-i="' + i + '"' : '') + '>' + cfg.cols.map((c, ci) => '<td class="' + (L[ci].long ? 'wrap" style="min-width:' + L[ci].ch + 'ch' : 'nw') + '">' + (c.html ? c.html(r) : esc(cellText(c, r))) + '</td>').join('') + '</tr>').join('');
   cfg._shown = shown;
-  return '<div class="tbar tb-' + esc(cfg.id) + (cfg.dica ? ' has-dica' : '') + (cfg.centro ? ' t-centro' : '') + '">' + (cfg.antes ? '<span class="tantes">' + cfg.antes + '</span>' : '') + '<h2>' + esc(cfg.title) + '</h2>' + (cfg.junto ? '<span class="tjunto">' + cfg.junto + '</span>' : '') + (cfg.dica ? '<span class="tdica">' + esc(cfg.dica) + '</span>' : '') + (cfg.acoes ? '<span class="tacoes">' + cfg.acoes + '</span>' : '') + '<span class="count">' + rows.length + (rows.length === 1 ? ' registro' : ' registros') + (nAtivos ? ' · ' + nAtivos + ' filtro(s)' : '') + '</span>' +
+  return '<div class="tbar tb-' + esc(cfg.id) + (cfg.dica ? ' has-dica' : '') + (cfg.centro ? ' t-centro' : '') + '">' + (cfg.antes ? '<span class="tantes">' + cfg.antes + '</span>' : '') + '<h2>' + esc(cfg.title) + '</h2>' + (cfg.junto ? '<span class="tjunto">' + cfg.junto + '</span>' : '') + (cfg.dica ? '<span class="tdica">' + esc(cfg.dica) + '</span>' : '') + (cfg.acoes ? '<span class="tacoes">' + cfg.acoes + '</span>' : '') + (nAtivos ? '<span class="count">' + rows.length + (rows.length === 1 ? ' registro' : ' registros') + ' · ' + nAtivos + ' filtro(s)</span>' : '') + /* v2.102.39: sem filtro, sem contador */
     (nAtivos || st.sort ? '<button class="btn sm" data-action="t-clear" data-t="' + esc(cfg.id) + '">Limpar filtros</button>' : '') +
     '<button class="btn sm tprint" data-action="t-print" data-t="' + esc(cfg.id) + '" title="Imprimir / PDF" aria-label="Imprimir / PDF">' + ico('print') + '</button></div>' +
     '<div class="tw"><table class="t"><thead><tr>' + head + '</tr></thead><tbody>' + (body || '<tr><td colspan="' + cfg.cols.length + '" style="text-align:center;color:var(--text-muted);padding:28px">Nenhum registro com esses filtros.</td></tr>') + '</tbody></table>' +
@@ -5309,7 +5317,7 @@ const cfPendente = k => S.aprov.some(a => (a.tipo === 'cloro_retro' || a.tipo ==
 function cloroFaltas(dias) {
   const out = [], lista = dias || diasUteisAntes(CL_FALTA_DIAS), just = S.cloroFaltas || {};
   bebAtivos().forEach(b => {
-    const desde = diaLocal(b.criadoEm);
+    const desde = diaLocal(b.ativoDesde || b.criadoEm); /* v2.102.39 (Nº 38) */
     lista.forEach(d => {
       if (desde && d < desde) return;
       if (S.cloro.some(r => r.pontoTipo === 'beb' && r.pontoId === b.id && r.data === d)) return;
@@ -5881,6 +5889,7 @@ async function saveBeb(id) {
       const reenvio = !sup && b.situacao === 'recusado';
       if (reenvio) sit = 'pendente';
       const depois = { codigo: cod, local: loc, situacao: sit, descricao: desc };
+      if (sit === 'ativo' && b.situacao !== 'ativo') depois.ativoDesde = nowISO(); /* v2.102.39 (Nº 38): conta os dias a partir de agora */
       await Data.col('sv2_bebs').update(b.id, depois);
       if (sup && (b.situacao === 'pendente' || b.situacao === 'recusado') && sit === 'ativo') {
         await liberarBebedouro(b.id);
@@ -5901,7 +5910,7 @@ async function saveBeb(id) {
 }
 /* cadastro aprovado: o bebedouro passa a contar, e as leituras dele também */
 async function liberarBebedouro(bid) {
-  await Data.col('sv2_bebs').update(bid, { situacao: 'ativo' });
+  await Data.col('sv2_bebs').update(bid, { situacao: 'ativo', ativoDesde: nowISO() }); /* v2.102.39 (Nº 38) */
   const regs = S.cloro.filter(r => r.pontoId === bid && r.pendenteCadastro);
   for (const r of regs) await Data.col('sv2_cloro').update(r.id, { pendenteCadastro: false });
 }
@@ -7085,7 +7094,7 @@ function openColetado(ids) {
     passo(2, 'Quando e quem', 'Pode lançar com data de dias atrás (amostras que ficaram guardadas).') +
       '<div class="fm-row"><div>' + L('Data da coleta') + '<input class="input" type="date" id="cd-data" value="' + (fimRz || hojeISO()) + '" max="' + hojeISO() + '"></div><div>' + L('Coletores') + '<input class="input" id="cd-col" list="dl-cd-col" value="' + esc(colPre) + '" autocomplete="off">' + sugestoes('dl-cd-col', eqs.concat(S.users.map(u => u.nome))) + '</div></div>' +
       (eqs.length ? '<div class="ap-chips cd-eqs">' + eqs.map(q => '<button type="button" class="ap-b' + (q === colPre ? ' on' : '') + '" data-action="cd-eq" data-id="' + esc(q) + '">' + esc(q) + '</button>').join('') + '</div>' : '') +
-    passo(3, 'Campo') + '<div class="fm-row">' + (tiposProf.length ? '<div>' + L('Profundidade (solo e raiz)') + profSelHTML('cd-prof', profs, comum('prof')) + '</div>' : '') +
+    passo(3, 'Campo') + '<div class="fm-row">' + (tiposProf.length ? '<div id="cd-prof-w"' + (sel.length && !sel.some(p => pgPedeProf(p.tipo)) ? ' hidden' : '') + '>' + L('Profundidade (solo e raiz)') + profSelHTML('cd-prof', profs, comum('prof')) + '</div>' : '') +
       '<div id="cd-est-w">' + L('Estádio') + '<input class="input" id="cd-est" list="dl-cd-est" value="' + esc(estPre) + '" autocomplete="off">' + sugestoes('dl-cd-est', ['FLORAÇÃO', 'FRUTIFICAÇÃO', 'VEGETATIVO', 'POUSIO']) + '</div></div>' +
       '<input class="input" id="cd-obs" autocomplete="off" placeholder="Observação, se for o caso">' +
     '</div><div class="row-actions"><button class="btn" data-action="close">Cancelar</button><button class="btn primary" data-action="cd-ok">Lançar coletadas</button></div>', { noFocus: true });
@@ -7141,7 +7150,8 @@ function cdResumo(ids) {
     (ja.length ? '<em>Já existe' + (ja.length > 1 ? 'm' : '') + ' (não grava de novo): ' + esc(ja.slice(0, 4).join(', ') + (ja.length > 4 ? ' (+' + (ja.length - 4) + ')' : '')) + '</em>' : '') +
     (av.length ? '<small>' + esc(av.slice(0, 3).join(' ') + (av.length > 3 ? ' (+' + (av.length - 3) + ')' : '')) + '</small>' : '');
 }
-function cdConta() { const ids = $$('.cd-p').filter(x => x.checked).map(x => x.value), e = $('#cd-n'); if (e) e.textContent = ids.length + ' marcada(s)'; cdEstadioVis(); cdResumo(ids); }
+function cdProfVis() { const w = $('#cd-prof-w'); if (!w) return; const marc = $$('.cd-p').filter(x => x.checked).map(x => x.getAttribute('data-tipo') || ''); w.hidden = marc.length > 0 && !marc.some(t => pgPedeProf(t)); } /* v2.102.39: Folha sozinha não pede profundidade */
+function cdConta() { const ids = $$('.cd-p').filter(x => x.checked).map(x => x.value), e = $('#cd-n'); if (e) e.textContent = ids.length + ' marcada(s)'; cdEstadioVis(); cdProfVis(); cdResumo(ids); }
 /* id previsível: lançar a mesma área de novo (toque duplo, sem internet, reenvio) cai no mesmo registro */
 /* v2.86.0: nunca regrava um registro que já existe (nem o cancelado: o cancelamento fica guardado) */
 function cdColIdLivre(id, ops) { let x = id, n = 2; while (S.coletas.some(c => c.id === x) || ops.some(o => o.id === x)) x = id + '_' + (n++); return x; }
@@ -7366,7 +7376,7 @@ function colsDe(tipo) {
     col: { key: 'col', label: 'Nome coletor', get: r => r.coletor },
     prof: { key: 'prof', label: 'Profund', get: r => r.prof },
     est: { key: 'est', label: 'Estádio fenológico', get: r => r.estadio },
-    obsC: { key: 'obsc', label: 'Observações', pHide: true, get: r => r.situacao === 'cancelada' ? 'CANCELADA' : r.obs || '' },
+    obsC: { key: 'obsc', label: 'Observações', pHide: () => !S.coletas.some(r => r.tipo === tipo && (r.obs || (r.situacao === 'cancelada' && r.enviado))), pMax: 60, pfmt: r => (r.situacao === 'cancelada' ? 'CANCELADA' + (r.obs ? ' · ' : '') : '') + (r.obs || ''), get: r => r.situacao === 'cancelada' ? 'CANCELADA' : r.obs || '' }, /* v2.102.39: sai no papel quando alguma amostra tem observação ou foi cancelada */
     hora: { key: 'hora', label: 'Hora da coleta', get: r => r.hora },
     mat: { key: 'mat', label: 'Maturação', get: r => r.maturacao },
     lote: { key: 'lote', label: 'Lote', get: r => r.loteComp },
@@ -7395,6 +7405,7 @@ function viewColeta(tipo) {
   if (!S.talhoes.length || !S.cfgCol) return colVazio();
   const aba = ABAS_COL.find(a => a.tipo === tipo);
   const rows = S.coletas.filter(c => c.tipo === tipo && !(c.situacao === 'cancelada' && !c.enviado)); /* v2.85.0: cancelada antes do envio fica só na Programação */
+  rows.sort((a, b) => String(b.data || '').localeCompare(String(a.data || '')) || cmpTalhao(a.talhao, b.talhao) || String(b.criadoEm || '').localeCompare(String(a.criadoEm || ''))); /* v2.102.39: data mais nova em cima */
   const pend = rows.filter(c => c.situacao !== 'cancelada' && !c.enviado).length;
   const atras = rows.filter(c => laudoSit(c) === 'Atrasado').length;
   if (S.rm && S.rm.tipo === tipo) return viewColetaRemessa(tipo, aba, rows);
@@ -9490,13 +9501,14 @@ function openEmitir() {
   if (!S.rtSel || !S.rtSel.size) return;
   const todas = linhasRateio('campo').concat(linhasRateio('agua')).filter(r => S.rtSel.has(r.ref));
   const tot = todas.reduce((s, r) => s + r.valor * r.qtd, 0);
+  const emSemLaudo = todas.filter(r => { const c = (r.kind === 'agua' ? S.aguacol : S.coletas).find(x => x.id === r.id); return !c || !c.laudo; }).length; /* v2.102.39 */
   const keys = Array.from(new Set(todas.filter(r => !r.os && r.envio).map(r => { const c = (r.kind === 'agua' ? S.aguacol : S.coletas).find(x => x.id === r.id); return c ? remKey(c, r.kind === 'agua') : ''; }).filter(Boolean)));
   const passo = (n, t, d) => '<div class="fm-step"><i>' + n + '</i>' + t + '</div>' + (d ? '<div class="fm-dica">' + d + '</div>' : ''), L = t => '<label class="fm-l">' + t + '</label>';
   openSheet('<h3>Emitir solicitação de compra</h3><div class="em-val">' + brl(tot) + '</div><div class="sub">' + todas.length + ' amostra(s) · solicitado por ' + esc(S.user.nome) + '</div><div id="em-msg"></div><div class="fm">' +
     passo(1, 'Solicitação') + '<div class="fm-row"><div>' + L('N° da Solicitação') + '<input class="input" id="em-ped" inputmode="numeric" autocomplete="off" enterkeyhint="next"></div><div>' + L('Data (hoje)') + '<input class="input" type="date" id="em-data" value="' + hojeISO() + '" disabled></div></div>' +
       L('NF do boleto') + '<input class="input" id="em-nf" autocomplete="off" enterkeyhint="next">' +
     (keys.length ? passo(2, 'O.S das remessas', keys.length + ' remessa(s) sem O.S. Toque na remessa para ver as áreas; Enter ou Tab passa para a próxima.') + osBlocosHTML(keys) : '') +
-    '</div><p class="fm-dica">Com a solicitação emitida, as amostras ficam encerradas: só falta a baixa do laudo. Qualquer outra mudança, só com aprovação do líder ★ ou do Principal.</p>' +
+    '</div><p class="fm-dica">Com a solicitação emitida, as amostras ficam encerradas' + (emSemLaudo ? ': só falta a baixa do laudo' + (emSemLaudo < todas.length ? ' (' + emSemLaudo + ' de ' + todas.length + ')' : '') : '') + '. Qualquer outra mudança, só com aprovação do líder ★ ou do Principal.</p>' +
     '<div class="row-actions"><button class="btn" data-action="close">Cancelar</button><button class="btn primary" data-action="rt-emitir-ok">Emitir</button></div>', { noFocus: true });
 }
 async function emitirSolicitacao() {
@@ -10563,6 +10575,13 @@ function impBtn(ops, o) {
   if (ops.length === 1 && !o.dica) return '<button type="button" class="btn sm imp-bt' + (o.cls ? ' ' + esc(o.cls) : '') + '"' + at(ops[0]) + ' title="' + esc(ops[0].t) + '" aria-label="' + esc(ops[0].t) + '">' + ico('print') + n + '</button>';
   return '<span class="imp-w' + (o.up ? ' imp-up' : '') + (o.cls ? ' ' + esc(o.cls) : '') + '"><button type="button" class="btn sm imp-bt" data-action="imp-pop" title="' + esc(o.titulo || 'Imprimir') + '" aria-label="' + esc(o.titulo || 'Imprimir') + '" aria-expanded="false">' + ico('print') + n + '</button>' +
     '<span class="imp-pop" hidden>' + ops.map(x => '<button type="button" class="btn sm"' + at(x) + '>' + esc(x.t) + '</button>').join('') + (o.dica ? '<span class="fm-dica">' + esc(o.dica) + '</span>' : '') + '</span></span>';
+}
+/* v2.102.39 (Nº 39): o menu abre para o lado que couber dentro da janela (ou da tela) */
+function impCabe(p) {
+  p.style.right = '';
+  const c = p.closest('.sheet') || document.documentElement, cr = c.getBoundingClientRect(), vw = document.documentElement.clientWidth || window.innerWidth;
+  const lo = Math.max(cr.left, 0) + 8, hi = Math.min(cr.right, vw) - 8, q = p.getBoundingClientRect();
+  if (q.left < lo) p.style.right = (q.left - lo) + 'px'; else if (q.right > hi) p.style.right = (q.right - hi) + 'px';
 }
 function impFechar(fora) { $$('.imp-pop').forEach(p => { if (p !== fora && !p.hidden) { p.hidden = true; const b = p.previousElementSibling; if (b) b.setAttribute('aria-expanded', 'false'); } }); }
 document.addEventListener('click', ev => { const w = ev.target.closest && ev.target.closest('.imp-w'); if (!w) { impFechar(); return; } if (ev.target.closest('.imp-pop')) setTimeout(impFechar, 0); }, true);
@@ -15360,10 +15379,11 @@ function rncMedirIni() {
   return () => { root.innerHTML = ''; if (st == null) root.removeAttribute('style'); else root.setAttribute('style', st); if (novo && css.parentNode) css.parentNode.removeChild(css); };
 }
 const RNC_ALT_MM = 194; /* A4 deitado com margem de 6 mm = 198 mm; 4 mm de folga */
+const RNC_FOLGA_TAB_MM = 5; /* v2.102.39: folga extra só para as tabelas (índice e plano): a letra do aparelho pode ser um pouco maior que a da medição */
 function rncSecMedir(h) { const root = $('#print-root'); root.innerHTML = '<div class="rp">' + h + '</div>'; return root.querySelector('.rp-pg'); }
 /* reparte as linhas (cada uma um <tr>) em folhas; devolve quantas linhas vão em cada folha. Sem layout (testes): uma folha. */
 function rncPaginar(montar, linhas) {
-  const PX = 96 / 25.4, ALT = RNC_ALT_MM * PX;
+  const PX = 96 / 25.4, ALT = (RNC_ALT_MM - RNC_FOLGA_TAB_MM) * PX;
   const s0 = rncSecMedir(montar(linhas, 0)); if (!s0 || !s0.offsetHeight) return [linhas.length];
   const hs = Array.from(s0.querySelectorAll('.rp-idx tbody > tr')).map(t => t.offsetHeight);
   if (hs.length !== linhas.length) return [linhas.length];
@@ -16446,10 +16466,12 @@ function prevAbrir() {
     '<button type="button" class="btn primary" data-action="prev-imprimir">' + icoI('print') + 'Imprimir / PDF</button></div>';
   document.body.appendChild(ov);
   const fr = ov.querySelector('iframe');
-  fr.addEventListener('load', () => { try { const b = fr.contentDocument && fr.contentDocument.body; if (!b) return; const larg = 297 * 96 / 25.4 + 40; b.style.zoom = String(Math.min(1, (fr.clientWidth - 4) / larg)); } catch (e) {} });
+  fr.addEventListener('load', () => { try { fr.contentDocument.addEventListener('keydown', e => { if (e.key === 'Escape') prevFechar(); }); } catch {} try { const b = fr.contentDocument && fr.contentDocument.body; if (!b) return; const larg = 297 * 96 / 25.4 + 40; b.style.zoom = String(Math.min(1, (fr.clientWidth - 4) / larg)); } catch (e) {} });
   fr.srcdoc = prevDoc(html, pagina, titulo, true);
   window.onafterprint = () => { prevFechar(); };
 }
+/* v2.102.39: Esc fecha a prévia (também quando o foco está dentro das folhas) */
+window.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#prev')) { e.stopImmediatePropagation(); e.preventDefault(); prevFechar(); } }, true);
 function prevFechar(manter) {
   const ov = $('#prev'); if (ov) ov.remove();
   if (!manter) { const root = $('#print-root'); if (root) root.innerHTML = ''; S._printDoc = null; }
@@ -21945,20 +21967,26 @@ function lockManual() {
   lockAtivar('bloqueio');
   const p = $('#lock .lock-c p'); if (p) p.textContent = lkNome() + ', digite a sua senha para continuar de onde parou.';
 }
+/* v2.102.39 (Nº 43): cada passo de sair é protegido; se um falhar (espaço cheio), os outros e a saída continuam */
+async function saidaGarantida() {
+  try { await Data.auth.signOut(); } catch (e) { console.warn('Sair: signOut', e && (e.code || e.message)); }
+  let ainda = false; try { ainda = Data.auth.aindaLogado(); } catch {}
+  if (ainda) { try { await Data.auth.forcarSaida(); } catch {} S.busy = true; location.reload(); }
+}
 async function doLogout() {
-  closeSheet(); lkApagar(); /* v2.76.0: sair de verdade apaga a senha guardada no aparelho */
-  await Promise.race([Audit.log({ acao: 'logout', entidade: 'sessao', resumo: S.user.nome + ' saiu do app' }), new Promise(r => setTimeout(r, 2500))]);
-  await testeBloquearAoSair(); /* v2.89.0 */
-  cleanupSession();
+  try { closeSheet(); lkApagar(); } catch {} /* v2.76.0: sair de verdade apaga a senha guardada no aparelho */
+  try { await Promise.race([Audit.log({ acao: 'logout', entidade: 'sessao', resumo: S.user.nome + ' saiu do app' }), new Promise(r => setTimeout(r, 2500))]); } catch {}
+  try { await testeBloquearAoSair(); } catch {} /* v2.89.0 */
+  try { cleanupSession(); } catch {}
   /* v2.102.9 (32.4): sair limpa a cópia da nuvem guardada neste navegador — só quando a nuvem já confirmou tudo
      (nada pendente se perde). Com envio pendente, a cópia fica e o envio sobe quando a pessoa entrar de novo aqui. */
   if (!DEMO) {
     let limpou = false;
     try { if (await Data.semPendentes(3000)) { await Data.limparCache(); limpou = true; } } catch (e) { console.warn('Sair: cache não limpo', e && (e.code || e.message)); }
-    if (limpou) { Store.del('sv2-fila'); S.busy = true; try { await Data.auth.signOut(); } catch {} location.reload(); return; }
+    if (limpou) { Store.del('sv2-fila'); S.busy = true; try { await Data.auth.signOut(); } catch {} try { if (Data.auth.aindaLogado()) await Data.auth.forcarSaida(); } catch {} location.reload(); return; }
     toast('Saiu. A cópia offline deste aparelho ficou guardada porque ainda há envio aguardando a nuvem.');
   }
-  await Data.auth.signOut();
+  await saidaGarantida();
 }
 
 /* ============ v2.102.9 (Nº 28) — ESPAÇO DESTE APARELHO ============
@@ -22582,7 +22610,7 @@ document.addEventListener('click', e => {
     case 'rn-sem': { const h = apSegunda(hojeISO()); let n = addDias(S.rnSeg || h, +id); if (n > h) n = h; S.rnSeg = n; renderView(); break; }
     case 'rn-print': apImprimirReuniao(id === 'marcados'); break;
     case 'dd-tg': { const p = t.nextElementSibling; if (p) { const abre = p.hidden; ddFechar(p); p.hidden = !abre; t.setAttribute('aria-expanded', abre ? 'true' : 'false'); if (abre) ddFixa(t, p); } break; } /* v2.102.27 */
-    case 'imp-pop': { const p = t.nextElementSibling; if (p) { const abre = p.hidden; impFechar(p); p.hidden = !abre; t.setAttribute('aria-expanded', abre ? 'true' : 'false'); } break; }
+    case 'imp-pop': { const p = t.nextElementSibling; if (p) { const abre = p.hidden; impFechar(p); p.hidden = !abre; t.setAttribute('aria-expanded', abre ? 'true' : 'false'); if (abre) impCabe(p); } break; }
     case 'rn-per': { const f = rnF(); f.per = id; if (id === 'datas' && !f.de) { f.de = addDias(hojeISO(), -6); f.ate = hojeISO(); } renderView(); break; } /* v2.102.14 */
     case 'rn-filtro': openRnFiltro(id); break;
     case 'rn-f-ok': { const f = rnF(); f[id] = $$('.rn-fck').filter(x => x.checked).map(x => x.value); closeSheet(); renderView(); break; }
