@@ -1527,6 +1527,8 @@ svg.ic-i{width:1.1em;height:1.1em;vertical-align:-.18em;flex:none}
 .fed-bt{display:flex;gap:8px;padding:10px 14px calc(12px + env(safe-area-inset-bottom,0px))}
 .fed-bt .btn{flex:1;justify-content:center;min-height:46px;white-space:nowrap;font-size:14.5px;padding:0 10px}
 .fed-bt .btn[disabled]{opacity:.45}
+.rnc-hd{display:flex;align-items:center;gap:8px;margin:-2px 0 4px}.rnc-hd-i{flex:1;min-width:0;font-size:12.5px;color:var(--text-muted);line-height:1.35}.rnc-hd-b{display:flex;gap:6px;flex:none}.rnc-hd-b .btn.sm{min-width:38px;justify-content:center}.rnc-h3{margin-top:2px} /* v2.102.42: cabeçalho da RNC */
+.fed-bt{justify-content:center}.fed-bt .btn{flex:0 1 150px;min-height:38px;font-size:13.5px;font-weight:700;background:#2b2b31;color:#fff;border:1px solid #5d5d66}.fed-bt .btn:hover{background:#3a3a42}.fed-bt .btn.primary{background:#f2c230;color:#1b1b1b;border-color:#f2c230}.fed-bt .btn.primary:hover{background:#ffd34d}.fed-bt .btn[disabled]{opacity:.5} /* v2.102.42: menores e visíveis em qualquer tema (pedido do Elias) */
 .fed-ferr{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;padding:calc(10px + env(safe-area-inset-top,0px)) 10px 6px}
 .fed-grp{display:flex;gap:4px;align-items:center;background:rgba(255,255,255,.1);border-radius:var(--r-ctl);padding:4px}
 .fed-f{min-width:44px;height:40px;border-radius:var(--r-ctl);color:#fff;display:flex;align-items:center;justify-content:center;gap:5px;font:600 13px system-ui,sans-serif;padding:0 9px;background:transparent;border:0;cursor:pointer}
@@ -3033,7 +3035,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.41 · Local da NC com sugestões (segurar e arrastar para a lixeira); NCs das auditorias na aba Não conformidades';
+const APP_VERSION = 'v2.102.42 · Editor de fotos com botões menores e visíveis; Lixeira da RNC (antes de enviar)';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -3913,24 +3915,40 @@ function toast(msg, tipo) {
   el.className = 'toast' + (tipo ? ' ' + tipo : ''); el.textContent = msg; host.appendChild(el);
   setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 3600);
 }
+/* v2.102.42 (pedido do Elias): o gesto/botão voltar do celular fecha a janela aberta, em vez de sair do app.
+   Ao abrir a 1ª janela entra um passo no histórico; voltar = fechar. Fechando de outro jeito, o passo sai (history.back) e o aviso é ignorado. */
+const SH_H = { on: false, ign: 0 };
+window.addEventListener('popstate', () => { if (SH_H.ign) { SH_H.ign--; return; } if (SH_H.on) { SH_H.on = false; if ($('#ov')) { S._voltar = true; try { closeSheet(); } finally { S._voltar = false; } } } });
+/* v2.102.42: guarda a rolagem de cada janela que ficou por baixo; ao voltar para ela (fechar o registro, salvar), reabre no mesmo ponto em vez de subir ao começo */
+function shSnap(sh) { const h3 = sh.querySelector('h3'); return { h: h3 ? h3.textContent : '', top: sh.scrollTop, dentro: Array.from(sh.querySelectorAll('*')).map((e, i) => e.scrollTop > 0 ? [i, e.scrollTop] : null).filter(Boolean) }; }
 function openSheet(html, opts) {
   /* v2.75.0: a mesma janela desenhada de novo (marcar uma caixinha, trocar um filtro) mantém a rolagem e não puxa o foco */
   const velha = $('#ov .sheet'); let fica = null;
-  if (velha) { const h3 = velha.querySelector('h3'); fica = { h: h3 ? h3.textContent : '', top: velha.scrollTop, dentro: Array.from(velha.querySelectorAll('*')).map((e, i) => e.scrollTop > 0 ? [i, e.scrollTop] : null).filter(Boolean) }; }
+  if (velha) fica = shSnap(velha);
+  else if (S._ultima) fica = S._ultima; /* v2.102.42: fechou e abriu na mesma hora */
+  S._ultima = null;
   const antes = !$('#ov') ? document.activeElement : null; S._reabre = true; closeSheet(); S._reabre = false; if (antes && antes !== document.body) S._focoAntes = antes; /* v2.102.28: guarda quem abriu */
   const ov = document.createElement('div');
   ov.className = 'overlay'; ov.id = 'ov';
   ov.innerHTML = '<div class="sheet" role="dialog" aria-modal="true">' + html + '</div>';
   ov.addEventListener('mousedown', e => { if (e.target === ov) closeSheet(); });
   document.body.appendChild(ov);
-  const igual = !!(fica && fica.h && fica.h === ((ov.querySelector('.sheet h3') || {}).textContent || ''));
+  if (!SH_H.on) { try { history.pushState({ efJanela: 1 }, ''); SH_H.on = true; } catch {} } /* v2.102.42: o voltar do celular fecha a janela */
+  const novoH = (ov.querySelector('.sheet h3') || {}).textContent || '';
+  const igual0 = !!(fica && fica.h && fica.h === novoH);
+  if (S._pilhaT) { clearTimeout(S._pilhaT); S._pilhaT = null; }
+  const pil = S._pilha || (S._pilha = []); let rest = null;
+  if (!igual0) { const i = novoH ? pil.map(x => x.h).lastIndexOf(novoH) : -1; if (i >= 0) { rest = pil[i]; pil.length = i; } else if (fica && fica.h) { pil.push(fica); if (pil.length > 8) pil.shift(); } }
+  if (igual0 && pil.length && pil[pil.length - 1].h === novoH) pil.pop();
+  if (rest) fica = rest;
+  const igual = igual0 || !!rest;
   try { ajJanela(ov); } catch (e) {} /* v2.102.0 */
   try { alinhaTabelas(ov); } catch {} /* v2.102.28 */
   if (igual) { const sh = ov.firstChild; sh.scrollTop = fica.top; const els = Array.from(sh.querySelectorAll('*')); fica.dentro.forEach(x => { if (els[x[0]]) els[x[0]].scrollTop = x[1]; }); }
   const f = $('input,button.btn.primary', ov); if (f && !igual && !(opts && opts.noFocus)) { try { f.focus(); } catch (e) {} }
   return ov.firstChild;
 }
-function closeSheet() { try { raFecha(); } catch {} const o = $('#ov'); /* v2.102.21 */ if (o) { o.parentNode.removeChild(o); if (!S._reabre && S._focoAntes) { const f = S._focoAntes; S._focoAntes = null; if (document.contains(f)) try { f.focus({ preventScroll: true }); } catch {} } } const mn = $('#tf-menu'); if (mn && mn.dataset.k === 'men') mn.hidden = true; }
+function closeSheet() { try { raFecha(); } catch {} const o = $('#ov'); if (o && !S._reabre) { try { const sh0 = o.querySelector('.sheet'); if (sh0) S._ultima = shSnap(sh0); } catch {} if (S._pilhaT) clearTimeout(S._pilhaT); S._pilhaT = setTimeout(() => { S._pilha = []; S._ultima = null; S._pilhaT = null; }, 0); } /* v2.102.21 */ if (o && !S._reabre && !S._voltar && SH_H.on) { SH_H.on = false; SH_H.ign++; try { history.back(); } catch { SH_H.ign--; } } /* v2.102.42 */ if (o) { o.parentNode.removeChild(o); if (!S._reabre && S._focoAntes) { const f = S._focoAntes; S._focoAntes = null; if (document.contains(f)) try { f.focus({ preventScroll: true }); } catch {} } } const mn = $('#tf-menu'); if (mn && mn.dataset.k === 'men') mn.hidden = true; }
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !S.lockado) closeSheet(); });
 document.addEventListener('input', e => { if (e.target && e.target.id === 'rz-apelido') rzResAtu(); if (e.target && e.target.id === 'cn-preco') { e.target.setAttribute('data-man', '1'); colPrecoAtualiza(false); } }); /* v2.102.4: + preço da amostra */ /* v2.89.1 */ /* v2.87.0: com a tela bloqueada, Esc não mexe no que está por baixo */
 document.addEventListener('keydown', e => { const t = e.target; if (t && t.classList && t.classList.contains('os-in') && (e.key === 'Enter' || (e.key === 'Tab' && !e.shiftKey))) { e.preventDefault(); osProximo(t); } });
@@ -5446,7 +5464,7 @@ async function checarBloqueios() {
   } catch (e) { console.warn('bloqueio', e); }
   _clChecando = false;
 }
-setInterval(() => { if (!S.user) return; try { rsAviso(); } catch (e) {} try { trfAviso(); } catch (e) {} checarBloqueios(); const a = curArea(), t = curTab(a); if (a.id === 'inspecoes' && t && t.id === 'cloro' && !$('#ov')) renderView(); }, 60000);
+setInterval(() => { if (!S.user) return; try { rsAviso(); } catch (e) {} try { rncLixoLimpar(); } catch {} /* v2.102.42 */ try { trfAviso(); } catch (e) {} checarBloqueios(); const a = curArea(), t = curTab(a); if (a.id === 'inspecoes' && t && t.id === 'cloro' && !$('#ov')) renderView(); }, 60000);
 
 /* ---------- tela ---------- */
 function viewCloro() {
@@ -13901,7 +13919,7 @@ const RNC_LOCAIS = { campo: ['Pontos de apoio', 'Banheiro de campo', 'Talhão'],
 const RNC_GRAV = { maior: ['Maior', 'crit'], media: ['Média', 'warn'], baixa: ['Baixa', 'info'] };
 const RNC_RES = { resolvida: ['Resolvida', 'ok'], parcial: ['Parcial', 'warn'], nao: ['Não resolvida', 'crit'] };
 const RNC_TIPOS = ['Global G.A.P.', 'Ecocert Orgânico'];
-const RNC_MAX_FOTOS = 8, RNC_AVISO_DIAS = 3;
+const RNC_MAX_FOTOS = 8, RNC_AVISO_DIAS = 3, RNC_LIXO_DIAS = 15; /* v2.102.42 */
 const RNC_PASSOS = [['abrir', 'Abrir'], ['registrar', 'Registrar'], ['enviar', 'Enviar RNC'], ['conferir', 'Conferir'], ['fechar', 'Fechar']];
 const RNC_CACHE = {}, RNC_DOC = {}; /* v2.102.40: RNC_DOC[id] = { base, marcas } (marcas null = foto de antes da v2.102.40) */
 /* ============ v2.102.12 — GUT 1 (prioridade das NCs) ============
@@ -14086,8 +14104,8 @@ function rncStepper(r, grande) {
   return '<div class="rnc-steps' + (grande ? ' g' : '') + '">' + RNC_PASSOS.map((x, i) => { const k = i + 1, st = r.situacao === 'cancelada' ? '' : k < p || (k === 3 && p >= 4) || p === 6 ? 'feito' : k === p ? 'agora' : ''; return '<span class="rnc-st ' + st + '"><i>' + (st === 'feito' ? '✓' : k) + '</i>' + (grande ? '<b>' + x[1] + '</b>' : '') + '</span>'; }).join('') + '</div>';
 }
 function viewRnc() {
-  const u = S.user, l = (S.rnc || []).slice().sort((a, b) => String(b.criadoEm).localeCompare(String(a.criadoEm)));
-  const topo = '<div class="nrm-topo">' + (isSup(u) ? '<button class="btn sm primary ap-nv" data-action="rnc-nova">' + icoI('prancheta') + 'Nova auditoria interna</button><button class="btn sm" data-action="nrm-open">Normas e editais</button>' : '') + (l.length ? '<button class="btn sm" data-action="rnc-par-open">Pareto</button>' : '') + '</div>'; /* v2.70.0; Pareto v2.102.19 */
+  const u = S.user, l = (S.rnc || []).filter(r => !r.lixeira).sort((a, b) => String(b.criadoEm).localeCompare(String(a.criadoEm)));
+  const topo = '<div class="nrm-topo">' + (isSup(u) ? '<button class="btn sm primary ap-nv" data-action="rnc-nova">' + icoI('prancheta') + 'Nova auditoria interna</button><button class="btn sm" data-action="nrm-open">Normas e editais</button>' : '') + (l.length ? '<button class="btn sm" data-action="rnc-par-open">Pareto</button>' : '') + (isSup(u) && (S.rnc || []).some(r => r.lixeira) ? '<button class="btn sm" data-action="rnc-lixo">' + icoI('lixo') + 'Lixeira (' + esc((S.rnc || []).filter(r => r.lixeira).length) + ')</button>' : '') + '</div>'; /* v2.70.0; Pareto v2.102.19; Lixeira v2.102.42 */
   const guia = '<div class="rnc-guia">' + RNC_PASSOS.map((x, i) => '<span><i>' + (i + 1) + '</i><b>' + x[1] + '</b><small>' + ['tipo, auditor e prazo', 'uma NC por vez, com fotos', 'relatório de abertura', 'o retorno, uma por uma', 'antes e depois'][i] + '</small></span>').join('') + '</div>';
   const card = r => { const ls = rncNcs(r), cf = ls.filter(n => n.ret).length, res = ls.filter(n => n.ret && n.ret.res === 'resolvida').length;
     return '<button class="rnc-card ' + rncSit(r) + '" data-action="rnc-open" data-id="' + esc(r.id) + '"><span class="rnc-c-h"><b>' + esc(r.numero) + '</b><span>' + esc(r.tipo || '') + '</span>' + rncChip(r) + '</span>' + rncStepper(r, false) +
@@ -14116,13 +14134,17 @@ function openRnc(id) {
   const lista = ls.map(n => { let h = ''; if (!risco && n.area !== area) { area = n.area; h = '<div class="rnc-sec">' + esc(rncAreaNome(n.area)) + '</div>'; }
     const rt = n.ret ? RNC_RES[n.ret.res] : null, g = RNC_GRAV[n.grav] || RNC_GRAV.baixa, ri = rncReinc(r, n);
     return h + '<button class="rnc-li g-' + esc(n.grav) + '" data-action="rnc-item" data-id="' + esc(r.id) + '" data-n="' + n.n + '"><span class="rnc-n">' + rncNum(n.n) + '</span><span class="rnc-li-t"><b>' + esc(n.nc) + '</b><small>' + esc(n.local) + ' · ' + esc(n.respNome || '') + (n.ciente ? ' · ciente' : ' · não ciente') + (ri ? ' · reincidente' : '') + '</small></span><span class="rnc-li-c"><span class="chip ' + g[1] + '">' + g[0] + '</span>' + gutChip(gutDe(n.id)) + (s === 'retorno' || s === 'pronta' || s === 'fechada' ? planoChip(n) + acoesChip(n) : '') + (rt ? '<span class="chip ' + rt[1] + '">' + rt[0] + '</span>' : s !== 'registro' ? '<span class="chip">sem retorno</span>' : '') + '</span></button>'; }).join('');
-  openSheet('<h3>' + esc(r.numero) + ' · ' + esc(r.tipo || '') + '</h3><div class="sub">' + rncChip(r) + ' ' + fmtD(r.data) + ' · auditor ' + esc(r.auditorNome || '') + (r.acompanhante ? ' · com ' + esc(r.acompanhante) : '') + '</div>' +
+  const impR = seq.length ? impBtn([{ a: 'rnc-print', id: r.id, m: 'abertura', t: 'RNC de abertura' }, { a: 'rnc-print', id: r.id, m: 'resumo', t: 'Abertura resumida (em pé)' }].concat(seq.some(n => n.ret) ? [{ a: 'rnc-print', id: r.id, m: 'fechamento', t: 'RNC de fechamento (em pé)' }] : []), { titulo: 'Imprimir a RNC' }) : '';
+  /* v2.102.42 (pedido do Elias): situação, data e auditor em cima, na linha da impressora e da lixeira; o código da RNC embaixo, com a largura toda */
+  openSheet('<div class="rnc-hd"><span class="rnc-hd-i">' + rncChip(r) + ' ' + fmtD(r.data) + ' · auditor ' + esc(r.auditorNome || '') + (r.acompanhante ? ' · com ' + esc(r.acompanhante) : '') + '</span><span class="rnc-hd-b">' + impR +
+    (isSup(S.user) && s === 'registro' ? '<button type="button" class="btn sm" data-action="rnc-excluir" data-id="' + esc(r.id) + '" title="Excluir (vai para a Lixeira)" aria-label="Excluir (vai para a Lixeira)">' + ico('lixo') + '</button>' : '') + '</span></div>' +
+    '<h3 class="rnc-h3">' + esc(r.numero) + ' · ' + esc(r.tipo || '') + '</h3>' +
     rncStepper(r, true) +
     '<div class="rnc-agora"><b>' + agora[0] + '</b><span>' + esc(agora[1]) + '</span>' + (acao ? '<div class="rnc-agora-b">' + acao + '</div>' : '') + '</div>' +
     keyval([['Prazo para todas', fmtD(r.prazo) + (s === 'retorno' || s === 'registro' ? ' · ' + rncPrazoSit(r) : '') + ((r.prazoHist || []).length ? ' (prorrogado ' + r.prazoHist.length + 'x)' : '')]].concat(r.preparacao ? [['Preparação para', r.preparacao]] : [])) +
     nrmRncBloco(r) + '<div class="dt-sec">Não conformidades <small>' + seq.length + ' · ' + (risco ? 'por risco (GUT), só para ver' : 'na ordem do relatório (Campo → Estrutura)') + '</small>' + (temGut ? '<button class="btn sm rnc-risco" data-action="rnc-risco" data-id="' + esc(r.id) + '">' + (risco ? 'Ordem do relatório' : 'Ver por risco') + '</button>' : '') + '</div>' + (lista || '<p class="fm-dica">Nenhuma ainda.</p>') +
-    '<div class="row-actions eq-acoes">' + (rncFotoLista(r).length ? b('rnc-fotos', icoI('image') + 'Fotos (' + rncFotoLista(r).length + ')') : '') + (seq.length ? impBtn([{ a: 'rnc-print', id: r.id, m: 'abertura', t: 'RNC de abertura' }, { a: 'rnc-print', id: r.id, m: 'resumo', t: 'Abertura resumida (em pé)' }].concat(seq.some(n => n.ret) ? [{ a: 'rnc-print', id: r.id, m: 'fechamento', t: 'RNC de fechamento (em pé)' }] : []), { up: true, titulo: 'Imprimir a RNC' }) : '') +
-      (isSup(S.user) && (s === 'retorno' || s === 'registro') ? b('rnc-prorrogar', 'Prorrogar prazo') : '') + (isSup(S.user) && s !== 'fechada' && s !== 'cancelada' ? b('rnc-cancelar', 'Cancelar') : '') + '<button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
+    '<div class="row-actions eq-acoes">' + (rncFotoLista(r).length ? b('rnc-fotos', icoI('image') + 'Fotos (' + rncFotoLista(r).length + ')') : '') +
+      (isSup(S.user) && (s === 'retorno' || s === 'registro') ? b('rnc-prorrogar', 'Prorrogar prazo') : '') + (isSup(S.user) && s !== 'fechada' && s !== 'cancelada' ? b('rnc-cancelar', 'Cancelar') : '') + '</div>', { noFocus: true }); /* v2.102.42: sem o botão Fechar (Esc, tocar fora ou o voltar do celular) */
 }
 /* ---------- 1 · abrir ---------- */
 function openRncNova() {
@@ -15467,6 +15489,56 @@ async function rncProrrogarOk(id) {
   Audit.log({ acao: 'rnc_prorrogar', entidade: 'rnc', entidadeId: id, resumo: r.numero + ': prazo ' + fmtD(r.prazo) + ' → ' + fmtD(np) + ' — ' + mot });
   toast('Prazo prorrogado.', 'ok'); renderView(); openRnc(id);
 }
+/* v2.102.42 (pedido do Elias): antes da etapa 3 (Enviar RNC) a auditoria pode ser EXCLUÍDA: vai para a Lixeira
+   (some da lista, das Não conformidades e do Pareto; fica como cancelada com a marca "lixeira"). Pode voltar em até
+   15 dias. Com 15 dias as fotos dela são apagadas; o registro da RNC continua guardado e oculto (nada se apaga). */
+const rncLixoVence = r => r && r.lixeira ? addDias(diaLocal(r.lixeira.em), RNC_LIXO_DIAS) : '';
+function openRncExcluir(id) {
+  const r = rncDe(id); if (!r || !isSup(S.user) || rncSit(r) !== 'registro') return;
+  openSheet('<h3>Excluir a auditoria</h3><div class="sub">' + esc(r.numero) + ' · ' + esc(rncNcs(r).length) + ' NC(s) registrada(s)</div><div id="ap-msg"></div>' +
+    '<p class="fm-dica">Ela vai para a <b>Lixeira</b> e some da lista e das Não conformidades. Dá para restaurar em até ' + esc(RNC_LIXO_DIAS) + ' dias. Depois disso as fotos são apagadas; o registro fica guardado e oculto.</p>' +
+    '<div class="field"><label>Motivo</label><textarea class="input" id="al-mot-g" rows="2"></textarea></div>' +
+    '<div class="row-actions"><button class="btn" data-action="rnc-open" data-id="' + esc(id) + '">Voltar</button><button class="btn primary" data-action="rnc-excluir-ok" data-id="' + esc(id) + '">' + icoI('lixo') + 'Mandar para a Lixeira</button></div>', { noFocus: true });
+}
+async function rncExcluirOk(id) {
+  const r = rncDe(id); if (!r || !isSup(S.user) || rncSit(r) !== 'registro') return;
+  const mot = alMotG(); if (mot.length < 3) return apMsg('Escreva o motivo.');
+  const em = nowISO();
+  await Data.col('sv2_rnc').update(id, { situacao: 'cancelada', canceladaEm: em, canceladaPor: S.user.nome, canceladaMotivo: 'Excluída (Lixeira): ' + mot,
+    lixeira: { em: em, porId: S.user.id, porNome: S.user.nome, motivo: mot, situacaoAntes: r.situacao || '' } });
+  Audit.log({ acao: 'rnc_lixeira', entidade: 'rnc', entidadeId: id, resumo: 'Mandou a ' + r.numero + ' para a Lixeira — ' + mot + '. As fotos são apagadas em ' + fmtD(addDias(hojeISO(), RNC_LIXO_DIAS)) + '.' });
+  toast('Foi para a Lixeira.', 'ok'); closeSheet(); renderView();
+}
+function openRncLixeira() {
+  if (!isSup(S.user)) return;
+  const l = (S.rnc || []).filter(r => r.lixeira).sort((a, b) => String(b.lixeira.em).localeCompare(String(a.lixeira.em)));
+  openSheet('<h3>Lixeira das auditorias</h3><div class="sub">Auditorias excluídas antes de enviar. Voltam em até ' + esc(RNC_LIXO_DIAS) + ' dias; depois as fotos são apagadas e o registro fica guardado.</div>' +
+    (l.length ? '<div class="list">' + l.map(r => { const v = rncLixoVence(r), fa = r.lixeira.fotosApagadasEm;
+      return '<div class="li"><span style="flex:1;min-width:0"><span class="t">' + esc(r.numero) + ' · ' + esc(r.tipo || '') + ' · ' + esc(rncNcs(r).length) + ' NC(s)</span><br><span class="d">Excluída em ' + fmtD(diaLocal(r.lixeira.em)) + ' por ' + esc(r.lixeira.porNome || '') + ' · ' + esc(r.lixeira.motivo || '') + '<br>' +
+        (fa ? 'Fotos apagadas em ' + fmtD(diaLocal(fa)) + '.' : 'As fotos serão apagadas em ' + fmtD(v) + '.') + '</span></span>' +
+        (!fa && v > hojeISO() ? '<button class="btn sm" data-action="rnc-restaurar" data-id="' + esc(r.id) + '">Restaurar</button>' : '') + '</div>'; }).join('') + '</div>' : '<p class="fm-dica">A Lixeira está vazia.</p>') +
+    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button></div>');
+}
+async function rncRestaurar(id) {
+  const r = rncDe(id); if (!r || !r.lixeira || !isSup(S.user) || r.lixeira.fotosApagadasEm) return;
+  const hist = (r.lixeiraHist || []).concat([Object.assign({}, r.lixeira, { restauradaEm: nowISO(), restauradaPor: S.user.nome })]);
+  await Data.col('sv2_rnc').update(id, { situacao: r.lixeira.situacaoAntes || 'aberta', lixeira: null, lixeiraHist: hist, canceladaEm: null, canceladaPor: null, canceladaMotivo: null });
+  Audit.log({ acao: 'rnc_restaurar', entidade: 'rnc', entidadeId: id, resumo: 'Restaurou a ' + r.numero + ' da Lixeira.' });
+  toast('Restaurada.', 'ok'); renderView(); openRnc(id);
+}
+/* com 15 dias na Lixeira: apaga as fotos (dataUrl e base vazios; a regra do Firebase só deixa esvaziar) e marca na RNC */
+async function rncLixoLimpar() {
+  if (!S.user || !isSup(S.user)) return 0; const hoje = hojeISO(), agora = nowISO(); let n = 0;
+  for (const r of (S.rnc || []).filter(x => x.lixeira && !x.lixeira.fotosApagadasEm && rncLixoVence(x) <= hoje)) {
+    const ids = []; (r.ncs || []).forEach(nc => (nc.fotosAntes || []).concat((nc.ret && nc.ret.fotosDepois) || []).forEach(f => ids.push(f)));
+    try {
+      for (const f of ids) { await Data.col('sv2_rnc_foto').update(f, { dataUrl: '', base: '', apagadaEm: agora }); delete RNC_CACHE[f]; delete RNC_DOC[f]; n++; }
+      await Data.col('sv2_rnc').update(r.id, { lixeira: Object.assign({}, r.lixeira, { fotosApagadasEm: agora }) });
+      Audit.log({ acao: 'rnc_lixeira_fotos', entidade: 'rnc', entidadeId: r.id, resumo: r.numero + ': ' + ids.length + ' foto(s) apagadas, ' + esc(RNC_LIXO_DIAS) + ' dias na Lixeira. O registro continua guardado.' });
+    } catch (e) { console.warn('lixeira RNC', e && (e.code || e.message)); }
+  }
+  return n;
+}
 async function rncCancelarOk(id) {
   const r = rncDe(id); if (!r || !isSup(S.user)) return;
   const mot = alMotG(); if (mot.length < 3) return apMsg('Escreva o motivo.');
@@ -15703,8 +15775,8 @@ async function rncImprimir(id, modo) {
 function rncAcao(act, id, t) {
   const n = t && t.getAttribute('data-n');
   const ac = t && t.getAttribute('data-ac'), ncA = t && t.getAttribute('data-nc'); /* v2.102.16 */
-  if (['rnc-nova-ok', 'rnc-nc-ok', 'rnc-enviar-ok', 'rnc-conf-ok', 'rnc-fechar', 'rnc-prorrogar-ok', 'rnc-cancelar-ok', 'rnc-nc-canc-ok', 'rnc-ac-ok', 'rnc-ac-feita-ok', 'rnc-ac-canc-ok'].indexOf(act) >= 0) {
-    const f = { 'rnc-ac-ok': () => acaoSalvar(id, ncA, ac), 'rnc-ac-feita-ok': () => acaoFim(id, ncA, ac, 'feita'), 'rnc-ac-canc-ok': () => acaoFim(id, ncA, ac, 'cancelada'), 'rnc-nova-ok': () => rncNovaOk(), 'rnc-nc-ok': () => rncNcOk(id === '1'), 'rnc-enviar-ok': () => rncEnviarOk(id), 'rnc-conf-ok': () => rncConfOk(id, n), 'rnc-fechar': () => rncFechar(id), 'rnc-prorrogar-ok': () => rncProrrogarOk(id), 'rnc-cancelar-ok': () => rncCancelarOk(id), 'rnc-nc-canc-ok': () => rncNcCancOk(id) }[act];
+  if (['rnc-nova-ok', 'rnc-nc-ok', 'rnc-enviar-ok', 'rnc-conf-ok', 'rnc-fechar', 'rnc-prorrogar-ok', 'rnc-cancelar-ok', 'rnc-nc-canc-ok', 'rnc-ac-ok', 'rnc-ac-feita-ok', 'rnc-ac-canc-ok', 'rnc-excluir-ok'].indexOf(act) >= 0) {
+    const f = { 'rnc-excluir-ok': () => rncExcluirOk(id), 'rnc-ac-ok': () => acaoSalvar(id, ncA, ac), 'rnc-ac-feita-ok': () => acaoFim(id, ncA, ac, 'feita'), 'rnc-ac-canc-ok': () => acaoFim(id, ncA, ac, 'cancelada'), 'rnc-nova-ok': () => rncNovaOk(), 'rnc-nc-ok': () => rncNcOk(id === '1'), 'rnc-enviar-ok': () => rncEnviarOk(id), 'rnc-conf-ok': () => rncConfOk(id, n), 'rnc-fechar': () => rncFechar(id), 'rnc-prorrogar-ok': () => rncProrrogarOk(id), 'rnc-cancelar-ok': () => rncCancelarOk(id), 'rnc-nc-canc-ok': () => rncNcCancOk(id) }[act];
     eqUmaVez(f); return true;
   }
   switch (act) {
@@ -15755,6 +15827,9 @@ function rncAcao(act, id, t) {
     case 'rnc-print': rncImprimir(id, t.getAttribute('data-m')); return true;
     case 'rnc-prorrogar': openRncMotivo(id, 'prorrogar'); return true;
     case 'rnc-cancelar': openRncMotivo(id, 'cancelar'); return true;
+    case 'rnc-excluir': openRncExcluir(id); return true; /* v2.102.42 */
+    case 'rnc-lixo': openRncLixeira(); return true;
+    case 'rnc-restaurar': rncRestaurar(id); return true;
   }
   return false;
 }
@@ -22124,7 +22199,7 @@ function startSession() {
     S.resumos = list;
     const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && t.id === 'semana') renderDados();
   }, { order: 'semana', limit: 200 }));
-  { const quem = S.user && S.user.id; setTimeout(() => { if (!S.user || S.user.id !== quem) return; try { rsAviso(); } catch (e) {} try { trfAviso(); } catch (e) {} try { rzAviso(); } catch (e) {} try { rzUnicaAuto(); } catch (e) {} try { pjAviso(); } catch (e) {} try { laudoCorrAviso(); } catch (e) {} try { laudoAvisoSemana(); } catch (e) {} try { cloroFaltaAviso(); } catch (e) {} clFotoLimpar().catch(() => {}); acFotoLimpar().catch(() => {}); almFotoLimpar().catch(() => {}); apFotoLimpar().catch(() => {}); try { bkAviso(); } catch (e) {} try { rncAviso(); } catch (e) {} }, 4000); }   /* v2.18.0: aviso semanal de laudos esquecidos */
+  { const quem = S.user && S.user.id; setTimeout(() => { if (!S.user || S.user.id !== quem) return; try { rsAviso(); } catch (e) {} try { rncLixoLimpar(); } catch {} /* v2.102.42 */ try { trfAviso(); } catch (e) {} try { rzAviso(); } catch (e) {} try { rzUnicaAuto(); } catch (e) {} try { pjAviso(); } catch (e) {} try { laudoCorrAviso(); } catch (e) {} try { laudoAvisoSemana(); } catch (e) {} try { cloroFaltaAviso(); } catch (e) {} clFotoLimpar().catch(() => {}); acFotoLimpar().catch(() => {}); almFotoLimpar().catch(() => {}); apFotoLimpar().catch(() => {}); try { bkAviso(); } catch (e) {} try { rncAviso(); } catch (e) {} }, 4000); }   /* v2.18.0: aviso semanal de laudos esquecidos */
   if (isPrincipal(S.user)) S.unsub.push(Data.col('sv2_audit').watch(list => {
     S.audit = list;
     const a = curArea(), t = curTab(a); if (a.id === 'qualidade' && (t.id === 'atividade' || t.id === 'semana')) renderDados();
