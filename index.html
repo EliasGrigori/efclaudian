@@ -3012,7 +3012,7 @@ table.t td{vertical-align:middle}
 @media(min-width:760px){.md2 .tf-hd{flex-wrap:nowrap}.md2 .tf-hd>div:first-child{flex:1 1 0;min-width:0}.md2 .tf-hd .tf-sp{display:none}.md2 .tf-hd .tf-sub{white-space:normal}.md2 .tf-hd>*{flex-shrink:0}.md2 .tf-hd>div:first-child{flex-shrink:1}}
 @media(max-width:859px){
   .rl-g{grid-template-columns:minmax(0,1fr)}.rl-g>*{min-width:0}
-  .tbar[class*="tb-col_"] h2{flex:1 1 0;min-width:0;order:-3}.tbar[class*="tb-col_"] .tprint{order:1}.tbar[class*="tb-col_"] .tacoes{order:-2;flex:0 0 auto}.tbar[class*="tb-col_"] .tacoes .btn.sm{flex:0 0 auto;padding-left:10px;padding-right:10px;font-size:12px}.tbar[class*="tb-col_"] .tprint{margin-left:auto}.tbar[class*="tb-col_"]:has(.tacoes) h2{flex:1 1 100%}.tbar[class*="tb-col_"] .count{order:0;flex:0 1 auto;white-space:nowrap}.tbar[class*="tb-col_"].has-dica .count,.tbar[class*="tb-col_"].has-dica .tdica{display:none} /* v2.102.36: vale com ou sem registros */
+  .tbar[class*="tb-col_"] h2{flex:1 1 0;min-width:0;order:-3}.tbar[class*="tb-col_"] .tprint{order:1}.tbar[class*="tb-col_"] .tacoes{order:-2;flex:0 0 auto}.tbar[class*="tb-col_"] .tacoes .btn.sm{flex:0 0 auto;padding-left:10px;padding-right:10px;font-size:12px}.tbar[class*="tb-col_"] .tprint{margin-left:auto}.tbar[class*="tb-col_"]:has(.tacoes) h2{flex:1 1 100%}.tbar[class*="tb-col_"] .count{order:0;flex:0 1 auto;white-space:nowrap}.tbar[class*="tb-col_"]:has(.tacoes>:nth-child(2)) h2{flex:1 1 0}.tbar[class*="tb-col_"]:has(.tacoes>:nth-child(2)) .tprint{order:-2}.tbar[class*="tb-col_"] .tacoes:has(>:nth-child(2)){order:-1;flex:1 1 100%}.tbar[class*="tb-col_"]:has(.tacoes>:nth-child(2)) .count{flex:1 1 100%} /* v2.102.38: com 2 ou mais botões/avisos a linha deles quebra */.tbar[class*="tb-col_"].has-dica .count,.tbar[class*="tb-col_"].has-dica .tdica{display:none} /* v2.102.36: vale com ou sem registros */
   .rel-h.rel-h-ac{flex-wrap:wrap}.rel-h-t{flex:1 1 150px}.rel-h-ac .rlm-bar{flex-wrap:wrap}
 }
 @media(max-width:600px){.kpis.rt-kpis3 .kpi b{font-size:17px}.kpis.rt-kpis3 .kpi{padding:10px 4px}}
@@ -3029,7 +3029,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.37 · Celular: botão Atualizar e impressora na mesma linha, impressora rente à tabela, nas abas de material';
+const APP_VERSION = 'v2.102.38 · Só Principal e líder ★ decidem pedidos; responsável da NC na RNC; Equipe no 1º acesso; nomes de status iguais';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -3852,7 +3852,7 @@ const nomeDe = id => { const u = userById(id); return u ? u.nome : '(usuário re
 /* quem recebe os pedidos desta pessoa: os superiores cadastrados dela.
    Se ela ainda não tem superior, o pedido sobe para os Principais. */
 function supsOf(u) {
-  const ids = (u && Array.isArray(u.superiores) ? u.superiores : []).filter(id => { const x = userById(id); return x && !x.bloqueado; });
+  const ids = (u && Array.isArray(u.superiores) ? u.superiores : []).filter(id => { const x = userById(id); return x && !x.bloqueado && isSup(x); });
   if (ids.length) return ids;
   return S.users.filter(x => isPrincipal(x) && !x.bloqueado && x.id !== (u && u.id)).map(x => x.id);
 }
@@ -4035,7 +4035,7 @@ const Aprov = {
     Audit.log({ acao: 'pedir_autorizacao', entidade: 'aprovacao', entidadeId: id, resumo: 'Pediu autorização: ' + p.titulo + ' — para ' + para.map(nomeDe).join(', '), depois: { titulo: p.titulo, descricao: p.descricao || '', para: para.map(nomeDe).join(', ') } });
     return id;
   },
-  podeDecidir(a) { const u = S.user; return !!u && a.status === 'pendente' && ((a.paraIds || []).indexOf(u.id) >= 0 || isPrincipal(u)); },
+  podeDecidir(a) { const u = S.user; return !!u && a.status === 'pendente' && ((isSup(u) && (a.paraIds || []).indexOf(u.id) >= 0) || isPrincipal(u)); },
   destinadoAMim(a) { const u = S.user; return !!u && a.status === 'pendente' && (a.paraIds || []).indexOf(u.id) >= 0; },
   visivel(a) { const u = S.user; return !!u && (a.solicitanteId === u.id || (a.paraIds || []).indexOf(u.id) >= 0 || isPrincipal(u)); },
   minhas() { return S.aprov.filter(Aprov.visivel); },
@@ -4301,7 +4301,7 @@ function situacao(tipo, item) {
 }
 function stChip(st) {
   const c = st === 'VENCIDO' ? 'crit' : st === 'ATENÇÃO' ? 'warn' : st === 'OK' ? 'ok' : st === 'PENDENTE' ? 'info' : '';
-  return '<span class="chip ' + c + '">' + esc(st === 'ATENÇÃO' ? 'A VENCER' : st) + '</span>';
+  return '<span class="chip ' + c + '">' + esc(st === 'ATENÇÃO' ? 'A VENCER' : st === 'OK' ? 'EM DIA' : st === 'PENDENTE' ? 'SEM DATA' : st) + '</span>';
 }
 function comSituacao(tipo, lista) { return lista.map(x => Object.assign({}, x, { _s: situacao(tipo, x) })); }
 function contarStatus(rows) {
@@ -14910,7 +14910,7 @@ function ishiImprimir(rid, ncId) {
 }
 const planoDe = ncId => (S.rncPlano || []).find(x => x.ncId === ncId) || null;
 const rncPlanoAberto = r => !!r && ['retorno', 'pronta'].indexOf(rncSit(r)) >= 0;
-function planoResp(r, nc) { const p = planoDe(nc.id); return p && p.respId ? { id: p.respId, nome: p.respNome || nomeDe(p.respId) } : { id: nc.porId || r.porId || '', nome: nc.porNome || r.porNome || '' }; }
+function planoResp(r, nc) { const p = planoDe(nc.id); return p && p.respId ? { id: p.respId, nome: p.respNome || nomeDe(p.respId) } : nc.respId ? { id: nc.respId, nome: nc.respNome || nomeDe(nc.respId) } : { id: nc.porId || r.porId || '', nome: nc.porNome || r.porNome || '' }; }
 /* faixa de risco: a da GUT; sem GUT, pela gravidade (Maior = Alto, Média = Médio, Baixa = Baixo) */
 function planoFaixa(nc) { const g = gutDe(nc.id); return g ? g.faixa : nc.grav === 'maior' ? 'alto' : nc.grav === 'media' ? 'medio' : 'baixo'; }
 function planoPede(fx) { return fx === 'alto' ? ['causa', 'porques', 'ishi', 'outra'] : fx === 'medio' ? ['causa', 'porques'] : ['causa']; }
@@ -21531,7 +21531,7 @@ function openUserEdit(id) {
   const sel = x.perfil === 'secundario' && x.estrela ? 'secundario_e' : x.perfil;
   const opts = [['secundario', 'Secundário'], ['secundario_e', 'Secundário ★ (líder, aprova)'], ['visitante', 'Visitante (só visualiza)'], ['principal_temp', 'Principal temporário'], ['principal', 'Principal']]
     .map(o => '<option value="' + o[0] + '"' + (sel === o[0] ? ' selected' : '') + '>' + o[1] + '</option>').join('');
-  const outros = S.users.filter(u => u.id !== x.id).sort((a, b) => String(a.nome).localeCompare(String(b.nome), 'pt-BR'));
+  const outros = S.users.filter(u => u.id !== x.id && (isSup(u) || (x.superiores || []).indexOf(u.id) >= 0)).sort((a, b) => String(a.nome).localeCompare(String(b.nome), 'pt-BR'));
   const marc = (x.superiores || []);
   const lista = outros.length ? '<div class="fl-list">' + outros.map(u => '<label class="fl-item"><input type="checkbox" class="sup-ck" value="' + esc(u.id) + '"' + (marc.indexOf(u.id) >= 0 ? ' checked' : '') + '><span>' + esc(u.nome) + '</span><span class="n">' + esc(perfilLabel(u)) + '</span></label>').join('') + '</div>' : '<p style="color:var(--text-muted);font-size:13px">Ainda não há outras pessoas cadastradas.</p>';
   openSheet('<h3>Editar ' + esc(x.nome) + '</h3><div class="sub">A senha não muda aqui.</div><div id="ue-msg"></div>' +
@@ -21861,6 +21861,7 @@ function startSession() {
   if (S._semCache && !S._semCacheAvisado) { S._semCacheAvisado = true; setTimeout(() => toast(semCacheTxt(S._semCache), 'err'), 1500); }
   S.unsub.push(Data.col('sv2_users').watch(list => {
     S.users = list;
+    { const a0 = curArea(), t0 = curTab(a0); if (a0.id === 'qualidade' && t0.id === 'equipe' && !$('#ov')) renderDados(); } /* v2.102.38: a Equipe aberta direto no 1º acesso */
     const me = list.find(x => x.id === S.user.id); if (!me) return;
     if (me.bloqueado) { cleanupSession(); Data.auth.signOut(); return; }
     if (me.perfil !== S.user.perfil || !!me.estrela !== !!S.user.estrela || me.nome !== S.user.nome || !!me.contaTeste !== !!S.user.contaTeste || JSON.stringify(me.atrib || null) !== JSON.stringify(S.user.atrib || null)) { S.user = me; renderShell(); renderDados(); notifLigar(); } else S.user = me;
