@@ -1127,7 +1127,7 @@ button.rel-li:last-child{border-bottom:0}
 #print-root .rp-strip{display:flex;align-items:center;gap:3mm;background:#23281f;color:#fff;border-radius:2.5mm;padding:2mm 4mm;font-size:8.5pt;font-weight:700}
 #print-root .rp-nn{font-size:13pt;font-weight:900;color:#cfe3b8}#print-root .rp-sp{flex:1}
 #print-root .rp-half{flex:1;display:flex;flex-direction:column;border:.3mm solid #e1dac8;border-radius:3mm;margin-top:2.5mm;overflow:hidden;min-height:0}
-#print-root .rp-half.dep{border-color:#bcd3b0}
+#print-root .rp-half.dep{border-color:#bcd3b0}#print-root .rp-half.ab{flex:1.65} /* v2.102.40: abertura com a 1ª visita maior */
 #print-root .rp-ht{display:flex;align-items:center;gap:2.5mm;background:#f4efe1;padding:1.6mm 3mm;font-size:8.5pt;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#4d503f}
 #print-root .rp-half.dep .rp-ht{background:#e6efdc;color:#35591f}
 #print-root .rp-ht i{font-style:normal;width:5.5mm;height:5.5mm;border-radius:50%;background:#4a7a33;color:#fff;display:grid;place-items:center;font-size:8pt}
@@ -1135,7 +1135,7 @@ button.rel-li:last-child{border-bottom:0}
 #print-root .rp-hb{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 188mm;gap:4mm;padding:3mm;min-height:0}
 #print-root .rp-big{font-size:11.5pt;font-weight:800;line-height:1.3;margin-bottom:2.5mm}
 #print-root .rp-r{display:flex;align-items:center;justify-content:center;min-height:0}
-#print-root .rp-fg{display:grid;gap:2mm;justify-content:center}#print-root .rp-fg img{object-fit:contain;background:#f1eee6;border-radius:1.5mm;border:.2mm solid #ccc;display:block}
+#print-root .rp-fj{display:flex;flex-direction:column;align-items:center;gap:2mm}#print-root .rp-fjr{display:flex;gap:2mm;max-width:100%}#print-root .rp-fjr .rp-fig{min-width:0;height:100%}#print-root .rp-fjr img{width:100%;height:100%;object-fit:contain;display:block;border-radius:1.5mm;border:.2mm solid #ccc} /* v2.102.40 */#print-root .rp-fjr .rp-gira{overflow:hidden}#print-root .rp-fjr .rp-gira img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg)} /* v2.102.40: foto em pé girada para deitar na folha da NC */#print-root .ar-frow.ar-fj{display:flex;gap:4mm;max-width:100%;margin:0 auto 3mm}#print-root .ar-fj figure{min-width:0}#print-root .ar-fjim{display:flex}#print-root .ar-fjim img.rn-f{width:100%;height:100%;margin:0;object-fit:contain;display:block;border:.2mm solid #ccc;border-radius:1mm} /* v2.102.40: a foto inteira, sem o quadradinho de 21 mm */#print-root .rp-fg{display:grid;gap:2mm;justify-content:center}#print-root .rp-fg img{object-fit:contain;background:#f1eee6;border-radius:1.5mm;border:.2mm solid #ccc;display:block}
 #print-root .rp-sf{border:.4mm dashed #cfc7b2;border-radius:2mm;color:#888;font-size:8.5pt;padding:6mm;text-align:center;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
 #print-root .rp-res{display:inline-block;color:#fff;font-weight:900;font-size:10pt;padding:1.2mm 4mm;border-radius:3mm;margin-bottom:2.5mm}
 #print-root .rp-man .rp-cx{display:flex;gap:5mm;font-size:10pt;font-weight:700;margin-bottom:3mm}
@@ -1177,6 +1177,7 @@ button.rel-li:last-child{border-bottom:0}
 .foto-mk{position:absolute;left:3px;bottom:3px;display:inline-flex;align-items:center;gap:3px;height:22px;padding:0 7px;border-radius:var(--r-ctl);border:0;background:rgba(0,0,0,.66);color:#fff;font:700 11px/22px inherit;cursor:pointer}
 .foto-mk .ic-i{width:12px;height:12px}
 .alf-th,.rnc-th{position:relative}
+.rfg .rnc-th{padding:0;cursor:pointer}.rfg-p{position:absolute;left:4px;bottom:4px;background:rgba(0,0,0,.66);color:#fff;font-size:10.5px;font-weight:700;padding:1px 5px;border-radius:2px}.rfv{background:#111;border:1px solid var(--border);display:flex;justify-content:center;margin:6px 0}.rfv img{max-width:100%;max-height:62vh;object-fit:contain;display:block} /* v2.102.40: fotos da RNC */
 .eq-fi{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap}
 .eq-fi .eq-fth{position:relative;display:inline-block}.eq-fi .eq-fth img{width:56px;height:56px;object-fit:cover;border-radius:var(--r-ctl);display:block}
 .eq-fi .foto-mk{position:static}
@@ -3030,7 +3031,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.39 · Contagem legível; menu de imprimir no celular; bebedouro reativado; Sair com espaço cheio; coletas e RNC; N registros só com filtro';
+const APP_VERSION = 'v2.102.40 · Fotos: até 3 por fileira, mesma altura e inteiras; marcar a qualquer momento; baixar com ou sem marcas';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -3709,6 +3710,7 @@ const ICONS = {
   bell: '<path d="M6 16v-5a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
   gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
   funnel: '<path d="M3 5h18l-7 8.5V19l-4 2v-7.5z"/>',
+  baixar: '<path d="M12 3.5v11.5M7 10.5l5 5 5-5"/><path d="M4 17.5v3h16v-3"/>',
   print: '<path d="M7 9V3h10v6M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><rect x="7" y="14" width="10" height="7" rx="1"/>'
 };
 ICONS.camera = '<path d="M4 8h3l1.6-2.2h6.8L17 8h3v11H4z"/><circle cx="12" cy="13.2" r="3.6"/>';
@@ -10688,9 +10690,9 @@ async function apRelCorpo(itens, info) {
   });
   /* registro fotográfico: 3 por linha, cada linha um bloco (a folha quebra entre linhas) */
   if (fotos.length) {
-    for (let i = 0; i < fotos.length; i += 3) {
-      blocos.push((i === 0 ? '<div class="ri-sec ar-sec">Registro fotográfico</div>' : '') + '<div class="ar-frow">' + fotos.slice(i, i + 3).map(f => '<figure><div class="ar-fimg"><img class="rn-f" src="' + imgSrc(f.src) + '" alt=""></div><figcaption><b>Foto ' + esc(f.n) + ' · Item ' + esc(f.item) + '</b> · ' + esc(f.papel) + '<br>' + esc(f.leg) + '</figcaption></figure>').join('') + '</div>');
-    }
+    await fotoAsps(fotos.map(f => f.src)); /* v2.102.40: até 3 por fileira, mesma altura, a foto inteira */
+    const fs = fotoFileiras(fotos.map(f => fotoAsp(f.src)), 186, 4, 62); let k = 0;
+    fs.forEach((r, j) => blocos.push((j === 0 ? '<div class="ri-sec ar-sec">Registro fotográfico</div>' : '') + '<div class="ar-frow ar-fj" style="width:' + esc(r.w) + 'mm">' + r.asps.map(a => { const f = fotos[k++]; return '<figure style="flex:' + a.toFixed(4) + ' 1 0"><div class="ar-fjim" style="height:' + esc(r.h) + 'mm"><img class="rn-f" src="' + imgSrc(f.src) + '" alt=""></div><figcaption><b>Foto ' + esc(f.n) + ' · Item ' + esc(f.item) + '</b> · ' + esc(f.papel) + '<br>' + esc(f.leg) + '</figcaption></figure>'; }).join('') + '</div>'));
   }
   /* resultados */
   const tot = itens.length, np = itens.filter(a => a.status === 'nao_procede').length, res = itens.filter(a => a.status === 'resolvido').length;
@@ -13876,7 +13878,7 @@ const RNC_RES = { resolvida: ['Resolvida', 'ok'], parcial: ['Parcial', 'warn'], 
 const RNC_TIPOS = ['Global G.A.P.', 'Ecocert Orgânico'];
 const RNC_MAX_FOTOS = 8, RNC_AVISO_DIAS = 3;
 const RNC_PASSOS = [['abrir', 'Abrir'], ['registrar', 'Registrar'], ['enviar', 'Enviar RNC'], ['conferir', 'Conferir'], ['fechar', 'Fechar']];
-const RNC_CACHE = {};
+const RNC_CACHE = {}, RNC_DOC = {}; /* v2.102.40: RNC_DOC[id] = { base, marcas } (marcas null = foto de antes da v2.102.40) */
 /* ============ v2.102.12 — GUT 1 (prioridade das NCs) ============
    Uma linha por NC na coleção sv2_rnc_gut (id = id da NC): { rid, ncId, g, u, t, gut, faixa, porId, porNome, em, hist[] }.
    Opcional. Quem registra a NC dá a nota; o líder (★ ou Principal) ajusta a nota de outra pessoa com motivo (fica no hist).
@@ -13947,14 +13949,14 @@ const rncPrazoSit = r => { if (!r.prazo) return ''; const d = difDias(hojeISO(),
 /* ---------- fotos (evidência: não entram na regra dos 15 dias) ---------- */
 function rncFotoGet(fid) {
   if (RNC_CACHE[fid]) return Promise.resolve(RNC_CACHE[fid]);
-  return Data.col('sv2_rnc_foto').get(fid).then(d => { const u = (d && d.dataUrl) || ''; if (u) RNC_CACHE[fid] = u; return u; }).catch(() => '');
+  return Data.col('sv2_rnc_foto').get(fid).then(d => { const u = (d && d.dataUrl) || ''; if (u) { RNC_CACHE[fid] = u; RNC_DOC[fid] = { base: (d && d.base) || '', marcas: d && Array.isArray(d.marcas) ? d.marcas : null }; } return u; }).catch(() => '');
 }
 function rncFotosCarregar(root) { $$('img[data-rncfoto]', root || document).forEach(img => { const id = img.getAttribute('data-rncfoto'); img.removeAttribute('data-rncfoto'); rncFotoGet(id).then(u => { if (u) img.src = u; }); }); }
 const rncBag = () => S.rncNc || S.rncCf || null;
 function rncFotosHTML() {
   const b = rncBag(); if (!b) return '';
   const l = b.fotos || [], ant = !!S.rncNc;
-  return '<div class="rnc-fotos" id="rnc-fotos">' + l.map((f, i) => '<span class="rnc-th">' + (f.url ? '<img src="' + esc(f.url) + '" alt="">' : '<img data-rncfoto="' + esc(f.id) + '" alt="">') + '<button type="button" class="alf-x" data-action="rnc-foto-rm" data-id="' + i + '" aria-label="Tirar a foto">✕</button>' + (f.url ? fotoMkBtn('rnc:' + i, (f.marcas || []).length) : '') + '</span>').join('') +
+  return '<div class="rnc-fotos" id="rnc-fotos">' + l.map((f, i) => '<span class="rnc-th">' + (f.url ? '<img src="' + esc(f.url) + '" alt="">' : '<img data-rncfoto="' + esc(f.id) + '" alt="">') + '<button type="button" class="alf-x" data-action="rnc-foto-rm" data-id="' + i + '" aria-label="Tirar a foto">✕</button>' + fotoMkBtn('rnc:' + i, (f.marcas || (f.id && RNC_DOC[f.id] && RNC_DOC[f.id].marcas) || []).length) /* v2.102.40: marca também a foto já gravada */ + '</span>').join('') +
     (l.length < RNC_MAX_FOTOS ? '<label class="rnc-add">' + icoI('camera') + '<small>Câmera</small><input type="file" accept="image/*" capture="environment" class="rnc-f-in" multiple hidden></label><label class="rnc-add">' + icoI('image') + '<small>Galeria</small><input type="file" accept="image/*" class="rnc-f-in" multiple hidden></label>' : '') +
     '</div><div class="fm-dica" id="rnc-f-msg">' + l.length + ' de ' + RNC_MAX_FOTOS + ' fotos ' + (ant ? 'do antes' : 'do depois') + ' · ficam guardadas como evidência da auditoria' + fotoLgpdHTML() + '</div>';
 }
@@ -13979,8 +13981,78 @@ async function rncComprimir(file) {
 }
 function rncFotosGravar(b, rid, ncId, papel) {
   const ids = [], ps = [];
-  (b.fotos || []).forEach(f => { if (f.id) { ids.push(f.id); return; } const id = uid(); RNC_CACHE[id] = f.url; ids.push(id); ps.push(Data.col('sv2_rnc_foto').set(id, { rncId: rid, ncId: ncId, papel: papel, dataUrl: f.url, criadoEm: nowISO(), porId: S.user.id })); });
+  (b.fotos || []).forEach(f => { if (f.id) { ids.push(f.id); return; } const id = uid(); RNC_CACHE[id] = f.url; ids.push(id);
+    /* v2.102.40: com marcas, guarda também a original (base) e as marcas, para marcar de novo e baixar sem marcas */
+    const o = { rncId: rid, ncId: ncId, papel: papel, dataUrl: f.url, criadoEm: nowISO(), porId: S.user.id, marcas: f.base && f.base !== f.url ? (f.marcas || []) : [] };
+    if (f.base && f.base !== f.url) o.base = f.base; if (f.origem) o.origem = f.origem;
+    RNC_DOC[id] = { base: o.base || '', marcas: o.marcas };
+    ps.push(Data.col('sv2_rnc_foto').set(id, o)); });
   return { ids: ids, ps: ps };
+}
+/* ---------- v2.102.40 (Nº 42 e pedido de 22/10): fotos da RNC ----------
+   Ver grande, marcar a qualquer momento (até a RNC fechar), baixar com ou sem as marcas e baixar todas.
+   Marcar uma foto gravada cria um registro novo (com a original e as marcas) e troca na NC; a anterior fica guardada. */
+function rncFotoDoc(fid) {
+  if (RNC_DOC[fid] && RNC_CACHE[fid]) return Promise.resolve(Object.assign({ url: RNC_CACHE[fid] }, RNC_DOC[fid]));
+  delete RNC_CACHE[fid]; return rncFotoGet(fid).then(u => u ? Object.assign({ url: u }, RNC_DOC[fid] || {}) : null);
+}
+const rncFotoPodeMarcar = r => rncPode(r) && ['fechada', 'cancelada'].indexOf(rncSit(r)) < 0;
+function rncFotoLista(r) {
+  const out = []; rncOrdem(r).forEach(n => { const a = n.fotosAntes || [], d = (n.ret && n.ret.fotosDepois) || [];
+    a.forEach((f, i) => out.push({ r: r, n: n, papel: 'antes', i: i, k: i + 1, id: f })); d.forEach((f, i) => out.push({ r: r, n: n, papel: 'depois', i: i, k: a.length + i + 1, id: f })); });
+  return out;
+}
+function rncFvRef(ref) { const p = String(ref || '').split('|'), r = rncDe(p[0]); if (!r) return null; return rncFotoLista(r).find(x => x.n.id === p[1] && x.papel === p[2] && x.i === Number(p[3])) || null; }
+const rncFvId = x => x.r.id + '|' + x.n.id + '|' + esc(x.papel) + '|' + x.i;
+function rncFotoNome(x, sem) { return (x.r.numero + '_' + rncNum(x.n.n) + '_foto' + esc(x.k) + '_' + x.papel + (sem ? '_sem-marcas' : '')).replace(/[^A-Za-z0-9_-]+/g, '-') + '.jpg'; }
+function openRncFotos(rid) {
+  const r = rncDe(rid); if (!r) return; const l = rncFotoLista(r); let nc = '', h = '';
+  l.forEach(x => { if (x.n.id !== nc) { if (nc) h += '</div>'; nc = x.n.id; h += '<div class="rnc-sec">' + rncNum(x.n.n) + ' · ' + esc(x.n.local) + '</div><div class="rnc-fotos rfg">'; }
+    h += '<button type="button" class="rnc-th" data-action="rnc-fv" data-id="' + esc(rncFvId(x)) + '" aria-label="Foto ' + esc(x.k) + ' · ' + rncNum(x.n.n) + '"><img data-rncfoto="' + esc(x.id) + '" alt=""><small class="rfg-p">' + esc(x.k) + ' · ' + esc(x.papel) + '</small></button>'; });
+  if (nc) h += '</div>';
+  openSheet('<h3>Fotos · ' + esc(r.numero) + '</h3><div class="sub">' + esc(l.length) + ' foto(s). Toque numa foto para ver grande' + (rncFotoPodeMarcar(r) ? ', marcar' : '') + ' ou baixar. Na impressão, as fotos saem sempre com as marcas.</div>' + (h || '<p class="fm-dica">Nenhuma foto.</p>') +
+    '<div class="row-actions">' + (l.length ? rncBxBtn('<button type="button" class="btn sm" data-action="rnc-fx-todas" data-id="' + esc(rid) + '" data-m="com">Todas, com as marcas</button><button type="button" class="btn sm" data-action="rnc-fx-todas" data-id="' + esc(rid) + '" data-m="sem">Todas, sem marcas (as originais)</button>', 'Baixar todas as fotos') : '') + '<button class="btn" data-action="rnc-open" data-id="' + esc(rid) + '">Voltar à RNC</button></div>', { noFocus: true });
+  rncFotosCarregar($('.sheet'));
+}
+function openRncFotoVer(ref) {
+  const x = rncFvRef(ref); if (!x) return; const pode = rncFotoPodeMarcar(x.r);
+  openSheet('<h3>Foto ' + esc(x.k) + ' · ' + rncNum(x.n.n) + ' · ' + esc(x.papel) + '</h3><div class="sub">' + esc(x.n.local) + ' · ' + esc(x.n.nc) + '</div><div class="rfv"><img data-rncfoto="' + esc(x.id) + '" alt="Foto ' + esc(x.k) + '"></div><div class="fm-dica" id="rfv-info">Carregando…</div>' +
+    '<div class="row-actions">' + (pode ? '<button class="btn primary" data-action="rnc-fv-ed" data-id="' + esc(ref) + '">' + icoI('lapis') + 'Marcar</button>' : '') + rncBxBtn('<button type="button" class="btn sm" data-action="rnc-fv-bx" data-id="' + esc(ref) + '" data-m="com">Com as marcas (como sai na impressão)</button><button type="button" class="btn sm" id="rfv-sem" data-action="rnc-fv-bx" data-id="' + esc(ref) + '" data-m="sem" hidden>Sem marcas (a original)</button>', 'Baixar a foto') + '<button class="btn" data-action="rnc-fotos" data-id="' + esc(x.r.id) + '">Voltar às fotos</button></div>', { noFocus: true });
+  rncFotosCarregar($('.sheet'));
+  rncFotoDoc(x.id).then(d => { const i = $('#rfv-info'), s = $('#rfv-sem'); if (!i) return;
+    if (!d) { i.textContent = 'A foto não carregou.'; return; }
+    if (d.base) { i.textContent = (d.marcas || []).length + ' marca(s). No símbolo de baixar: com as marcas (como sai na impressão) ou sem marcas (a original).'; if (s) s.hidden = false; }
+    else i.textContent = Array.isArray(d.marcas) ? 'Sem marcas.' + (pode ? ' Toque em Marcar para circular, apontar ou escrever.' : '') : 'Foto gravada antes da v2.102.40: guardada como está (com as marcas, se tinha). Não há a original sem marcas.';
+  });
+}
+async function rncFotoEditar(ref) {
+  const x = rncFvRef(ref); if (!x || !rncFotoPodeMarcar(x.r)) return;
+  const d = await rncFotoDoc(x.id); if (!d || !d.url) { toast('A foto ainda não carregou. Tente de novo.', 'err'); return; }
+  const res = await fotoMarcar(d.base || d.url, d.marcas || [], { maxBytes: 300000 });
+  if (!res || JSON.stringify(res.shapes) === JSON.stringify(d.marcas || [])) { openRncFotoVer(ref); return; }
+  try {
+    const r = rncDe(x.r.id), n = r && (r.ncs || []).find(y => y.id === x.n.id); if (!n) return;
+    const g = rncFotosGravar({ fotos: [{ url: res.img, base: res.base, marcas: res.shapes, origem: x.id }] }, r.id, n.id, x.papel), novo = g.ids[0];
+    const ncs = r.ncs.map(y => { if (y.id !== n.id) return y; const z = Object.assign({}, y);
+      if (x.papel === 'antes') z.fotosAntes = (y.fotosAntes || []).map(f => f === x.id ? novo : f);
+      else z.ret = Object.assign({}, y.ret, { fotosDepois: ((y.ret && y.ret.fotosDepois) || []).map(f => f === x.id ? novo : f) });
+      return z; });
+    await Promise.all(g.ps); await Data.col('sv2_rnc').update(r.id, { ncs: ncs, atualizadoEm: nowISO() });
+    Audit.log({ acao: 'rnc_foto_marcas', entidade: 'rnc', entidadeId: r.id, resumo: r.numero + ' · ' + rncNum(n.n) + ': marcou a foto ' + esc(x.k) + ' (' + esc(x.papel) + '), ' + res.shapes.length + ' marca(s). A foto anterior fica guardada.' });
+    toast('Marcas guardadas.', 'ok'); setTimeout(() => openRncFotoVer(ref), 250);
+  } catch (e) { toast(errMsg(e), 'err'); }
+}
+/* v2.102.40: baixar = só o símbolo; ao tocar abre a janelinha com as opções (mesmo jeito do botão de imprimir) */
+function rncBxBtn(ops, titulo) { return '<span class="imp-w imp-up"><button type="button" class="btn imp-bt" data-action="imp-pop" title="' + esc(titulo) + '" aria-label="' + esc(titulo) + '" aria-expanded="false">' + ico('baixar') + '</button><span class="imp-pop" hidden>' + ops + '</span></span>'; }
+function rncBaixarUrl(url, nome) { const a = document.createElement('a'); a.href = url; a.download = nome; a.style.display = 'none'; document.body.appendChild(a); a.click(); setTimeout(() => a.remove(), 0); }
+async function rncFotoBaixar(ref, m) {
+  const x = rncFvRef(ref); if (!x) return false; const d = await rncFotoDoc(x.id); if (!d || !d.url) { toast('A foto não carregou.', 'err'); return false; }
+  const sem = m === 'sem' && !!d.base; rncBaixarUrl(sem ? d.base : d.url, rncFotoNome(x, sem)); return true;
+}
+async function rncFotosBaixarTodas(rid, m) {
+  const r = rncDe(rid); if (!r) return; const l = rncFotoLista(r); if (!l.length) return;
+  toast('Baixando ' + l.length + ' foto(s)… Se o navegador perguntar, permita baixar vários arquivos.');
+  for (const x of l) { await rncFotoBaixar(rncFvId(x), m); await new Promise(z => setTimeout(z, 350)); }
 }
 /* ---------- tela ---------- */
 function rncPassoAtual(r) { const s = rncSit(r); return s === 'registro' ? 2 : s === 'retorno' ? 4 : s === 'pronta' ? 5 : s === 'fechada' ? 6 : 0; }
@@ -14024,7 +14096,7 @@ function openRnc(id) {
     '<div class="rnc-agora"><b>' + agora[0] + '</b><span>' + esc(agora[1]) + '</span>' + (acao ? '<div class="rnc-agora-b">' + acao + '</div>' : '') + '</div>' +
     keyval([['Prazo para todas', fmtD(r.prazo) + (s === 'retorno' || s === 'registro' ? ' · ' + rncPrazoSit(r) : '') + ((r.prazoHist || []).length ? ' (prorrogado ' + r.prazoHist.length + 'x)' : '')]].concat(r.preparacao ? [['Preparação para', r.preparacao]] : [])) +
     nrmRncBloco(r) + '<div class="dt-sec">Não conformidades <small>' + seq.length + ' · ' + (risco ? 'por risco (GUT), só para ver' : 'na ordem do relatório (Campo → Estrutura)') + '</small>' + (temGut ? '<button class="btn sm rnc-risco" data-action="rnc-risco" data-id="' + esc(r.id) + '">' + (risco ? 'Ordem do relatório' : 'Ver por risco') + '</button>' : '') + '</div>' + (lista || '<p class="fm-dica">Nenhuma ainda.</p>') +
-    '<div class="row-actions eq-acoes">' + (seq.length ? impBtn([{ a: 'rnc-print', id: r.id, m: 'abertura', t: 'RNC de abertura' }, { a: 'rnc-print', id: r.id, m: 'resumo', t: 'Abertura resumida (em pé)' }].concat(seq.some(n => n.ret) ? [{ a: 'rnc-print', id: r.id, m: 'fechamento', t: 'RNC de fechamento (em pé)' }] : []), { up: true, titulo: 'Imprimir a RNC' }) : '') +
+    '<div class="row-actions eq-acoes">' + (rncFotoLista(r).length ? b('rnc-fotos', icoI('image') + 'Fotos (' + rncFotoLista(r).length + ')') : '') + (seq.length ? impBtn([{ a: 'rnc-print', id: r.id, m: 'abertura', t: 'RNC de abertura' }, { a: 'rnc-print', id: r.id, m: 'resumo', t: 'Abertura resumida (em pé)' }].concat(seq.some(n => n.ret) ? [{ a: 'rnc-print', id: r.id, m: 'fechamento', t: 'RNC de fechamento (em pé)' }] : []), { up: true, titulo: 'Imprimir a RNC' }) : '') +
       (isSup(S.user) && (s === 'retorno' || s === 'registro') ? b('rnc-prorrogar', 'Prorrogar prazo') : '') + (isSup(S.user) && s !== 'fechada' && s !== 'cancelada' ? b('rnc-cancelar', 'Cancelar') : '') + '<button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
 }
 /* ---------- 1 · abrir ---------- */
@@ -15352,17 +15424,31 @@ function rncMeuDia(u, add) {
 /* ---------- relatório RNC (A4 deitado) ---------- */
 /* maior quadrado que cabe: n fotos numa área W×H (mm), em 1 ou 2 linhas */
 /* células 4:3 (foto de celular deitada inteira; em pé fica com faixa clara dos lados, nunca cortada) */
-function rncGrade(n, W, H, gap) {
-  let best = { c: 1, r: 1, s: 0 };
-  for (let r = 1; r <= 2; r++) { const c = Math.ceil(n / r); const s = Math.min((W - (c - 1) * gap) / c, ((H - (r - 1) * gap) / r) / 0.75); if (s > best.s) best = { c: c, r: r, s: Math.floor(s * 10) / 10 }; }
-  best.h = Math.floor(best.s * 0.75 * 10) / 10;
-  return best;
+/* v2.102.40: proporção de cada foto (largura ÷ altura) e fileiras de até 3, todas da mesma altura (pedido do Elias, 22/10) */
+const FOTO_ASP = new Map();
+function fotoAsps(srcs) {
+  const ps = (srcs || []).filter(s => s && !FOTO_ASP.has(s)).map(s => { const im = new Image(); if (typeof im.decode !== 'function') return Promise.resolve(); im.src = s; /* sem decode (testes): proporção padrão 4:3 */
+    return im.decode().then(() => { if (im.naturalWidth && im.naturalHeight) FOTO_ASP.set(s, im.naturalWidth / im.naturalHeight); }).catch(() => {}); });
+  return Promise.race([Promise.all(ps), new Promise(r => setTimeout(r, 2500))]);
+}
+const fotoAsp = s => ((FOTO_ASP.get(s) || 4 / 3) >= 1 ? 4 / 3 : 3 / 4); /* v2.102.40: formato 3x4 (em pé 3:4, deitada 4:3), pedido do Elias */
+/* asps = proporções; W = largura (mm); hCap = altura máxima da foto; Hmax = altura total disponível (opcional).
+   Todas as fileiras ficam com a mesma altura h; cada fileira tem a largura certa para as fotos dela. */
+function fotoFileiras(asps, W, gap, hCap, Hmax) {
+  const rows = []; for (let i = 0; i < asps.length; i += 3) rows.push(asps.slice(i, i + 3)); if (!rows.length) return [];
+  const soma = r => r.reduce((a, x) => a + x, 0);
+  let h = Math.min.apply(null, [hCap].concat(rows.map(r => (W - gap * (r.length - 1)) / soma(r))));
+  if (Hmax) h = Math.min(h, (Hmax - gap * (rows.length - 1)) / rows.length);
+  h = Math.max(5, Math.floor(h * 10) / 10);
+  return rows.map(r => ({ h: h, w: Math.floor((soma(r) * h + gap * (r.length - 1)) * 10) / 10, asps: r }));
 }
 function rncFotosPrint(ids, W, H, cap) {
   const l = (ids || []).filter(f => RNC_CACHE[f]); if (!l.length) return '';
-  const g = rncGrade(l.length, W, H, 2);
-  /* v2.58.0: cap(i) = legenda da foto ("Foto N · NC 03 · antes") */
-  return '<div class="rp-fg" style="grid-template-columns:repeat(' + g.c + ',' + g.s + 'mm)">' + l.map((f, i) => { const im = '<img src="' + esc(RNC_CACHE[f]) + '" alt="" style="width:' + g.s + 'mm;height:' + g.h + 'mm">'; return cap ? '<figure class="rp-fig">' + im + '<figcaption class="rp-cap">' + esc(cap(i)) + '</figcaption></figure>' : im; }).join('') + '</div>';
+  const fs = fotoFileiras(l.map(() => 4 / 3), W, 2, H, H); let k = 0;
+  /* v2.58.0: cap(i) = legenda da foto ("Foto N · NC 03 · antes"). v2.102.40: até 3 por fileira, todas deitadas (4:3) e da mesma altura;
+     a foto em pé é girada para deitar (pedido do Elias, 22/10 15:38). A legenda continua na horizontal. */
+  return '<div class="rp-fg rp-fj">' + fs.map(r => '<div class="rp-fjr" style="width:' + esc(r.w) + 'mm;height:' + esc(r.h) + 'mm">' + r.asps.map(a => { const i = k++, src = RNC_CACHE[l[i]], gira = (FOTO_ASP.get(src) || 4 / 3) < 1, bw = Math.round(a * r.h * 10) / 10;
+    return '<figure class="rp-fig' + (gira ? ' rp-gira' : '') + '" style="flex:' + a.toFixed(4) + ' 1 0"><img src="' + esc(src) + '" alt=""' + (gira ? ' style="width:' + esc(r.h) + 'mm;height:' + esc(bw) + 'mm"' : '') + '>' + (cap ? '<figcaption class="rp-cap">' + esc(bw < 34 ? String(cap(i)).split(' · ')[0] : cap(i)) + '</figcaption>' : '') + '</figure>'; }).join('') + '</div>').join('') + '</div>';
 }
 function rncRosca(fatias, centro, sub) {
   const tot = fatias.reduce((a, f) => a + f.v, 0), r = 15.9, c = 2 * Math.PI * r; let off = 0;
@@ -15414,7 +15500,7 @@ async function rncImprimirPe(id, modo) {
   const fech = modo === 'fechamento', ls = rncOrdem(r); if (!ls.length) { toast('Nenhuma NC registrada.', 'err'); return; }
   const ids = []; ls.forEach(n => (n.fotosAntes || []).concat(fech && n.ret ? n.ret.fotosDepois || [] : []).forEach(f => ids.push(f)));
   if (ids.length) toast('Preparando as fotos…');
-  await Promise.all(ids.map(rncFotoGet));
+  await Promise.all(ids.map(rncFotoGet)); await fotoAsps(ids.map(f => RNC_CACHE[f])); /* v2.102.40 */
   const G = { maior: '#b3443c', media: '#b0781f', baixa: '#2f7486' }, R = { resolvida: '#3f7d3a', parcial: '#b0781f', nao: '#b3443c' };
   const campo = (rot, t) => t ? '<p><b>' + esc(rot) + ':</b> ' + esc(t) + '</p>' : '';
   const blocos = [], fotos = []; let nf = 0, area = null;
@@ -15434,9 +15520,8 @@ async function rncImprimirPe(id, modo) {
           (n.ret ? campo('Retorno', n.ret.texto + ' · conferido por ' + (n.ret.porNome || '') + ' em ' + fmtD(n.ret.data) + (n.ret.lib ? ' · liberada como Resolvida por ' + (n.ret.lib.porNome || '') + ': ' + n.ret.lib.motivo : '')) : '<p><b>Retorno:</b> ainda não conferida.</p>') : '') +
         '<p><b>Prazo:</b> ' + esc(fmtD(r.prazo)) + ' · <b>Evidência fotográfica:</b> ' + esc(ev) + '</p></div></div>');
   });
-  for (let i = 0; i < fotos.length; i += 3) {
-    blocos.push((i === 0 ? '<div class="ri-sec ar-sec">Registro fotográfico</div>' : '') + '<div class="ar-frow">' + fotos.slice(i, i + 3).map(f => '<figure><div class="ar-fimg"><img class="rn-f" src="' + imgSrc(f.src) + '" alt=""></div><figcaption><b>Foto ' + esc(f.n) + ' · ' + esc(f.nc) + '</b> · ' + esc(f.papel) + '<br>' + esc(f.leg) + '</figcaption></figure>').join('') + '</div>');
-  }
+  { const fs = fotoFileiras(fotos.map(f => fotoAsp(f.src)), 186, 4, 62); let k = 0; /* v2.102.40: até 3 por fileira, mesma altura, a foto inteira */
+    fs.forEach((r, j) => blocos.push((j === 0 ? '<div class="ri-sec ar-sec">Registro fotográfico</div>' : '') + '<div class="ar-frow ar-fj" style="width:' + esc(r.w) + 'mm">' + r.asps.map(a => { const f = fotos[k++]; return '<figure style="flex:' + a.toFixed(4) + ' 1 0"><div class="ar-fjim" style="height:' + esc(r.h) + 'mm"><img class="rn-f" src="' + imgSrc(f.src) + '" alt=""></div><figcaption><b>Foto ' + esc(f.n) + ' · ' + esc(f.nc) + '</b> · ' + esc(f.papel) + '<br>' + esc(f.leg) + '</figcaption></figure>'; }).join('') + '</div>')); }
   const cr = k => ls.filter(n => n.ret && n.ret.res === k).length, cg = k => ls.filter(n => n.grav === k).length, sem = ls.filter(n => !n.ret).length;
   const pct = Math.round(cr('resolvida') / ls.length * 1000) / 10;
   const caixa = (t, v) => '<div><span>' + esc(t) + '</span><b>' + esc(v) + '</b></div>';
@@ -15464,7 +15549,7 @@ async function rncImprimir(id, modo) {
   const fech = modo === 'fechamento', ls = rncOrdem(r); if (!ls.length) { toast('Nenhuma NC registrada.', 'err'); return; }
   const ids = []; ls.forEach(n => (n.fotosAntes || []).concat(fech && n.ret ? n.ret.fotosDepois || [] : []).forEach(f => ids.push(f)));
   if (ids.length) toast('Preparando as fotos…');
-  await Promise.all(ids.map(rncFotoGet));
+  await Promise.all(ids.map(rncFotoGet)); await fotoAsps(ids.map(f => RNC_CACHE[f])); /* v2.102.40 */
   const G = { maior: '#b3443c', media: '#b0781f', baixa: '#2f7486' }, R = { resolvida: '#3f7d3a', parcial: '#b0781f', nao: '#b3443c' };
   const cnt = k => ls.filter(n => n.grav === k).length, cr = k => ls.filter(n => n.ret && n.ret.res === k).length, sem = ls.filter(n => !n.ret).length;
   let totP = 2 + ls.length, nIdx = 1, nPl = 1; const cab = '<span class="rp-logo">MP</span>'; /* v2.58.0: + a folha do Plano de ação. v2.102.12: índice e plano podem ter folhas de continuação */
@@ -15499,12 +15584,12 @@ async function rncImprimir(id, modo) {
   const folha = n => { const g = RNC_GRAV[n.grav], ri = rncReinc(r, n), rt = n.ret ? RNC_RES[n.ret.res] : null;
     const campos = [['Lei / requisito', n.lei || '—'], ['Responsável', n.respNome + (n.ciente ? ' · estava ciente' : ' · não estava ciente')], ['Prazo', fmtD(r.prazo)]].concat(n.obs ? [['Observação', n.obs]] : []).concat(n.sug ? [['Sugestão', n.sug]] : []).concat(ri ? [['Reincidência', 'mesmo local e requisito na ' + ri.rnc + ' (' + rncNum(ri.n) + ')']] : []);
     const nA = (n.fotosAntes || []).filter(f => RNC_CACHE[f]).length;
-    const fa = rncFotosPrint(n.fotosAntes, W, HF, i => 'Foto ' + (i + 1) + ' · ' + rncNum(n.n) + ' · antes'), fd = fech && n.ret ? rncFotosPrint(n.ret.fotosDepois, W, HF, i => 'Foto ' + (nA + i + 1) + ' · ' + rncNum(n.n) + ' · depois') : '';
+    const fa = rncFotosPrint(n.fotosAntes, W, fech ? HF : 92, i => 'Foto ' + (i + 1) + ' · ' + rncNum(n.n) + ' · antes'), fd = fech && n.ret ? rncFotosPrint(n.ret.fotosDepois, W, HF, i => 'Foto ' + (nA + i + 1) + ' · ' + rncNum(n.n) + ' · depois') : '';
     const baixo = fech && n.ret ? '<div class="rp-l"><div class="rp-res" style="background:' + R[n.ret.res] + '">' + rt[0] + '</div><div class="rp-big">' + esc(n.ret.texto) + '</div><div class="rp-kv"><span>Conferido por</span><b>' + esc(n.ret.porNome) + '</b><span>Em</span><b>' + fmtD(n.ret.data) + '</b>' + (n.ret.lib ? '<span>Liberada por</span><b>' + esc(n.ret.lib.porNome || '') + ': ' + esc(n.ret.lib.motivo) + '</b>' : '') + '</div></div><div class="rp-r">' + (fd || '<div class="rp-sf">Sem foto do depois</div>') + '</div>'
       : fech ? '<div class="rp-l"><div class="rp-res" style="background:#bdb6a3">Sem retorno</div><div class="rp-big">Ainda não conferida.</div></div><div class="rp-r"></div>'
       : '<div class="rp-l rp-man"><div class="rp-cx"><span>☐ Resolvida</span><span>☐ Parcial</span><span>☐ Não resolvida</span></div><div class="rp-lin">O que foi feito:</div><div class="rp-lin"></div><div class="rp-lin"></div><div class="rp-lin">Data do retorno:</div><div class="rp-lin">Assinatura do responsável:</div></div><div class="rp-r"><div class="rp-sf">As fotos do depois são tiradas pelo auditor no app, na conferência.</div></div>';
     return '<section class="rp-pg rp-nc"><div class="rp-strip"><span class="rp-nn">' + rncNum(n.n) + '</span><span>' + esc(rncAreaNome(n.area).toUpperCase()) + ' › ' + esc(n.local) + '</span><span class="rp-g" style="background:' + G[n.grav] + '">' + g[0] + '</span>' + gutPrint(gutDe(n.id)) + (rt ? '<span class="rp-g" style="background:' + R[n.ret.res] + '">' + rt[0] + '</span>' : '') + '<span class="rp-sp"></span><span>' + esc(r.numero) + ' · ' + esc(dci.codigo) + ' · Rev. ' + esc(dci.revisao) + ' · folha ' + pgOf[n.id] + ' de ' + totP + '</span></div>' +
-      '<div class="rp-half"><div class="rp-ht"><i>1</i>1ª visita · apontamento · ' + fmtD(r.data) + '<span>' + (n.fotosAntes || []).length + ' foto(s) do antes</span></div><div class="rp-hb"><div class="rp-l"><div class="rp-big">' + esc(n.nc) + '</div><div class="rp-kv">' + campos.map(x => '<span>' + esc(x[0]) + '</span><b>' + esc(x[1]) + '</b>').join('') + '</div></div><div class="rp-r">' + (fa || '<div class="rp-sf">Sem foto</div>') + '</div></div></div>' +
+      '<div class="rp-half' + (fech ? '' : ' ab') + '"><div class="rp-ht"><i>1</i>1ª visita · apontamento · ' + fmtD(r.data) + '<span>' + (n.fotosAntes || []).length + ' foto(s) do antes</span></div><div class="rp-hb"><div class="rp-l"><div class="rp-big">' + esc(n.nc) + '</div><div class="rp-kv">' + campos.map(x => '<span>' + esc(x[0]) + '</span><b>' + esc(x[1]) + '</b>').join('') + '</div></div><div class="rp-r">' + (fa || '<div class="rp-sf">Sem foto</div>') + '</div></div></div>' +
       '<div class="rp-half dep"><div class="rp-ht"><i>2</i>2ª visita · retorno' + (n.ret ? ' · ' + fmtD(n.ret.data) : ' · preencher até ' + fmtD(r.prazo)) + '<span>' + (fech && n.ret ? (n.ret.fotosDepois || []).length + ' foto(s) do depois' : '') + '</span></div><div class="rp-hb">' + baixo + '</div></div>' +
       '<div class="rp-ft"><span>' + impresso + '</span><span>Auditor: ' + esc(r.auditorNome) + '</span></div></section>'; };
   Audit.log({ acao: 'imprimir', entidade: 'rnc', entidadeId: id, resumo: 'RNC de ' + (fech ? 'fechamento' : 'abertura') + ' ' + r.numero + ' (' + ls.length + ' NCs, ' + totP + ' folhas)' });
@@ -15548,6 +15633,11 @@ function rncAcao(act, id, t) {
     case 'rnc-par-por': prF().por = id; openRncPareto(); return true;
     case 'rnc-par-print': paretoImprimir(); return true;
     case 'rnc-open': openRnc(id); return true;
+    case 'rnc-fotos': openRncFotos(id); return true; /* v2.102.40 */
+    case 'rnc-fv': openRncFotoVer(id); return true;
+    case 'rnc-fv-ed': rncFotoEditar(id); return true;
+    case 'rnc-fv-bx': rncFotoBaixar(id, t.getAttribute('data-m')); return true;
+    case 'rnc-fx-todas': rncFotosBaixarTodas(id, t.getAttribute('data-m')); return true;
     case 'rnc-nc': openRncNc(id, 0); return true;
     case 'rnc-item': { const r = rncDe(id); if (!r) return true; const s = rncSit(r); if (s === 'registro' && rncPode(r)) openRncNc(id, n); else if ((s === 'retorno' || s === 'pronta') && rncPode(r)) openRncConf(id, n); else if (s === 'retorno' || s === 'pronta' || s === 'fechada') { const x = rncNcs(r).find(y => y.n === Number(n)); if (x) openRncPlano(id, x.id); } else toast('Veja a folha dela na RNC impressa.'); return true; } /* v2.102.13: quem não confere abre a análise */
     case 'rnc-plano': openRncPlano(id, t.getAttribute('data-nc')); return true;
@@ -15873,7 +15963,13 @@ function fotoMarcarAcao(id) {
     return;
   }
   if (p[0] === 'rnc') {
-    const b = rncBag(); if (!b) return; const f = (b.fotos || [])[Number(p[1])]; if (!f || !f.url) return;
+    const b = rncBag(); if (!b) return; const f = (b.fotos || [])[Number(p[1])]; if (!f) return;
+    if (!f.url && f.id) { /* v2.102.40: foto já gravada: marca a partir da original; ao salvar a NC vira um registro novo */
+      rncFotoDoc(f.id).then(d => { if (!d || !d.url) return toast('A foto ainda não carregou. Tente de novo.', 'err');
+        return fotoMarcar(d.base || d.url, d.marcas || [], { maxBytes: 300000 }).then(r => { if (!r || JSON.stringify(r.shapes) === JSON.stringify(d.marcas || [])) return; const j = b.fotos.indexOf(f); if (j < 0) return; b.fotos[j] = { url: r.img, base: r.base, marcas: r.shapes, origem: f.id }; rncFotosAtualiza(); }); });
+      return;
+    }
+    if (!f.url) return;
     fotoMarcar(f.base || f.url, f.marcas || [], { maxBytes: 300000 }).then(r => { if (!r) return; f.base = r.base; f.marcas = r.shapes; f.url = r.img; rncFotosAtualiza(); });
     return;
   }
