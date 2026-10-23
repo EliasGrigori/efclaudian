@@ -1571,6 +1571,18 @@ svg.ic-i{width:1.1em;height:1.1em;vertical-align:-.18em;flex:none}
 .ap-aviso{font-size:13px;color:var(--text-muted);padding:6px 0 0}
 .rnc-li .ap-mk{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;margin-left:6px;font-size:11px;font-weight:900;background:var(--warn);color:var(--surface);border-radius:3px;vertical-align:2px}
 .rnc-li .ap-ini{font-size:11px;font-weight:800;color:var(--ok)}
+/* v2.102.44: corresponsáveis e filtro por pessoa */
+.cr-box{margin-top:10px}.cr-l{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.cr-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 6px 4px 10px;border:1px solid var(--border);border-radius:var(--r-chip);font-size:13px;background:var(--surface)}
+.cr-chip button{border:0;background:transparent;color:var(--text-muted);font-size:16px;line-height:1;cursor:pointer;padding:0 4px}.cr-chip button:hover{color:var(--crit)}
+.cr-in{display:flex;gap:6px}.cr-in .input{flex:1;min-width:0}
+.nc-pes{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 10px}.nc-pes label{font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--text-muted)}.nc-pes select{max-width:280px;flex:1;min-width:160px}
+.nc-papel{font-size:11px;font-weight:800;padding:1px 6px;border:1px solid var(--border);border-radius:var(--r-chip);margin-left:4px}.nc-papel.co{color:var(--info);border-color:var(--info)}
+.ncf{margin:0 0 12px}.ncf-bar{display:flex;gap:8px;align-items:stretch}.ncf-tg{flex:1;min-width:0;justify-content:flex-start;gap:10px;text-align:left}.ncf-tg b{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ncf-k{font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted)}.ncf-q{font-size:12.5px;color:var(--text-muted);white-space:nowrap}.ncf-s{color:var(--text-muted)}.ncf-pr{flex:none;min-width:44px;justify-content:center}
+      .ncf-pn{border:1px solid var(--border);border-top:0;border-radius:0 0 var(--r-ctl) var(--r-ctl);padding:10px 12px;display:grid;gap:10px;background:var(--surface);margin-top:-2px}.ncf-g{display:grid;grid-template-columns:90px 1fr;gap:8px;align-items:center}.ncf-l{font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted)}
+      .ncf-ops{display:flex;flex-wrap:wrap;gap:6px}.ncf-op{border:1px solid var(--border);background:transparent;color:var(--text);font:inherit;font-size:13px;font-weight:700;padding:6px 10px;border-radius:var(--r-ctl);cursor:pointer}.ncf-op.on{border-color:var(--primary);background:var(--primary-soft);color:var(--text)}.ncf-g select{max-width:320px}.ncf-pe{text-align:right}
+      @media(max-width:560px){.ncf-g{grid-template-columns:1fr;gap:4px}.ncf-q{display:none}}
+      .pes-t{min-width:0!important;width:100%!important;table-layout:fixed;font-size:9pt}.pes-t td,.pes-t th{vertical-align:top;overflow-wrap:anywhere}.pes-t .nw{white-space:nowrap}.pes-t small{font-size:7.5pt;color:#555}
+.pes-t col.c1{width:14%}.pes-t col.c2{width:17%}.pes-t col.c3{width:36%}.pes-t col.c4{width:14%}.pes-t col.c5{width:10%}.pes-t col.c6{width:9%}#print-root .pes-t{font-size:8.5pt;line-height:1.25;margin-top:3mm}#print-root .pes-t th,#print-root .pes-t td{padding:2px 4px;text-align:left;white-space:normal}.nc-papel{white-space:nowrap}
 .rnc-ap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--text-muted);border:1px solid var(--border);border-radius:var(--r-ctl);padding:8px 10px;margin:8px 0}.rnc-ap b{color:var(--text)}.rnc-ap .sp{flex:1}
 @media(max-width:760px){.ap-corpo{display:flex;flex-direction:column;overflow-y:auto}.ap-fot{flex:none;aspect-ratio:4/3;order:-1}.ap-hint{display:none}.ap-txt{overflow:visible;padding:14px 16px;gap:10px}.ap-cps{gap:6px 12px}.ap-top .ap-cod{display:none}.ap-top{gap:6px}.ap-top .btn{padding:0 9px;font-size:12.5px}.ap-rod{gap:8px}.ap-rod .btn{min-width:0;flex:1;padding:0 6px}.ap-st{min-width:0}.ap-fpe{position:absolute;inset:auto 0 0 0;background:rgba(0,0,0,.45)}.ap-fot>.ap-seta{display:none}}
 .fed-bt{justify-content:center}.fed-bt .btn{flex:0 1 150px;min-height:38px;font-size:13.5px;font-weight:700;background:#2b2b31;color:#fff;border:1px solid #5d5d66}.fed-bt .btn:hover{background:#3a3a42}.fed-bt .btn.primary{background:#f2c230;color:#1b1b1b;border-color:#f2c230}.fed-bt .btn.primary:hover{background:#ffd34d}.fed-bt .btn[disabled]{opacity:.5} /* v2.102.42: menores e visíveis em qualquer tema (pedido do Elias) */
@@ -3080,7 +3092,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.43 · Modo Apresentação da RNC (passo 2): texto grande, fotos que ampliam, correção ao vivo com histórico';
+const APP_VERSION = 'v2.102.44 · Corresponsáveis nas NCs da auditoria interna; filtro e impressão por pessoa nas Não conformidades';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -10641,20 +10653,56 @@ function ncRncCardHTML(x) {
     '<span class="ap-m"><span class="chip ' + esc(g[1]) + '">' + esc(g[0]) + '</span><span class="chip ' + esc(st[1]) + '">' + esc(st[0]) + '</span>' + gutChip(gutDe(n.id)) + '</span>' +
     '<span class="ap-meta">' + esc(r.tipo || '') + ' · ' + fmtD(r.data) + ' · auditor ' + esc(r.auditorNome || '') + '</span></span></button>';
 }
+/* v2.102.44: pessoas das NCs (responsável e corresponsáveis; apontamentos pelo nome do responsável) */
+function ncPapel(x, p) { if (!p) return ''; const k = mdNorm(p);
+  if (x.k === 'ap') return mdNorm((x.a.nc && x.a.nc.responsavel) || '') === k ? 'resp' : '';
+  if (mdNorm(x.n.respNome || '') === k) return 'resp';
+  return rncCoresp(x.n).some(c => mdNorm(c.nome) === k) ? 'co' : ''; }
+function ncPessoas(l) { const s = new Map(); const add = v => { const t = String(v || '').trim(); if (t && !s.has(mdNorm(t))) s.set(mdNorm(t), t); };
+  l.forEach(x => { if (x.k === 'ap') add(x.a.nc && x.a.nc.responsavel); else { add(x.n.respNome); rncCoresp(x.n).forEach(c => add(c.nome)); } });
+  return Array.from(s.values()).sort((a, b) => a.localeCompare(b, 'pt-BR')); }
+const NC_SIT_NOME = { aberta: 'Aberta', vencida: 'Vencida', fechada: 'Fechada' };
+function ncPessoaImprimir() {
+  const p = S.ncP || ''; if (!p) return;
+  const f = S.ncF || 'abertas', o = S.ncO || 'todas', F = { abertas: x => x.sit !== 'fechada', vencidas: x => x.sit === 'vencida', fechadas: x => x.sit === 'fechada', todas: () => true };
+  const l = ncItens().filter(x => (o === 'todas' || x.k === o) && ncPapel(x, p)).filter(F[f] || F.abertas);
+  if (!l.length) { toast('Nenhuma NC de ' + p + ' neste filtro.'); return; }
+  const fNome = { abertas: 'Abertas', vencidas: 'Vencidas', fechadas: 'Fechadas', todas: 'Todas' }[f] || 'Abertas';
+  const nR = l.filter(x => ncPapel(x, p) === 'resp').length;
+  const linha = x => { const pap = ncPapel(x, p) === 'co' ? 'Corresponsável' : 'Responsável';
+    return x.k === 'ap'
+      ? '<tr><td class="nw">Apontamento<br>' + esc(fmtD(x.a.data)) + '</td><td>' + esc(x.a.setor || '') + '</td><td>' + esc(apCat(x.a.categoria).nome) + (x.a.obs ? ' · ' + esc(x.a.obs) : '') + '</td><td>' + esc(pap) + '</td><td class="nw">' + esc(fmtD(x.prazo) || '—') + '</td><td>' + esc(NC_SIT_NOME[x.sit] || '') + '</td></tr>'
+      : '<tr><td class="nw">' + esc(x.r.numero) + '<br><b>' + esc(rncNum(x.n.n)) + '</b></td><td>' + esc(x.n.local) + '</td><td>' + esc(x.n.nc) + (rncCoresp(x.n).length || pap === 'Corresponsável' ? '<br><small>Resp.: ' + esc(x.n.respNome || '—') + (rncCoresp(x.n).length ? ' · Corresp.: ' + esc(rncCorespTxt(x.n)) : '') + '</small>' : '') + '</td><td>' + esc(pap) + '</td><td class="nw">' + esc(fmtD(x.prazo) || '—') + '</td><td>' + esc(NC_SIT_NOME[x.sit] || '') + (x.n.ret ? ' · ' + esc(RNC_RES[x.n.ret.res][0]) : '') + '</td></tr>'; };
+  const body = '<div class="par-imp"><div class="ar par-ik"><span><i>Pessoa</i>' + esc(p) + '</span><span><i>Filtro</i>' + esc(fNome) + '</span><span><i>NCs</i>' + esc(l.length) + '</span><span><i>Como responsável</i>' + esc(nR) + '</span><span><i>Como corresponsável</i>' + esc(l.length - nR) + '</span></div>' +
+    '<table class="t pes-t ar"><colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5"><col class="c6"></colgroup><thead><tr><th>Origem</th><th>Local</th><th>Não conformidade</th><th>Papel</th><th>Prazo</th><th>Situação</th></tr></thead><tbody>' + l.map(linha).join('') + '</tbody></table>' +
+    '<div class="ar" style="margin-top:10mm;display:flex;gap:18mm"><span style="flex:1;border-top:1px solid #333;padding-top:2mm;font-size:9pt">' + esc(p) + ' · ciente em ___/___/______</span><span style="flex:1;border-top:1px solid #333;padding-top:2mm;font-size:9pt">Qualidade</span></div></div>';
+  Audit.log({ acao: 'imprimir', entidade: 'nc_pessoa', entidadeId: p, resumo: 'Imprimiu as NCs de ' + p + ' (' + fNome + ', ' + l.length + ')' });
+  runPrint(body, 'Não conformidades de ' + p + ' · ' + fNome, 'portrait', 'Pessoa: ' + p + ' · ' + fNome);
+}
+document.addEventListener('change', e => { if (e.target && e.target.id === 'nc-pes') { S.ncP = e.target.value; renderView(); } });
 function viewNC() {
-  const f = S.ncF || 'abertas', o = S.ncO || 'todas';
-  const tudo = ncItens(), base = tudo.filter(x => o === 'todas' || x.k === o);
+  const f = S.ncF || 'abertas', o = S.ncO || 'todas', pes = S.ncP || '';
+  const tudo0 = ncItens(), pessoas = ncPessoas(tudo0), tudo = pes ? tudo0.filter(x => ncPapel(x, pes)) : tudo0, base = tudo.filter(x => o === 'todas' || x.k === o);
   const F = { abertas: x => x.sit !== 'fechada', vencidas: x => x.sit === 'vencida', fechadas: x => x.sit === 'fechada', todas: () => true };
   const kp = [['abertas', 'Abertas', 'warn'], ['vencidas', 'Vencidas', 'crit'], ['fechadas', 'Fechadas', 'ok'], ['todas', 'Todas', 'info']];
-  const kpis = '<div class="kpis">' + kp.map(k => '<button class="kpi ' + k[2] + (f === k[0] ? ' on' : '') + '" data-action="nc-f" data-id="' + k[0] + '"><b>' + base.filter(F[k[0]]).length + '</b><span>' + k[1] + '</span></button>').join('') + '</div>';
+  /* v2.102.44 (pedido do Elias): um filtro só, retrátil — botão com o resumo; abre o painel com Situação, Origem e Pessoa */
+  const kpi = kp.map(k => [k[0], k[1], base.filter(F[k[0]]).length]);
   const nAp = tudo.filter(x => x.k === 'ap').length, nRn = tudo.length - nAp;
-  const orig = '<div class="nc-orig ap-chips">' + [['todas', 'Todas', tudo.length], ['ap', 'Apontamentos', nAp], ['rnc', 'Auditorias internas', nRn]].map(z => '<button type="button" class="ap-b' + (o === z[0] ? ' on' : '') + '" data-action="nc-o" data-id="' + esc(z[0]) + '">' + esc(z[1]) + ' (' + esc(z[2]) + ')</button>').join('') + '</div>';
-  const lst = base.filter(F[f] || F.abertas);
-  if (!tudo.length) return '<div class="empty"><div class="empty-ic">' + ico('shield') + '</div><h2>Nenhuma NC ainda</h2><p>Uma NC nasce de um apontamento (Inspeções › Apontamentos › “Abrir NC”) ou de uma auditoria interna (Inspeções › Auditoria interna, depois de enviar a RNC).</p></div>';
+  const lst = base.filter(F[f] || F.abertas), ab = !!S.ncFAb;
+  const op = (a, id, t, on) => '<button type="button" class="ncf-op' + (on ? ' on' : '') + '" data-action="' + esc(a) + '" data-id="' + esc(id) + '" aria-pressed="' + (on ? 'true' : 'false') + '">' + esc(t) + '</button>';
+  const resumo = [(kp.find(k => k[0] === f) || kp[0])[1], o === 'ap' ? 'Apontamentos' : o === 'rnc' ? 'Auditorias internas' : '', pes].filter(Boolean).join(' · ');
+  const filtro = '<div class="ncf"><div class="ncf-bar"><button type="button" class="btn ncf-tg" data-action="nc-ftg" aria-expanded="' + (ab ? 'true' : 'false') + '" aria-controls="ncf-pn"><span class="ncf-k">Filtro</span><b>' + esc(resumo) + '</b><span class="ncf-q">' + esc(lst.length) + ' NC(s)</span><span class="ncf-s" aria-hidden="true">' + (ab ? '▴' : '▾') + '</span></button>' +
+    (pes ? '<button type="button" class="btn ncf-pr" data-action="nc-pes-print" title="Imprimir as NCs de ' + esc(pes) + '" aria-label="Imprimir as NCs de ' + esc(pes) + '">' + icoI('print') + '</button>' : '') + '</div>' +
+    '<div class="ncf-pn" id="ncf-pn"' + (ab ? '' : ' hidden') + '>' +
+    '<div class="ncf-g"><span class="ncf-l">Situação</span><div class="ncf-ops">' + kpi.map(k => op('nc-f', k[0], k[1] + ' (' + String(k[2]) + ')', f === k[0])).join('') + '</div></div>' +
+    '<div class="ncf-g"><span class="ncf-l">Origem</span><div class="ncf-ops">' + [['todas', 'Todas', tudo.length], ['ap', 'Apontamentos', nAp], ['rnc', 'Auditorias internas', nRn]].map(z => op('nc-o', z[0], z[1] + ' (' + String(z[2]) + ')', o === z[0])).join('') + '</div></div>' +
+    (pessoas.length ? '<div class="ncf-g"><label class="ncf-l" for="nc-pes">Pessoa</label><select class="input" id="nc-pes"><option value="">Todas as pessoas</option>' + pessoas.map(p => '<option value="' + esc(p) + '"' + (mdNorm(p) === mdNorm(pes) ? ' selected' : '') + '>' + esc(p) + '</option>').join('') + '</select></div>' : '') +
+    (f !== 'abertas' || o !== 'todas' || pes ? '<div class="ncf-pe"><button type="button" class="fm-link" data-action="nc-flimpa">Limpar o filtro</button></div>' : '') + '</div></div>';
+  if (!tudo0.length) return '<div class="empty"><div class="empty-ic">' + ico('shield') + '</div><h2>Nenhuma NC ainda</h2><p>Uma NC nasce de um apontamento (Inspeções › Apontamentos › “Abrir NC”) ou de uma auditoria interna (Inspeções › Auditoria interna, depois de enviar a RNC).</p></div>';
   const card = x => x.k === 'ap'
     ? '<div class="rn-item">' + apCardHTML(x.a) + '<div class="ap-hint">Responsável: <b>' + esc(x.a.nc.responsavel) + '</b> · prazo ' + fmtD(x.a.nc.prazo) + (x.sit === 'vencida' ? ' · <b style="color:var(--crit)">vencida há ' + difDias(x.a.nc.prazo, hojeISO()) + ' dia(s)</b>' : '') + '</div></div>'
-    : '<div class="rn-item">' + ncRncCardHTML(x) + '<div class="ap-hint">Responsável: <b>' + esc(x.n.respNome || '—') + '</b> · prazo ' + fmtD(x.r.prazo) + (x.sit === 'vencida' ? ' · <b style="color:var(--crit)">vencida há ' + difDias(x.r.prazo, hojeISO()) + ' dia(s)</b>' : '') + '</div></div>';
-  return orig + kpis + (lst.length ? '<div class="ap-list">' + lst.map(card).join('') + '</div>' : '<div class="empty" style="margin:20px auto"><p>Nada neste filtro.</p></div>');
+    : '<div class="rn-item">' + ncRncCardHTML(x) + '<div class="ap-hint">Responsável: <b>' + esc(x.n.respNome || '—') + '</b>' + (rncCoresp(x.n).length ? ' · corresp.: ' + esc(rncCorespTxt(x.n)) : '') + (pes && ncPapel(x, pes) === 'co' ? '<span class="nc-papel co">' + esc(pes) + ' é corresponsável</span>' : '') + ' · prazo ' + fmtD(x.r.prazo) + (x.sit === 'vencida' ? ' · <b style="color:var(--crit)">vencida há ' + difDias(x.r.prazo, hojeISO()) + ' dia(s)</b>' : '') + '</div></div>';
+  return filtro + (lst.length ? '<div class="ap-list">' + lst.map(card).join('') + '</div>' : '<div class="empty" style="margin:20px auto"><p>Nada neste filtro.</p></div>');
 }
 
 /* v2.102.14 (pedido do Elias, 16/10 02:33): botão de imprimir só com o desenho da impressora, em todas as abas.
@@ -14007,6 +14055,14 @@ const rncDe = id => (S.rnc || []).find(r => r.id === id) || null;
 const rncNcs = r => (r.ncs || []).filter(n => !n.cancelada).slice().sort((a, b) => a.n - b.n);
 const rncAreaNome = a => (RNC_AREAS.find(x => x[0] === a) || ['', a || '—'])[1];
 const rncNum = n => 'NC ' + pad(n);
+/* v2.102.44: corresponsáveis = [{ id, nome }] (pessoa do app ou nome escrito). Só para filtrar e para a pessoa saber de tudo em que está envolvida. */
+const rncCoresp = n => (n && Array.isArray(n.coresp) ? n.coresp : []).filter(x => x && String(x.nome || '').trim());
+const rncCorespTxt = n => rncCoresp(n).map(x => x.nome).join(', ');
+function rncPessoasSug() { const s = new Map(); const add = v => { const t = String(v || '').trim(), k = mdNorm(t); if (t.length >= 2 && !s.has(k)) s.set(k, t); };
+  (S.users || []).filter(u => !u.bloqueado && u.perfil !== 'visitante').forEach(u => add(u.nome));
+  (S.rnc || []).forEach(r => (r.ncs || []).forEach(n => { add(n.respNome); rncCoresp(n).forEach(c => add(c.nome)); }));
+  return Array.from(s.values()).sort((a, b) => a.localeCompare(b, 'pt-BR')); }
+function rncCorespDe(nome) { const t = String(nome || '').replace(/\s+/g, ' ').trim(); if (!t) return null; const u = (S.users || []).find(x => mdNorm(x.nome) === mdNorm(t)); return u ? { id: u.id, nome: u.nome } : { id: '', nome: t }; }
 function rncPode(r) { const u = S.user; return !!u && u.perfil !== 'visitante' && !u.bloqueado && (isSup(u) || (r && r.auditorId === u.id)); }
 function rncSit(r) {
   if (r.situacao === 'cancelada') return 'cancelada';
@@ -14178,7 +14234,7 @@ function openRnc(id) {
   if (risco) ls.sort((a, c) => ((gutDe(c.id) || {}).gut || 0) - ((gutDe(a.id) || {}).gut || 0) || a.n - c.n);
   const lista = ls.map(n => { let h = ''; if (!risco && n.area !== area) { area = n.area; h = '<div class="rnc-sec">' + esc(rncAreaNome(n.area)) + '</div>'; }
     const rt = n.ret ? RNC_RES[n.ret.res] : null, g = RNC_GRAV[n.grav] || RNC_GRAV.baixa, ri = rncReinc(r, n);
-    return h + '<button class="rnc-li g-' + esc(n.grav) + '" data-action="rnc-item" data-id="' + esc(r.id) + '" data-n="' + n.n + '"><span class="rnc-n">' + rncNum(n.n) + '</span><span class="rnc-li-t"><b>' + esc(n.nc) + (apNcMud(r, n.id) ? '<i class="ap-mk" title="Alterada na apresentação">!</i>' : '') + '</b><small>' + esc(n.local) + ' · ' + esc(n.respNome || '') + (n.ciente ? ' · ciente' : ' · não ciente') + (ri ? ' · reincidente' : '') + (apStDe(n) === 'iniciado' && s === 'registro' ? ' · <span class="ap-ini">Iniciado</span>' : '') + '</small></span><span class="rnc-li-c"><span class="chip ' + g[1] + '">' + g[0] + '</span>' + gutChip(gutDe(n.id)) + (s === 'retorno' || s === 'pronta' || s === 'fechada' ? planoChip(n) + acoesChip(n) : '') + (rt ? '<span class="chip ' + rt[1] + '">' + rt[0] + '</span>' : s !== 'registro' ? '<span class="chip">sem retorno</span>' : '') + '</span></button>'; }).join('');
+    return h + '<button class="rnc-li g-' + esc(n.grav) + '" data-action="rnc-item" data-id="' + esc(r.id) + '" data-n="' + n.n + '"><span class="rnc-n">' + rncNum(n.n) + '</span><span class="rnc-li-t"><b>' + esc(n.nc) + (apNcMud(r, n.id) ? '<i class="ap-mk" title="Alterada na apresentação">!</i>' : '') + '</b><small>' + esc(n.local) + ' · ' + esc(n.respNome || '') + (rncCoresp(n).length ? ' + ' + esc(rncCoresp(n).length) : '') + (n.ciente ? ' · ciente' : ' · não ciente') + (ri ? ' · reincidente' : '') + (apStDe(n) === 'iniciado' && s === 'registro' ? ' · <span class="ap-ini">Iniciado</span>' : '') + '</small></span><span class="rnc-li-c"><span class="chip ' + g[1] + '">' + g[0] + '</span>' + gutChip(gutDe(n.id)) + (s === 'retorno' || s === 'pronta' || s === 'fechada' ? planoChip(n) + acoesChip(n) : '') + (rt ? '<span class="chip ' + rt[1] + '">' + rt[0] + '</span>' : s !== 'registro' ? '<span class="chip">sem retorno</span>' : '') + '</span></button>'; }).join('');
   const impR = seq.length ? impBtn([{ a: 'rnc-print', id: r.id, m: 'abertura', t: 'RNC de abertura' }, { a: 'rnc-print', id: r.id, m: 'resumo', t: 'Abertura resumida (em pé)' }].concat(seq.some(n => n.ret) ? [{ a: 'rnc-print', id: r.id, m: 'fechamento', t: 'RNC de fechamento (em pé)' }] : []), { titulo: 'Imprimir a RNC' }) : '';
   /* v2.102.42 (pedido do Elias): situação, data e auditor em cima, na linha da impressora e da lixeira; o código da RNC embaixo, com a largura toda */
   openSheet('<div class="rnc-hd"><span class="rnc-hd-i">' + rncChip(r) + ' ' + fmtD(r.data) + ' · auditor ' + esc(r.auditorNome || '') + (r.acompanhante ? ' · com ' + esc(r.acompanhante) : '') + '</span><span class="rnc-hd-b">' + impR +
@@ -14199,7 +14255,7 @@ function openRnc(id) {
    (r.apresCorretorId); toca direto no texto, local, responsável, lei, observação ou sugestão e corrige ali.
    Toda correção (e a troca Em aberto ↔ Iniciado) entra em r.apresAlt (antes, depois, quem, quando) com o sinal "!"
    no campo; Desfazer marca a alteração como desfeita (nada se apaga). A aprovação oficial continua sendo Enviar RNC. */
-const AP_CAMPOS = { nc: 'Texto da NC', local: 'Local', resp: 'Responsável', lei: 'Lei / requisito', obs: 'Observação', sug: 'Sugestão', st: 'Situação' };
+const AP_CAMPOS = { nc: 'Texto da NC', local: 'Local', resp: 'Responsável', coresp: 'Corresponsáveis', lei: 'Lei / requisito', obs: 'Observação', sug: 'Sugestão', st: 'Situação' };
 const apStDe = n => n && n.apSt === 'iniciado' ? 'iniciado' : 'aberto';
 const apStNome = v => v === 'iniciado' ? 'Iniciado' : 'Em aberto';
 function apCorretores(r) { const l = (S.users || []).filter(u => !u.bloqueado && u.perfil !== 'visitante' && (isSup(u) || (r && r.auditorId === u.id))); return l.sort((a, b) => String(a.nome).localeCompare(String(b.nome), 'pt-BR')); }
@@ -14254,6 +14310,7 @@ function apRender() {
     '<div class="ap-corpo"><div class="ap-txt"><div class="ap-n"><span class="ap-num">' + rncNum(n.n) + ' · ' + esc(rncAreaNome(n.area)) + '</span><span class="chip ' + esc(g[1]) + '">' + esc(g[0]) + '</span>' + gutChip(gutDe(n.id)) + '</div>' +
     '<div class="ap-tit">' + campo('nc', n.nc) + '</div>' +
     '<dl class="ap-cps"><dt>Local</dt><dd class="ap-loc">' + campo('local', n.local) + '</dd><dt>Responsável</dt><dd>' + resp + ' <span class="ap-ci">· ' + (n.ciente ? 'ciente' : 'não ciente') + '</span></dd>' +
+    ((rncCoresp(n).length || pode) ? '<dt>Corresponsáveis</dt><dd>' + campo('coresp', rncCorespTxt(n), pode && !rncCoresp(n).length ? 'tocar para escrever (separe por vírgula)' : '') + '</dd>' : '') + /* v2.102.44 */
     '<dt>Prazo</dt><dd>' + fmtD(r.prazo) + '</dd>' + opc('lei', 'Lei / requisito') + opc('obs', 'Observação') + opc('sug', 'Sugestão') + '</dl>' +
     (pode ? '' : '<p class="ap-aviso">Só o Principal ou o líder indicado por ele corrige na apresentação.</p>') + '</div>' +
     '<div class="ap-fot">' + (fotos.length ? tri('ap-tp') + setas + '<div class="ap-fpe"><span class="ap-fc">Foto ' + esc(S.ap.foto + 1) + ' de ' + esc(fotos.length) + '</span><span class="sp"></span>' + apPtsH(fotos.length) + '<span class="sp"></span><span class="ap-hint">toque para ampliar</span></div>' : '<div class="ap-sem">Sem fotos nesta NC</div>') + '</div></div>' +
@@ -14303,6 +14360,12 @@ async function apSalvar(k, v) {
   const x = apNc(r); if (!x) return; const n = x.n;
   let patch, de, antes, depois;
   if (k === 'resp') { const u = (S.users || []).find(y => y.id === v); if (!u || u.id === n.respId) { S.ap.respEd = false; apRender(); return; } patch = { respId: u.id, respNome: u.nome }; de = { respId: n.respId || '', respNome: n.respNome || '' }; antes = n.respNome || ''; depois = u.nome; }
+  else if (k === 'coresp') {
+    const vistos = new Set([mdNorm(n.respNome || '')]), l = [];
+    String(v == null ? '' : v).split(/[,;]/).forEach(p => { const c = rncCorespDe(p); if (c && c.nome.length >= 2 && !vistos.has(mdNorm(c.nome)) && l.length < 10) { vistos.add(mdNorm(c.nome)); l.push(c); } });
+    const txt = l.map(c => c.nome).join(', '); if (txt === rncCorespTxt(n)) { apRender(); return; }
+    patch = { coresp: l }; de = { coresp: rncCoresp(n).map(c => ({ id: c.id || '', nome: c.nome })) }; antes = rncCorespTxt(n); depois = txt;
+  }
   else if (k === 'st') { const novo = apStDe(n) === 'iniciado' ? 'aberto' : 'iniciado'; patch = { apSt: novo }; de = { apSt: apStDe(n) }; antes = apStNome(apStDe(n)); depois = apStNome(novo); }
   else {
     const t = String(v == null ? '' : v).replace(/\s+/g, ' ').trim(), velho = String(n[k] || '');
@@ -14398,10 +14461,31 @@ function openRncNc(rid, n) {
   const x = n ? (r.ncs || []).find(y => y.n === Number(n) && !y.cancelada) : null;
   const ult = rncNcs(r).slice(-1)[0];
   const gx = x ? gutDe(x.id) : null; /* v2.102.12 */
-  S.rncNc = x ? { rid: rid, id: x.id, n: x.n, area: x.area, local: x.local, nc: x.nc, lei: x.lei || '', resp: x.respId || (x.respNome ? '__outro' : ''), respTxt: x.respId ? '' : (x.respNome || ''), ciente: x.ciente, grav: x.grav, obs: x.obs || '', sug: x.sug || '', fotos: (x.fotosAntes || []).map(id => ({ id: id })), gut: gx ? { g: gx.g, u: gx.u, t: gx.t } : { g: GUT_G_SUG[x.grav] || 0 }, gutGMan: !!gx, gutDono: gx ? gx.porId : '', gutDonoNome: gx ? gx.porNome : '' }
-    : { rid: rid, id: '', n: (Math.max(0, ...(r.ncs || []).map(y => y.n)) + 1), area: ult ? ult.area : 'campo', local: ult ? ult.local : '', nc: '', lei: '', resp: '', respTxt: '', ciente: null, grav: '', obs: '', sug: '', fotos: [], gut: {}, gutGMan: false, gutDono: '' };
+  S.rncNc = x ? { rid: rid, id: x.id, n: x.n, area: x.area, local: x.local, nc: x.nc, lei: x.lei || '', resp: x.respId || (x.respNome ? '__outro' : ''), respTxt: x.respId ? '' : (x.respNome || ''), ciente: x.ciente, grav: x.grav, obs: x.obs || '', sug: x.sug || '', fotos: (x.fotosAntes || []).map(id => ({ id: id })), coresp: rncCoresp(x).map(c => ({ id: c.id || '', nome: c.nome })), gut: gx ? { g: gx.g, u: gx.u, t: gx.t } : { g: GUT_G_SUG[x.grav] || 0 }, gutGMan: !!gx, gutDono: gx ? gx.porId : '', gutDonoNome: gx ? gx.porNome : '' }
+    : { rid: rid, id: '', n: (Math.max(0, ...(r.ncs || []).map(y => y.n)) + 1), area: ult ? ult.area : 'campo', local: ult ? ult.local : '', nc: '', lei: '', resp: '', respTxt: '', ciente: null, grav: '', obs: '', sug: '', fotos: [], coresp: [], gut: {}, gutGMan: false, gutDono: '' };
   rncNcRender();
 }
+function rncCorespCampo(b) {
+  const l = b.coresp || [];
+  return '<div class="cr-box"><label class="fm-l" for="rnc-cr">Corresponsáveis <small>(opcional) · quem mais está envolvido; serve para filtrar e imprimir por pessoa</small></label>' +
+    (l.length ? '<div class="cr-l">' + l.map((c, i) => '<span class="cr-chip">' + esc(c.nome) + '<button type="button" data-action="rnc-cr-x" data-id="' + esc(i) + '" aria-label="Tirar ' + esc(c.nome) + '">×</button></span>').join('') + '</div>' : '') +
+    '<div class="cr-in"><input class="input" id="rnc-cr" list="rnc-cr-l" autocomplete="off" placeholder="Nome (da lista ou escrito)"><button type="button" class="btn" data-action="rnc-cr-add">Adicionar</button></div>' +
+    '<datalist id="rnc-cr-l">' + rncPessoasSug().map(x => '<option value="' + esc(x) + '">').join('') + '</datalist></div>';
+}
+function rncCorespAdd(rerender) {
+  const b = S.rncNc, inp = $('#rnc-cr'); if (!b || !inp) return false;
+  const c = rncCorespDe(inp.value); if (!c) return false;
+  if (c.nome.length < 3) { apMsg('Escreva o nome do corresponsável (ao menos 3 letras).'); return false; }
+  b.coresp = b.coresp || [];
+  const respNome = b.resp === '__outro' ? String(b.respTxt || '').trim() : b.resp ? nomeDe(b.resp) : '';
+  if (respNome && mdNorm(respNome) === mdNorm(c.nome)) { apMsg(c.nome + ' já é o responsável.'); inp.value = ''; return false; }
+  if (b.coresp.some(x => mdNorm(x.nome) === mdNorm(c.nome))) { inp.value = ''; return false; }
+  if (b.coresp.length >= 10) { apMsg('No máximo 10 corresponsáveis.'); return false; }
+  b.coresp.push(c); inp.value = '';
+  if (rerender) { rncNcLer(); rncNcRender(); const n = $('#rnc-cr'); if (n) try { n.focus(); } catch {} }
+  return true;
+}
+document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target && e.target.id === 'rnc-cr') { e.preventDefault(); rncCorespAdd(true); } });
 function rncNcLer() {
   const b = S.rncNc; if (!b) return;
   const v = id => { const e = $('#' + id); return e ? e.value : null; };
@@ -14418,7 +14502,7 @@ function rncNcRender() {
   const ch = (g, v, on, t, cls) => '<button type="button" class="ap-b' + (cls ? ' ' + cls : '') + (on ? ' on' : '') + '" data-action="rnc-ch" data-g="' + g + '" data-id="' + esc(v) + '">' + t + '</button>';
   const us = S.users.filter(u => !u.bloqueado && u.perfil !== 'visitante');
   const passo = (n, t, g) => '<div class="ap-sec" data-g="' + g + '">' + t + '</div>';
-  openSheet('<div class="rnc-top"><small>' + esc(r.numero) + ' · ' + esc(r.tipo) + ' · passo 2 de 5</small>' + rncStepper(r, false) + '</div>' +
+  openSheet('<div class="rnc-top"><div class="rnc-hd"><small class="rnc-hd-i">' + esc(r.numero) + ' · ' + esc(r.tipo) + ' · passo 2 de 5</small>' + (b.id ? '<span class="rnc-hd-b"><button type="button" class="btn sm" data-action="rnc-nc-canc" data-id="' + esc(r.id) + '" title="Tirar esta NC (pede o motivo; fica guardada)" aria-label="Tirar esta NC">' + ico('lixo') + '</button></span>' : '') + '</div>' + rncStepper(r, false) + '</div>' + /* v2.102.44: lixeira no lugar do botão Tirar esta NC */
     '<h3>Registrar · ' + rncNum(b.n) + '</h3><div class="sub">' + (b.clItem ? '<b>Do checklist:</b> ' + esc(b.clTexto || '') + '<br>' : '') + (b.id ? 'Corrigindo antes de enviar' : 'NC ' + b.n + ' de ' + tot + ' · a ordem do registro é a ordem da conferência') + '</div><div id="ap-msg"></div>' +
     passo(1, 'Área', 'area') + '<div class="ap-oc">' + RNC_AREAS.map(a => ch('area', a[0], b.area === a[0], a[1])).join('') + '</div>' +
     passo(2, 'Local <small>escreva; as sugestões aparecem embaixo</small>', 'local') + /* v2.102.41 (Nº 40): campo com sugestões no lugar dos botões */
@@ -14430,10 +14514,11 @@ function rncNcRender() {
     passo(6, 'Responsável e ciência', 'resp') + '<select class="input" id="rnc-resp"><option value="">Escolha o responsável…</option>' + us.map(u => '<option value="' + esc(u.id) + '"' + (b.resp === u.id ? ' selected' : '') + '>' + esc(u.nome) + '</option>').join('') + '<option value="__outro"' + (b.resp === '__outro' ? ' selected' : '') + '>Outra pessoa (escrever o nome)</option></select>' +
     '<input class="input" id="rnc-resp-o" placeholder="Nome do responsável" autocomplete="off" value="' + esc(b.respTxt) + '"' + (b.resp === '__outro' ? '' : ' hidden') + ' style="margin-top:8px">' +
     '<div class="ap-oc" style="margin-top:8px">' + ch('ciente', '1', b.ciente === true, 'Estava ciente') + ch('ciente', '0', b.ciente === false, 'Não estava ciente') + '</div>' +
+    rncCorespCampo(b) + /* v2.102.44 */
     passo(7, 'Gravidade', 'grav') + '<div class="ap-oc rnc-grav">' + Object.keys(RNC_GRAV).map(k => ch('grav', k, b.grav === k, RNC_GRAV[k][0], 'g-' + k)).join('') + '</div>' +
     passo(8, gutTogHTML(b), 'gut') + (b.gutAberto ? gutBlocoHTML(b) : '') + /* v2.102.12/17 */
     passo(9, 'Observação e sugestão <small>opcionais</small>', 'obs') + '<textarea class="input" id="rnc-obs" rows="2" placeholder="Observação">' + esc(b.obs) + '</textarea><textarea class="input" id="rnc-sug" rows="2" placeholder="Sugestão (se for o caso)" style="margin-top:8px">' + esc(b.sug) + '</textarea>' +
-    '<div class="ap-foot"><button type="button" class="btn" data-action="' + (b.clItem ? 'nrm-cl' : 'rnc-open') + '" data-id="' + esc(r.id) + '">Voltar</button>' + (b.id ? '<button type="button" class="btn" data-action="rnc-nc-canc" data-id="' + esc(r.id) + '">Tirar esta NC</button><button type="button" class="btn primary" data-action="rnc-nc-ok" data-id="0">Salvar</button>' : '<button type="button" class="btn" data-action="rnc-nc-ok" data-id="0">Salvar</button><button type="button" class="btn primary" data-action="rnc-nc-ok" data-id="1">' + (b.clItem ? 'Salvar e voltar' : 'Salvar e registrar a ' + rncNum(b.n + 1)) + '</button>') + '</div>', { noFocus: true });
+    '<div class="ap-foot"><button type="button" class="btn" data-action="' + (b.clItem ? 'nrm-cl' : 'rnc-open') + '" data-id="' + esc(r.id) + '">Voltar</button>' + (b.id ? '<button type="button" class="btn primary" data-action="rnc-nc-ok" data-id="0">Salvar</button>' : '<button type="button" class="btn" data-action="rnc-nc-ok" data-id="0">Salvar</button><button type="button" class="btn primary" data-action="rnc-nc-ok" data-id="1">' + (b.clItem ? 'Salvar e voltar' : 'Salvar e registrar a ' + rncNum(b.n + 1)) + '</button>') + '</div>', { noFocus: true });
   fmNumerar(); rncFotosCarregar($('.sheet'));
 }
 /* ---------- v2.102.41 (Nº 40): sugestões do Local ----------
@@ -14505,6 +14590,7 @@ function rncCh(t) {
 }
 async function rncNcOk(proxima) {
   const b = S.rncNc; if (!b) return; rncNcLer();
+  if ($('#rnc-cr') && String($('#rnc-cr').value || '').trim()) rncCorespAdd(false); /* v2.102.44 */
   const r = rncDe(b.rid); if (!r || !rncPode(r) || rncSit(r) !== 'registro') return;
   const local = b.local === '__outro' ? String(b.localTxt || '').trim() : b.local;
   const respNome = b.resp === '__outro' ? String(b.respTxt || '').trim() : b.resp ? nomeDe(b.resp) : '';
@@ -14522,7 +14608,8 @@ async function rncNcOk(proxima) {
   if (b.salvando) return; b.salvando = true;
   const id = b.id || uid(), f = rncFotosGravar(b, r.id, id, 'antes');
   const antes = (r.ncs || []).find(x => x.id === id);
-  const nc = Object.assign({}, antes || {}, { id: id, n: b.n, area: b.area, local: local, nc: String(b.nc).trim(), lei: String(b.lei || '').trim(), respId: b.resp === '__outro' ? '' : b.resp, respNome: respNome, ciente: b.ciente, grav: b.grav, obs: String(b.obs || '').trim(), sug: String(b.sug || '').trim(), fotosAntes: f.ids });
+  const nc = Object.assign({}, antes || {}, { id: id, n: b.n, area: b.area, local: local, nc: String(b.nc).trim(), lei: String(b.lei || '').trim(), respId: b.resp === '__outro' ? '' : b.resp, respNome: respNome, ciente: b.ciente, grav: b.grav, obs: String(b.obs || '').trim(), sug: String(b.sug || '').trim(), fotosAntes: f.ids,
+    coresp: (b.coresp || []).filter(c => mdNorm(c.nome) !== mdNorm(respNome)).map(c => ({ id: c.id || '', nome: c.nome })) }); /* v2.102.44 */
   if (!antes) Object.assign(nc, { criadoEm: nowISO(), porId: S.user.id, porNome: S.user.nome });
   const ncs = (r.ncs || []).filter(x => x.id !== id).concat([nc]).sort((a, c) => a.n - c.n);
   try {
@@ -15640,7 +15727,7 @@ function openRncConf(id, n) {
   openSheet('<div class="rnc-top"><small>' + esc(r.numero) + ' · retorno · passo 4 de 5</small>' + rncStepper(r, false) + '</div>' +
     '<h3>Conferir · ' + rncNum(x.n) + ' <small class="rnc-de">' + (i + 1) + ' de ' + seq.length + '</small></h3><div class="rnc-prog">' + seq.map(y => '<i class="' + (y.id === x.id ? 'cur' : y.ret ? 'on ' + y.ret.res : '') + '"></i>').join('') + '</div><div id="ap-msg"></div>' +
     '<div class="rnc-ncc g-' + esc(x.grav) + '"><div class="h"><span>' + esc(rncAreaNome(x.area)) + ' › ' + esc(x.local) + '</span><span class="chip ' + g[1] + '">' + g[0] + '</span></div><p>' + esc(x.nc) + '</p>' +
-    keyval([['Responsável', x.respNome + (x.ciente ? ' · estava ciente' : ' · não estava ciente')], ['Prazo', fmtD(r.prazo) + ' · ' + rncPrazoSit(r)]].concat(x.lei ? [['Lei / requisito', x.lei]] : []).concat(x.sug ? [['Sugestão', x.sug]] : [])) +
+    keyval([['Responsável', x.respNome + (x.ciente ? ' · estava ciente' : ' · não estava ciente')]].concat(rncCoresp(x).length ? [['Corresponsáveis', rncCorespTxt(x)]] : []).concat([['Prazo', fmtD(r.prazo) + ' · ' + rncPrazoSit(r)]]).concat(x.lei ? [['Lei / requisito', x.lei]] : []).concat(x.sug ? [['Sugestão', x.sug]] : [])) +
     ((x.fotosAntes || []).length ? '<div class="rnc-fotos ro">' + x.fotosAntes.map(f => '<span class="rnc-th"><img data-rncfoto="' + esc(f) + '" alt=""></span>').join('') + '</div>' : '') + '</div>' +
     '<div class="pl-resp pl-conf"><span>Análise: ' + planoChip(x) + ' · resp. ' + esc(planoResp(r, x).nome || '—') + '</span><button type="button" class="btn sm" data-action="rnc-plano" data-id="' + esc(id) + '" data-nc="' + esc(x.id) + '">Abrir a análise</button></div>' + /* v2.102.13 */
     '<div class="ap-sec" data-g="res">Foi resolvida?</div><div class="ap-oc rnc-res">' + ch('resolvida', 'Resolvida') + ch('parcial', 'Parcial') + ch('nao', 'Não resolvida') + '</div>' +
@@ -15883,7 +15970,7 @@ async function rncImprimirPe(id, modo) {
     blocos.push(sec + '<div class="ri rn-ap ar-it rnc-it"><div class="ri-t"><span class="ri-n">' + esc(rncNum(n.n)) + '</span><span class="ri-tt">' + esc(n.local) + '</span><span class="ri-dt">' + esc(fmtD(r.data)) + '</span></div>' +
       '<div class="ri-tags"><span class="ri-tag" style="background:' + esc(G[n.grav]) + '">GRAVIDADE: ' + esc(String(g[0]).toUpperCase()) + '</span>' + (gutDe(n.id) ? '<span class="ri-tag" style="background:' + esc((GUT_FX[gutDe(n.id).faixa] || GUT_FX.baixo)[2]) + '">GUT ' + esc(gutDe(n.id).gut) + ' · ' + esc(String((GUT_FX[gutDe(n.id).faixa] || GUT_FX.baixo)[0]).toUpperCase()) + '</span>' : '') +
         (fech ? '<span class="ri-tag" style="background:' + esc(rt ? R[n.ret.res] : '#8a8576') + '">' + esc(rt ? String(rt[0]).toUpperCase() : 'SEM RETORNO') + '</span>' : '<span class="ri-tag ri-st">ABERTA</span>') + (ri ? '<span class="ri-tag ri-st">REINCIDENTE</span>' : '') + '</div>' +
-      '<div class="ri-c">' + campo('Constatação', n.nc) + campo('Lei / requisito', n.lei) + campo('Responsável', (n.respNome || '') + (n.ciente ? ' · estava ciente' : ' · não estava ciente')) +
+      '<div class="ri-c">' + campo('Constatação', n.nc) + campo('Lei / requisito', n.lei) + campo('Responsável', (n.respNome || '') + (n.ciente ? ' · estava ciente' : ' · não estava ciente')) + campo('Corresponsáveis', rncCorespTxt(n)) +
         campo('Observação', n.obs) + campo('Ação sugerida', n.sug) + (ri ? campo('Reincidência', 'mesmo local e requisito na ' + ri.rnc + ' (' + rncNum(ri.n) + ')') : '') +
         (fech ? campo('Feito na hora', ct.texto) + campo('Causa', pl.causa) + campo('Categoria (6M)', pl.m6) +
           (acoesAtivas(n.id).length ? campo('Ações', acoesAtivas(n.id).length + ' no plano · ' + acoesAtivas(n.id).filter(a => a.st === 'feita').length + ' feita(s)' + (acoesAtivas(n.id).some(a => acaoSt(a) === 'atrasada') ? ' · ' + acoesAtivas(n.id).filter(a => acaoSt(a) === 'atrasada').length + ' atrasada(s)' : '')) : '') +
@@ -15952,7 +16039,7 @@ async function rncImprimir(id, modo) {
     '<div class="rp-ft"><span>' + impresso + '</span><span>' + esc(r.numero) + ' · folha ' + esc(pg) + ' de ' + totP + '</span></div></section>';
   const W = 186, HF = 72;
   const folha = n => { const g = RNC_GRAV[n.grav], ri = rncReinc(r, n), rt = n.ret ? RNC_RES[n.ret.res] : null;
-    const campos = [['Lei / requisito', n.lei || '—'], ['Responsável', n.respNome + (n.ciente ? ' · estava ciente' : ' · não estava ciente')], ['Prazo', fmtD(r.prazo)]].concat(n.obs ? [['Observação', n.obs]] : []).concat(n.sug ? [['Sugestão', n.sug]] : []).concat(ri ? [['Reincidência', 'mesmo local e requisito na ' + ri.rnc + ' (' + rncNum(ri.n) + ')']] : []);
+    const campos = [['Lei / requisito', n.lei || '—'], ['Responsável', n.respNome + (n.ciente ? ' · estava ciente' : ' · não estava ciente')]].concat(rncCoresp(n).length ? [['Corresponsáveis', rncCorespTxt(n)]] : []).concat([['Prazo', fmtD(r.prazo)]]).concat(n.obs ? [['Observação', n.obs]] : []).concat(n.sug ? [['Sugestão', n.sug]] : []).concat(ri ? [['Reincidência', 'mesmo local e requisito na ' + ri.rnc + ' (' + rncNum(ri.n) + ')']] : []);
     const nA = (n.fotosAntes || []).filter(f => RNC_CACHE[f]).length;
     const fa = rncFotosPrint(n.fotosAntes, W, fech ? HF : 92, i => 'Foto ' + (i + 1) + ' · ' + rncNum(n.n) + ' · antes'), fd = fech && n.ret ? rncFotosPrint(n.ret.fotosDepois, W, HF, i => 'Foto ' + (nA + i + 1) + ' · ' + rncNum(n.n) + ' · depois') : '';
     const baixo = fech && n.ret ? '<div class="rp-l"><div class="rp-res" style="background:' + R[n.ret.res] + '">' + rt[0] + '</div><div class="rp-big">' + esc(n.ret.texto) + '</div><div class="rp-kv"><span>Conferido por</span><b>' + esc(n.ret.porNome) + '</b><span>Em</span><b>' + fmtD(n.ret.data) + '</b>' + (n.ret.lib ? '<span>Liberada por</span><b>' + esc(n.ret.lib.porNome || '') + ': ' + esc(n.ret.lib.motivo) + '</b>' : '') + '</div></div><div class="rp-r">' + (fd || '<div class="rp-sf">Sem foto do depois</div>') + '</div>'
@@ -16044,6 +16131,8 @@ function rncAcao(act, id, t) {
     case 'rnc-prorrogar': openRncMotivo(id, 'prorrogar'); return true;
     case 'rnc-cancelar': openRncMotivo(id, 'cancelar'); return true;
     case 'rnc-excluir': openRncExcluir(id); return true; /* v2.102.42 */
+    case 'rnc-cr-add': rncCorespAdd(true); return true; /* v2.102.44 */
+    case 'rnc-cr-x': { const b = S.rncNc; if (b && b.coresp) { rncNcLer(); b.coresp.splice(Number(id), 1); rncNcRender(); } return true; }
     case 'rnc-ap-abrir': apAbrir(id); return true; /* v2.102.43: modo Apresentação */
     case 'rnc-ap-iniciar': { const s = $('#ap-corr'); apIniciar(id, s ? s.value : null); return true; }
     case 'rnc-ap-nc': apIrNc(Number(id)); return true;
@@ -23101,6 +23190,9 @@ document.addEventListener('click', e => {
     case 'rn-sel-limpar': S.rnSel = new Set(); renderView(); break;
     case 'nc-f': S.ncF = id; renderView(); break;
     case 'nc-o': S.ncO = id; renderView(); break; /* v2.102.41 */
+    case 'nc-pes-print': ncPessoaImprimir(); break; /* v2.102.44 */
+    case 'nc-ftg': S.ncFAb = !S.ncFAb; renderView(); break;
+    case 'nc-flimpa': S.ncF = 'abertas'; S.ncO = 'todas'; S.ncP = ''; renderView(); break;
     case 'pw-toggle': { const i = $('#' + id); const show = i.type === 'password'; i.type = show ? 'text' : 'password'; t.textContent = show ? 'Ocultar' : 'Mostrar'; break; }
   }
 });
