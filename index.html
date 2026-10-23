@@ -514,12 +514,42 @@ body[data-theme="ponto"]::before{background:radial-gradient(rgba(60,60,110,.16) 
 .ishi-svg .is-cl{stroke:var(--is-l);stroke-width:1}.ishi-svg .is-ct{fill:var(--is-t);font-size:11px}
 .ishi-svg .is-cl.is-p{stroke:var(--is-p);stroke-width:2.5}.ishi-svg .is-ct.is-p{fill:var(--is-p);font-weight:700}.ishi-svg .is-pc{fill:var(--is-p)}
 .pl-ro .ishi-fig{margin-top:6px}
+/* v2.102.48: fluxograma */
+.fx-ed{display:grid;gap:6px}.fx-ed>.btn{justify-self:start}
+.fx-r{display:grid;grid-template-columns:26px minmax(92px,120px) minmax(0,1fr);gap:6px;align-items:center;border:1px solid var(--border);border-radius:var(--r-ctl);padding:6px;background:var(--surface-2)}
+.fx-r.prob{border-color:var(--crit);box-shadow:inset 3px 0 0 var(--crit)}
+.fx-n{font-weight:700;text-align:center;color:var(--text-muted);font-variant-numeric:tabular-nums}
+.fx-r .input{padding:6px 8px;min-width:0}
+.fx-l{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:.85em;color:var(--text-muted)}
+.fx-l label{display:flex;gap:4px;align-items:center;white-space:nowrap;flex:1 1 150px;min-width:0;max-width:240px}.fx-l select.input{width:100%;min-width:0;padding:4px 6px}
+.fx-bts{margin-left:auto;display:flex;gap:4px}
+.fx-b{font:inherit;font-size:.9em;min-height:30px;min-width:30px;padding:2px 8px;border:1px solid var(--border);border-radius:4px;background:transparent;color:var(--text-muted);cursor:pointer}
+.fx-b[aria-pressed="true"]{background:var(--crit);border-color:var(--crit);color:var(--surface)}.fx-b:disabled{opacity:.35;cursor:default}
+.flx-fig{margin-top:10px;overflow-x:auto;border:1px solid var(--border);border-radius:var(--r-ctl);background:var(--surface);padding:6px}.flx-fig svg{display:block;margin:0 auto;height:auto}
+.pl-ro .flx-fig{margin-top:6px}
+.flx-svg{--fx-t:var(--text);--fx-l:var(--text-muted);--fx-p:var(--primary);--fx-h:var(--surface-2);--fx-c:var(--crit);--fx-f:var(--surface)}
+.flx-svg .fx-bx{fill:var(--fx-f);stroke:var(--fx-p);stroke-width:1.5}.flx-svg .fx-tm,.flx-svg .fx-dc{fill:var(--fx-h);stroke:var(--fx-p);stroke-width:1.5}
+.flx-svg .fx-pb{stroke:var(--fx-c);stroke-width:3}.flx-svg .fx-tx{fill:var(--fx-t);font-size:12px}.flx-svg .fx-nm{fill:var(--fx-l);font-size:10px;font-weight:700}
+.flx-svg .fx-ln{fill:none;stroke:var(--fx-l);stroke-width:1.3}.flx-svg .fx-ah{fill:var(--fx-l)}.flx-svg .fx-lb{fill:var(--fx-l);font-size:10px;font-weight:700}.flx-svg .fx-pt{fill:var(--fx-c);font-size:10px;font-weight:700}
+#print-root .flx-svg{--fx-t:#111;--fx-l:#555;--fx-p:#5b3fd6;--fx-h:#f3f3f6;--fx-c:#b91c1c;--fx-f:#fff}
+#print-root .flx-fig{border:1px solid #ccc;border-radius:4px;background:#fff;margin:0 0 4px;padding:2mm;overflow:visible}#print-root .flx-fig svg{max-height:165mm;max-width:100%;width:auto}
+#print-root .fx-imp{color:#111;font-size:9pt}#print-root .fx-tb td,#print-root .fx-tb th{font-size:8pt}
 #print-root .ishi-svg{--is-l:#555;--is-t:#111;--is-p:#5b3fd6;--is-h:#f3f3f6;--is-b:#bbb}
 #print-root .ishi-imp{color:#111;font-size:9pt}
 #print-root .ishi-ik{display:flex;flex-wrap:wrap;gap:4px 18px;margin:0 0 4px}#print-root .ishi-ik i,#print-root .ishi-ic i{display:block;font-style:normal;font-size:7pt;color:#666;text-transform:uppercase;letter-spacing:.03em}
 #print-root .ishi-ip{margin:2px 0 4px}
 #print-root .ishi-fig{border:1px solid #ccc;border-radius:4px;background:#fff;margin:0 0 4px;overflow:visible}#print-root .ishi-fig svg{min-width:0;max-height:128mm}
 #print-root .ishi-ic{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* v2.102.49: gráficos do cloro (só no papel) */
+#print-root .clg{margin:0 0 3mm}#print-root .clg-leg{font-size:7.5pt;color:#555;margin:0 0 1.5mm}
+#print-root .clg-r{display:grid;grid-template-columns:2fr 1fr;gap:2.5mm;margin:0 0 2mm;break-inside:avoid;page-break-inside:avoid}#print-root .clg-r.clg-r2{grid-template-columns:1fr 2fr}
+#print-root .clg-c{border:1px solid #cfcfcf;padding:1mm 1.5mm;min-width:0}#print-root .clg{margin-top:3mm}#print-root .clg-t{font-size:8pt;font-weight:700;margin:0 0 .8mm}#print-root .clg-s{font-size:7.5pt;color:#333;margin:.8mm 0 0}
+#print-root .clg-c svg{display:block;width:100%;height:auto}#print-root .clg-pouco{font-size:8pt;color:#555;padding:4mm 0;text-align:center}
+#print-root .clg-svg text{font-family:inherit;font-size:9px;fill:#555}#print-root .clg-svg .k{fill:#111}#print-root .clg-svg .g{stroke:#e4e4e4}#print-root .clg-svg .ax{stroke:#888}
+#print-root .clg-svg .ln{fill:none;stroke:#999;stroke-width:1}#print-root .clg-svg .md{stroke:#5b3fd6;stroke-width:1.4}#print-root .clg-svg .ct{stroke:#b45309;stroke-width:1.3;stroke-dasharray:5 3}
+#print-root .clg-svg .es{stroke:#b91c1c;stroke-width:1.2;stroke-dasharray:2 3}#print-root .clg-svg .sm{fill:#efeafb}#print-root .clg-svg .bz{fill:#fbeaea}
+#print-root .clg-svg .p{fill:#fff;stroke:#5b3fd6;stroke-width:1.4}#print-root .clg-svg .p.c{fill:#5b3fd6}#print-root .clg-svg .p.f{stroke:#b91c1c}#print-root .clg-svg .p.f.c{fill:#b91c1c}
+#print-root .clg-svg .b{fill:#5b3fd6}#print-root .clg-svg .b.lo{fill:#b91c1c}#print-root .clg-svg .b.hi{fill:#b45309}#print-root .clg-svg .tr{stroke:#b45309;stroke-width:1.6}
 .gut-tg{display:flex;align-items:center;gap:8px;flex:1;min-width:0;width:auto;text-align:left;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r-ctl);padding:9px 10px;color:var(--text);font:inherit;cursor:pointer}.gut-tg small{color:var(--text-dim);font-weight:400}.gut-tg>span{flex:1}.gut-tg-r{font-style:normal;font-weight:600;font-size:.85em;color:var(--primary)}.gut-tg i{font-style:normal;color:var(--text-dim)}.gut-tg+.gut-box{margin-top:6px}
 .gut-box{display:grid;gap:8px;padding:10px;border:1px solid var(--border);border-radius:var(--r-ctl);background:var(--surface-2)}
 .gut-l{display:grid;grid-template-columns:92px auto;column-gap:10px;row-gap:2px;align-items:center}
@@ -781,6 +811,7 @@ body[data-theme="ponto"]::before{background:radial-gradient(rgba(60,60,110,.16) 
 #print-root{display:none}
 @media print{
   html,body{background:#fff!important;color:#000!important}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important} /* v2.102.49: o PDF salvo mantém as cores (etiquetas, faixas, gráficos) */
   body>*:not(#print-root){display:none!important}
   body::before{display:none!important}
   #print-root img.rn-f{width:21mm;height:21mm;object-fit:cover;display:inline-block;margin:0 1mm 1mm 0;border-radius:1mm}
@@ -3094,7 +3125,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.47 · Até 5 leis / requisitos por NC (chips, sugestões, impressão e Pareto contam todas)';
+const APP_VERSION = 'v2.102.50 · Regra A28.2: cada NC é "Tratativa direta" ou "Com análise" (registro, troca com motivo, conferência e filtro)';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -4845,6 +4876,131 @@ function cloroGaugesPrint(rows) {
   if (!locs.length) return '';
   return '<div style="font-size:7.5pt;color:#555;margin:0 0 1mm">Velocímetros: média por local das leituras deste relatório (bebedouros).</div><div class="rel-g">' + locs.map(l => { const vs = regs.filter(r => r.local === l).map(valorFinal); const md = vs.length ? vs.reduce((a, b) => a + b, 0) / vs.length : null; return '<div class="rg">' + gaugeSVG(md, true) + '<b>' + (md == null ? '—' : ppm(md)) + '</b><span>' + esc(l) + '</span></div>'; }).join('') + '</div>';
 }
+/* ============ v2.102.49 — gráficos do cloro nos relatórios impressos ============
+   Só no papel (Relatórios da semana e Relatório do cloro do mês); nada na tela do Cloro.
+   Carta de controle (valores individuais, por ponto): média, LSC/LIC = média ± 2,66 × amplitude móvel média (LIC nunca < 0); vermelho = fora de LSC/LIC
+   ou 7+ seguidos do mesmo lado da média; linha 0,20 (especificação) nos bebedouros. Pede 10 leituras; com menos, escreve "poucas leituras para a carta".
+   Histograma: a 1ª leitura de cada verificação, classes de 0,10 ppm. Dispersão: dosagem (ml) × quanto o cloro subiu (leitura depois − leitura antes).
+   Cloro × laudo da água: cada coleta de água dos últimos 12 meses com o cloro do mesmo bebedouro no dia da coleta.
+   Semana: as últimas 4 semanas, com a do relatório em pontos cheios. Mês: o mês inteiro. Leituras tratadas (excluirMedia) e pontos com cadastro pendente ficam fora. */
+const CLG_MIN = 10;
+const clgN = (v, c) => Number(v).toFixed(c == null ? 2 : c).replace('.', ',');
+function clgLeituras(ini, fim, filtro) {
+  return (S.cloro || []).filter(r => r.data && r.data >= ini && r.data <= fim && !r.pendenteCadastro && !r.excluirMedia && r.valor != null && !isNaN(Number(r.valor)) && (!filtro || filtro(r)))
+    .sort((a, b) => String(a.data + (a.hora || '')).localeCompare(String(b.data + (b.hora || ''))));
+}
+function clgCarta(v) {
+  const n = v.length, m = v.reduce((a, b) => a + b, 0) / n; let am = 0;
+  for (let i = 1; i < n; i++) am += Math.abs(v[i] - v[i - 1]);
+  am = n > 1 ? am / (n - 1) : 0;
+  const lsc = m + 2.66 * am, lic = Math.max(0, m - 2.66 * am), fora = v.map(x => x > lsc + 1e-9 || x < lic - 1e-9);
+  let seq = 1; for (let i = 1; i < n; i++) { seq = (v[i] > m) === (v[i - 1] > m) && v[i] !== m ? seq + 1 : 1; if (seq >= 7) for (let j = i - 6; j <= i; j++) fora[j] = true; }
+  return { m: m, am: am, lsc: lsc, lic: lic, fora: fora };
+}
+function clgCartaSVG(pts, bebe) {
+  const v = pts.map(p => Number(p.v)), c = clgCarta(v), n = v.length, W = 600, H = 112, L = 34, R = 40, T = 6, B = 18;
+  const ym = Math.max(1, Math.ceil(Math.max.apply(null, v.concat([c.lsc, bebe ? 0.2 : 0])) * 5 + 0.5) / 5);
+  const X = k => L + (W - L - R) * (n > 1 ? k / (n - 1) : 0.5), Y = x => T + (H - T - B) * (1 - Math.min(x, ym) / ym);
+  let o = '<svg class="clg-svg" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Carta de controle">';
+  const di = pts.findIndex(p => p.dest);
+  if (di >= 0 && di > 0) o += '<rect class="sm" x="' + (X(di) - 5).toFixed(1) + '" y="' + T + '" width="' + (X(n - 1) - X(di) + 10).toFixed(1) + '" height="' + (H - T - B) + '"/><text x="' + ((X(di) + X(n - 1)) / 2).toFixed(1) + '" y="' + (T + 9) + '" text-anchor="middle">semana do relatório</text>';
+  for (let g = 0; g <= ym + 1e-9; g += ym > 1.6 ? 0.5 : 0.4) o += '<line class="g" x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(g).toFixed(1) + '" y2="' + Y(g).toFixed(1) + '"/><text x="' + (L - 4) + '" y="' + (Y(g) + 3).toFixed(1) + '" text-anchor="end">' + esc(clgN(g, 1)) + '</text>';
+  /* rótulos das linhas à direita, afastados quando ficam perto (ex.: LIC perto do 0,20) */
+  const lin = [[c.lsc, 'ct', 'LSC'], [c.m, 'md', 'média'], [c.lic, 'ct', 'LIC']].concat(bebe ? [[0.2, 'es', '0,20']] : []).map(x => ({ y: Y(x[0]), cls: x[1], lb: x[2] })).sort((a, b) => a.y - b.y);
+  lin.forEach((x, i) => { x.ty = x.y + 3; if (i && x.ty - lin[i - 1].ty < 10) x.ty = lin[i - 1].ty + 10; });
+  lin.forEach(x => { o += '<line class="' + x.cls + '" x1="' + L + '" x2="' + (W - R) + '" y1="' + x.y.toFixed(1) + '" y2="' + x.y.toFixed(1) + '"/><text class="k" x="' + (W - R + 3) + '" y="' + x.ty.toFixed(1) + '">' + esc(x.lb) + '</text>'; });
+  o += '<path class="ln" d="' + v.map((x, k) => (k ? 'L' : 'M') + X(k).toFixed(1) + ' ' + Y(x).toFixed(1)).join(' ') + '"/>';
+  v.forEach((x, k) => { const f = c.fora[k] || (bebe && x < 0.2); o += '<circle class="p' + (f ? ' f' : '') + (pts[k].dest ? ' c' : '') + '" cx="' + X(k).toFixed(1) + '" cy="' + Y(x).toFixed(1) + '" r="' + (f ? 4 : 3) + '"><title>' + esc(fmtD(pts[k].data) + ' · ' + clgN(x)) + ' ppm</title></circle>'; });
+  [0, Math.floor((n - 1) / 2), n - 1].filter((k, i, a) => a.indexOf(k) === i).forEach(k => { o += '<text x="' + X(k).toFixed(1) + '" y="' + (H - 5) + '" text-anchor="middle">' + esc(fmtD(pts[k].data).slice(0, 5)) + '</text>'; });
+  const nf = c.fora.filter(Boolean).length;
+  return { svg: o + '</svg>', txt: 'Média ' + clgN(c.m) + ' · LSC ' + clgN(c.lsc) + ' · LIC ' + clgN(c.lic) + ' · ' + (nf ? nf + (nf > 1 ? ' leituras fora de controle' : ' leitura fora de controle') + ' (vermelho)' : 'processo estável') };
+}
+function clgHistSVG(pts, bebe) {
+  const v = pts.map(p => Number(p.v)), nc = Math.max(12, Math.min(30, Math.ceil(Math.max.apply(null, v) / 0.1 + 1e-9) + 1)), cl = [];
+  for (let i = 0; i < nc; i++) cl.push(0);
+  v.forEach(x => { cl[Math.min(nc - 1, Math.floor(x / 0.1 + 1e-9))]++; });
+  const W = 290, H = 112, L = 20, R = 6, T = 10, B = 18, mx = Math.max.apply(null, cl), cw = (W - L - R) / nc, Y = k => T + (H - T - B) * (1 - k / mx);
+  let o = '<svg class="clg-svg" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Histograma">';
+  cl.forEach((k, i) => { if (!k) return; const lo = i / 10; o += '<rect class="b' + (bebe && lo < 0.2 - 1e-9 ? ' lo' : bebe && lo >= 2 - 1e-9 ? ' hi' : '') + '" x="' + (L + i * cw + 1).toFixed(1) + '" y="' + Y(k).toFixed(1) + '" width="' + Math.max(1, cw - 2).toFixed(1) + '" height="' + (Y(0) - Y(k)).toFixed(1) + '"/><text class="k" x="' + (L + i * cw + cw / 2).toFixed(1) + '" y="' + (Y(k) - 2).toFixed(1) + '" text-anchor="middle">' + esc(k) + '</text>'; });
+  if (bebe) [0.2, 2].forEach(x => { if (x * 10 <= nc) { const xx = L + x * 10 * cw; o += '<line class="es" x1="' + xx.toFixed(1) + '" x2="' + xx.toFixed(1) + '" y1="' + T + '" y2="' + (H - B) + '"/>'; } });
+  o += '<line class="ax" x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(0).toFixed(1) + '" y2="' + Y(0).toFixed(1) + '"/>';
+  for (let g = 0; g <= (nc - 1) / 10 + 1e-9; g += nc > 20 ? 1 : 0.5) o += '<text x="' + (L + g * 10 * cw).toFixed(1) + '" y="' + (H - 5) + '" text-anchor="middle">' + esc(clgN(g, 1)) + '</text>';
+  const m = v.reduce((a, b) => a + b, 0) / v.length, fora = bebe ? v.filter(x => x < 0.2 || x > 2).length : 0;
+  return { svg: o + '</svg>', txt: v.length + (v.length > 1 ? ' leituras' : ' leitura') + ' · média ' + clgN(m) + (bebe ? ' · ' + clgN(fora / v.length * 100, 1) + '% fora da faixa' : '') };
+}
+/* pares (dosagem, aumento) de cada aplicação com leitura depois */
+function clgAplic(regs) {
+  const out = [];
+  regs.forEach(r => { let ant = Number(r.valor); (r.reverif || []).forEach(x => { if (x.semLeitura || x.valor == null) return; if (x.dosagemMl != null && !isNaN(Number(x.dosagemMl))) out.push({ x: Number(x.dosagemMl), y: Number(x.valor) - ant, dest: r._dest, pt: r.pontoNome }); ant = Number(x.valor); }); });
+  return out;
+}
+function clgDispSVG(pts) {
+  const W = 380, H = 112, L = 32, R = 8, T = 6, B = 18, xm = Math.max(10, Math.ceil(Math.max.apply(null, pts.map(p => p.x)) / 10) * 10);
+  const ys = pts.map(p => p.y), y0 = Math.min(0, Math.floor(Math.min.apply(null, ys) * 5) / 5), y1 = Math.max(0.4, Math.ceil(Math.max.apply(null, ys) * 5) / 5);
+  const X = x => L + (W - L - R) * x / xm, Y = y => T + (H - T - B) * (1 - (y - y0) / (y1 - y0));
+  let o = '<svg class="clg-svg" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Dispersão dosagem × aumento">';
+  for (let g = y0; g <= y1 + 1e-9; g += (y1 - y0) > 1.2 ? 0.4 : 0.2) o += '<line class="g" x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(g).toFixed(1) + '" y2="' + Y(g).toFixed(1) + '"/><text x="' + (L - 4) + '" y="' + (Y(g) + 3).toFixed(1) + '" text-anchor="end">' + esc(clgN(g, 1)) + '</text>';
+  for (let g = 0; g <= xm; g += xm > 50 ? 20 : 10) o += '<text x="' + X(g).toFixed(1) + '" y="' + (H - 6) + '" text-anchor="' + (g === 0 ? 'start' : g + (xm > 50 ? 20 : 10) > xm ? 'end' : 'middle') + '">' + esc(g) + ' ml</text>';
+  const n = pts.length; let txt = '';
+  if (n >= 2) {
+    let sx = 0, sy = 0, sxx = 0, sxy = 0, syy = 0; pts.forEach(p => { sx += p.x; sy += p.y; sxx += p.x * p.x; sxy += p.x * p.y; syy += p.y * p.y; });
+    const dx = n * sxx - sx * sx;
+    if (dx > 1e-9) {
+      const b = (n * sxy - sx * sy) / dx, a = (sy - b * sx) / n, dy = n * syy - sy * sy, r = dy > 1e-12 ? (n * sxy - sx * sy) / Math.sqrt(dx * dy) : 0;
+      const xa = Math.min.apply(null, pts.map(p => p.x)), xb = Math.max.apply(null, pts.map(p => p.x));
+      o += '<line class="tr" x1="' + X(xa).toFixed(1) + '" y1="' + Y(Math.max(y0, Math.min(y1, a + b * xa))).toFixed(1) + '" x2="' + X(xb).toFixed(1) + '" y2="' + Y(Math.max(y0, Math.min(y1, a + b * xb))).toFixed(1) + '"/>';
+      txt = 'cada 10 ml sobem ' + clgN(b * 10) + ' ppm' + (n >= 3 ? ' · relação ' + (Math.abs(r) >= 0.7 ? 'forte' : Math.abs(r) >= 0.4 ? 'média' : 'fraca') + ' (r = ' + clgN(r) + ')' : '');
+    }
+  }
+  pts.forEach(p => { o += '<circle class="p' + (p.dest ? ' c' : '') + '" cx="' + X(p.x).toFixed(1) + '" cy="' + Y(p.y).toFixed(1) + '" r="3.2"><title>' + esc(p.pt + ': ' + clgN(p.x, 0) + ' ml → +' + clgN(p.y)) + ' ppm</title></circle>'; });
+  o += '<line class="ax" x1="' + L + '" x2="' + (W - R) + '" y1="' + Y(0).toFixed(1) + '" y2="' + Y(0).toFixed(1) + '"/>';
+  return { svg: o + '</svg>', txt: n + (n > 1 ? ' aplicações' : ' aplicação') + (txt ? ' · ' + txt : '') };
+}
+function clgLaudos(fim, filtroBeb) {
+  const ini = addDias(fim, -365);
+  return (S.aguacol || []).filter(c => c.situacao !== 'cancelada' && (c.resultado === 'CONFORME' || c.resultado === 'NÃO CONFORME') && c.data && c.data > ini && c.data <= fim)
+    .map(c => {
+      const ids = agBebIds(c).filter(id => !filtroBeb || filtroBeb(id)); if (!ids.length) return null;
+      const vs = ids.map(id => { const rs = (S.cloro || []).filter(r => r.pontoTipo === 'beb' && r.pontoId === id && r.data === c.data && r.valor != null).sort((a, b) => String(a.hora || '').localeCompare(String(b.hora || ''))); return rs.length ? Number(rs[0].valor) : null; }).filter(v => v != null);
+      return { cl: vs.length ? vs.reduce((a, b) => a + b, 0) / vs.length : null, nc: agNC(c), ag: agAgenteTxt(c), nome: c.pontoNome || '', data: c.data };
+    }).filter(Boolean).sort((a, b) => a.data.localeCompare(b.data));
+}
+function clgLaudoSVG(l) {
+  const com = l.filter(x => x.cl != null), W = 800, H = 112, L = 92, R = 14, T = 8, B = 18, xm = Math.max(1.4, Math.ceil(Math.max.apply(null, com.map(x => x.cl).concat([0])) * 5) / 5);
+  const X = c => L + (W - L - R) * Math.min(c, xm) / xm, YC = 40, YN = 80;
+  let o = '<svg class="clg-svg" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Cloro no dia da coleta × resultado do laudo">';
+  o += '<rect class="bz" x="' + X(0).toFixed(1) + '" y="' + T + '" width="' + (X(0.2) - X(0)).toFixed(1) + '" height="' + (H - T - B) + '"/><line class="es" x1="' + X(0.2).toFixed(1) + '" x2="' + X(0.2).toFixed(1) + '" y1="' + T + '" y2="' + (H - B) + '"/>';
+  [[YC, 'Conforme'], [YN, 'Não conforme']].forEach(r => { o += '<line class="g" x1="' + L + '" x2="' + (W - R) + '" y1="' + r[0] + '" y2="' + r[0] + '"/><text class="k" x="' + (L - 6) + '" y="' + (r[0] + 3) + '" text-anchor="end">' + esc(r[1]) + '</text>'; });
+  let kc = 0, kn = 0;
+  com.forEach(x => {
+    if (!x.nc) { o += '<circle class="p" cx="' + X(x.cl).toFixed(1) + '" cy="' + (YC + ((kc++ % 3) - 1) * 7) + '" r="3.2"><title>' + esc(fmtD(x.data) + ' · ' + x.nome + ' · ' + clgN(x.cl)) + ' ppm</title></circle>'; return; }
+    const yy = YN + ((kn % 3) - 1) * 11; kn++;
+    o += '<circle class="p f c" cx="' + X(x.cl).toFixed(1) + '" cy="' + YN + '" r="4.2"/><text class="k" x="' + (X(x.cl) + 7).toFixed(1) + '" y="' + (yy + 3) + '">' + esc((x.ag || 'NC') + ' · ' + x.nome + ' · ' + fmtD(x.data).slice(0, 5)) + '</text>';
+  });
+  for (let g = 0; g <= xm + 1e-9; g += 0.2) if (Math.abs(g * 10 % 2) < 1e-6 || g === 0.2) o += '<text x="' + X(g).toFixed(1) + '" y="' + (H - 7) + '" text-anchor="middle">' + esc(clgN(g)) + '</text>';
+  o += '<text x="' + (W - R) + '" y="' + (T + 9) + '" text-anchor="end">cloro livre no dia da coleta (ppm)</text>';
+  const ncs = com.filter(x => x.nc), baixo = ncs.filter(x => x.cl < 0.2).length, sem = l.filter(x => x.cl == null).length;
+  return { svg: o + '</svg>', txt: l.length + (l.length > 1 ? ' laudos' : ' laudo') + ' · ' + (ncs.length ? baixo + ' de ' + ncs.length + (ncs.length > 1 ? ' não conformidades' : ' não conformidade') + ' com cloro abaixo de 0,20' : 'nenhum não conforme') + (sem ? ' · ' + sem + ' sem leitura de cloro no dia (fora do gráfico)' : '') };
+}
+/* o bloco inteiro: o = { ini, fim, dest ('' = sem destaque), rotulo, filtro(r), filtroBeb(id) } */
+function clgHTML(o) {
+  const regs = clgLeituras(o.ini, o.fim, o.filtro).map(r => Object.assign({}, r, { _dest: !!o.dest && r.data >= o.dest }));
+  if (!regs.length) return '';
+  const g = {}; regs.forEach(r => { const k = (r.pontoTipo || '') + ':' + (r.pontoId || r.pontoNome); (g[k] = g[k] || { nome: r.pontoNome || '', bebe: r.pontoTipo !== 'caixa', l: [] }).l.push(r); });
+  const cel = (t, corpo, s, w2) => '<div class="clg-c' + (w2 ? ' clg-w2' : '') + '"><div class="clg-t">' + esc(t) + '</div>' + corpo + (s ? '<div class="clg-s">' + esc(s) + '</div>' : '') + '</div>';
+  const pontos = Object.keys(g).map(k => g[k]).sort((a, b) => (b.bebe - a.bebe) || a.nome.localeCompare(b.nome, 'pt-BR', { numeric: true }));
+  const linhas = pontos.map(p => {
+    const pts = p.l.map(r => ({ v: Number(r.valor), dest: r._dest, data: r.data })), nomeP = p.nome + (p.bebe ? '' : ' (caixa)');
+    const ca = pts.length >= CLG_MIN ? clgCartaSVG(pts, p.bebe) : null, hi = clgHistSVG(pts, p.bebe);
+    return '<div class="clg-r ar">' + cel(esc(['Carta de controle', nomeP, o.rotulo].join(' · ')), ca ? ca.svg : '<div class="clg-pouco">Poucas leituras para a carta (' + esc(pts.length) + ' de ' + esc(CLG_MIN) + ').</div>', ca ? ca.txt : '', true) +
+      cel(esc(['Histograma', nomeP, o.rotulo].join(' · ')), hi.svg, hi.txt) + '</div>';
+  }).join('');
+  const ap = clgAplic(regs), dp = ap.length ? clgDispSVG(ap) : null, nPt = new Set(ap.map(a => a.pt)).size;
+  const la = clgLaudos(o.fim, o.filtroBeb), lg = la.length ? clgLaudoSVG(la) : null;
+  return '<div class="clg"><div class="clg-leg ar">Gráficos do cloro (' + esc(o.rotulo) + ')' + (o.dest ? ': pontos cheios = semana do relatório; vazados = semanas anteriores' : '') + '. Primeira leitura de cada verificação; leituras tratadas ficam fora. Bebedouro: 0,20 a 2,00 ppm.</div>' + linhas +
+    '<div class="clg-r clg-r2 ar">' + cel(esc('Dispersão · dosagem × aumento do cloro · ' + o.rotulo), dp ? dp.svg : '<div class="clg-pouco">Nenhuma aplicação com leitura depois.</div>', dp ? dp.txt + (nPt > 1 ? ' · mistura pontos de volumes diferentes' : '') : '') +
+      cel(esc('Cloro × laudo da água · últimos 12 meses'), lg ? lg.svg : '<div class="clg-pouco">Nenhum laudo de água (conforme ou não conforme) nos últimos 12 meses.</div>', lg ? lg.txt : '', true) + '</div></div>';
+}
 function gaugesHTML() {
   const locs = locaisVisiveis();
   if (!locs.length) return '<div class="bars"><h3>Velocímetros</h3><p style="color:var(--text-muted);font-size:13px">Nenhum bebedouro ativo com local cadastrado ainda.</p></div>';
@@ -6071,7 +6227,9 @@ function gerarCloroRel() {
   const tab = '<table class="mc pt">' + ptColgroup([7, 5, 8.5, 9, 6.5, 7, 6.5, 9, 11, 11, 19.5]) + '<thead><tr><th>Data</th><th>Hora</th><th>Ponto</th><th>Local</th><th>Cloro (ppm)</th><th>Dos. (ml)</th><th>Após (ppm)</th><th>Status</th><th>Verificado por</th><th>Aprovado por</th><th>Observações</th></tr></thead><tbody>' + linhas + '</tbody></table>';
   Audit.log({ acao: 'imprimir', entidade: 'relatorio', entidadeId: 'cloro_' + mes, resumo: 'Gerou o relatório do cloro de ' + mes + (loc ? ' (' + loc + ')' : '') + ' — ' + regs.length + ' registros' });
   closeSheet();
-  runPrint(topo + tab, titulo, 'landscape', '');
+  const fimMes = addDias(addDias(mes + '-01', 32).slice(0, 7) + '-01', -1), locDe = id => { const b = (S.bebs || []).find(x => x.id === id); return b ? b.local || '' : ''; };
+  const graf = clgHTML({ ini: mes + '-01', fim: fimMes, dest: '', rotulo: 'mês', filtro: r => (!loc || r.local === loc) && (!tp || r.pontoTipo === tp), filtroBeb: tp === 'caixa' ? (() => false) : loc ? (id => locDe(id) === loc) : null }); /* v2.102.49 */
+  runPrint(topo + tab + graf, titulo, 'landscape', ''); /* tabela primeiro, depois os gráficos */
 }
 
 /* ---------- decisões de aprovação ligadas ao cloro ---------- */
@@ -10652,7 +10810,7 @@ function ncRncCardHTML(x) {
   const st = x.sit === 'fechada' ? ['Fechada', 'ok'] : x.sit === 'vencida' ? ['Vencida', 'crit'] : n.ret ? [RNC_RES[n.ret.res][0], 'warn'] : ['Aberta', 'warn'];
   return '<button class="ap-card g-' + (n.grav === 'maior' ? 'urgente' : n.grav === 'media' ? 'media' : 'baixa') + '" data-action="rnc-item" data-id="' + esc(r.id) + '" data-n="' + esc(n.n) + '"><span class="ap-img">' + img + '</span><span class="ap-body">' +
     '<span class="ap-t">Auditoria · ' + esc(r.numero) + ' · ' + rncNum(n.n) + '</span><span class="ap-d"><b>' + esc(n.local) + '</b> · ' + esc(n.nc) + '</span>' +
-    '<span class="ap-m"><span class="chip ' + esc(g[1]) + '">' + esc(g[0]) + '</span><span class="chip ' + esc(st[1]) + '">' + esc(st[0]) + '</span>' + gutChip(gutDe(n.id)) + '</span>' +
+    '<span class="ap-m"><span class="chip ' + esc(g[1]) + '">' + esc(g[0]) + '</span><span class="chip ' + esc(st[1]) + '">' + esc(st[0]) + '</span>' + gutChip(gutDe(n.id)) + tratChip(n) + '</span>' +
     '<span class="ap-meta">' + esc(r.tipo || '') + ' · ' + fmtD(r.data) + ' · auditor ' + esc(r.auditorNome || '') + '</span></span></button>';
 }
 /* v2.102.44: pessoas das NCs (responsável e corresponsáveis; apontamentos pelo nome do responsável) */
@@ -10684,7 +10842,8 @@ function ncPessoaImprimir() {
 document.addEventListener('change', e => { if (e.target && e.target.id === 'nc-pes') { S.ncP = e.target.value; renderView(); } });
 function viewNC() {
   const f = S.ncF || 'abertas', o = S.ncO || 'todas', pes = S.ncP || '';
-  const tudo0 = ncItens(), pessoas = ncPessoas(tudo0), tudo = pes ? tudo0.filter(x => ncPapel(x, pes)) : tudo0, base = tudo.filter(x => o === 'todas' || x.k === o);
+  const tt = S.ncT || 'todas'; /* v2.102.50: Tratamento (só as NCs das auditorias têm) */
+  const tudo0 = ncItens(), pessoas = ncPessoas(tudo0), tudo1 = pes ? tudo0.filter(x => ncPapel(x, pes)) : tudo0, tudo = tt === 'todas' ? tudo1 : tudo1.filter(x => x.k === 'rnc' && ncTrat(x.n) === tt), base = tudo.filter(x => o === 'todas' || x.k === o);
   const F = { abertas: x => x.sit !== 'fechada', vencidas: x => x.sit === 'vencida', fechadas: x => x.sit === 'fechada', todas: () => true };
   const kp = [['abertas', 'Abertas', 'warn'], ['vencidas', 'Vencidas', 'crit'], ['fechadas', 'Fechadas', 'ok'], ['todas', 'Todas', 'info']];
   /* v2.102.44 (pedido do Elias): um filtro só, retrátil — botão com o resumo; abre o painel com Situação, Origem e Pessoa */
@@ -10692,14 +10851,16 @@ function viewNC() {
   const nAp = tudo.filter(x => x.k === 'ap').length, nRn = tudo.length - nAp;
   const lst = base.filter(F[f] || F.abertas), ab = !!S.ncFAb;
   const op = (a, id, t, on) => '<button type="button" class="ncf-op' + (on ? ' on' : '') + '" data-action="' + esc(a) + '" data-id="' + esc(id) + '" aria-pressed="' + (on ? 'true' : 'false') + '">' + esc(t) + '</button>';
-  const resumo = [(kp.find(k => k[0] === f) || kp[0])[1], o === 'ap' ? 'Apontamentos' : o === 'rnc' ? 'Auditorias internas' : '', pes].filter(Boolean).join(' · ');
+  const resumo = [(kp.find(k => k[0] === f) || kp[0])[1], o === 'ap' ? 'Apontamentos' : o === 'rnc' ? 'Auditorias internas' : '', tt === 'direta' ? 'Direta' : tt === 'analise' ? 'Com análise' : '', pes].filter(Boolean).join(' · ');
+  const nTr = k => tudo1.filter(x => x.k === 'rnc' && (k === 'todas' || ncTrat(x.n) === k)).length;
   const filtro = '<div class="ncf"><div class="ncf-bar"><button type="button" class="btn ncf-tg" data-action="nc-ftg" aria-expanded="' + (ab ? 'true' : 'false') + '" aria-controls="ncf-pn"><span class="ncf-k">Filtro</span><b>' + esc(resumo) + '</b><span class="ncf-q">' + esc(lst.length) + ' NC(s)</span><span class="ncf-s" aria-hidden="true">' + (ab ? '▴' : '▾') + '</span></button>' +
     (pes ? '<button type="button" class="btn ncf-pr" data-action="nc-pes-print" title="Imprimir as NCs de ' + esc(pes) + '" aria-label="Imprimir as NCs de ' + esc(pes) + '">' + icoI('print') + '</button>' : '') + '</div>' +
     '<div class="ncf-pn" id="ncf-pn"' + (ab ? '' : ' hidden') + '>' +
     '<div class="ncf-g"><span class="ncf-l">Situação</span><div class="ncf-ops">' + kpi.map(k => op('nc-f', k[0], k[1] + ' (' + String(k[2]) + ')', f === k[0])).join('') + '</div></div>' +
     '<div class="ncf-g"><span class="ncf-l">Origem</span><div class="ncf-ops">' + [['todas', 'Todas', tudo.length], ['ap', 'Apontamentos', nAp], ['rnc', 'Auditorias internas', nRn]].map(z => op('nc-o', z[0], z[1] + ' (' + String(z[2]) + ')', o === z[0])).join('') + '</div></div>' +
+    '<div class="ncf-g"><span class="ncf-l">Tratamento</span><div class="ncf-ops">' + [['todas', 'Todas'], ['direta', 'Direta'], ['analise', 'Com análise']].map(z => op('nc-t', z[0], z[1] + (z[0] === 'todas' ? '' : ' (' + String(nTr(z[0])) + ')'), tt === z[0])).join('') + '</div></div>' + /* v2.102.50 */
     (pessoas.length ? '<div class="ncf-g"><label class="ncf-l" for="nc-pes">Pessoa</label><select class="input" id="nc-pes"><option value="">Todas as pessoas</option>' + pessoas.map(p => '<option value="' + esc(p) + '"' + (mdNorm(p) === mdNorm(pes) ? ' selected' : '') + '>' + esc(p) + '</option>').join('') + '</select></div>' : '') +
-    (f !== 'abertas' || o !== 'todas' || pes ? '<div class="ncf-pe"><button type="button" class="fm-link" data-action="nc-flimpa">Limpar o filtro</button></div>' : '') + '</div></div>';
+    (f !== 'abertas' || o !== 'todas' || pes || tt !== 'todas' ? '<div class="ncf-pe"><button type="button" class="fm-link" data-action="nc-flimpa">Limpar o filtro</button></div>' : '') + '</div></div>';
   if (!tudo0.length) return '<div class="empty"><div class="empty-ic">' + ico('shield') + '</div><h2>Nenhuma NC ainda</h2><p>Uma NC nasce de um apontamento (Inspeções › Apontamentos › “Abrir NC”) ou de uma auditoria interna (Inspeções › Auditoria interna, depois de enviar a RNC).</p></div>';
   const card = x => x.k === 'ap'
     ? '<div class="rn-item">' + apCardHTML(x.a) + '<div class="ap-hint">Responsável: <b>' + esc(x.a.nc.responsavel) + '</b> · prazo ' + fmtD(x.a.nc.prazo) + (x.sit === 'vencida' ? ' · <b style="color:var(--crit)">vencida há ' + difDias(x.a.nc.prazo, hojeISO()) + ' dia(s)</b>' : '') + '</div></div>'
@@ -10948,8 +11109,8 @@ async function gerarRelSemana(seg) {
   const sec = (t, sub, corpo) => '<section class="rs-sec"><h2 class="rs-h">' + esc(t) + '<small>' + esc(sub) + '</small></h2>' + corpo + '</section>';
   let html = '';
   if (partes.indexOf('apont') >= 0) html += sec('Apontamentos — reunião', d.ap.semana.length + ' na semana · ' + d.ap.anteriores.length + ' pendente(s) de semanas anteriores', await apReuniaoCorpo(d.ap));
-  if (partes.indexOf('cloro') >= 0) html += sec('Verificações de cloro', d.cloro.length + ' verificação(ões) · ' + d.cloro.filter(r => r.pontoTipo === 'beb' && faixaDe(r.valor) !== 'conforme').length + ' fora da faixa', (d.cloro.length ? cloroGaugesPrint(d.cloro) : '') +
-    tab(['Data', 'Hora', 'Ponto', 'Local', 'Cloro', 'Dosagem (ml)', 'Após', 'Faixa', 'Situação', 'Por'], d.cloro.map(r => [dc(r.data), esc(r.hora), esc(r.pontoNome), esc(r.local || ''), ppm(r.valor), esc(dosagensTxt(r)), temLeituraApos(r) ? ppm(valorFinal(r)) : '', esc(faixaTxt(r.pontoTipo === 'caixa' ? 'livre' : faixaDe(r.valor))), esc(sitCloroTxt(r)), esc(r.lancadoPorNome || '')]), 'Nenhuma verificação nesta semana.'));
+  if (partes.indexOf('cloro') >= 0) html += sec('Verificações de cloro', d.cloro.length + ' verificação(ões) · ' + d.cloro.filter(r => r.pontoTipo === 'beb' && faixaDe(r.valor) !== 'conforme').length + ' fora da faixa', (d.cloro.length ? cloroGaugesPrint(d.cloro) : '') + /* v2.102.49: os gráficos vêm depois da tabela (pedido do Elias) */
+    tab(['Data', 'Hora', 'Ponto', 'Local', 'Cloro', 'Dosagem (ml)', 'Após', 'Faixa', 'Situação', 'Por'], d.cloro.map(r => [dc(r.data), esc(r.hora), esc(r.pontoNome), esc(r.local || ''), ppm(r.valor), esc(dosagensTxt(r)), temLeituraApos(r) ? ppm(valorFinal(r)) : '', esc(faixaTxt(r.pontoTipo === 'caixa' ? 'livre' : faixaDe(r.valor))), esc(sitCloroTxt(r)), esc(r.lancadoPorNome || '')]), 'Nenhuma verificação nesta semana.') + (d.cloro.length ? clgHTML({ ini: addDias(seg, -21), fim: d.fim, dest: seg, rotulo: 'últimas 4 semanas' }) : '')); /* v2.102.49: gráficos depois da tabela */
   if (partes.indexOf('coletas') >= 0) html += sec('Coletas e remessas', d.col.length + ' coletada(s) · ' + d.env.length + ' enviada(s)' + (d.agua.length ? ' · ' + d.agua.length + ' de água' : ''),
     '<h3 class="rs-h3">Coletadas na semana</h3>' + tab(['Data', 'Tipo', 'Talhão / local', 'Análise', 'Coletor', 'Laboratório', 'Enviada'], d.col.map(c => [dc(c.data), esc(TIPO_ANALISE_TXT[c.tipo] || c.tipo), esc(c.talhao || c.loteComp || ''), esc(c.analiseNome || ''), esc(c.coletor || ''), esc(c.lab || ''), c.enviado ? dc(c.envio) : 'não']), 'Nenhuma coleta nesta semana.') +
     '<h3 class="rs-h3">Enviadas na semana</h3>' + tab(['Envio', 'Tipo', 'Talhão / local', 'Análise', 'Laboratório', 'O.S', 'Laudo previsto'], d.env.map(c => [dc(c.envio), esc(TIPO_ANALISE_TXT[c.tipo] || c.tipo), esc(c.talhao || c.loteComp || ''), esc(c.analiseNome || ''), esc(c.lab || ''), esc(c.os || '—'), dc(addDias(c.envio, labPrazo(c.lab)))]), 'Nenhum envio nesta semana.') +
@@ -14241,7 +14402,7 @@ function openRnc(id) {
   if (risco) ls.sort((a, c) => ((gutDe(c.id) || {}).gut || 0) - ((gutDe(a.id) || {}).gut || 0) || a.n - c.n);
   const lista = ls.map(n => { let h = ''; if (!risco && n.area !== area) { area = n.area; h = '<div class="rnc-sec">' + esc(rncAreaNome(n.area)) + '</div>'; }
     const rt = n.ret ? RNC_RES[n.ret.res] : null, g = RNC_GRAV[n.grav] || RNC_GRAV.baixa, ri = rncReinc(r, n);
-    return h + '<button class="rnc-li g-' + esc(n.grav) + '" data-action="rnc-item" data-id="' + esc(r.id) + '" data-n="' + n.n + '"><span class="rnc-n">' + rncNum(n.n) + '</span><span class="rnc-li-t"><b>' + esc(n.nc) + (apNcMud(r, n.id) ? '<i class="ap-mk" title="Alterada na apresentação">!</i>' : '') + '</b><small>' + esc(n.local) + ' · ' + esc(n.respNome || '') + (rncCoresp(n).length ? ' + ' + esc(rncCoresp(n).length) : '') + (n.ciente ? ' · ciente' : ' · não ciente') + (ri ? ' · reincidente' : '') + (apStDe(n) === 'iniciado' && s === 'registro' ? ' · <span class="ap-ini">Iniciado</span>' : '') + '</small></span><span class="rnc-li-c"><span class="chip ' + g[1] + '">' + g[0] + '</span>' + gutChip(gutDe(n.id)) + (s === 'retorno' || s === 'pronta' || s === 'fechada' ? planoChip(n) + acoesChip(n) : '') + (rt ? '<span class="chip ' + rt[1] + '">' + rt[0] + '</span>' : s !== 'registro' ? '<span class="chip">sem retorno</span>' : '') + '</span></button>'; }).join('');
+    return h + '<button class="rnc-li g-' + esc(n.grav) + '" data-action="rnc-item" data-id="' + esc(r.id) + '" data-n="' + n.n + '"><span class="rnc-n">' + rncNum(n.n) + '</span><span class="rnc-li-t"><b>' + esc(n.nc) + (apNcMud(r, n.id) ? '<i class="ap-mk" title="Alterada na apresentação">!</i>' : '') + '</b><small>' + esc(n.local) + ' · ' + esc(n.respNome || '') + (rncCoresp(n).length ? ' + ' + esc(rncCoresp(n).length) : '') + (n.ciente ? ' · ciente' : ' · não ciente') + (ri ? ' · reincidente' : '') + (apStDe(n) === 'iniciado' && s === 'registro' ? ' · <span class="ap-ini">Iniciado</span>' : '') + '</small></span><span class="rnc-li-c"><span class="chip ' + g[1] + '">' + g[0] + '</span>' + gutChip(gutDe(n.id)) + tratChip(n) + (s === 'retorno' || s === 'pronta' || s === 'fechada' ? planoChip(n) + acoesChip(n) : '') + (rt ? '<span class="chip ' + rt[1] + '">' + rt[0] + '</span>' : s !== 'registro' ? '<span class="chip">sem retorno</span>' : '') + '</span></button>'; }).join('');
   const impR = seq.length ? impBtn([{ a: 'rnc-print', id: r.id, m: 'abertura', t: 'RNC de abertura' }, { a: 'rnc-print', id: r.id, m: 'resumo', t: 'Abertura resumida (em pé)' }].concat(seq.some(n => n.ret) ? [{ a: 'rnc-print', id: r.id, m: 'fechamento', t: 'RNC de fechamento (em pé)' }] : []), { titulo: 'Imprimir a RNC' }) : '';
   /* v2.102.42 (pedido do Elias): situação, data e auditor em cima, na linha da impressora e da lixeira; o código da RNC embaixo, com a largura toda */
   openSheet('<div class="rnc-hd"><span class="rnc-hd-i">' + rncChip(r) + ' ' + fmtD(r.data) + ' · auditor ' + esc(r.auditorNome || '') + (r.acompanhante ? ' · com ' + esc(r.acompanhante) : '') + '</span><span class="rnc-hd-b">' + impR +
@@ -14314,7 +14475,7 @@ function apRender() {
   const nAlt = apAlts(r).filter(a => !a.desfeitaEm).length, st = apStDe(n);
   let h = '<div class="ap-top"><span class="ap-cod">' + esc(r.numero) + ' · ' + esc(r.tipo || '') + '</span><span class="ap-pos"><b>' + rncNum(n.n) + '</b> · ' + esc(S.ap.i + 1) + '/' + esc(ls.length) + '</span>' +
     '<button type="button" class="btn sm" data-action="rnc-ap-gav">Alterações (' + esc(nAlt) + ')</button><button type="button" class="btn sm" data-action="rnc-ap-fim">Encerrar</button></div>' +
-    '<div class="ap-corpo"><div class="ap-txt"><div class="ap-n"><span class="ap-num">' + rncNum(n.n) + ' · ' + esc(rncAreaNome(n.area)) + '</span><span class="chip ' + esc(g[1]) + '">' + esc(g[0]) + '</span>' + gutChip(gutDe(n.id)) + '</div>' +
+    '<div class="ap-corpo"><div class="ap-txt"><div class="ap-n"><span class="ap-num">' + rncNum(n.n) + ' · ' + esc(rncAreaNome(n.area)) + '</span><span class="chip ' + esc(g[1]) + '">' + esc(g[0]) + '</span>' + gutChip(gutDe(n.id)) + tratChip(n) + '</div>' +
     '<div class="ap-tit">' + campo('nc', n.nc) + '</div>' +
     '<dl class="ap-cps"><dt>Local</dt><dd class="ap-loc">' + campo('local', n.local) + '</dd><dt>Responsável</dt><dd>' + resp + ' <span class="ap-ci">· ' + (n.ciente ? 'ciente' : 'não ciente') + '</span></dd>' +
     ((rncCoresp(n).length || pode) ? '<dt>Corresponsáveis</dt><dd>' + campo('coresp', rncCorespTxt(n), pode && !rncCoresp(n).length ? 'tocar para escrever (separe por vírgula)' : '') + '</dd>' : '') + /* v2.102.44 */
@@ -14474,8 +14635,8 @@ function openRncNc(rid, n) {
   const x = n ? (r.ncs || []).find(y => y.n === Number(n) && !y.cancelada) : null;
   const ult = rncNcs(r).slice(-1)[0];
   const gx = x ? gutDe(x.id) : null; /* v2.102.12 */
-  S.rncNc = x ? { rid: rid, id: x.id, n: x.n, area: x.area, local: x.local, nc: x.nc, leis: ncLeis(x), resp: x.respId || (x.respNome ? '__outro' : ''), respTxt: x.respId ? '' : (x.respNome || ''), ciente: x.ciente, grav: x.grav, obs: x.obs || '', sug: x.sug || '', fotos: (x.fotosAntes || []).map(id => ({ id: id })), coresp: rncCoresp(x).map(c => ({ id: c.id || '', nome: c.nome })), gut: gx ? { g: gx.g, u: gx.u, t: gx.t } : { g: GUT_G_SUG[x.grav] || 0 }, gutGMan: !!gx, gutDono: gx ? gx.porId : '', gutDonoNome: gx ? gx.porNome : '' }
-    : { rid: rid, id: '', n: (Math.max(0, ...(r.ncs || []).map(y => y.n)) + 1), area: ult ? ult.area : 'campo', local: ult ? ult.local : '', nc: '', leis: [], resp: '', respTxt: '', ciente: null, grav: '', obs: '', sug: '', fotos: [], coresp: [], gut: {}, gutGMan: false, gutDono: '' };
+  S.rncNc = x ? { rid: rid, id: x.id, n: x.n, area: x.area, local: x.local, nc: x.nc, leis: ncLeis(x), trat: x.trat || '', resp: x.respId || (x.respNome ? '__outro' : ''), respTxt: x.respId ? '' : (x.respNome || ''), ciente: x.ciente, grav: x.grav, obs: x.obs || '', sug: x.sug || '', fotos: (x.fotosAntes || []).map(id => ({ id: id })), coresp: rncCoresp(x).map(c => ({ id: c.id || '', nome: c.nome })), gut: gx ? { g: gx.g, u: gx.u, t: gx.t } : { g: GUT_G_SUG[x.grav] || 0 }, gutGMan: !!gx, gutDono: gx ? gx.porId : '', gutDonoNome: gx ? gx.porNome : '' }
+    : { rid: rid, id: '', n: (Math.max(0, ...(r.ncs || []).map(y => y.n)) + 1), area: ult ? ult.area : 'campo', local: ult ? ult.local : '', nc: '', leis: [], trat: '', resp: '', respTxt: '', ciente: null, grav: '', obs: '', sug: '', fotos: [], coresp: [], gut: {}, gutGMan: false, gutDono: '' };
   rncNcRender();
 }
 function rncLeiCampo(b) {
@@ -14548,6 +14709,10 @@ function rncNcRender() {
     rncCorespCampo(b) + /* v2.102.44 */
     passo(7, 'Gravidade', 'grav') + '<div class="ap-oc rnc-grav">' + Object.keys(RNC_GRAV).map(k => ch('grav', k, b.grav === k, RNC_GRAV[k][0], 'g-' + k)).join('') + '</div>' +
     passo(8, gutTogHTML(b), 'gut') + (b.gutAberto ? gutBlocoHTML(b) : '') + /* v2.102.12/17 */
+    (() => { const alto = tratFaixaB(b) === 'alto', tr = tratDoB(b); /* v2.102.50: regra A28.2 */
+      return '<div class="ap-sec" data-g="trat">Tratamento <small>' + (alto ? 'risco Alto: sempre com análise' : 'vem pelo risco; você pode trocar') + '</small></div><div class="ap-oc rnc-trat">' +
+        ch('trat', 'direta', tr === 'direta', 'Tratativa direta').replace('<button ', alto ? '<button disabled ' : '<button ') + ch('trat', 'analise', tr === 'analise', 'Com análise') + '</div>' +
+        '<p class="fm-dica">Direta: resolve na hora; o responsável diz só o que foi feito e quando. Com análise: causa, porquês e 6M pelo risco.</p>'; })() +
     passo(9, 'Observação e sugestão <small>opcionais</small>', 'obs') + '<textarea class="input" id="rnc-obs" rows="2" placeholder="Observação">' + esc(b.obs) + '</textarea><textarea class="input" id="rnc-sug" rows="2" placeholder="Sugestão (se for o caso)" style="margin-top:8px">' + esc(b.sug) + '</textarea>' +
     '<div class="ap-foot"><button type="button" class="btn" data-action="' + (b.clItem ? 'nrm-cl' : 'rnc-open') + '" data-id="' + esc(r.id) + '">Voltar</button>' + (b.id ? '<button type="button" class="btn primary" data-action="rnc-nc-ok" data-id="0">Salvar</button>' : '<button type="button" class="btn" data-action="rnc-nc-ok" data-id="0">Salvar</button><button type="button" class="btn primary" data-action="rnc-nc-ok" data-id="1">' + (b.clItem ? 'Salvar e voltar' : 'Salvar e registrar a ' + rncNum(b.n + 1)) + '</button>') + '</div>', { noFocus: true });
   fmNumerar(); rncFotosCarregar($('.sheet'));
@@ -14653,6 +14818,7 @@ function rncCh(t) {
   if (g === 'ciente') b.ciente = v === '1';
   if (g === 'grav') { b.grav = v; if (S.rncNc && v === 'maior') b.gutAberto = true; if (S.rncNc && !b.gutGMan) { b.gut = Object.assign({}, b.gut, { g: GUT_G_SUG[v] || 0 }); rncNcLer(); rncNcRender(); return; } }
   if (S.rncNc && /^g[gut]$/.test(g)) { b.gut = Object.assign({}, b.gut); b.gut[g[1]] = Number(v); if (g === 'gg') b.gutGMan = true; rncNcLer(); rncNcRender(); return; } /* v2.102.12 */
+  if (S.rncNc && g === 'trat') { if (v === 'direta' && tratFaixaB(b) === 'alto') return; b.trat = v; } /* v2.102.50 */
   if (g === 'res') { b.res = v; setTimeout(rncConfLib, 0); }
   $$('[data-action="rnc-ch"][data-g="' + g + '"]').forEach(x => x.classList.toggle('on', x === t));
   const s = $('.ap-sec[data-g="' + g + '"]'); if (s) s.classList.remove('falta');
@@ -14681,6 +14847,7 @@ async function rncNcOk(proxima) {
   const nc = Object.assign({}, antes || {}, { id: id, n: b.n, area: b.area, local: local, nc: String(b.nc).trim(), leis: (b.leis || []).slice(0, RNC_LEIS_MAX), lei: (b.leis || []).slice(0, RNC_LEIS_MAX).join('; '), respId: b.resp === '__outro' ? '' : b.resp, respNome: respNome, ciente: b.ciente, grav: b.grav, obs: String(b.obs || '').trim(), sug: String(b.sug || '').trim(), fotosAntes: f.ids,
     coresp: (b.coresp || []).filter(c => mdNorm(c.nome) !== mdNorm(respNome)).map(c => ({ id: c.id || '', nome: c.nome })) }); /* v2.102.44 */
   if (!antes) Object.assign(nc, { criadoEm: nowISO(), porId: S.user.id, porNome: S.user.nome });
+  nc.trat = tratDoB(b); /* v2.102.50: regra A28.2 (o auditor escolhe no registro; Alto é sempre com análise) */
   const ncs = (r.ncs || []).filter(x => x.id !== id).concat([nc]).sort((a, c) => a.n - c.n);
   try {
     const clp = nrmClDoNc(r, b, id); /* v2.70.0 */
@@ -14740,7 +14907,7 @@ async function rncEnviarOk(id) {
    porques[], causa, m6, outra{sim,quais}, rev, em, porId, porNome, hist[] }. Escreve-se depois que a RNC é enviada, até ela fechar.
    Só o responsável pela resposta edita (padrão: quem criou a NC); os outros comentam na conversa da RNC. Nada se apaga. */
 const RNC_6M = ['Método', 'Mão de obra', 'Material', 'Máquina', 'Medição', 'Meio ambiente'];
-const PL_FALTA_TXT = { causa: 'a causa', porques: 'pelo menos 3 "por quê"', m6: 'a categoria 6M', ishi: 'o Ishikawa com a causa principal', outra: 'se pode acontecer em outra área' };
+const PL_FALTA_TXT = { feito: 'o que foi feito', causa: 'a causa', porques: 'pelo menos 3 "por quê"', m6: 'a categoria 6M', ishi: 'o Ishikawa com a causa principal', outra: 'se pode acontecer em outra área' };
 /* v2.102.18: Ishikawa (6M). Na linha da análise: ishi = [{ id, m, t, em, porNome, tirada?, tiradaEm?, tiradaPor? }],
    ishiPri = id da causa principal, ishiV = 1 (análise feita com o Ishikawa já existindo). Nada se apaga: causa tirada fica marcada. */
 const ISHI_MAX = 5;
@@ -14851,7 +15018,7 @@ async function anlNovaOk(apId) {
 function openAnl(id, dados) {
   const x = anlDe(id); if (!x) return;
   const ed = anlPodeEd(x), lid = anlPodeLider(x), d = dados || x;
-  S.anlPl = { id: id, rev0: x.rev || 0, m6: d.m6 || '', ishi: (d.ishi || []).map(c => Object.assign({}, c)), ishiPri: d.ishiPri || '' };
+  S.anlPl = { id: id, rev0: x.rev || 0, m6: d.m6 || '', ishi: (d.ishi || []).map(c => Object.assign({}, c)), ishiPri: d.ishiPri || '', flux: fluxCopia(d.flux) };
   const pq = (d.porques || []).concat(['', '', '', '', '']).slice(0, 5), ct = d.contencao || {}, falta = anlFalta(d);
   const ro = (t, v) => v ? '<div class="pl-ro"><span>' + esc(t) + '</span><p>' + esc(v) + '</p></div>' : '';
   const ficha = [['Origem', ANL_ORIG[x.origem] + (x.origemTxt ? ' · ' + x.origemTxt : '')], ['Data do problema', fmtD(x.data)], ['Local', x.local], ['O que aconteceu', x.descricao]]
@@ -14861,10 +15028,11 @@ function openAnl(id, dados) {
     '<div class="ap-sec" data-g="cont">O que foi feito na hora <small>contenção (opcional)</small></div><textarea class="input" id="pl-cont" rows="2" placeholder="Ex.: lote separado; cliente avisado">' + esc(ct.texto || '') + '</textarea>' +
       '<div class="ap-sec" data-g="porques">5 Porquês <small>pelo menos 3</small></div><div class="pl-pq">' + pq.map((v, i) => '<label><span>' + esc(i + 1) + 'º por quê?</span><input class="input" id="pl-pq' + esc(i + 1) + '" autocomplete="off" value="' + esc(v) + '"' + (i === 0 ? ' placeholder="Por que aconteceu?"' : '') + '></label>').join('') + '</div>' +
       ishiEdHTML({ nc: x.titulo }, true, S.anlPl, 'anl') +
+      fluxEdHTML(S.anlPl, 'anl') + /* v2.102.48 */
       '<div class="ap-sec" data-g="causa">Causa <small>por que aconteceu (a raiz)</small></div><textarea class="input" id="pl-causa" rows="2">' + esc(d.causa || '') + '</textarea>' +
       '<div class="ap-sec" data-g="m6">Categoria da causa (6M)</div><p class="fm-dica pl-m6-is">' + (ishiPriDe(S.anlPl) ? '<b>' + esc(ishiPriDe(S.anlPl).m) + '</b> · vem da causa principal do Ishikawa.' : 'Vem da causa principal do Ishikawa: marque uma acima.') + '</p>'
     : (ro('O que foi feito na hora', ct.texto ? ct.texto + ' · ' + fmtD(ct.data) + ' · ' + (ct.porNome || '') : '') + ((d.porques || []).filter(Boolean).length ? '<div class="pl-ro"><span>5 Porquês</span><ol>' + d.porques.filter(Boolean).map(y => '<li>' + esc(y) + '</li>').join('') + '</ol></div>' : '') +
-      ishiRoHTML({ nc: x.titulo }, d) + ro('Causa', d.causa) + ro('Categoria (6M)', d.m6) || '<p class="fm-dica">Ainda sem análise.</p>');
+      ishiRoHTML({ nc: x.titulo }, d) + fluxRoHTML(d) + ro('Causa', d.causa) + ro('Categoria (6M)', d.m6) || '<p class="fm-dica">Ainda sem análise.</p>');
   const acoes = '<div class="ap-sec fm-nonum pl-ac-h" data-g="acoes">Plano de ação (5W2H) <small>' + (anlAtivas(x).length ? esc(anlAtivas(x).length) + (anlAtivas(x).length > 1 ? ' ações' : ' ação') : 'nenhuma ação ainda') + '</small></div>' +
     (x.acoes || []).map(a => anlAcaoCard(x, a, ed)).join('') + (ed ? '<button type="button" class="btn sm pl-ac-nova" data-action="anl-ac-nova" data-id="' + esc(id) + '">+ Nova ação</button>' : '');
   const efic = x.efic ? '<div class="pl-ro anl-ef"><span>Eficácia</span><p><b>' + (x.efic.res === 'eficaz' ? 'Eficaz' : 'Não eficaz') + '</b> · ' + esc(fmtD(x.efic.data)) + ' · ' + esc(x.efic.porNome || '') + (x.efic.texto ? ': ' + esc(x.efic.texto) : '') + '</p></div>' : '';
@@ -14885,7 +15053,7 @@ function anlLer() {
   const v = id => String((($('#' + id) || {}).value) || '').trim(), b = S.anlPl || {}, x = anlDe(b.id) || {}, ct = x.contencao || {};
   const txt = v('pl-cont');
   return { contencao: txt ? { texto: txt, data: ct.texto === txt && ct.data ? ct.data : hojeISO(), porNome: txt === ct.texto && ct.porNome ? ct.porNome : S.user.nome } : null,
-    porques: [1, 2, 3, 4, 5].map(i => v('pl-pq' + i)), causa: v('pl-causa'), m6: (ishiPriDe(b) || {}).m || '', ishi: (b.ishi || []).slice(), ishiPri: ishiPriDe(b) ? b.ishiPri : '', ishiV: 1 };
+    porques: [1, 2, 3, 4, 5].map(i => v('pl-pq' + i)), causa: v('pl-causa'), m6: (ishiPriDe(b) || {}).m || '', ishi: (b.ishi || []).slice(), ishiPri: ishiPriDe(b) ? b.ishiPri : '', ishiV: 1, flux: fluxLer(b) };
 }
 async function anlGravar(x, patch, resumo) {
   const cur = anlDe(x.id), b = S.anlPl || {};
@@ -14900,7 +15068,8 @@ async function anlGravar(x, patch, resumo) {
 async function anlSalvar() {
   const b = S.anlPl, x = b && anlDe(b.id); if (!x || !anlPodeEd(x)) return;
   const dados = anlLer(), f = anlFalta(dados), l = ishiAtivas(dados.ishi);
-  if (!await anlGravar(x, dados, 'análise salva' + (dados.causa ? ' · causa: ' + dados.causa : '') + (dados.m6 ? ' (' + dados.m6 + ')' : '') + (l.length ? ' · Ishikawa: ' + l.length + ' causa(s)' + (ishiPriDe(dados) ? ', principal: ' + ishiPriDe(dados).t : '') : '') + (f.length ? ' · falta ' + f.join(', ') : ' · completa'))) return;
+  dados.flux = fluxLimpa(dados.flux); /* v2.102.48 */
+  if (!await anlGravar(x, dados, 'análise salva' + (dados.causa ? ' · causa: ' + dados.causa : '') + (dados.m6 ? ' (' + dados.m6 + ')' : '') + (l.length ? ' · Ishikawa: ' + l.length + ' causa(s)' + (ishiPriDe(dados) ? ', principal: ' + ishiPriDe(dados).t : '') : '') + (dados.flux.length ? ' · fluxograma: ' + dados.flux.length + ' etapa(s)' : '') + (f.length ? ' · falta ' + f.join(', ') : ' · completa'))) return;
   raFim('anl:' + x.id); /* v2.102.21 */
   toast('Análise salva' + (f.length ? ' (ainda falta ' + f.join(', ') + ').' : '.'), f.length ? '' : 'ok'); renderView(); openAnl(x.id);
 }
@@ -15088,7 +15257,8 @@ function anlImprimir(id) {
     '<table class="t anl-t ar"><thead><tr><th>Plano de ação (5W2H)</th><th>Quem</th><th>Quando</th><th>Situação</th></tr></thead><tbody>' +
       (ac.length ? ac.map(a => '<tr><td><b>' + esc(a.oque) + '</b>' + [a.como, a.quanto].filter(Boolean).map(y => ' · ' + esc(y)).join('') + '</td><td>' + esc(a.quemNome || '') + '</td><td>' + esc(fmtD(a.quando)) + '</td><td>' + esc(PL_AC_ST[acaoSt(a)][0]) + (a.st === 'feita' ? ' em ' + esc(fmtD(a.feitaEm)) : '') + '</td></tr>').join('') : '<tr><td colspan="4">Nenhuma ação ainda.</td></tr>') + '</tbody></table>' +
     '<div class="ar anl-ip"><b>Eficácia:</b> ' + (x.efic ? (x.efic.res === 'eficaz' ? 'Eficaz' : 'Não eficaz') + ' · ' + esc(fmtD(x.efic.data)) + ' · ' + esc(x.efic.porNome || '') + ': ' + esc(x.efic.texto || '') : 'ainda não verificada') +
-      (x.situacao === 'cancelada' ? '<br><b>Cancelada:</b> ' + esc(fmtD(x.cancEm)) + ' · ' + esc(x.cancPor || '') + ': ' + esc(x.cancMotivo || '') : '') + '</div>' + (grande ? figH : '') + '</div>';
+      (x.situacao === 'cancelada' ? '<br><b>Cancelada:</b> ' + esc(fmtD(x.cancEm)) + ' · ' + esc(x.cancPor || '') + ': ' + esc(x.cancMotivo || '') : '') + '</div>' + (grande ? figH : '') +
+    (fluxAtivas(x.flux).length ? '<div class="ar anl-is"><h4>Fluxograma do processo</h4>' + (fluxProTxt(x.flux) ? '<p><b>Onde o problema aconteceu:</b> ' + esc(fluxProTxt(x.flux)) + '</p>' : '') + '</div><div class="ar flx-fig">' + fluxSVG(x.flux) + '</div>' + fluxTabHTML(fluxAtivas(x.flux)) : '') + /* v2.102.48 */ '</div>';
   Audit.log({ acao: 'imprimir', entidade: 'analise', entidadeId: id, resumo: 'Imprimiu a ' + x.numero });
   runPrint(body, 'Análise de problema — ' + x.numero);
 }
@@ -15107,6 +15277,12 @@ function anlAcao(act, id, t) {
     case 'anl-ap-volta': S.anlVolta = ''; openApDetail(id); return true;
     case 'anl-volta': anlVoltaTela(id); return true;
     case 'anl-is-add': anlIshiMuda('add', id); return true;
+    case 'anl-fx-add': fluxMuda('anl', 'add'); return true; /* v2.102.48 */
+    case 'anl-fx-ver': fluxMuda('anl', 'ver'); return true;
+    case 'anl-fx-x': fluxMuda('anl', 'x', id); return true;
+    case 'anl-fx-up': fluxMuda('anl', 'up', id); return true;
+    case 'anl-fx-dn': fluxMuda('anl', 'dn', id); return true;
+    case 'anl-fx-pro': fluxMuda('anl', 'pro', id); return true;
     case 'anl-is-pri': anlIshiMuda('pri', id); return true;
     case 'anl-is-x': anlIshiMuda('x', id); return true;
     case 'anl-ac-nova': openAnlAcao(id, ''); return true;
@@ -15476,17 +15652,197 @@ function ishiImprimir(rid, ncId) {
   Audit.log({ acao: 'imprimir', entidade: 'rnc', entidadeId: rid, resumo: 'Imprimiu o Ishikawa da ' + r.numero + ' · ' + rncNum(nc.n) });
   runPrint(body, 'Ishikawa — ' + r.numero + ' · ' + rncNum(nc.n));
 }
+/* ============ v2.102.48 — Fluxograma do processo (Nº 37) ============
+   Opcional na análise da NC (sv2_rnc_plano) e na Análise de problemas (sv2_analise), no campo flux = [{ id, k, t, sim, nao, vai, prob }].
+   k: 'ini' Início · 'et' Etapa · 'dec' Decisão · 'fim' Fim. sim / nao / vai = id da etapa de destino ('' = a seguinte).
+   prob = "o problema aconteceu aqui" (uma etapa só). Sem arrastar caixas: a pessoa escreve a lista e o desenho sai de cima para baixo. */
+const FX_MAX = 20, FX_TXT_MAX = 60;
+const FX_K = [['ini', 'Início'], ['et', 'Etapa'], ['dec', 'Decisão'], ['fim', 'Fim']];
+const fxKNome = k => (FX_K.find(x => x[0] === k) || FX_K[1])[1];
+const fluxCopia = l => (Array.isArray(l) ? l : []).filter(e => e && e.id).map(e => ({ id: String(e.id), k: FX_K.some(x => x[0] === e.k) ? e.k : 'et', t: String(e.t || ''), sim: e.sim || '', nao: e.nao || '', vai: e.vai || '', prob: !!e.prob }));
+const fluxAtivas = l => fluxCopia(l).filter(e => e.t.trim());
+function fluxDest(l, i, alvo) { if (alvo) { const j = l.findIndex(e => e.id === alvo); if (j >= 0) return j; } return i + 1 < l.length ? i + 1 : -1; }
+/* só as etapas com texto; o que apontava para uma etapa que saiu passa a ir para "a seguinte" */
+function fluxLimpa(l0) {
+  const l = fluxAtivas(l0).map(e => Object.assign({}, e, { t: e.t.replace(/\s+/g, ' ').trim().slice(0, FX_TXT_MAX) })), ids = l.map(e => e.id);
+  return l.map(e => Object.assign({}, e, { sim: ids.indexOf(e.sim) >= 0 ? e.sim : '', nao: ids.indexOf(e.nao) >= 0 ? e.nao : '', vai: ids.indexOf(e.vai) >= 0 ? e.vai : '' }));
+}
+function fluxLiga(l) {
+  const ed = [];
+  l.forEach((e, i) => {
+    if (e.k === 'fim') return;
+    (e.k === 'dec' ? [[e.sim, 'Sim'], [e.nao, 'Não']] : [[e.vai, '']]).forEach(o => { const j = fluxDest(l, i, o[0]); if (j >= 0 && j !== i) ed.push({ de: i, para: j, lab: o[1] }); });
+  });
+  return ed;
+}
+function fluxSVG(l0) {
+  const l = fluxAtivas(l0); if (!l.length) return '';
+  const BW = 230, BH = 42, DH = 58, GAP = 34, LN = 16, ed = fluxLiga(l);
+  let nl = 0, nr = 0;
+  ed.forEach(x => { if (x.para === x.de + 1) { x.reto = true; return; } x.esq = x.para < x.de; x.lane = x.esq ? nl++ : nr++; });
+  const bx = 18 + nl * LN + 16, cx = bx + BW / 2, ys = [], hs = l.map(e => e.k === 'dec' ? DH : BH);
+  let y = 18; l.forEach((e, i) => { ys.push(y); y += hs[i] + GAP; });
+  const W = bx + BW + 16 + nr * LN + 18, H = y - GAP + 14, mid = i => ys[i] + hs[i] / 2;
+  const seta = (x, yy, dir) => '<path class="fx-ah" d="' + (dir === 'b' ? 'M' + (x - 5) + ' ' + (yy - 8) + ' L' + x + ' ' + yy + ' L' + (x + 5) + ' ' + (yy - 8) + 'Z' : dir === 'd' ? 'M' + (x - 8) + ' ' + (yy - 5) + ' L' + x + ' ' + yy + ' L' + (x - 8) + ' ' + (yy + 5) + 'Z' : 'M' + (x + 8) + ' ' + (yy - 5) + ' L' + x + ' ' + yy + ' L' + (x + 8) + ' ' + (yy + 5) + 'Z') + '"/>';
+  let o = '<svg class="flx-svg" width="' + W + '" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Fluxograma do processo">';
+  ed.forEach(x => {
+    if (x.reto) {
+      const y1 = ys[x.de] + hs[x.de], y2 = ys[x.para];
+      o += '<line class="fx-ln" x1="' + cx + '" y1="' + y1 + '" x2="' + cx + '" y2="' + (y2 - 1) + '"/>' + seta(cx, y2 - 1, 'b') + (x.lab ? '<text class="fx-lb" x="' + (cx + 6) + '" y="' + (y1 + 13) + '">' + esc(x.lab) + '</text>' : '');
+      return;
+    }
+    const lx = x.esq ? bx - 16 - x.lane * LN : bx + BW + 16 + x.lane * LN, sx = x.esq ? bx : bx + BW, sy = mid(x.de), dy = mid(x.para) + ((x.lane % 3) - 1) * 6;
+    o += '<path class="fx-ln" d="M' + sx + ' ' + sy + ' H' + lx + ' V' + dy + ' H' + (x.esq ? bx - 1 : bx + BW + 1) + '"/>' + seta(x.esq ? bx - 1 : bx + BW + 1, dy, x.esq ? 'd' : 'e') +
+      (x.lab ? '<text class="fx-lb" x="' + (x.esq ? sx - 4 : sx + 4) + '" y="' + (sy - 5) + '"' + (x.esq ? ' text-anchor="end"' : '') + '>' + esc(x.lab) + '</text>' : '');
+  });
+  l.forEach((e, i) => {
+    const y0 = ys[i], h = hs[i], ln = ishiQuebra(e.t, e.k === 'dec' ? 24 : 32, 2), ty = y0 + h / 2 - (ln.length - 1) * 7 + 4;
+    o += '<g><title>' + esc((i + 1) + '. ' + fxKNome(e.k) + ': ' + e.t) + '</title>';
+    if (e.k === 'dec') o += '<path class="fx-dc' + (e.prob ? ' fx-pb' : '') + '" d="M' + cx + ' ' + y0 + ' L' + (bx + BW) + ' ' + (y0 + h / 2) + ' L' + cx + ' ' + (y0 + h) + ' L' + bx + ' ' + (y0 + h / 2) + 'Z"/>';
+    else o += '<rect class="' + (e.k === 'et' ? 'fx-bx' : 'fx-tm') + (e.prob ? ' fx-pb' : '') + '" x="' + bx + '" y="' + y0 + '" width="' + BW + '" height="' + h + '" rx="' + (e.k === 'et' ? 0 : h / 2) + '"/>';
+    o += '<text class="fx-nm" x="' + (bx + (e.k === 'dec' ? BW / 2 - 4 : 8)) + '" y="' + (e.k === 'dec' ? y0 + 12 : y0 + 13) + '"' + (e.k === 'dec' ? ' text-anchor="end"' : '') + '>' + esc(i + 1) + '</text>';
+    o += ln.map((t, j) => '<text class="fx-tx" x="' + cx + '" y="' + (ty + j * 14) + '" text-anchor="middle">' + esc(t) + '</text>').join('');
+    if (e.prob) o += '<text class="fx-pt" x="' + (bx + BW) + '" y="' + (y0 - 4) + '" text-anchor="end">PROBLEMA AQUI</text>';
+    o += '</g>';
+  });
+  return o + '</svg>';
+}
+function fluxAvHTML(l0) {
+  const l = fluxAtivas(l0), av = []; if (!l.length) return '';
+  if (!l.some(e => e.k === 'ini')) av.push('falta o Início');
+  if (!l.some(e => e.k === 'fim')) av.push('falta o Fim');
+  l.forEach((e, i) => { if (e.k === 'dec' && fluxDest(l, i, e.sim) === fluxDest(l, i, e.nao)) av.push('na etapa ' + (i + 1) + ', Sim e Não vão para o mesmo lugar'); });
+  return av.length ? '<p class="fm-dica fx-av">Atenção: ' + esc(av.join('; ')) + '.</p>' : '';
+}
+function fluxProTxt(l0) { const l = fluxAtivas(l0), i = l.findIndex(e => e.prob); return i < 0 ? '' : 'Etapa ' + (i + 1) + ' · ' + l[i].t; }
+function fluxEdHTML(b, pre) {
+  const l = fluxCopia(b.flux);
+  const opc = (sel, i) => '<option value="">a seguinte</option>' + l.map((e, j) => j === i ? '' : '<option value="' + esc(e.id) + '"' + (sel === e.id ? ' selected' : '') + '>' + esc(j + 1) + (e.t.trim() ? ' · ' + esc(e.t.trim().slice(0, 22)) : '') + '</option>').join('');
+  const sel = (cls, id, v, i) => '<select class="input fx-sel ' + cls + '" id="' + cls + '-' + esc(id) + '" data-pre="' + esc(pre) + '">' + opc(v, i) + '</select>';
+  const rows = l.map((e, i) => {
+    return '<div class="fx-r' + (e.prob ? ' prob' : '') + '" data-fx="' + esc(e.id) + '"><span class="fx-n">' + esc(i + 1) + '</span>' +
+      '<select class="input fx-sel fx-k" id="fx-k-' + esc(e.id) + '" data-pre="' + esc(pre) + '" aria-label="Tipo da etapa ' + esc(i + 1) + '">' + FX_K.map(k => '<option value="' + esc(k[0]) + '"' + (k[0] === e.k ? ' selected' : '') + '>' + esc(k[1]) + '</option>').join('') + '</select>' +
+      '<input class="input fx-t" id="fx-t-' + esc(e.id) + '" maxlength="' + esc(FX_TXT_MAX) + '" autocomplete="off" value="' + esc(e.t) + '" placeholder="' + (e.k === 'dec' ? 'Pergunta (ex.: cloro entre 0,20 e 2,00?)' : e.k === 'ini' ? 'Onde começa (ex.: chegar ao bebedouro)' : e.k === 'fim' ? 'Onde termina' : 'O que se faz nesta etapa') + '">' +
+      '<div class="fx-l">' + (e.k === 'dec' ? '<label>Sim →' + sel('fx-s', e.id, e.sim, i) + '</label><label>Não →' + sel('fx-o', e.id, e.nao, i) + '</label>' : e.k === 'fim' ? '' : '<label>Depois →' + sel('fx-v', e.id, e.vai, i) + '</label>') +
+      '<span class="fx-bts"><button type="button" class="fx-b" data-action="' + esc(pre) + '-fx-pro" data-id="' + esc(e.id) + '" aria-pressed="' + (e.prob ? 'true' : 'false') + '" title="Marcar a etapa onde o problema aconteceu">Problema</button>' +
+      '<button type="button" class="fx-b" data-action="' + esc(pre) + '-fx-up" data-id="' + esc(e.id) + '"' + (i ? '' : ' disabled') + ' title="Subir" aria-label="Subir a etapa ' + esc(i + 1) + '">↑</button>' +
+      '<button type="button" class="fx-b" data-action="' + esc(pre) + '-fx-dn" data-id="' + esc(e.id) + '"' + (i < l.length - 1 ? '' : ' disabled') + ' title="Descer" aria-label="Descer a etapa ' + esc(i + 1) + '">↓</button>' +
+      '<button type="button" class="fx-b" data-action="' + esc(pre) + '-fx-x" data-id="' + esc(e.id) + '" title="Tirar a etapa" aria-label="Tirar a etapa ' + esc(i + 1) + '">×</button></span></div></div>';
+  }).join('');
+  return '<div class="ap-sec" data-g="flux">Fluxograma do processo <small>opcional · as etapas em ordem; o desenho sai sozinho</small></div><div class="fx-ed">' + rows +
+    (l.length < FX_MAX ? '<button type="button" class="btn sm" data-action="' + esc(pre) + '-fx-add">+ Etapa</button>' : '<p class="fm-dica">Limite de ' + esc(FX_MAX) + ' etapas.</p>') +
+    (l.length ? '<button type="button" class="btn sm" data-action="' + esc(pre) + '-fx-ver">Atualizar o desenho</button>' : '') + '</div>' +
+    (fluxAtivas(l).length ? '<div class="flx-fig">' + fluxSVG(l) + '</div>' + fluxAvHTML(l) : '');
+}
+function fluxRoHTML(d) {
+  const l = fluxAtivas(d && d.flux); if (!l.length) return '';
+  const pr = fluxProTxt(l);
+  return '<div class="pl-ro"><span>Fluxograma do processo</span>' + (pr ? '<p>Onde o problema aconteceu: <b>' + esc(pr) + '</b></p>' : '') + '<div class="flx-fig">' + fluxSVG(l) + '</div></div>';
+}
+/* lê da tela o que a pessoa escreveu (sem tirar as etapas vazias: isso só ao salvar) */
+function fluxLer(b) {
+  return fluxCopia(b && b.flux).map(e => {
+    const g = p => { const el = $('#' + p + '-' + e.id); return el ? el.value : null; }, k = g('fx-k'), t = g('fx-t'), s = g('fx-s'), n = g('fx-o'), v = g('fx-v');
+    return Object.assign(e, { k: k != null && FX_K.some(x => x[0] === k) ? k : e.k, t: t != null ? String(t).slice(0, FX_TXT_MAX) : e.t, sim: s != null ? s : e.sim, nao: n != null ? n : e.nao, vai: v != null ? v : e.vai });
+  });
+}
+function fluxMuda(pre, op, id) {
+  let b, x, dados;
+  if (pre === 'anl') { b = S.anlPl; x = b && anlDe(b.id); if (!x || !anlPodeEd(x)) return; dados = anlLer(); }
+  else { b = S.rncPl; if (!b) return; const { r, nc } = planoNc(b.rid, b.ncId); if (!r || !nc || !planoPodeEditar(r, nc)) return; dados = planoLer(); }
+  let l = fluxCopia(dados.flux), foco = '';
+  const i = l.findIndex(e => e.id === id);
+  if (op === 'add') {
+    if (l.length >= FX_MAX) { toast('No máximo ' + FX_MAX + ' etapas.'); return; }
+    const nv = { id: 'f' + uid(), k: l.length ? 'et' : 'ini', t: '', sim: '', nao: '', vai: '', prob: false }, at = l.length && l[l.length - 1].k === 'fim' ? l.length - 1 : l.length;
+    l.splice(at, 0, nv); foco = nv.id;
+  }
+  if (op === 'x' && i >= 0) { l.splice(i, 1); l = l.map(e => Object.assign(e, { sim: e.sim === id ? '' : e.sim, nao: e.nao === id ? '' : e.nao, vai: e.vai === id ? '' : e.vai })); }
+  if (op === 'up' && i > 0) { const t = l[i - 1]; l[i - 1] = l[i]; l[i] = t; }
+  if (op === 'dn' && i >= 0 && i < l.length - 1) { const t = l[i + 1]; l[i + 1] = l[i]; l[i] = t; }
+  if (op === 'pro' && i >= 0) { const on = !l[i].prob; l = l.map(e => Object.assign(e, { prob: e.id === id ? on : false })); }
+  dados.flux = l;
+  const sh = $('.sheet'), top = sh ? sh.scrollTop : 0;
+  if (pre === 'anl') { const rev0 = b.rev0; openAnl(x.id, Object.assign({}, x, dados)); S.anlPl.rev0 = rev0; }
+  else openRncPlano(b.rid, b.ncId, dados);
+  const sh2 = $('.sheet'); if (sh2) sh2.scrollTop = top;
+  if (foco) { const e = $('#fx-t-' + foco); if (e) try { e.focus(); } catch {} }
+}
+document.addEventListener('change', e => { const t = e.target; if (t && t.classList && t.classList.contains('fx-sel')) { const r = t.closest('.fx-r'); if (r) fluxMuda(t.getAttribute('data-pre'), 'ver', r.getAttribute('data-fx')); } });
+function fluxTabHTML(l) {
+  const nm = (i, alvo) => { const j = fluxDest(l, i, alvo); return j < 0 ? '—' : String(j + 1); };
+  return '<table class="t fx-tb ar"><thead><tr><th>Nº</th><th>Tipo</th><th>Etapa</th><th>Vai para</th></tr></thead><tbody>' + l.map((e, i) => '<tr' + (e.prob ? ' class="pri"' : '') + '><td>' + esc(i + 1) + '</td><td>' + esc(fxKNome(e.k)) + '</td><td>' + esc(e.t) + (e.prob ? ' <b>(problema aqui)</b>' : '') + '</td><td>' + esc(e.k === 'fim' ? '—' : e.k === 'dec' ? 'Sim → ' + nm(i, e.sim) + ' · Não → ' + nm(i, e.nao) : nm(i, e.vai)) + '</td></tr>').join('') + '</tbody></table>';
+}
+function fluxImprimir(rid, ncId) {
+  const { r, nc } = planoNc(rid, ncId); if (!r || !nc) return;
+  const b = S.rncPl, d = b && b.ncId === ncId && $('#pl-causa') ? planoLer() : (planoDe(ncId) || {});
+  const l = fluxAtivas(d.flux); if (!l.length) { toast('O fluxograma ainda não tem etapas.'); return; }
+  const resp = planoResp(r, nc), pr = fluxProTxt(l);
+  const kv = [['RNC', r.numero + ' · ' + r.tipo], ['NC', rncNum(nc.n) + ' · ' + rncAreaNome(nc.area) + ' › ' + nc.local], ['Responsável pela resposta', resp.nome || 'Sem responsável definido'], ['Etapas', String(l.length)]];
+  const body = '<div class="fx-imp ishi-imp"><div class="ar ishi-ik">' + kv.map(x => '<span><i>' + esc(x[0]) + '</i>' + esc(x[1]) + '</span>').join('') + '</div>' +
+    '<div class="ar ishi-ip"><b>Não conformidade:</b> ' + esc(nc.nc) + (pr ? '<br><b>Onde o problema aconteceu:</b> ' + esc(pr) : '') + '</div>' +
+    '<div class="ar flx-fig">' + fluxSVG(l) + '</div>' + fluxTabHTML(l) + '</div>';
+  Audit.log({ acao: 'imprimir', entidade: 'rnc', entidadeId: rid, resumo: 'Imprimiu o fluxograma da ' + r.numero + ' · ' + rncNum(nc.n) });
+  runPrint(body, 'Fluxograma — ' + r.numero + ' · ' + rncNum(nc.n), 'portrait');
+}
 const planoDe = ncId => (S.rncPlano || []).find(x => x.ncId === ncId) || null;
 const rncPlanoAberto = r => !!r && ['retorno', 'pronta'].indexOf(rncSit(r)) >= 0;
 function planoResp(r, nc) { const p = planoDe(nc.id); return p && p.respId ? { id: p.respId, nome: p.respNome || nomeDe(p.respId) } : nc.respId ? { id: nc.respId, nome: nc.respNome || nomeDe(nc.respId) } : { id: nc.porId || r.porId || '', nome: nc.porNome || r.porNome || '' }; }
 /* faixa de risco: a da GUT; sem GUT, pela gravidade (Maior = Alto, Média = Médio, Baixa = Baixo) */
+/* ============ v2.102.50 — regra A28.2: tratativa direta × com análise ============
+   nc.trat = 'direta' | 'analise' (dentro da NC, em sv2_rnc). Padrão pelo risco: Baixo = direta; Médio e Alto = com análise. Risco Alto nunca é direta.
+   NC antiga (sem trat): o padrão pelo risco, menos a que já tem análise começada (fica com análise). A troca depois de enviar a RNC é do líder ★/Principal,
+   com motivo (nc.tratHist). Direta pede só o que foi feito e quando (campo contencao da análise); sem causa, porquês, 6M nem 5W2H. */
+const TRAT = { direta: ['Direta', 'ok'], analise: ['Com análise', 'info'] };
+function tratFaixaB(b) { const gt = (b && b.gut) || {}; if (gt.u || gt.t) { const c = gutCalc(gt.g, gt.u, gt.t); if (c) return c.fx; } return b && b.grav === 'maior' ? 'alto' : b && b.grav === 'media' ? 'medio' : 'baixo'; }
+function tratDoB(b) { const fx = tratFaixaB(b); return fx === 'alto' ? 'analise' : b.trat === 'direta' || b.trat === 'analise' ? b.trat : fx === 'baixo' ? 'direta' : 'analise'; }
+function planoComecado(p) { return !!p && (String(p.causa || '').trim().length > 0 || (p.porques || []).some(x => String(x || '').trim()) || ishiAtivas(p.ishi).length > 0 || (p.acoes || []).length > 0); }
+function ncTrat(nc) {
+  if (!nc) return 'analise';
+  if (planoFaixa(nc) === 'alto') return 'analise';
+  if (nc.trat === 'direta' || nc.trat === 'analise') return nc.trat;
+  if (planoComecado(planoDe(nc.id))) return 'analise';
+  return planoFaixa(nc) === 'baixo' ? 'direta' : 'analise';
+}
+const tratChip = nc => { const t = TRAT[ncTrat(nc)]; return '<span class="chip ' + esc(t[1]) + ' tr-chip">' + esc(t[0]) + '</span>'; };
+const tratPodeTrocar = r => !!S.user && isSup(S.user) && S.user.perfil !== 'visitante' && rncPlanoAberto(r);
+function openTratTroca(rid, ncId) {
+  const { r, nc } = planoNc(rid, ncId); if (!r || !nc || !tratPodeTrocar(r)) return;
+  const at = ncTrat(nc), alto = planoFaixa(nc) === 'alto'; S.tratNovo = at;
+  const b = (v, t) => '<button type="button" class="ap-b' + (at === v ? ' on' : '') + '" data-action="rnc-trat-v" data-id="' + esc(v) + '"' + (alto && v === 'direta' ? ' disabled' : '') + '>' + esc(t) + '</button>';
+  const h = (nc.tratHist || []).slice(-5).reverse();
+  openSheet('<h3>Trocar o tratamento</h3><div class="sub">' + esc(r.numero) + ' · ' + rncNum(nc.n) + ' · hoje: ' + esc(TRAT[at][0]) + (alto ? ' · risco Alto: sempre com análise' : '') + '</div><div id="ap-msg"></div>' +
+    '<div class="ap-oc">' + b('direta', 'Tratativa direta') + b('analise', 'Com análise') + '</div>' +
+    '<p class="fm-dica">Direta pede só o que foi feito e quando. Com análise pede causa, porquês e 6M pelo risco. O que já foi escrito na análise não se apaga.</p>' +
+    '<div class="field"><label>Motivo</label><textarea class="input" id="al-mot-g" rows="2" placeholder="Ex.: o responsável pediu; precisa achar a causa"></textarea></div>' +
+    (h.length ? '<div class="pl-ro"><span>Trocas anteriores</span><ol>' + h.map(x => '<li>' + esc(fmtDT(x.ts)) + ' · ' + esc(x.porNome || '') + ': ' + esc(TRAT[x.de] ? TRAT[x.de][0] : x.de) + ' → ' + esc(TRAT[x.para] ? TRAT[x.para][0] : x.para) + ' · ' + esc(x.motivo || '') + '</li>').join('') + '</ol></div>' : '') +
+    '<div class="row-actions"><button class="btn" data-action="rnc-plano" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Voltar</button><button class="btn primary" data-action="rnc-trat-ok" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Trocar</button></div>', { noFocus: true });
+}
+async function tratTrocar(rid, ncId) {
+  const { r, nc } = planoNc(rid, ncId); if (!r || !nc || !tratPodeTrocar(r)) return;
+  const de = ncTrat(nc), para = S.tratNovo, mot = alMotG();
+  if (para !== 'direta' && para !== 'analise') return apMsg('Escolha o tratamento.');
+  if (para === 'direta' && planoFaixa(nc) === 'alto') return apMsg('Risco Alto é sempre com análise.');
+  if (para === de) return apMsg('Já é ' + TRAT[de][0].toLowerCase() + '.');
+  if (mot.length < 5) return apMsg('Escreva o motivo.');
+  const ts = nowISO(), passo = { de: de, para: para, porId: S.user.id, porNome: S.user.nome, ts: ts, motivo: mot };
+  const ncs = (r.ncs || []).map(y => y.id === nc.id ? Object.assign({}, y, { trat: para, tratHist: (y.tratHist || []).concat([passo]) }) : y);
+  try {
+    await Data.col('sv2_rnc').update(r.id, { ncs: ncs, atualizadoEm: ts }); r.ncs = ncs;
+    Audit.log({ acao: 'rnc_tratamento', entidade: 'rnc', entidadeId: r.id, resumo: r.numero + ' · ' + rncNum(nc.n) + ': tratamento ' + TRAT[de][0] + ' → ' + TRAT[para][0] + ' · motivo: ' + mot, antes: { trat: de }, depois: { trat: para } });
+    const resp = planoResp(r, nc);
+    if (resp.id && resp.id !== S.user.id) Notif.send({ nivel: 'aviso', titulo: 'Tratamento da NC mudou', texto: r.numero + ' · ' + rncNum(nc.n) + ' (' + nc.local + '): agora é ' + TRAT[para][0].toLowerCase() + '. ' + S.user.nome + ': ' + mot, para: [resp.id], refTipo: 'rnc_plano', refId: r.id }).catch(() => {});
+    toast(rncNum(nc.n) + ': ' + TRAT[para][0].toLowerCase() + '.', 'ok'); renderView(); openRncPlano(rid, ncId);
+  } catch (e) { apMsg(errMsg(e)); }
+}
 function planoFaixa(nc) { const g = gutDe(nc.id); return g ? g.faixa : nc.grav === 'maior' ? 'alto' : nc.grav === 'media' ? 'medio' : 'baixo'; }
 function planoPede(fx) { return fx === 'alto' ? ['causa', 'porques', 'ishi', 'outra'] : fx === 'medio' ? ['causa', 'porques'] : ['causa']; }
 function planoFalta(nc, p) {
   p = p || planoDe(nc.id) || {};
+  if (ncTrat(nc) === 'direta') return String((p.contencao && p.contencao.texto) || '').trim().length >= 3 ? [] : ['feito']; /* v2.102.50 */
   return planoPede(planoFaixa(nc)).filter(k => k === 'causa' ? String(p.causa || '').trim().length < 5 : k === 'porques' ? (p.porques || []).filter(x => String(x || '').trim()).length < 3 : k === 'm6' ? !p.m6 : k === 'ishi' ? !ishiOk(p) : !(p.outra && (p.outra.sim === true || p.outra.sim === false)));
 }
-function planoChip(nc) { const p = planoDe(nc.id), f = planoFalta(nc); return '<span class="chip ' + (f.length ? (p ? 'warn' : '') : 'ok') + ' pl-chip">' + (f.length ? (p ? 'Análise incompleta' : 'Sem análise') : 'Análise completa') + '</span>'; }
+function planoChip(nc) { const p = planoDe(nc.id), f = planoFalta(nc), dir = ncTrat(nc) === 'direta'; return '<span class="chip ' + (f.length ? (p ? 'warn' : '') : 'ok') + ' pl-chip">' + (dir ? (f.length ? 'Sem o que foi feito' : 'Tratativa feita') : f.length ? (p ? 'Análise incompleta' : 'Sem análise') : 'Análise completa') + '</span>'; }
 function planoPodeEditar(r, nc) { return !!S.user && S.user.perfil !== 'visitante' && rncPlanoAberto(r) && planoResp(r, nc).id === S.user.id; }
 function planoPodeTrocar(r, nc) { return !!S.user && S.user.perfil !== 'visitante' && rncPlanoAberto(r) && (isSup(S.user) || planoResp(r, nc).id === S.user.id); }
 /* v2.102.16: ações 5W2H (dentro da linha da análise) */
@@ -15673,7 +16029,7 @@ function openRncPlano(rid, ncId, dados) {
   const { r, nc } = planoNc(rid, ncId); if (!r || !nc) return;
   const p = planoDe(ncId), ed = planoPodeEditar(r, nc), resp = planoResp(r, nc), fx = planoFaixa(nc), g = gutDe(nc.id), F = GUT_FX[fx];
   const d = dados || p || {};
-  S.rncPl = { rid: rid, ncId: ncId, rev0: p ? (p.rev || 0) : 0, m6: d.m6 || '', ishi: (d.ishi || []).map(c => Object.assign({}, c)), ishiPri: d.ishiPri || '', outra: d.outra && (d.outra.sim === true || d.outra.sim === false) ? d.outra.sim : null };
+  S.rncPl = { rid: rid, ncId: ncId, rev0: p ? (p.rev || 0) : 0, m6: d.m6 || '', ishi: (d.ishi || []).map(c => Object.assign({}, c)), ishiPri: d.ishiPri || '', flux: fluxCopia(d.flux), outra: d.outra && (d.outra.sim === true || d.outra.sim === false) ? d.outra.sim : null };
   const crev = p ? p.rev || 0 : 0, rasc = ed && !dados ? planoRascunho(ncId) : null; /* v2.102.21: rascunho automático (auto) fica até salvar ou descartar */
   const temRasc = !!rasc && (rasc.auto ? (!rasc.por || rasc.por === S.user.id) : rasc.rev > crev);
   if (rasc && !temRasc && !rasc.auto) { Store.del(PL_RASC(ncId)); }
@@ -15685,6 +16041,7 @@ function openRncPlano(rid, ncId, dados) {
       '<div class="ap-sec" data-g="porques">5 Porquês <small>pergunte "por quê?" até chegar à causa' + (planoPede(fx).indexOf('porques') >= 0 ? ' · pelo menos 3' : ' · opcional') + '</small></div>' +
       '<div class="pl-pq">' + pq.map((v, i) => '<label><span>' + (i + 1) + 'º por quê?</span><input class="input" id="pl-pq' + (i + 1) + '" autocomplete="off" value="' + esc(v) + '"' + (i === 0 ? ' placeholder="Por que aconteceu?"' : '') + '></label>').join('') + '</div>' +
       ishiEdHTML(nc, planoPede(fx).indexOf('ishi') >= 0) + /* v2.102.18 */
+      fluxEdHTML(S.rncPl, 'rnc') + /* v2.102.48 */
       '<div class="ap-sec" data-g="causa">Causa <small>por que aconteceu (a raiz)</small></div><textarea class="input" id="pl-causa" rows="2" placeholder="Ex.: não há rotina de reposição no ponto de apoio">' + esc(d.causa || '') + '</textarea>' +
       '<button type="button" class="fm-link" data-action="rnc-pl-ultimo">Usar o último "por quê" como causa</button>' +
       (ishiPriDe(S.rncPl) || planoPede(fx).indexOf('ishi') >= 0 ? '<div class="ap-sec" data-g="m6">Categoria da causa (6M)</div><p class="fm-dica pl-m6-is">' + (ishiPriDe(S.rncPl) ? '<b>' + esc(ishiPriDe(S.rncPl).m) + '</b> · vem da causa principal do Ishikawa.' : 'Vem da causa principal do Ishikawa: marque uma acima.') + '</p>' : /* v2.102.18 */
@@ -15692,17 +16049,24 @@ function openRncPlano(rid, ncId, dados) {
       '<div class="ap-sec" data-g="outra">Pode acontecer em outra área?' + (planoPede(fx).indexOf('outra') >= 0 ? '' : ' <small>opcional</small>') + '</div><div class="ap-oc">' + [['1', 'Sim'], ['0', 'Não']].map(o => '<button type="button" class="ap-b' + (S.rncPl.outra === (o[0] === '1') ? ' on' : '') + '" data-action="rnc-pl-outra" data-id="' + esc(o[0]) + '">' + esc(o[1]) + '</button>').join('') + '</div>' +
       '<input class="input" id="pl-outra-q" autocomplete="off" placeholder="Quais? (outro talhão, Russas, Jardim, Jaguaruana…)" value="' + esc((d.outra && d.outra.quais) || '') + '"' + (S.rncPl.outra === true ? '' : ' hidden') + ' style="margin-top:8px">'
     : (ro('O que foi feito na hora', ct.texto ? ct.texto + ' · ' + fmtD(ct.data) + ' · ' + (ct.porNome || '') : '') + ((d.porques || []).filter(Boolean).length ? '<div class="pl-ro"><span>5 Porquês</span><ol>' + d.porques.filter(Boolean).map(x => '<li>' + esc(x) + '</li>').join('') + '</ol></div>' : '') +
-      ro('Causa', d.causa) + ro('Categoria (6M)', d.m6) + ro('Pode acontecer em outra área?', d.outra ? (d.outra.sim ? 'Sim' + (d.outra.quais ? ': ' + d.outra.quais : '') : 'Não') : '') + ishiRoHTML(nc, d) || '<p class="fm-dica">Ainda sem análise.</p>');
-  openSheet('<div class="rnc-top"><small>' + esc(r.numero) + ' · análise da NC</small></div>' +
+      ro('Causa', d.causa) + ro('Categoria (6M)', d.m6) + ro('Pode acontecer em outra área?', d.outra ? (d.outra.sim ? 'Sim' + (d.outra.quais ? ': ' + d.outra.quais : '') : 'Não') : '') + ishiRoHTML(nc, d) + fluxRoHTML(d) || '<p class="fm-dica">Ainda sem análise.</p>');
+  const dir = ncTrat(nc) === 'direta'; /* v2.102.50: tratativa direta = só o que foi feito e quando */
+  const corpoD = ed ? '<div class="ap-sec" data-g="cont">O que foi feito <small>tratativa direta: o que se fez para resolver</small></div><textarea class="input" id="pl-cont" rows="3" placeholder="Ex.: sabonete e papel repostos no mesmo dia">' + esc(ct.texto || '') + '</textarea>' +
+      '<div class="fm-row"><div><label class="fm-l">Quando</label><input class="input" type="date" id="pl-cont-d" value="' + esc(ct.data || hojeISO()) + '" max="' + hojeISO() + '"></div><div><label class="fm-l">Quem fez</label><input class="input" value="' + esc(ct.porNome || S.user.nome) + '" disabled></div></div>' +
+      '<p class="fm-dica">A foto do depois (opcional) o auditor põe na conferência.</p>'
+    : (ct.texto ? ro('O que foi feito', ct.texto + ' · ' + fmtD(ct.data) + ' · ' + (ct.porNome || '')) : '<p class="fm-dica">Ainda sem resposta.</p>');
+  openSheet('<div class="rnc-top"><small>' + esc(r.numero) + ' · ' + (dir ? 'tratativa direta' : 'análise da NC') + '</small></div>' +
     '<h3>Análise · ' + rncNum(nc.n) + '</h3><div class="sub">' + esc(rncAreaNome(nc.area)) + ' › ' + esc(nc.local) + ' · ' + (g ? gutChip(g) : '<span class="chip ' + esc(F[1]) + '">Risco ' + esc(F[0]) + ' (pela gravidade)</span>') + '</div><div id="ap-msg"></div>' +
     '<div class="rnc-ncc g-' + esc(nc.grav) + '"><p>' + esc(nc.nc) + '</p></div>' +
     '<div class="pl-resp"><span>Responsável pela resposta: <b>' + esc(resp.nome || '—') + '</b></span>' + (planoPodeTrocar(r, nc) ? '<button type="button" class="btn sm" data-action="rnc-pl-resp" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Trocar</button>' : '') + '</div>' +
-    '<div class="pl-pede ' + (falta.length ? 'warn' : 'ok') + '"><b>Risco ' + esc(F[0]) + ': a análise pede ' + planoPede(fx).map(k => PL_FALTA_TXT[k]).join(', ') + '.</b>' + (falta.length ? ' Falta: ' + falta.map(k => PL_FALTA_TXT[k]).join(', ') + '.' : ' Completa.') + '</div>' +
+    '<div class="pl-resp pl-trat"><span>Tratamento: ' + tratChip(nc) + (ncTrat(nc) === 'direta' && !tratPodeTrocar(r) && ed ? ' <small>precisa de análise? Peça ao líder pela conversa da RNC.</small>' : '') + '</span>' + (tratPodeTrocar(r) ? '<button type="button" class="btn sm" data-action="rnc-trat" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Trocar</button>' : '') + '</div>' + /* v2.102.50 */
+    (dir ? '<div class="pl-pede ' + (falta.length ? 'warn' : 'ok') + '"><b>Tratativa direta: diga o que foi feito e quando.</b>' + (falta.length ? ' Falta: o que foi feito.' : ' Completa.') + '</div>' :
+    '<div class="pl-pede ' + (falta.length ? 'warn' : 'ok') + '"><b>Risco ' + esc(F[0]) + ': a análise pede ' + planoPede(fx).map(k => PL_FALTA_TXT[k]).join(', ') + '.</b>' + (falta.length ? ' Falta: ' + falta.map(k => PL_FALTA_TXT[k]).join(', ') + '.' : ' Completa.') + '</div>') +
     (temRasc ? '<div class="msg info pl-rasc">Há um texto seu desta análise que não chegou à nuvem (de ' + esc(fmtDT(rasc.ts)) + ').' + (rasc.auto && rasc.base != null && rasc.base < crev ? ' Atenção: outra pessoa salvou esta análise depois.' : '') + ' <button type="button" class="btn sm" data-action="rnc-pl-rasc" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Usar o texto guardado</button> <button type="button" class="fm-link" data-action="rnc-pl-rasc-x" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '">Descartar</button></div>' : '') +
     (!ed && rncPlanoAberto(r) ? '<p class="fm-dica">Só ' + esc(resp.nome || 'o responsável') + ' escreve esta análise. Para comentar, use a conversa da RNC.</p>' : '') +
-    pdcaHTML(r, nc, d) + /* v2.102.16/17 */
-    corpo + acoesHTML(r, nc, ed) + (p ? '<p class="fm-dica pl-ult">Última alteração: ' + esc(p.porNome || '') + ' · ' + esc(fmtDT(p.em)) + '</p>' : '') +
-    '<div class="row-actions"><button class="btn" data-action="rnc-open" data-id="' + esc(rid) + '">Voltar</button>' + (ishiAtivas(d.ishi).length ? '<button class="btn" data-action="rnc-is-pdf" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '" title="PDF do diagrama de Ishikawa (A4 deitado)">Ishikawa</button>' : '') + (rncPode(r) && rncPlanoAberto(r) ? '<button class="btn" data-action="rnc-conf" data-id="' + esc(rid) + '" data-n="' + esc(nc.n) + '">Conferir</button>' : '') + (ed ? '<button class="btn primary" data-action="rnc-pl-salvar" data-id="' + esc(rid) + '">Salvar a análise</button>' : '') + '</div>', { noFocus: true });
+    (dir ? '' : pdcaHTML(r, nc, d)) + /* v2.102.16/17; v2.102.50: direta sem PDCA */
+    (dir ? corpoD : corpo + acoesHTML(r, nc, ed)) + (p ? '<p class="fm-dica pl-ult">Última alteração: ' + esc(p.porNome || '') + ' · ' + esc(fmtDT(p.em)) + '</p>' : '') +
+    '<div class="row-actions"><button class="btn" data-action="rnc-open" data-id="' + esc(rid) + '">Voltar</button>' + (ishiAtivas(d.ishi).length ? '<button class="btn" data-action="rnc-is-pdf" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '" title="PDF do diagrama de Ishikawa (A4 deitado)">Ishikawa</button>' : '') + (fluxAtivas(d.flux).length ? '<button class="btn" data-action="rnc-fx-pdf" data-id="' + esc(rid) + '" data-nc="' + esc(ncId) + '" title="PDF do fluxograma do processo">Fluxograma</button>' : '') + (rncPode(r) && rncPlanoAberto(r) ? '<button class="btn" data-action="rnc-conf" data-id="' + esc(rid) + '" data-n="' + esc(nc.n) + '">Conferir</button>' : '') + (ed ? '<button class="btn primary" data-action="rnc-pl-salvar" data-id="' + esc(rid) + '">' + (dir ? 'Salvar a resposta' : 'Salvar a análise') + '</button>' : '') + '</div>', { noFocus: true });
   if (ed) fmNumerar();
   $$('.sheet .ishi-add .input').forEach(e => e.addEventListener('keydown', ev => { if (ev.key === 'Enter') { ev.preventDefault(); const bt = e.parentNode.querySelector('button'); if (bt) bt.click(); } })); /* v2.102.18 */
   if (ed) raLigar('pl:' + ncId, planoLer, crev, { dados: !!dados, anc: '#pl-causa', pend: temRasc }); /* v2.102.21 */
@@ -15713,14 +16077,16 @@ function planoLer() {
   const p = planoDe(b.ncId), ct = (p && p.contencao) || {};
   const txt = v('pl-cont');
   return { contencao: txt ? { texto: txt, data: v('pl-cont-d') || hojeISO(), porNome: txt === ct.texto && ct.porNome ? ct.porNome : S.user.nome } : null,
-    porques: [1, 2, 3, 4, 5].map(i => v('pl-pq' + i)), causa: v('pl-causa'), m6: (ishiPriDe(b) || {}).m || b.m6 || '', outra: b.outra === true || b.outra === false ? { sim: b.outra, quais: b.outra ? v('pl-outra-q') : '' } : null,
+    porques: $('#pl-pq1') ? [1, 2, 3, 4, 5].map(i => v('pl-pq' + i)) : ((p && p.porques) || []), causa: $('#pl-causa') ? v('pl-causa') : ((p && p.causa) || ''), m6: (ishiPriDe(b) || {}).m || b.m6 || '', /* v2.102.50: na direta não há esses campos: guarda o que já havia */ outra: b.outra === true || b.outra === false ? { sim: b.outra, quais: b.outra ? v('pl-outra-q') : '' } : null,
+    flux: fluxLer(b), /* v2.102.48 */
     ishi: (b.ishi || []).slice(), ishiPri: ishiPriDe(b) ? b.ishiPri : '', ishiV: p && !p.ishiV && p.m6 && !ishiAtivas(p.ishi).length && !ishiAtivas(b.ishi).length ? 0 : 1 }; /* v2.102.18 */
 }
-const PL_CAMPOS = [['contencao', 'O que foi feito na hora', x => x ? x.texto + ' (' + fmtD(x.data) + ')' : ''], ['porques', '5 Porquês', x => (x || []).filter(Boolean).map((y, i) => (i + 1) + '. ' + y).join(' · ')], ['causa', 'Causa', x => x || ''], ['m6', '6M', x => x || ''], ['outra', 'Outra área', x => x ? (x.sim ? 'Sim' + (x.quais ? ': ' + x.quais : '') : 'Não') : ''], ['ishi', 'Ishikawa', x => ishiAtivas(x).map(c => c.m + ': ' + c.t).join(' · ')]];
+const PL_CAMPOS = [['contencao', 'O que foi feito na hora', x => x ? x.texto + ' (' + fmtD(x.data) + ')' : ''], ['porques', '5 Porquês', x => (x || []).filter(Boolean).map((y, i) => (i + 1) + '. ' + y).join(' · ')], ['causa', 'Causa', x => x || ''], ['m6', '6M', x => x || ''], ['outra', 'Outra área', x => x ? (x.sim ? 'Sim' + (x.quais ? ': ' + x.quais : '') : 'Não') : ''], ['ishi', 'Ishikawa', x => ishiAtivas(x).map(c => c.m + ': ' + c.t).join(' · ')], ['flux', 'Fluxograma', x => fluxAtivas(x).map((e, i) => (i + 1) + '. ' + e.t).join(' · ')]];
 async function planoSalvar(forcar) {
   const b = S.rncPl; if (!b) return; const { r, nc } = planoNc(b.rid, b.ncId); if (!r || !nc) return;
   if (!planoPodeEditar(r, nc)) { toast('Só o responsável pela resposta escreve esta análise.', 'err'); return; }
   const dados = forcar || planoLer(), cur = planoDe(b.ncId);
+  dados.flux = fluxLimpa(dados.flux); /* v2.102.48: etapas sem texto não vão para a nuvem */
   if (dados.outra && dados.outra.sim && dados.outra.quais.length < 2) return apMsg('Diga em quais áreas pode acontecer.');
   if (!forcar && (cur ? cur.rev || 0 : 0) !== b.rev0) { planoConflito(dados, cur); return; } /* Nº 33: nunca "a última gravação vence" */
   const ts = nowISO(), rev = (cur ? cur.rev || 0 : 0) + 1, resp = planoResp(r, nc);
@@ -15731,7 +16097,7 @@ async function planoSalvar(forcar) {
     await Data.col('sv2_rnc_plano').set(nc.id, doc);
     const l = (S.rncPlano || []).filter(x => x.ncId !== nc.id); l.push(Object.assign({ id: nc.id }, doc)); S.rncPlano = l;
     const f = planoFalta(nc, doc);
-    Audit.log({ acao: 'rnc_analise', entidade: 'rnc', entidadeId: r.id, resumo: r.numero + ' · ' + rncNum(nc.n) + ': análise salva' + (doc.causa ? ' · causa: ' + doc.causa : '') + (doc.m6 ? ' (' + doc.m6 + ')' : '') + (ishiAtivas(doc.ishi).length ? ' · Ishikawa: ' + ishiAtivas(doc.ishi).length + ' causa(s)' + (ishiPriDe(doc) ? ', principal: ' + ishiPriDe(doc).t : '') : '') + (f.length ? ' · falta ' + f.map(k => PL_FALTA_TXT[k]).join(', ') : ' · completa'), depois: dados });
+    Audit.log({ acao: 'rnc_analise', entidade: 'rnc', entidadeId: r.id, resumo: r.numero + ' · ' + rncNum(nc.n) + ': análise salva' + (doc.causa ? ' · causa: ' + doc.causa : '') + (doc.m6 ? ' (' + doc.m6 + ')' : '') + (ishiAtivas(doc.ishi).length ? ' · Ishikawa: ' + ishiAtivas(doc.ishi).length + ' causa(s)' + (ishiPriDe(doc) ? ', principal: ' + ishiPriDe(doc).t : '') : '') + (fluxAtivas(doc.flux).length ? ' · fluxograma: ' + fluxAtivas(doc.flux).length + ' etapa(s)' : '') + (f.length ? ' · falta ' + f.map(k => PL_FALTA_TXT[k]).join(', ') : ' · completa'), depois: dados });
     toast('Análise da ' + rncNum(nc.n) + ' salva' + (f.length ? ' (ainda falta ' + f.map(k => PL_FALTA_TXT[k]).join(', ') + ').' : '.'), f.length ? '' : 'ok');
     raFim('pl:' + nc.id); /* v2.102.21: a nuvem confirmou */
     S.rncPl = null; renderView(); openRnc(r.id);
@@ -15775,6 +16141,7 @@ async function planoTrocarResp(rid, ncId) {
 /* v2.102.17: o que impede "Resolvida" (análise completa + ações feitas ou canceladas) */
 function confPend(nc) {
   const p = [], f = planoFalta(nc), ab = acoesAtivas(nc.id).filter(a => a.st !== 'feita');
+  if (ncTrat(nc) === 'direta') { if (f.length) p.push('tratativa direta sem o que foi feito'); return p; } /* v2.102.50: direta não pede ações */
   if (f.length) p.push('análise incompleta (falta ' + f.map(k => PL_FALTA_TXT[k]).join(', ') + ')');
   if (ab.length) p.push(ab.length + (ab.length > 1 ? ' ações ainda não feitas' : ' ação ainda não feita'));
   return p;
@@ -16040,9 +16407,9 @@ async function rncImprimirPe(id, modo) {
     blocos.push(sec + '<div class="ri rn-ap ar-it rnc-it"><div class="ri-t"><span class="ri-n">' + esc(rncNum(n.n)) + '</span><span class="ri-tt">' + esc(n.local) + '</span><span class="ri-dt">' + esc(fmtD(r.data)) + '</span></div>' +
       '<div class="ri-tags"><span class="ri-tag" style="background:' + esc(G[n.grav]) + '">GRAVIDADE: ' + esc(String(g[0]).toUpperCase()) + '</span>' + (gutDe(n.id) ? '<span class="ri-tag" style="background:' + esc((GUT_FX[gutDe(n.id).faixa] || GUT_FX.baixo)[2]) + '">GUT ' + esc(gutDe(n.id).gut) + ' · ' + esc(String((GUT_FX[gutDe(n.id).faixa] || GUT_FX.baixo)[0]).toUpperCase()) + '</span>' : '') +
         (fech ? '<span class="ri-tag" style="background:' + esc(rt ? R[n.ret.res] : '#8a8576') + '">' + esc(rt ? String(rt[0]).toUpperCase() : 'SEM RETORNO') + '</span>' : '<span class="ri-tag ri-st">ABERTA</span>') + (ri ? '<span class="ri-tag ri-st">REINCIDENTE</span>' : '') + '</div>' +
-      '<div class="ri-c">' + campo('Constatação', n.nc) + campo(ncLeisRot(n), ncLeisTxt(n)) + campo('Responsável', (n.respNome || '') + (n.ciente ? ' · estava ciente' : ' · não estava ciente')) + campo('Corresponsáveis', rncCorespTxt(n)) +
+      '<div class="ri-c">' + campo('Constatação', n.nc) + campo(ncLeisRot(n), ncLeisTxt(n)) + campo('Tratamento', TRAT[ncTrat(n)][0]) + campo('Responsável', (n.respNome || '') + (n.ciente ? ' · estava ciente' : ' · não estava ciente')) + campo('Corresponsáveis', rncCorespTxt(n)) +
         campo('Observação', n.obs) + campo('Ação sugerida', n.sug) + (ri ? campo('Reincidência', 'mesmo local e requisito na ' + ri.rnc + ' (' + rncNum(ri.n) + ')') : '') +
-        (fech ? campo('Feito na hora', ct.texto) + campo('Causa', pl.causa) + campo('Categoria (6M)', pl.m6) +
+        (fech ? campo(ncTrat(n) === 'direta' ? 'O que foi feito' : 'Feito na hora', ct.texto) + campo('Causa', pl.causa) + campo('Categoria (6M)', pl.m6) +
           (acoesAtivas(n.id).length ? campo('Ações', acoesAtivas(n.id).length + ' no plano · ' + acoesAtivas(n.id).filter(a => a.st === 'feita').length + ' feita(s)' + (acoesAtivas(n.id).some(a => acaoSt(a) === 'atrasada') ? ' · ' + acoesAtivas(n.id).filter(a => acaoSt(a) === 'atrasada').length + ' atrasada(s)' : '')) : '') +
           (n.ret ? campo('Retorno', n.ret.texto + ' · conferido por ' + (n.ret.porNome || '') + ' em ' + fmtD(n.ret.data) + (n.ret.lib ? ' · liberada como Resolvida por ' + (n.ret.lib.porNome || '') + ': ' + n.ret.lib.motivo : '')) : '<p><b>Retorno:</b> ainda não conferida.</p>') : '') +
         '<p><b>Prazo:</b> ' + esc(fmtD(r.prazo)) + ' · <b>Evidência fotográfica:</b> ' + esc(ev) + '</p></div></div>');
@@ -16109,7 +16476,7 @@ async function rncImprimir(id, modo) {
     '<div class="rp-ft"><span>' + impresso + '</span><span>' + esc(r.numero) + ' · folha ' + esc(pg) + ' de ' + totP + '</span></div></section>';
   const W = 186, HF = 72;
   const folha = n => { const g = RNC_GRAV[n.grav], ri = rncReinc(r, n), rt = n.ret ? RNC_RES[n.ret.res] : null;
-    const campos = [[ncLeisRot(n), ncLeisTxt(n) || '—'], ['Responsável', n.respNome + (n.ciente ? ' · estava ciente' : ' · não estava ciente')]].concat(rncCoresp(n).length ? [['Corresponsáveis', rncCorespTxt(n)]] : []).concat([['Prazo', fmtD(r.prazo)]]).concat(n.obs ? [['Observação', n.obs]] : []).concat(n.sug ? [['Sugestão', n.sug]] : []).concat(ri ? [['Reincidência', 'mesmo local e requisito na ' + ri.rnc + ' (' + rncNum(ri.n) + ')']] : []);
+    const campos = [[ncLeisRot(n), ncLeisTxt(n) || '—'], ['Tratamento', TRAT[ncTrat(n)][0]], ['Responsável', n.respNome + (n.ciente ? ' · estava ciente' : ' · não estava ciente')]].concat(rncCoresp(n).length ? [['Corresponsáveis', rncCorespTxt(n)]] : []).concat([['Prazo', fmtD(r.prazo)]]).concat(n.obs ? [['Observação', n.obs]] : []).concat(n.sug ? [['Sugestão', n.sug]] : []).concat(ri ? [['Reincidência', 'mesmo local e requisito na ' + ri.rnc + ' (' + rncNum(ri.n) + ')']] : []);
     const nA = (n.fotosAntes || []).filter(f => RNC_CACHE[f]).length;
     const fa = rncFotosPrint(n.fotosAntes, W, fech ? HF : 92, i => 'Foto ' + (i + 1) + ' · ' + rncNum(n.n) + ' · antes'), fd = fech && n.ret ? rncFotosPrint(n.ret.fotosDepois, W, HF, i => 'Foto ' + (nA + i + 1) + ' · ' + rncNum(n.n) + ' · depois') : '';
     const baixo = fech && n.ret ? '<div class="rp-l"><div class="rp-res" style="background:' + R[n.ret.res] + '">' + rt[0] + '</div><div class="rp-big">' + esc(n.ret.texto) + '</div><div class="rp-kv"><span>Conferido por</span><b>' + esc(n.ret.porNome) + '</b><span>Em</span><b>' + fmtD(n.ret.data) + '</b>' + (n.ret.lib ? '<span>Liberada por</span><b>' + esc(n.ret.lib.porNome || '') + ': ' + esc(n.ret.lib.motivo) + '</b>' : '') + '</div></div><div class="rp-r">' + (fd || '<div class="rp-sf">Sem foto do depois</div>') + '</div>'
@@ -16178,10 +16545,20 @@ function rncAcao(act, id, t) {
     case 'rnc-is-pri': ishiMuda('pri', id); return true;
     case 'rnc-is-x': ishiMuda('x', id); return true;
     case 'rnc-is-pdf': ishiImprimir(id, ncA); return true;
+    case 'rnc-fx-add': fluxMuda('rnc', 'add'); return true; /* v2.102.48 */
+    case 'rnc-fx-ver': fluxMuda('rnc', 'ver'); return true;
+    case 'rnc-fx-x': fluxMuda('rnc', 'x', id); return true;
+    case 'rnc-fx-up': fluxMuda('rnc', 'up', id); return true;
+    case 'rnc-fx-dn': fluxMuda('rnc', 'dn', id); return true;
+    case 'rnc-fx-pro': fluxMuda('rnc', 'pro', id); return true;
+    case 'rnc-fx-pdf': fluxImprimir(id, ncA); return true;
     case 'rnc-pl-m6': { const b = S.rncPl; if (b) { b.m6 = b.m6 === id ? '' : id; $$('[data-action="rnc-pl-m6"]').forEach(x => x.classList.toggle('on', x.getAttribute('data-id') === b.m6)); } return true; }
     case 'rnc-pl-outra': { const b = S.rncPl; if (b) { b.outra = id === '1'; $$('[data-action="rnc-pl-outra"]').forEach(x => x.classList.toggle('on', x.getAttribute('data-id') === id)); const q = $('#pl-outra-q'); if (q) { q.hidden = !b.outra; if (b.outra) try { q.focus(); } catch {} } } return true; }
     case 'rnc-pl-ultimo': { const l = [5, 4, 3, 2, 1].map(i => (($('#pl-pq' + i) || {}).value || '').trim()).find(Boolean), c = $('#pl-causa'); if (l && c) c.value = l; else toast('Escreva os "por quê" primeiro.'); return true; }
     case 'rnc-pl-resp': openPlanoResp(id, t.getAttribute('data-nc')); return true;
+    case 'rnc-trat': openTratTroca(id, t.getAttribute('data-nc')); return true; /* v2.102.50 */
+    case 'rnc-trat-v': S.tratNovo = id; $$('[data-action="rnc-trat-v"]').forEach(x => x.classList.toggle('on', x === t)); return true;
+    case 'rnc-trat-ok': tratTrocar(id, t.getAttribute('data-nc')); return true;
     case 'rnc-pl-resp-ok': planoTrocarResp(id, t.getAttribute('data-nc')); return true;
     case 'rnc-pl-rasc': { const nc = t.getAttribute('data-nc'), d = planoRascunho(nc); if (d) openRncPlano(id, nc, d.dados); return true; }
     case 'rnc-pl-rasc-x': { const nc = t.getAttribute('data-nc'); Store.del(PL_RASC(nc)); openRncPlano(id, nc); return true; }
@@ -17080,7 +17457,7 @@ function prevFolhas(root) { const n = root.querySelectorAll('.dc-pg, .rp-pg, .fx
 function prevTitulo(root) { const t = root.querySelector('.dc-tit b') || root.querySelector('.rp-kick') || root.querySelector('h1'); return String(t ? t.textContent : 'Impressão').trim() || 'Impressão'; }
 /* documento completo e independente (sem script): abre em qualquer navegador e imprime igual */
 function prevDoc(html, pagina, titulo, tela) {
-  const extra = '#print-root{display:block!important}body{background:#fff;color:#000;margin:0}' +
+  const extra = '#print-root{display:block!important}body{background:#fff;color:#000;margin:0}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}' + /* v2.102.49: cores no PDF */
     (tela ? 'body{background:#d9d9de;padding:10px}#print-root{width:' + (/portrait/.test(pagina || '') ? '196' : '285') + 'mm;margin:0 auto}#print-root .dc-pg,#print-root .rp-pg,#print-root .fx-pg,#print-root .etq-pg,#print-root .pc-pg{background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.25);padding:6mm;margin:0 0 8mm;box-sizing:content-box}' : '@media screen{#print-root{max-width:297mm;margin:0 auto;padding:6mm}}');
   return '<!DOCTYPE html>\n<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>' + esc(titulo) + '</title>' +
     '<style>' + prevCssApp() + '</style><style>@media screen{' + dcCssImpressao() + '}' + extra + '</style><style>' + (pagina || '@page{size:A4 landscape;margin:6mm}') + '</style></head>' +
@@ -23262,7 +23639,8 @@ document.addEventListener('click', e => {
     case 'nc-o': S.ncO = id; renderView(); break; /* v2.102.41 */
     case 'nc-pes-print': ncPessoaImprimir(); break; /* v2.102.44 */
     case 'nc-ftg': S.ncFAb = !S.ncFAb; renderView(); break;
-    case 'nc-flimpa': S.ncF = 'abertas'; S.ncO = 'todas'; S.ncP = ''; renderView(); break;
+    case 'nc-flimpa': S.ncF = 'abertas'; S.ncO = 'todas'; S.ncP = ''; S.ncT = 'todas'; renderView(); break;
+    case 'nc-t': S.ncT = id; renderView(); break; /* v2.102.50 */
     case 'pw-toggle': { const i = $('#' + id); const show = i.type === 'password'; i.type = show ? 'text' : 'password'; t.textContent = show ? 'Ocultar' : 'Mostrar'; break; }
   }
 });
