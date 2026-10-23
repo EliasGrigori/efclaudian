@@ -664,6 +664,16 @@ select{max-width:100%}
 .dsl.g .bar{height:26px}.dsl.g .pc{font-size:calc(30px*var(--esc))}.dsl.g .nn{font-size:calc(14px*var(--esc))}
 @media (max-width:600px){.dsl>div{grid-template-columns:2em minmax(0,1fr) 3.2em}.dsl .bar{grid-column:2/-1;grid-row:2}.dsl .nn{grid-row:3}}
 @media (max-width:640px){.podium.prop .h1{min-height:calc(265px*var(--esc,1))}.podium.prop .h2{min-height:calc(235px*var(--esc,1))}.podium.prop .h3{min-height:calc(210px*var(--esc,1))}}
+
+/* ---------- v2.2.0: nuvem ---------- */
+.integr>.nvconta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.integr>.nvconta .muted{margin-right:auto}
+.integr>.nvlogin{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;align-items:end}
+.integr>.okmsg,.integr>.msg{display:block;border-left-width:3px}
+.nvpill{cursor:pointer;font-family:inherit;font-size:11px;background:transparent;min-height:0;line-height:1.6}
+.nvst{min-height:24px}
+:root[data-turma="1"] #tabs{display:none}
+@media (max-width:640px){.integr>.nvlogin{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1087,7 +1097,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
 /* ============ base ============ */
 const EFC_CONFIG = Object.assign({empresa: "", produto: "EFCQuiz", sistema: "EFClaudian"}, window.EFC_CONFIG || {});
 window.EFC_CONFIG = EFC_CONFIG;
-const APP_VERSAO = "2.1.1";
+const APP_VERSAO = "2.2.0";
 const DAY = 86400000, FOTO_DIAS = 3, LS = "efcquiz-v1";
 const METAS = [50,60,70,75,80,90,100];
 const SETORES_PADRAO = ["Packing","Campo","Laboratório","Almoxarifado","Oficina","Segurança","RH","ADM","Outros"];
@@ -1493,7 +1503,7 @@ function tickTimers(){
     const i = el.querySelector(".regua>i"); if (i) i.style.width = (dur ? left/dur*100 : 0) + "%";
   });
 }
-function linkSessao(){ return location.href.split("#")[0] + "#entrar"; }
+function linkSessao(s){ return location.href.split("#")[0] + "#entrar" + (s && s.nuvem ? "=" + s.chave : ""); }
 function hdr(t, extra=""){ return `<div class="hd"><h2>${t}</h2>${extra}</div>`; }
 const optColor = i => CORES[i % CORES.length];
 const letra = i => i < 26 ? String.fromCharCode(65 + i) : String(i + 1);
@@ -1540,7 +1550,7 @@ function vResp(){
   if (u.tela === "encerrar" && sessAtual()) return vEncerrar();
   if (u.tela === "conferir") return vConferir();
   if (u.tela === "prompt" && pode()) return vPrompt();
-  const perfil = `<label class="row" style="gap:6px"><span class="lbl">Perfil</span><select id="perfil" data-bindroot="perfil" style="width:auto">${Object.entries(PERFIS).map(([k,v]) => `<option value="${k}"${S.perfil===k?" selected":""}>${v}</option>`).join("")}</select></label>`;
+  const perfil = `<label class="row" style="gap:6px"><span class="lbl">Perfil</span><select id="perfil" data-bindroot="perfil" style="width:auto"${S.ui.nuvemConta ? " disabled title=\"O perfil vem da conta do EFClaudian\"" : ""}>${Object.entries(PERFIS).map(([k,v]) => `<option value="${k}"${S.perfil===k?" selected":""}>${v}</option>`).join("")}</select></label>`;
   const abertas = S.sessoes.filter(s => s.status !== "encerrada");
   const fech = S.sessoes.filter(s => s.status === "encerrada").sort((a,b) => b.encerradaEm - a.encerradaEm);
   const aba = (["trein","ref","msg","enc"].includes(u.abaResp) && (pode() || ["trein","enc"].includes(u.abaResp))) ? u.abaResp : "trein";
@@ -1552,7 +1562,7 @@ function vResp(){
     <div><span class="n">2</span><span>Escreva as perguntas, marque a resposta certa e o tempo.</span></div>
     <div><span class="n">3</span><span>Toque em <b>Aplicar</b> e mostre a chave no telão.</span></div></div></div>`;
   return `<div class="stack">
-  <div class="row solid"><h1 style="font-size:26px;margin-right:auto">Treinamentos</h1><button class="btn sm" data-act="irConferir">${ICON.escudo}Conferir registro</button><button class="btn sm" data-act="cfg" aria-pressed="${!!u.cfg}">${ICON.engr}Configurações</button>${perfil}</div>
+  <div class="row solid"><h1 style="font-size:26px">Treinamentos</h1><button class="pill ${nvEstadoTexto().cls} nvpill" data-act="nvAbrirInteg" style="margin-right:auto">${esc(nvEstadoTexto().t)}</button><button class="btn sm" data-act="irConferir">${ICON.escudo}Conferir registro</button><button class="btn sm" data-act="cfg" aria-pressed="${!!u.cfg}">${ICON.engr}Configurações</button>${perfil}</div>
   ${u.cfg ? vConfig() : ""}
   ${u.msgResp ? `<div class="okmsg">${esc(u.msgResp)}</div>` : ""}${u.erroImp ? `<div class="msg">${esc(u.erroImp)}</div>` : ""}
   ${pode() ? "" : `<div class="note">O perfil Colaborador não cria nem aplica treinamentos. Só os perfis Primário e Líder estrela podem.</div>`}
@@ -1612,7 +1622,8 @@ function vConfig(){
     corpo = `<div class="armaz" style="max-width:560px"><span class="lbl">Armazenamento neste aparelho · ${IDB.db ? "grande (IndexedDB)" : "simples (localStorage, cerca de 5 MB)"}</span>
       ${a ? `<b class="num" style="font-size:22px">${mb(a.usado)} de ~${mb(a.cota)}</b><div class="rmeta"><i style="width:${Math.min(100, a.usado / (a.cota || 1) * 100).toFixed(1)}%"></i></div>` : `<span class="muted">Calculando...</span>`}
       <span class="muted"><span class="num">${S.sessoes.length}</span> sessões · <span class="num">${fotos}</span> foto(s) da turma · <span class="num">${ass}</span> assinaturas · <span class="num">${S.pessoas.length}</span> pessoas. Fotos continuam sendo apagadas em ${FOTO_DIAS} dias.</span></div>`; }
-  if (aba === "integ"){ const I = EFC_CONFIG.integracoes;
+  if (aba === "integ"){ corpo = nvPainelInteg(); }
+  if (aba === "integ_v21"){ const I = EFC_CONFIG.integracoes;
     const lin = (n, t, d, st) => `<div><span><b>${n} · ${t}</b><br><span class="muted" style="font-size:13px">${d}</span></span><span class="pill ${st === "pronto" ? "ok" : "mut"}">${st === "pronto" ? "pronto · aguarda o EFClaudian" : "preparado · desligado"}</span></div>`;
     corpo = `<div class="integr">${lin("I01", "Conta do EFClaudian para responsáveis", "Primário e Líder estrela entram com a conta do EFClaudian. O participante continua sem conta.", I.contaEFClaudian ? "ligado" : "off")}
       ${lin("I03", "Reforço a partir de não conformidade", "Na NC, o botão \"Gerar reforço\" abre a sessão com o treinamento certo.", I.reforcoNC ? "ligado" : "off")}
@@ -1797,6 +1808,7 @@ function vNova(){
       <label class="field"><span>Meta de aprovação · a meta do treinamento é ${T.meta || 70}%</span><select id="n-meta" data-nbind="meta">${METAS.map(m => `<option value="${m}"${+o.meta===m?" selected":""}>${m}%${m === (T.meta || 70) ? " (do treinamento)" : ""}</option>`).join("")}</select></label>
       ${+o.meta !== (T.meta || 70) ? `<p class="note" style="margin:0;align-self:end">Meta ajustada só nesta sessão. O registro guarda a mudança: de ${T.meta || 70}% para ${o.meta}%, por ${PERFIS[S.perfil]}.</p>` : ""}
     </div>
+    ${nvLinhaNova(o)}
     <div class="row"><span class="lbl" style="min-width:150px">Modo</span>${segs("modo", [["aovivo","Ao vivo, com telão"],["ritmo","No próprio ritmo"]])}</div>
     ${o.modo === "ritmo" ? `<label class="field" style="max-width:260px"><span>Prazo para responder</span><input type="date" id="n-prazo" data-nbind="prazo" value="${esc(o.prazo)}"></label>` : ""}
     ${o.reforco ? "" : `<div class="row"><span class="lbl" style="min-width:150px">Formato</span>`}${o.reforco ? "" : segs("equipe", [["nao","Individual"],["um","Equipe · 1 celular por equipe"],["cada","Equipe · cada um no seu celular"]]) + "</div>"}
@@ -1807,7 +1819,7 @@ function vNova(){
     <label class="chk"><input type="checkbox" id="n-conf" data-nchk="confirmar" ${o.confirmar?"checked":""}>Pedir confirmação antes de enviar a resposta (evita toque sem querer)</label>
     <div class="field"><span>Quando o tempo da pergunta acabar</span><div class="seg" role="group">${[["0","Fecha a pergunta"],["1","Ainda aceita resposta, sem pontos de rapidez"]].map(([v, l]) => `<button data-act="setNova" data-arg="semBloqueio|${v}" aria-pressed="${String(+!!+o.semBloqueio) === v}">${l}</button>`).join("")}</div>
       <span class="muted" style="font-weight:400;font-size:13px">Use "ainda aceita" quando houver quem lê devagar: ninguém fica para trás e ninguém é exposto. A resposta vale para a nota; na gincana não ganha pontos de rapidez.</span></div>
-    <div class="note">Nota da avaliação: só acertos e erros. Rapidez desempata quem acertou o mesmo número. Perguntas de gincana valem pontos por rapidez num placar separado.${S.config.demo ? " Modo demonstração: tudo roda neste aparelho; use \"Próxima pessoa\" na aba Participante para simular outro celular." : ""}</div>
+    <div class="note">Nota da avaliação: só acertos e erros. Rapidez desempata quem acertou o mesmo número. Perguntas de gincana valem pontos por rapidez num placar separado.${S.config.demo && o.nuvem !== "1" ? " Modo demonstração: tudo roda neste aparelho; use \"Próxima pessoa\" na aba Participante para simular outro celular." : ""}</div>
     <div class="row end"><button class="btn pri lg" data-act="abrirSessao">Abrir sessão e gerar chave</button></div>
   </div></section></div>`;
 }
@@ -1834,6 +1846,7 @@ function vControle(){
   const respondidas = it && isQ(it) ? s.part.filter(p => s.resp[p.id + "|" + it.id]).length : 0;
   return `<div class="stack">
   <div class="row"><button class="btn sm" data-act="voltar">Voltar</button><h1 style="font-size:22px;margin-right:auto">${esc(s.titulo)}</h1><button class="btn sm" data-act="view" data-arg="tel">Abrir telão</button></div>
+  ${nvLinhaControle(s)}
   <div class="kv">
     <div><span class="lbl">Chave</span><b class="mono" style="font-size:22px">${s.chave}</b></div>
     <div><span class="lbl">Situação</span><b>${rotFase(s)}</b></div>
@@ -1897,9 +1910,9 @@ function telEspera(s){
   return `<div class="passos"><div><span class="n">1</span><span>Aponte a câmera do celular para o <b>quadrado do QR</b> ou abra o link e digite a chave.</span></div>
       <div><span class="n">2</span><span>${s.equipe === "um" ? "Uma pessoa da equipe escreve o <b>nome e sobrenome de todos</b>." : "Toque no <b>seu nome</b>. Na primeira vez, faça o cadastro."}</span></div>
       <div><span class="n">3</span><span><b>Aguarde.</b> As perguntas abrem sozinhas no celular.</span></div></div>
-    <div class="entrar"><div class="qr" data-qr="${esc(linkSessao())}" aria-label="QR code do link de entrada"></div>
+    <div class="entrar"><div class="qr" data-qr="${esc(linkSessao(s))}" aria-label="QR code do link de entrada"></div>
         <div class="stack" style="gap:6px"><span class="lbl">Chave</span><div class="chave">${s.chave}</div>
-          <span class="muted" style="font-size:13px;overflow-wrap:anywhere">${esc(linkSessao())}</span>
+          <span class="muted" style="font-size:13px;overflow-wrap:anywhere">${esc(linkSessao(s))}</span>
           ${s.entradaAberta ? "" : `<span class="pill bad">Entrada fechada</span>`}
           ${s.modo==="ritmo" ? `<span class="pill warn">No próprio ritmo${s.prazo ? " · prazo " + s.prazo.split("-").reverse().join("/") : ""}</span>` : ""}</div>
       <div class="contsala"><b class="num">${conta}</b><span class="mid">${s.modo==="ritmo" && c ? `pessoas · ${c.rows.filter(r => r.concluiu).length} concluíram` : "na sala"}${s.equipe === "um" ? ` · ${s.part.length} equipe(s)` : ""}</span></div></div>
@@ -1970,7 +1983,7 @@ function vPart(){
     if (!lg.av) lg.av = UI().avEd && UI().avEd.pid === lg.id ? UI().avEd.code : avSorteio(lg.id); S.eu.escolherAv = false; UI().avEd = null; save(); }
   const eqn = nomeEquipe(s, p);
   const head = `${s.equipe === "um" ? eqTag(s, p) : avMini(s, p, "xs")}<b>${esc(s.equipe === "um" ? p.nome : p.nome.split(" ")[0])}</b>${eqn && s.equipe==="cada" ? `<span class="row" style="gap:6px">${eqTag(s, p)}${esc(eqn)}</span>` : ""}${fPerfil}`;
-  const foot = `<span class="muted mono">Chave ${s.chave}</span><button class="btn sm" data-act="proxPessoa">Próxima pessoa</button>`;
+  const foot = `<span class="muted mono">Chave ${s.chave}</span>${s.remota ? "" : `<button class="btn sm" data-act="proxPessoa">Próxima pessoa</button>`}`;
   return phone(head, s.modo === "ritmo" ? vRitmo(s, p) : vAoVivo(s, p), foot);
 }
 function phone(h, b, f){ return `<div class="phone"><div class="ph">${h}</div><div class="pb">${b}</div><div class="pf">${f}</div></div>`; }
@@ -1994,7 +2007,7 @@ function vJoin(){
     ${j.membros.length < s.maxEquipe ? `<button class="btn" data-act="addMembro">${ICON.mais}Adicionar pessoa</button>` : ""}
     <button class="btn pri lg" data-act="joinFim">Entrar</button><button class="btn" data-act="joinVoltar">Voltar</button>`;
   const eqs = s.equipe === "cada" ? `<span class="lbl">Escolha a sua equipe (até ${s.maxEquipe} pessoas)</span>
-    ${s.equipes.map(e => { const n = s.part.filter(p => p.equipe === e.id).length, full = n >= s.maxEquipe;
+    ${s.equipes.map(e => { const n = s.remota ? ((s.ocup || {})[e.id] || 0) : s.part.filter(p => p.equipe === e.id).length, full = n >= s.maxEquipe;
       return `<label class="choice${full?" full":""}"><input type="radio" name="j-eqs" data-jradio="${e.id}" ${j.equipeId===e.id?"checked":""} ${full?"disabled":""}>${marcaEq(e.cor, e.simb)}${esc(e.nome)}<span class="muted num" style="margin-left:auto">${n}/${s.maxEquipe}${full?" · cheia":""}</span></label>`; }).join("")}
     <label class="choice"><input type="radio" name="j-eqs" data-jradio="nova" ${j.equipeId==="nova"?"checked":""}>Criar nova equipe</label>
     ${j.equipeId === "nova" ? `<input type="text" id="j-nova" data-jbind="novaEquipe" value="${esc(j.novaEquipe)}" placeholder="Nome da nova equipe">` : ""}` : "";
@@ -2002,13 +2015,14 @@ function vJoin(){
   const pe = j.pessoaId ? S.pessoas.find(x => x.id === j.pessoaId) : null;
   if (pe) return `${err}<div class="muted">${esc(s.titulo)}</div>
     <div class="marcou" style="display:flex;gap:10px;align-items:center"><span style="flex:1">${esc(nomeCompleto(pe))}<br><span class="muted" style="font-size:14px">${esc(pe.setor)}</span></span><button class="btn sm" data-act="joinTrocar">Não sou eu</button></div>${fim}`;
-  if (j.cad || !S.pessoas.length) return `${err}<div class="muted">${esc(s.titulo)}</div><span class="lbl">Primeira vez aqui · cadastro rápido</span>
+  const reais = s.remota ? S.pessoas.filter(x => !x.bot) : S.pessoas;
+  if (j.cad || !reais.length) return `${err}<div class="muted">${esc(s.titulo)}</div><span class="lbl">Primeira vez aqui · cadastro rápido</span>
     <label class="field"><span>Nome</span><input type="text" id="j-nome" data-jbind="nome" value="${esc(j.nome)}" autocomplete="given-name"></label>
     <label class="field"><span>Sobrenome</span><input type="text" id="j-sob" data-jbind="sobrenome" value="${esc(j.sobrenome)}" autocomplete="family-name"></label>
-    <label class="field"><span>Seu setor</span><select id="j-setor" data-jsetor="1" aria-label="Seu setor"><option value="">Escolha na lista…</option>${S.config.setores.map(st => `<option value="${esc(st)}"${j.setorSel === st ? " selected" : ""}>${esc(st)}</option>`).join("")}<option value="__novo"${j.setorSel === "__novo" ? " selected" : ""}>Outro setor (digitar)…</option></select></label>
+    <label class="field"><span>Seu setor</span><select id="j-setor" data-jsetor="1" aria-label="Seu setor"><option value="">Escolha na lista…</option>${(s.setores || S.config.setores).map(st => `<option value="${esc(st)}"${j.setorSel === st ? " selected" : ""}>${esc(st)}</option>`).join("")}<option value="__novo"${j.setorSel === "__novo" ? " selected" : ""}>Outro setor (digitar)…</option></select></label>
     ${j.setorSel === "__novo" ? `<label class="field"><span>Nome do novo setor</span><input type="text" id="j-setnovo" data-jsetnovo="1" value="${esc(j.setorNovo || "")}" maxlength="40"></label>` : ""}
-    ${S.pessoas.length ? `<button class="btn sm" style="justify-self:start" data-act="joinBuscar">Já tenho cadastro · buscar meu nome</button>` : ""}${fim}`;
-  const achados = buscarPessoas(j.busca);
+    ${reais.length ? `<button class="btn sm" style="justify-self:start" data-act="joinBuscar">Já tenho cadastro · buscar meu nome</button>` : ""}${fim}`;
+  const achados = buscarPessoas(j.busca).filter(x => !s.remota || !x.bot);
   return `${err}<div class="muted">${esc(s.titulo)}</div>
     <label class="field"><span>Digite as primeiras letras do seu nome</span><input type="search" id="j-busca" data-jbind="busca" value="${esc(j.busca)}" autocomplete="off" placeholder="Ex.: mar" style="min-height:50px;font-size:18px"></label>
     ${norm(j.busca).length >= 3 ? (achados.length ? `<div class="achados">${achados.map(x => `<button data-act="joinPessoa" data-arg="${x.id}"><span>${esc(nomeCompleto(x))}</span><span class="st">${esc(x.setor)}</span></button>`).join("")}</div>` : `<p class="muted" style="margin:0">Nenhum nome encontrado.</p>`) : `<p class="muted" style="margin:0;font-size:14px">Com 3 letras, os nomes aparecem aqui. Toque no seu.</p>`}
@@ -2068,7 +2082,7 @@ function feedback(it, r, s, ritmo, p){
 }
 function meuResultado(s, p){
   const c = calc(s), r = c.rows.find(x => x.p.id === p.id); if (!r) return "";
-  const eq = c.equipes.findIndex(e => e.nome === nomeEquipe(s, p));
+  const eq = c.eqPosRemota ? c.eqPosRemota - 1 : c.equipes.findIndex(e => e.nome === nomeEquipe(s, p));
   return `<span class="lbl">Seu resultado</span>
     <div class="kv" style="grid-template-columns:1fr 1fr"><div><span class="lbl">Acertos</span><b class="score" style="font-size:24px">${r.ac}</b></div><div><span class="lbl">Erros</span><b class="score" style="font-size:24px">${r.er}</b></div>
     <div><span class="lbl">Sem resposta</span><b class="score" style="font-size:24px">${r.sr}</b></div><div><span class="lbl">Nota</span><b class="score" style="font-size:24px">${r.nota}%</b></div></div>
@@ -2669,7 +2683,7 @@ const A = {
       if (!membros.length || membros.some(m => !nomeOk(m))) return erroJoin("Escreva nome e sobrenome de cada pessoa."), "norender";
       if (membros.length > s.maxEquipe) return erroJoin(`A equipe pode ter até ${s.maxEquipe} pessoas.`), "norender";
       const rep = membros.find(m => usados.has(m.toLowerCase())); if (rep) return erroJoin(`${rep} já está em outra equipe desta sessão.`), "norender";
-      if (s.part.some(x => x.nome.toLowerCase() === j.novaEquipe.trim().toLowerCase())) return erroJoin("Já existe uma equipe com esse nome. Escolha outro."), "norender";
+      if (s.part.some(x => x.nome.toLowerCase() === j.novaEquipe.trim().toLowerCase()) || (s.eqUm || []).some(x => x.nome.toLowerCase() === j.novaEquipe.trim().toLowerCase())) return erroJoin("Já existe uma equipe com esse nome. Escolha outro."), "norender";
       const i = s.part.length; p = {id: uid(), nome: j.novaEquipe.trim(), membros, cor: CORES_EQ[i % CORES_EQ.length], simb: i % SIMB_EQ.length, equipe: null, entrou: now()};
     } else {
       let pe = j.pessoaId ? S.pessoas.find(x => x.id === j.pessoaId) : null, nova = false;
@@ -2681,7 +2695,7 @@ const A = {
         if (!pe){ const stn = j.setorSel === "__novo" ? j.setor.replace(/(^|\s)\S/g, c => c.toUpperCase()) : j.setor; const jaTem = S.config.setores.find(x => norm(x) === norm(stn)); if (!jaTem) S.config.setores.push(stn); pe = {id: uid(), nome: pr(j.nome), sobrenome: pr(j.sobrenome), setor: jaTem || stn, criadoEm: now()}; nova = true; }
       }
       const nome = nomeCompleto(pe);
-      if (s.reforco && !s.reforco.pessoas.includes(pe.id)) return erroJoin("Esta é uma sessão de reforço: só entram as pessoas convidadas. Confira o seu nome ou fale com o responsável."), "norender";
+      if (s.reforco && !(s.remota ? (s.reforco.nomes || []).includes(sha256(s.id + "|" + norm(nome))) : s.reforco.pessoas.includes(pe.id))) return erroJoin("Esta é uma sessão de reforço: só entram as pessoas convidadas. Confira o seu nome ou fale com o responsável."), "norender";
       if (usados.has(nome.toLowerCase()) || s.part.some(x => x.pessoaId === pe.id)) return erroJoin("Esse nome já entrou nesta sessão. Se for outra pessoa, acrescente mais um sobrenome."), "norender";
       p = {id: uid(), nome, membros: [], equipe: null, entrou: now(), pessoaId: pe.id, setor: pe.setor};
       if (nova) p._novaPessoa = pe;
@@ -2690,7 +2704,7 @@ const A = {
         if (j.equipeId === "nova"){ if (!j.novaEquipe.trim()) return erroJoin("Digite o nome da nova equipe."), "norender";
           if (s.equipes.some(e => e.nome.toLowerCase() === j.novaEquipe.trim().toLowerCase())) return erroJoin("Já existe uma equipe com esse nome."), "norender";
           const i = s.equipes.length; const e = {id: uid(), nome: j.novaEquipe.trim(), cor: CORES_EQ[i % CORES_EQ.length], simb: i % SIMB_EQ.length}; s.equipes.push(e); p.equipe = e.id; }
-        else { const n = s.part.filter(x => x.equipe === j.equipeId).length; if (n >= s.maxEquipe) return erroJoin("Essa equipe está cheia. Escolha outra ou crie uma nova."), "norender"; p.equipe = j.equipeId; }
+        else { const n = s.remota ? ((s.ocup || {})[j.equipeId] || 0) : s.part.filter(x => x.equipe === j.equipeId).length; if (n >= s.maxEquipe) return erroJoin("Essa equipe está cheia. Escolha outra ou crie uma nova."), "norender"; p.equipe = j.equipeId; }
       }
     }
     if (p._novaPessoa){ S.pessoas.push(p._novaPessoa); delete p._novaPessoa; }
@@ -2750,7 +2764,7 @@ document.addEventListener("change", async e => {
   else if (t.dataset.nchk){ u.nova[t.dataset.nchk] = t.checked; save(); }
   else if (t.dataset.jsetor){ const j = u.join; j.setorSel = t.value; j.setor = t.value === "__novo" ? (j.setorNovo || "").trim() : t.value; save(); render(); }
   else if (t.dataset.jradio){ u.join.equipeId = t.dataset.jradio; save(); render(); }
-  else if (t.dataset.bindroot === "perfil"){ S.perfil = t.value; if (!pode()) u.tela = "lista"; save(); render(); }
+  else if (t.dataset.bindroot === "perfil"){ if (S.ui.nuvemConta) return; S.perfil = t.value; if (!pode()) u.tela = "lista"; save(); render(); }
   else if (t.dataset.relsel){ u.relId = t.value; u.dlMsg = ""; save(); render(); }
   else if (t.dataset.afbind){ u.af[t.dataset.afbind] = t.dataset.afbind === "per" ? +t.value : t.value; u.dlMsg = ""; save(); render(); }
   else if (t.dataset.prbind && t.dataset.prbind !== "titulo"){ u.prompt[t.dataset.prbind] = +t.value; u.msgPrompt = ""; save(); render(); }
@@ -3200,7 +3214,447 @@ document.addEventListener("input", e => { const t = e.target, u = UI(); if (!S) 
   else if (t.dataset.resptxt){ u.respTxt = t.value; save(); } });
 document.addEventListener("change", e => { const t = e.target, u = UI(); if (!S) return;
   if (t.dataset.falet){ u.fale.tId = t.value; save(); } });
+/* iniciarApp() é chamado no fim de 47-nuvem.js */
 
+/* ==================================================================================
+   v2.2.0 · NUVEM (Firebase): celulares de verdade
+   - Responsável (Primário e Líder estrela) entra com a conta do EFClaudian.
+   - A turma entra com a chave, sem conta (login anônimo do Firebase), com nome, sobrenome e setor.
+   - Na nuvem ficam: a sessão ao vivo, as respostas, as assinaturas, o boneco e as mensagens do perfil.
+   - Treinamentos, histórico, foto da turma e PDF continuam no aparelho do responsável.
+   - Sem internet, nada muda: o app segue funcionando só neste aparelho.
+   Coleções: efq_chaves, efq_sessoes (+ itens, part, resp), efq_msgs. Regras no arquivo firestore-regras-v2.2.0-EFCQuiz.
+   ================================================================================== */
+const FB_CFG = {apiKey: "AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4", authDomain: "docseliasflorencio.firebaseapp.com", projectId: "docseliasflorencio",
+  storageBucket: "docseliasflorencio.firebasestorage.app", messagingSenderId: "1043678730602", appId: "1:1043678730602:web:6e03bf65fd892f9782ad13"};
+const FB_SDK = "https://www.gstatic.com/firebasejs/10.12.0/";
+const FB_APPCHECK = "6LdLDeYtAAAAADNuye_RKI1MROdCo56DGI31jDS-";
+EFC_CONFIG.integracoes.contaEFClaudian = true; EFC_CONFIG.integracoes.firebase = true;
+
+const NV = {estado: "off", erro: "", p: null, fauth: null, fdb: null, user: null, conta: null, subs: {}, sinc: {}, resSig: {}, enviados: {}, ouvindoMsgs: "", ouvindoMinhas: ""};
+const nvOn = () => NV.estado === "pronto";
+const nvUid = () => NV.user ? NV.user.uid : "";
+const nvTUid = () => NV.tuser ? NV.tuser.uid : "";   /* a turma usa um login anônimo separado (app "efcquiz-turma"), que não mexe no login do EFClaudian */
+const nvResp = () => !!(NV.conta && NV.user && !NV.user.isAnonymous);
+const nvTS = () => firebase.firestore.FieldValue.serverTimestamp();
+const nvMs = (v, alt) => v && typeof v.toMillis === "function" ? v.toMillis() : (typeof v === "number" ? v : alt);
+function nvSlug(s){ return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim().replace(/\s+/g, ".").replace(/[^a-z0-9._-]/g, ""); }
+function nvScript(src){ return new Promise((ok, no) => { const sc = document.createElement("script"); sc.src = src; sc.onload = ok; sc.onerror = () => no(new Error("sem internet")); document.head.appendChild(sc); }); }
+async function nvCarregarSdk(){
+  if (window.firebase && firebase.firestore && firebase.auth) return;
+  for (const f of ["firebase-app-compat.js", "firebase-auth-compat.js", "firebase-firestore-compat.js", "firebase-app-check-compat.js"]) await nvScript(FB_SDK + f);
+}
+/* liga a nuvem uma vez; sem internet fica "offline" e o app segue local */
+function nvIniciar(){
+  if (NV.p) return NV.p;
+  if (navigator.onLine === false && !(window.firebase && firebase.__falso)){ NV.estado = "offline"; return Promise.reject(new Error("sem internet")); }
+  NV.estado = "carregando";
+  NV.p = (async () => {
+    await nvCarregarSdk();
+    if (!firebase.apps.length) firebase.initializeApp(FB_CFG);
+    /* App Check: só no site publicado (a chave do reCAPTCHA vale só para o domínio do EFClaudian) */
+    try { if (location.hostname === "eliasgrigori.github.io" && firebase.appCheck && firebase.appCheck.ReCaptchaEnterpriseProvider) firebase.appCheck().activate(new firebase.appCheck.ReCaptchaEnterpriseProvider(FB_APPCHECK), true); } catch(e) {}
+    NV.fauth = firebase.auth(); NV.fdb = firebase.firestore();
+    NV.tapp = (firebase.apps || []).find(a => a && a.name === "efcquiz-turma") || firebase.initializeApp(FB_CFG, "efcquiz-turma");
+    try { if (location.hostname === "eliasgrigori.github.io" && firebase.appCheck && firebase.appCheck.ReCaptchaEnterpriseProvider) firebase.appCheck(NV.tapp).activate(new firebase.appCheck.ReCaptchaEnterpriseProvider(FB_APPCHECK), true); } catch(e) {}
+    NV.tauth = NV.tapp.auth(); NV.tdb = NV.tapp.firestore();
+    await new Promise(ok => { const u = NV.fauth.onAuthStateChanged(() => { u(); ok(); }); });
+    await new Promise(ok => { const u = NV.tauth.onAuthStateChanged(x => { NV.tuser = x || null; u(); ok(); }); });
+    NV.tauth.onAuthStateChanged(x => { NV.tuser = x || null; });
+    NV.estado = "pronto";
+    NV.fauth.onAuthStateChanged(u => nvAuthMudou(u));
+    await nvAuthMudou(NV.fauth.currentUser);
+  })().catch(e => { NV.estado = navigator.onLine === false ? "offline" : "erro"; NV.erro = e && (e.code || e.message) || "erro"; NV.p = null; throw e; });
+  return NV.p;
+}
+/* mesmo navegador do EFClaudian = mesma conta (o Firebase guarda o login por site) */
+async function nvAuthMudou(u){
+  const antes = nvUid(); NV.user = u || null;
+  if (!u || u.isAnonymous){ NV.conta = null; if (S.ui.nuvemConta){ S.ui.nuvemConta = null; save(); } }
+  else {
+    try { const d = await NV.fdb.collection("sv2_users").doc(u.uid).get();
+      const x = d.exists ? d.data() : null;
+      if (x && x.bloqueado !== true){ NV.conta = {nome: x.nome || x.login || "Responsável", perfil: x.perfil || "", estrela: x.estrela === true};
+        S.perfil = /^principal/.test(NV.conta.perfil) ? "primario" : NV.conta.estrela ? "estrela" : "colaborador";
+        S.ui.nuvemConta = {nome: NV.conta.nome, perfil: S.perfil}; }
+      else NV.conta = null;
+    } catch(e) { NV.conta = null; }
+    save();
+  }
+  if (antes !== nvUid()) nvReligar();
+  render();
+}
+async function nvGarantirUsuario(){
+  await nvIniciar();
+  if (NV.tauth.currentUser){ NV.tuser = NV.tauth.currentUser; return NV.tuser; }
+  const c = await NV.tauth.signInAnonymously(); NV.tuser = c.user; return NV.tuser;
+}
+/* login do EFClaudian: login ou e-mail + senha (o login procura o e-mail em sv2_login, como no EFClaudian) */
+async function nvEntrar(login, senha){
+  await nvIniciar();
+  const ent = String(login || "").trim(); let cands = [];
+  if (ent.includes("@")) cands = [ent.toLowerCase()];
+  else { try { const d = await NV.fdb.collection("sv2_login").doc(nvSlug(ent)).get(); if (d.exists){ const x = d.data(); [x.email, x.emailNovo, x.interno].forEach(e => { if (e && !cands.includes(e)) cands.push(e); }); } } catch(e) {}
+    if (!cands.length) cands = [nvSlug(ent) + "@efclaudian.app"]; }
+  let ult = null;
+  for (const e of cands){ try { await NV.fauth.signInWithEmailAndPassword(e, senha); ult = null; break; } catch(er) { ult = er; } }
+  if (ult) throw ult;
+  await nvAuthMudou(NV.fauth.currentUser);
+  if (!NV.conta) throw Object.assign(new Error("sem perfil"), {code: "efq/sem-perfil"});
+}
+function nvErroTexto(e){
+  const c = e && (e.code || e.message) || "";
+  if (/invalid-credential|wrong-password|user-not-found|invalid-login|invalid-email/.test(c)) return "Login ou senha não conferem.";
+  if (/sem-perfil/.test(c)) return "Esta conta não tem cadastro ativo no EFClaudian.";
+  if (/network|sem internet|unavailable/.test(c)) return "Sem internet. Tente de novo quando a conexão voltar.";
+  if (/admin-restricted|operation-not-allowed/.test(c)) return "O login da turma ainda não foi ligado no Firebase. Fale com o responsável.";
+  if (/too-many/.test(c)) return "Muitas tentativas. Espere alguns minutos.";
+  if (/permission/.test(c)) return "A nuvem recusou o acesso. Confira se as regras do EFCQuiz foram publicadas no Firebase.";
+  return "Não foi possível falar com a nuvem (" + c + ").";
+}
+
+/* ---------------- RESPONSÁVEL: publicar a sessão ---------------- */
+const nvSessRef = id => NV.fdb.collection("efq_sessoes").doc(id);
+const nvSessRefT = id => NV.tdb.collection("efq_sessoes").doc(id);
+function nvGab(s){
+  const lib = liberados(s), g = {}, tudo = s.modo === "ritmo" || s.status === "encerrada";
+  s.itens.forEach((it, i) => { if (!isQ(it)) return; if (tudo || lib.has(i)) g[it.id] = {c: it.tipo === "ordenar" ? -1 : it.correta, p: it.porque || ""}; });
+  return g;
+}
+function nvOcup(s){ const o = {}; s.part.forEach(p => { if (p.equipe) o[p.equipe] = (o[p.equipe] || 0) + 1; }); return o; }
+function nvDinamico(s){
+  return {status: s.status, entradaAberta: !!s.entradaAberta, fase: {idx: s.fase.idx, etapa: s.fase.etapa, inicio: s.fase.inicio || 0},
+    equipes: s.equipes.map(e => ({id: e.id, nome: e.nome, cor: e.cor, simb: e.simb})), ocup: nvOcup(s),
+    eqUm: s.equipe === "um" ? s.part.map(p => ({id: p.id, nome: p.nome})) : [], gab: nvGab(s), encerradaEm: s.encerradaEm || 0, nPart: s.part.length};
+}
+function nvItemPub(it){ const o = clone(it); delete o.correta; delete o.porque; return o; }
+async function nvPublicar(s){
+  if (!nvResp()) throw Object.assign(new Error("sem conta"), {code: "efq/sem-perfil"});
+  s.nuvem = {dono: nvUid(), estado: "enviando", em: now()}; save();
+  const reforcoNomes = s.reforco ? s.reforco.pessoas.map(id => S.pessoas.find(pe => pe.id === id)).filter(Boolean).map(pe => sha256(s.id + "|" + norm(nomeCompleto(pe)))) : null;   /* só o resumo (hash): quem tem a chave não vê os nomes */
+  const base = {v: 1, dono: nvUid(), donoNome: NV.conta.nome, chave: s.chave, titulo: s.titulo, tId: s.tId, modo: s.modo, equipe: s.equipe, maxEquipe: s.maxEquipe, meta: s.meta,
+    mostrarRanking: !!s.mostrarRanking, embaralhar: !!s.embaralhar, confirmar: !!s.confirmar, semBloqueio: !!s.semBloqueio, prazo: s.prazo || "", instrutor: s.instrutor || "", local: s.local || "",
+    ordem: s.itens.map(it => it.id), reforcoNomes, setores: S.config.setores.slice(), criadaEm: s.criadaEm, escrito: now(), srv: nvTS(), ...nvDinamico(s)};
+  try {
+    await nvSessRef(s.id).set(base);
+    for (const it of s.itens) await nvSessRef(s.id).collection("itens").doc(it.id).set(nvItemPub(it));
+    /* a chave: se outro responsável estiver usando a mesma, gera outra */
+    for (let tent = 0; tent < 6; tent++){
+      const ref = NV.fdb.collection("efq_chaves").doc(s.chave);
+      const livre = await NV.fdb.runTransaction(async tx => { const d = await tx.get(ref);
+        if (d.exists){ const x = d.data(); if (x.dono !== nvUid() && x.ativa && nvMs(x.expira, 0) > Date.now()) return false; }
+        tx.set(ref, {sid: s.id, dono: nvUid(), ativa: true, expira: firebase.firestore.Timestamp.fromMillis(Date.now() + 2*DAY)}); return true; });
+      if (livre) break;
+      s.chave = chaveNova(); await nvSessRef(s.id).update({chave: s.chave});
+    }
+    s.nuvem.estado = "ok"; NV.sinc[s.id] = JSON.stringify(nvDinamico(s)); save(); nvOuvirSessaoResp(s); render();
+  } catch(e) { s.nuvem.estado = "erro"; s.nuvem.erro = nvErroTexto(e); save(); render(); }
+}
+/* fica de olho: cada mudança de fase, entrada e equipes vai para a nuvem */
+function nvSincronizar(){
+  if (!nvOn() || !nvResp()) return;
+  S.sessoes.forEach(s => {
+    if (!s.nuvem || s.nuvem.dono !== nvUid() || s.nuvem.estado !== "ok" || s.nuvem.fechada) return;
+    const d = nvDinamico(s), sig = JSON.stringify(d);
+    if (NV.sinc[s.id] !== sig){ NV.sinc[s.id] = sig;
+      nvSessRef(s.id).update({...d, escrito: now(), srv: nvTS()}).catch(() => { NV.sinc[s.id] = ""; });
+      if (s.status === "encerrada") NV.fdb.collection("efq_chaves").doc(s.chave).update({ativa: false}).catch(() => {});
+    }
+    /* resultado de cada pessoa (posição real na turma) quando as perguntas acabam */
+    if (s.status === "encerrada" || s.fase.etapa === "fim" || s.modo === "ritmo"){
+      const c = calc(s), eqs = c.equipes;
+      c.rows.forEach(r => { if (!r.p.nuvem) return;
+        const eqPos = s.equipe !== "nao" ? eqs.findIndex(e => e.nome === nomeEquipe(s, r.p)) + 1 : 0;
+        const res = {nota: r.nota, ac: r.ac, er: r.er, sr: r.sr, pg: r.pg, pos: r.pos, n: c.rows.length, eqPos, fim: s.status === "encerrada"};
+        const k = s.id + r.p.id, sg = JSON.stringify(res);
+        if (NV.resSig[k] !== sg && (s.status === "encerrada" || s.fase.etapa === "fim" || r.concluiu)){ NV.resSig[k] = sg;
+          nvSessRef(s.id).collection("part").doc(r.p.id).update({res}).catch(() => { NV.resSig[k] = ""; }); }
+      });
+    }
+    if (s.status === "encerrada" && s.nuvem.estado === "ok" && Object.keys(NV.resSig).some(k => k.startsWith(s.id))) { /* continua ouvindo assinaturas até sair */ }
+  });
+}
+function nvPessoaDaNuvem(d){
+  const pr = t => String(t || "").trim().replace(/\s+/g, " ").replace(/(^|\s)\S/g, c => c.toUpperCase());
+  const nome = pr(d.nome), sob = pr(d.sobrenome), full = nome + " " + sob;
+  let pe = pessoaPorNome(full);
+  if (!pe){ const st = S.config.setores.find(x => norm(x) === norm(d.setor)) || pr(d.setor) || "Sem setor"; if (!S.config.setores.some(x => norm(x) === norm(st))) S.config.setores.push(st);
+    pe = {id: uid(), nome, sobrenome: sob, setor: st, criadoEm: now(), nuvem: true}; S.pessoas.push(pe); }
+  if (d.av && /^\d{9}$/.test(d.av)) pe.av = d.av;
+  return pe;
+}
+function nvOuvirSessaoResp(s){
+  if (NV.subs["r" + s.id]) return;
+  const ref = nvSessRef(s.id), un = [];
+  un.push(ref.collection("part").onSnapshot(q => {
+    let m = false;
+    q.docChanges().forEach(ch => { const d = ch.doc.data(), id = ch.doc.id; let p = s.part.find(x => x.id === id);
+      if (!p){
+        if (s.equipe === "um"){ const i = s.part.length;
+          p = {id, nome: String(d.eqNome || "Equipe").trim(), membros: (d.membros || []).map(String), cor: CORES_EQ[i % CORES_EQ.length], simb: i % SIMB_EQ.length, equipe: null, entrou: nvMs(d.em, now()), nuvem: true}; }
+        else { const pe = nvPessoaDaNuvem(d);
+          let eq = null;
+          if (s.equipe === "cada" && d.eq){ const e0 = s.equipes.find(e => e.id === d.eq.id) || s.equipes.find(e => norm(e.nome) === norm(d.eq.nome));
+            if (e0) eq = e0.id; else { const i = s.equipes.length; const e = {id: d.eq.id, nome: String(d.eq.nome).trim(), cor: CORES_EQ[i % CORES_EQ.length], simb: i % SIMB_EQ.length}; s.equipes.push(e); eq = e.id; } }
+          p = {id, nome: nomeCompleto(pe), membros: [], equipe: eq, entrou: nvMs(d.em, now()), pessoaId: pe.id, setor: pe.setor, nuvem: true}; }
+        s.part.push(p); m = true;
+      } else if (d.av && p.pessoaId){ const pe = S.pessoas.find(x => x.id === p.pessoaId); if (pe && pe.av !== d.av){ pe.av = d.av; m = true; } }
+      if (d.assin){ s.assin = s.assin || {}; Object.entries(d.assin).forEach(([k, v]) => { if ((k === id || k.startsWith(id + "#")) && typeof v === "string" && s.assin[k] !== v){ s.assin[k] = v; m = true; } }); }
+    });
+    if (m){ if (s.status === "encerrada" && s.integ) selarSessao(s); save(); }
+  }, e => nvAviso(s, e)));
+  un.push(ref.collection("resp").onSnapshot(q => {
+    let m = false;
+    q.docChanges().forEach(ch => { const d = ch.doc.data(); if (!d.pid || !d.item) return; const k = d.pid + "|" + d.item;
+      if (s.resp[k]) return; if (!s.itens.some(it => it.id === d.item)) return;
+      const r = {tempoMs: Math.max(0, +d.tempoMs || 0), t: nvMs(d.srv, now())};
+      if (typeof d.escolha === "number") r.escolha = d.escolha; if (Array.isArray(d.ordem)) r.ordem = d.ordem.map(Number); if (d.tarde) r.tarde = true;
+      s.resp[k] = r; m = true; });
+    if (m) save();
+  }, e => nvAviso(s, e)));
+  NV.subs["r" + s.id] = () => un.forEach(f => f());
+}
+function nvAviso(s, e){ if (s && s.nuvem){ s.nuvem.aviso = nvErroTexto(e); save(); } }
+/* mensagens do perfil que chegam para este responsável */
+function nvOuvirMensagens(){
+  if (!nvResp() || NV.ouvindoMsgs === nvUid()) return; NV.ouvindoMsgs = nvUid();
+  const un = NV.fdb.collection("efq_msgs").where("dono", "==", nvUid()).onSnapshot(q => {
+    let m = false; S.mensagens = S.mensagens || [];
+    q.docChanges().forEach(ch => { const d = ch.doc.data(), id = ch.doc.id; let x = S.mensagens.find(y => y.id === id);
+      if (d.oculta){ if (x){ S.mensagens = S.mensagens.filter(y => y.id !== id); m = true; } return; }
+      if (!x){ const pe = nvPessoaDaNuvem(d); const T = S.treinamentos.find(t => t.id === d.tId);
+        x = {id, pessoaId: pe.id, tipo: ["pergunta","sugestao","reclamacao"].includes(d.tipo) ? d.tipo : "pergunta", tId: T ? T.id : "", texto: String(d.texto || "").slice(0, 1000), em: nvMs(d.em, now()), lida: !!d.lida, resposta: d.resposta || "", nuvem: true};
+        S.mensagens.push(x); m = true; } });
+    if (m) save();
+  }, () => { NV.ouvindoMsgs = ""; });
+  NV.subs.msgs = un;
+}
+function nvReligar(){
+  Object.keys(NV.subs).forEach(k => { try { NV.subs[k](); } catch(e) {} delete NV.subs[k]; });
+  NV.ouvindoMsgs = ""; NV.ouvindoMinhas = "";
+  if (!nvOn()) return;
+  if (nvResp()){ S.sessoes.forEach(s => { if (s.nuvem && s.nuvem.dono === nvUid() && s.nuvem.estado === "ok" && !s.nuvem.fechada && !(s.status === "encerrada" && now() - s.encerradaEm > 3*DAY)) nvOuvirSessaoResp(s); }); nvOuvirMensagens(); }
+  S.sessoes.forEach(s => { if (s.remota && s.remota.uid === nvTUid() && !(s.status === "encerrada" && s.remota.fechou)) nvOuvirSessaoPart(s); });
+  nvOuvirMinhasMsgs();
+}
+
+/* ---------------- CELULAR DA TURMA: entrar pela chave ---------------- */
+function nvConverterFase(s, f, escrito, srvMs){
+  const respOff = escrito - srvMs, meuOff = S.nvOff || 0;   /* relógio do responsável e deste celular em relação à nuvem */
+  return {idx: f.idx, etapa: f.etapa, inicio: f.inicio ? f.inicio - respOff + meuOff : 0};
+}
+function nvAplicarDoc(s, d, snap){
+  const srvMs = nvMs(snap.get("srv", {serverTimestamps: "estimate"}), Date.now());
+  s.status = d.status; s.entradaAberta = !!d.entradaAberta; s.fase = nvConverterFase(s, d.fase || {idx: -1, etapa: "espera", inicio: 0}, d.escrito || srvMs, srvMs);
+  s.equipes = (d.equipes || []).map(e => ({...e})); s.ocup = d.ocup || {}; s.eqUm = d.eqUm || []; s.encerradaEm = d.encerradaEm || 0; s.chave = d.chave; s.titulo = d.titulo;
+  const g = d.gab || {};
+  s.itens.forEach(it => { if (!isQ(it)) return; const x = g[it.id];
+    if (x){ if (it.tipo !== "ordenar") it.correta = x.c; it.porque = x.p || ""; } else { if (it.tipo !== "ordenar") it.correta = -99; it.porque = ""; } });
+  if (s.status === "encerrada" && !s.encerradaEm) s.encerradaEm = now();
+}
+async function nvBuscarChave(k){
+  await nvGarantirUsuario();
+  const ch = await NV.tdb.collection("efq_chaves").doc(k).get();
+  if (!ch.exists) return {erro: "Chave não encontrada. Confira os números no telão."};
+  const c = ch.data(); if (!c.ativa) return {erro: "Este treinamento já foi encerrado."};
+  const sn = await nvSessRefT(c.sid).get(); if (!sn.exists) return {erro: "Chave não encontrada. Confira os números no telão."};
+  const d = sn.data(); if (d.status === "encerrada") return {erro: "Este treinamento já foi encerrado."};
+  const iq = await nvSessRefT(c.sid).collection("itens").get(), mapa = {}; iq.forEach(x => { mapa[x.id] = x.data(); });
+  const itens = (d.ordem || []).map(id => mapa[id]).filter(Boolean);
+  const velho = S.sessoes.find(x => x.id === c.sid);
+  const s = velho || {id: c.sid, tId: d.tId, titulo: d.titulo, meta: d.meta, assin: {}, chave: d.chave, criadaEm: d.criadaEm || now(), criadoPor: d.donoNome || "",
+    instrutor: d.instrutor, local: d.local, modo: d.modo, prazo: d.prazo, equipe: d.equipe, maxEquipe: d.maxEquipe, mostrarRanking: !!d.mostrarRanking, embaralhar: !!d.embaralhar, confirmar: !!d.confirmar,
+    demo: false, semBloqueio: !!d.semBloqueio, reforco: d.reforcoNomes ? {pessoas: [], nomes: d.reforcoNomes} : null, setores: Array.isArray(d.setores) ? d.setores : null, itens, part: [], equipes: [], resp: {}, foto: null, encerradaPor: ""};
+  s.remota = {uid: nvTUid(), dono: d.dono, donoNome: d.donoNome || ""};
+  nvAplicarDoc(s, d, sn);
+  if (!velho) S.sessoes.push(s);
+  /* celular da turma: na primeira entrada pela nuvem, a demonstração sai do caminho (sem faixa e sem nomes simulados) */
+  if (S.config.demo && !S.sessoes.some(x => !x.demo && !x.remota)) S.config.demo = false;
+  save(); return {s};
+}
+function nvOuvirSessaoPart(s){
+  if (NV.subs["p" + s.id]) return;
+  const ref = nvSessRefT(s.id), un = [];
+  un.push(ref.onSnapshot(sn => { if (!sn.exists) return; nvAplicarDoc(s, sn.data(), sn); if (s.status === "encerrada") s.remota.fechou = true; save(); }, () => {}));
+  un.push(ref.collection("part").doc(nvTUid()).onSnapshot(sn => { if (!sn.exists) return; const d = sn.data(), p = s.part.find(x => x.id === nvTUid()); if (!p) return;
+    if (d.res && JSON.stringify(p.res) !== JSON.stringify(d.res)){ p.res = d.res; save(); }
+    const loc = d.local, sv = nvMs(sn.get("em", {serverTimestamps: "estimate"}), 0);
+    if (loc && sv && !sn.metadata.hasPendingWrites && S.nvOffDe !== s.id + loc){ S.nvOff = loc - sv; S.nvOffDe = s.id + loc; save(); }
+  }, () => {}));
+  NV.subs["p" + s.id] = () => un.forEach(f => f());
+}
+async function nvEnviarPart(s, p){
+  const ref = nvSessRefT(s.id).collection("part").doc(p.id);
+  const d = {em: nvTS(), local: Date.now(), av: ""};
+  if (s.equipe === "um"){ d.eqNome = p.nome; d.membros = p.membros.slice(); }
+  else { const pe = S.pessoas.find(x => x.id === p.pessoaId) || {};
+    d.nome = pe.nome || p.nome; d.sobrenome = pe.sobrenome || ""; d.setor = pe.setor || p.setor || ""; d.av = pe.av || "";
+    if (p.equipe){ const e = s.equipes.find(x => x.id === p.equipe); if (e) d.eq = {id: e.id, nome: e.nome}; } }
+  await ref.set(d);
+}
+/* troca o id local do participante pelo id da conta anônima (é o que as regras conferem) */
+function nvTrocarId(s, de, para){
+  const p = s.part.find(x => x.id === de); if (!p) return;
+  p.id = para; if (S.eu && S.eu.pid === de) S.eu.pid = para;
+  Object.keys(s.resp).forEach(k => { if (k.startsWith(de + "|")){ s.resp[para + k.slice(de.length)] = s.resp[k]; delete s.resp[k]; } });
+}
+
+/* ---------------- envolve as ações que já existiam ---------------- */
+const _abrirSessao = A.abrirSessao;
+A.abrirSessao = function(){ const o = UI().nova; _abrirSessao(); const s = sessAtual();
+  if (s && o && o.nuvem === "1" && nvResp()){ s.nuvem = {dono: nvUid(), estado: "enviando"}; nvPublicar(s); } };
+const _setNova = A.setNova;
+A.setNova = function(a){ const [k, v] = a.split("|"); if (k === "nuvem"){ UI().nova.nuvem = v; return; } return _setNova(a); };
+const _novaSessao = A.novaSessao;
+A.novaSessao = function(tId){ const r = _novaSessao(tId); if (UI().nova) UI().nova.nuvem = nvResp() ? "1" : "0"; return r; };
+A.nvRepublicar = function(id){ const s = sessById(id); if (s && nvResp()) nvPublicar(s); return "norender"; };
+
+const _joinChave = A.joinChave;
+A.joinChave = function(){
+  const j = UI().join, k = (j.chave || "").replace(/\D/g, "");
+  const local = S.sessoes.find(x => x.chave === k && !(x.remota && x.status === "encerrada"));
+  if (local && !local.remota) return _joinChave();
+  if (k.length !== 6) return _joinChave();
+  if (j.procurando) return "norender";
+  if (!/^https?:$/.test(location.protocol)) return _joinChave();
+  j.procurando = true; UI().erroJoin = "";
+  nvBuscarChave(k).then(r => { j.procurando = false;
+    if (r.erro){ UI().erroJoin = r.erro; } else { j.chave = k; const x = _joinChave(); nvOuvirSessaoPart(r.s); if (x === "norender") {} }
+    save(); render(); })
+  .catch(e => { j.procurando = false; const sl = S.sessoes.find(x => x.chave === k && !x.remota);
+    _joinChave(); if (!sl && navigator.onLine === false) UI().erroJoin = "Sem internet. Ligue os dados móveis ou o Wi-Fi e tente de novo.";
+    save(); render(); });
+};
+const _joinFim = A.joinFim;
+A.joinFim = function(){
+  const j = UI().join, s = S.sessoes.find(x => x.chave === j.chave && x.status !== "encerrada");
+  if (!s || !s.remota) return _joinFim();
+  if (j.enviando) return "norender";
+  const antes = s.part.length, r = _joinFim();
+  if (s.part.length === antes) return r;
+  const p = s.part[s.part.length - 1];
+  nvTrocarId(s, p.id, nvTUid()); s.remota.uid = nvTUid(); j.enviando = true;
+  nvEnviarPart(s, p).then(() => { nvOuvirSessaoPart(s); }).catch(e => {
+    s.part = s.part.filter(x => x !== p); S.eu = null; UI().join = {...j, etapa: 2, enviando: false}; UI().erroJoin = /permission/.test(e && e.code || "") ? "A entrada está fechada ou a chave mudou. Fale com o responsável." : nvErroTexto(e); save(); render(); });
+  return r;
+};
+const _registrar = registrar;
+registrar = function(itemId, r){
+  const s = minhaSessao(), p = eu(); const tinha = s && p ? !!s.resp[p.id + "|" + itemId] : true;
+  _registrar(itemId, r);
+  if (!s || !p || tinha || !s.remota) return; const x = s.resp[p.id + "|" + itemId]; if (!x) return;
+  const d = {pid: p.id, item: itemId, tempoMs: Math.round(x.tempoMs), t: Date.now(), srv: nvTS()};
+  if (typeof x.escolha === "number") d.escolha = x.escolha; if (Array.isArray(x.ordem)) d.ordem = x.ordem; if (x.tarde) d.tarde = true;
+  nvSessRefT(s.id).collection("resp").doc(p.id + "__" + itemId).set(d).catch(() => { s.nvPend = (s.nvPend || 0) + 1; save(); });
+};
+const _sigSalvar = A.sigSalvar;
+A.sigSalvar = function(key){ const s = minhaSessao(); const r = _sigSalvar(key);
+  if (s && s.remota && s.assin && s.assin[key] && nvOn()){ nvSessRefT(s.id).collection("part").doc(nvTUid()).update({["assin." + key.replace(/\./g, "_")]: s.assin[key]}).catch(() => {}); }
+  return r; };
+const _avSalvar = A.avSalvar;
+A.avSalvar = function(){ const ed = UI().avEd, pid = ed && ed.pid; const r = _avSalvar();
+  const pe = S.pessoas.find(x => x.id === pid);
+  if (pe && pe.av && nvOn()) S.sessoes.forEach(s => { if (!s.remota || s.status === "encerrada") return; const p = s.part.find(x => x.pessoaId === pe.id && x.id === nvTUid()); if (p) nvSessRefT(s.id).collection("part").doc(p.id).update({av: pe.av}).catch(() => {}); });
+  return r; };
+const _faleEnviar = A.faleEnviar;
+A.faleEnviar = function(){ const pe = logado(), f = UI().fale, tId = f && f.tId, n0 = (S.mensagens || []).length; const r = _faleEnviar();
+  const m = (S.mensagens || [])[(S.mensagens || []).length - 1];
+  if (!pe || !m || (S.mensagens || []).length === n0) return r;
+  const ss = S.sessoes.filter(s => s.remota && s.part.some(p => p.pessoaId === pe.id)).sort((a, b) => b.criadaEm - a.criadaEm);
+  const s = (tId && ss.find(x => x.tId === tId)) || ss[0];
+  if (s && nvOn()){ m.nuvem = true; m.dono = s.remota.dono;
+    NV.tdb.collection("efq_msgs").doc(m.id).set({de: nvTUid(), dono: s.remota.dono, sid: s.id, tId: s.tId || "", nome: pe.nome, sobrenome: pe.sobrenome || "", setor: pe.setor || "", av: pe.av || "",
+      tipo: m.tipo, texto: m.texto, em: nvTS(), lida: false, resposta: "", oculta: false})
+      .then(() => nvOuvirMinhasMsgs()).catch(() => { m.nvErro = true; UI().msgFale = "A mensagem ficou só neste celular: sem internet agora."; save(); render(); }); }
+  return r; };
+function nvOuvirMinhasMsgs(){
+  if (!nvOn() || !NV.tuser || NV.ouvindoMinhas === nvTUid()) return;
+  if (!(S.mensagens || []).some(m => m.nuvem && !m.resposta)) return;
+  NV.ouvindoMinhas = nvTUid();
+  NV.subs.minhas = NV.tdb.collection("efq_msgs").where("de", "==", nvTUid()).onSnapshot(q => { let mud = false;
+    q.forEach(doc => { const d = doc.data(), m = (S.mensagens || []).find(x => x.id === doc.id); if (m && d.resposta && m.resposta !== d.resposta){ m.resposta = d.resposta; m.respEm = nvMs(d.respEm, now()); mud = true; } });
+    if (mud) save(); }, () => { NV.ouvindoMinhas = ""; });
+}
+const _msgResponder = A.msgResponder, _msgLida = A.msgLida, _msgDel = A.msgDel;
+const nvMsgUpd = (id, d) => { const m = (S.mensagens || []).find(x => x.id === id); if (m && m.nuvem && nvResp()) NV.fdb.collection("efq_msgs").doc(id).update(d).catch(() => {}); };
+A.msgResponder = function(id){ const r = _msgResponder(id); const m = (S.mensagens || []).find(x => x.id === id); if (m && m.resposta && m.nuvem && nvResp()) nvMsgUpd(id, {resposta: m.resposta, lida: true, respEm: nvTS(), respPor: PERFIS[S.perfil]}); return r; };
+A.msgLida = function(id){ const r = _msgLida(id); nvMsgUpd(id, {lida: true}); return r; };
+A.msgDel = function(id, ok){ if (ok){ nvMsgUpd(id, {oculta: true}); } return _msgDel(id, ok); };
+
+/* resultado no celular: a posição vem do responsável (o celular só conhece a própria resposta) */
+const _historico = historico;
+historico = function(pid){ return _historico(pid).map(x => { const res = x.s.remota && x.p.res; return res ? {...x, pos: res.pos, n: res.n} : x; }); };
+const _calc = calc;
+calc = function(s){ const c = _calc(s); if (s.remota){ c.rows.forEach(r => { if (r.p.res){ r.pos = r.p.res.pos; } }); if (s.equipe !== "nao" && c.equipes.length && s.part[0] && s.part[0].res && s.part[0].res.eqPos){ c.eqPosRemota = s.part[0].res.eqPos; } } return c; };
+
+/* ---------------- login do responsável (Configurações > Integração) ---------------- */
+A.nvLogin = function(){ const u = UI(), l = (u.nvLogin || ""), sn = (u.nvSenha || ""); if (!l.trim() || !sn){ u.nvMsg = "Preencha o login e a senha."; return; }
+  u.nvMsg = "Entrando..."; u.nvSenha = "";
+  nvEntrar(l, sn).then(() => { u.nvMsg = "Conectado como " + NV.conta.nome + "."; u.nvLogin = ""; save(); render(); }).catch(e => { u.nvMsg = nvErroTexto(e); save(); render(); }); };
+A.nvSair = function(_, ok){ if (!ok) return pedir("Sair da conta?", "Neste navegador você também sai do EFClaudian. As sessões já abertas continuam neste aparelho.", "nvSair", "", "Sair", false);
+  nvIniciar().then(() => NV.fauth.signOut()).then(() => { NV.conta = null; S.ui.nuvemConta = null; save(); render(); }).catch(() => {}); };
+A.nvAbrirInteg = function(){ UI().cfg = true; UI().cfgAba = "integ"; };
+A.nvConectar = function(){ nvIniciar().then(() => render()).catch(() => render()); return "norender"; };
+document.addEventListener("input", e => { const t = e.target; if (!S) return;
+  if (t.id === "nv-login"){ UI().nvLogin = t.value; } else if (t.id === "nv-senha"){ UI().nvSenha = t.value; } });
+document.addEventListener("keydown", e => { if (e.key === "Enter" && e.target && e.target.id === "nv-senha"){ e.preventDefault(); A.nvLogin(); save(); render(); } });
+
+function nvEstadoTexto(){
+  if (nvResp()) return {cls: "ok", t: "Nuvem: " + NV.conta.nome + " · " + PERFIS[S.perfil]};
+  if (NV.estado === "carregando") return {cls: "mut", t: "Nuvem: conectando..."};
+  if (NV.estado === "offline" || navigator.onLine === false) return {cls: "mut", t: "Sem internet · só neste aparelho"};
+  if (NV.estado === "erro") return {cls: "warn", t: "Nuvem indisponível · só neste aparelho"};
+  return {cls: "mut", t: "Só neste aparelho"};
+}
+function nvPainelInteg(){
+  const u = UI(), st = nvEstadoTexto();
+  const conta = nvResp() ? `<div class="nvconta"><span class="pill ok">Conectado</span><b>${esc(NV.conta.nome)}</b><span class="muted">${PERFIS[S.perfil]} · conta do EFClaudian</span><button class="btn sm" data-act="nvSair">Sair da conta</button></div>`
+    : `<div class="nvlogin"><label class="field"><span>Login ou e-mail do EFClaudian</span><input type="text" id="nv-login" autocomplete="username" value="${esc(u.nvLogin || "")}"></label>
+      <label class="field"><span>Senha</span><input type="password" id="nv-senha" autocomplete="current-password" value=""></label>
+      <button class="btn pri" data-act="nvLogin">Entrar</button></div>`;
+  return `<div class="integr">
+    <div><span><b>I01 · Conta do EFClaudian para responsáveis</b><br><span class="muted" style="font-size:13px">Primário e Líder estrela entram com o mesmo login do EFClaudian. O perfil vem do cadastro de lá. A turma continua sem conta.</span></span><span class="pill ${nvResp() ? "ok" : "mut"}">${nvResp() ? "ligado" : "aguarda o login"}</span></div>
+    <div><span><b>I05 · Firebase: celulares de verdade</b><br><span class="muted" style="font-size:13px">Sessão ao vivo, respostas, assinaturas, boneco e mensagens passam pela nuvem. Treinamentos, histórico, foto e PDF ficam neste aparelho.</span></span><span class="pill ${st.cls}">${esc(st.t)}</span></div>
+    ${conta}${u.nvMsg && !(nvResp() && /^Conectado/.test(u.nvMsg)) ? `<p class="${/Conectado|Entrando/.test(u.nvMsg) ? "okmsg" : "msg"}" style="margin:0">${esc(u.nvMsg)}</p>` : ""}
+    ${NV.estado !== "pronto" && NV.estado !== "carregando" ? `<button class="btn sm" data-act="nvConectar">Tentar conectar de novo</button>` : ""}
+    <div><span><b>I03 · Reforço a partir de não conformidade</b><br><span class="muted" style="font-size:13px">Na NC, o botão "Gerar reforço" abre a sessão com o treinamento certo.</span></span><span class="pill mut">preparado · desligado</span></div>
+    <div><span><b>I04 · Temas e texturas do EFClaudian</b><br><span class="muted" style="font-size:13px">O EFClaudian chama EFC_API.aplicarTema() e EFC_aplicarTextura().</span></span><span class="pill ok">pronto · aguarda o EFClaudian</span></div></div>`;
+}
+function nvLinhaNova(o){
+  if (!pode()) return "";
+  const pode2 = nvResp();
+  return `<div class="field"><span>Onde a turma responde</span><div class="seg" role="group">${[["1", "Nos celulares da turma (internet)"], ["0", "Só neste aparelho"]].map(([v, l]) => `<button data-act="setNova" data-arg="nuvem|${v}" aria-pressed="${String(o.nuvem) === v}" ${v === "1" && !pode2 ? "disabled" : ""}>${l}</button>`).join("")}</div>
+    <span class="muted" style="font-weight:400;font-size:13px">${pode2 ? "Cada pessoa usa o próprio celular: lê o QR ou digita a chave. Precisa de internet no aparelho do telão e nos celulares." : "Para usar os celulares da turma, entre com a conta do EFClaudian em Configurações › Integração."}</span></div>`;
+}
+function nvLinhaControle(s){
+  if (!s.nuvem) return "";
+  const n = s.part.filter(p => p.nuvem).length;
+  const st = s.nuvem.estado === "ok" ? `<span class="pill ok">Na nuvem</span><span class="muted"><span class="num">${n}</span> celular(es) conectado(s)</span>`
+    : s.nuvem.estado === "enviando" ? `<span class="pill mut">Enviando para a nuvem...</span>` : `<span class="pill bad">Não foi para a nuvem</span><span class="muted">${esc(s.nuvem.erro || "")}</span><button class="btn sm" data-act="nvRepublicar" data-arg="${s.id}">Tentar de novo</button>`;
+  return `<div class="row nvst" style="gap:8px">${st}${s.nuvem.aviso && s.nuvem.estado === "ok" ? `<span class="muted">${esc(s.nuvem.aviso)}</span>` : ""}</div>`;
+}
+
+/* ---------------- ciclo: liga a nuvem sozinha quando há internet ---------------- */
+const _render = render;
+render = function(){ _render(); try { const s = S && S.ui.view === "par" ? minhaSessao() : null; document.documentElement.dataset.turma = s && s.remota ? "1" : ""; } catch(e) {} };
+const _tickSessao = tickSessao;
+tickSessao = function(s){ return s.remota ? false : _tickSessao(s); };
+const _tick = tick;
+tick = function(){ try { nvSincronizar(); } catch(e) {} return _tick(); };
+window.addEventListener("online", () => { if (NV.estado !== "pronto") nvIniciar().catch(() => {}); render(); });
+window.addEventListener("offline", () => render());
+/* link do QR leva a chave: .../efcquiz/#entrar=123456 */
+function nvChaveDoLink(){ const m = /#entrar=(\d{6})/.exec(location.hash); return m ? m[1] : ""; }
+EFC_API.canal = {tipo: "firebase", estado: () => NV.estado, conta: () => NV.conta ? {...NV.conta} : null};
+const _iniciarApp = iniciarApp;
+iniciarApp = async function(){
+  await _iniciarApp();
+  const k = nvChaveDoLink();
+  if (k){ S.ui.view = "par"; S.eu = S.eu && minhaSessao() && minhaSessao().chave === k ? S.eu : null; if (!S.eu){ UI().join = {etapa: 1, chave: k, busca: "", pessoaId: "", cad: false, nome: "", sobrenome: "", setor: "", equipeId: "", novaEquipe: "", membros: ["",""]}; } save(); render(); }
+  /* a nuvem só é chamada quando há o que fazer: conta de responsável, sessão remota ou link com chave */
+  const precisa = /^https?:$/.test(location.protocol) && (k || S.ui.nuvemConta || S.sessoes.some(s => (s.nuvem && s.status !== "encerrada") || (s.remota && s.status !== "encerrada")) || (S.mensagens || []).some(m => m.nuvem && !m.resposta));
+  if (precisa) nvIniciar().then(() => { nvReligar(); if (k && S.ui.view === "par" && UI().join && !S.eu){ A.joinChave(); save(); render(); } }).catch(() => render());
+};
 iniciarApp();
 </script>
 </body>
