@@ -3094,7 +3094,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.46 · Pré-visualização da impressão sem "Baixar" (fica Imprimir / PDF)';
+const APP_VERSION = 'v2.102.47 · Até 5 leis / requisitos por NC (chips, sugestões, impressão e Pareto contam todas)';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -14060,6 +14060,11 @@ const rncNum = n => 'NC ' + pad(n);
 /* v2.102.44: corresponsáveis = [{ id, nome }] (pessoa do app ou nome escrito). Só para filtrar e para a pessoa saber de tudo em que está envolvida. */
 const rncCoresp = n => (n && Array.isArray(n.coresp) ? n.coresp : []).filter(x => x && String(x.nome || '').trim());
 const rncCorespTxt = n => rncCoresp(n).map(x => x.nome).join(', ');
+/* v2.102.47: até 5 leis/requisitos por NC. n.leis = lista; n.lei = texto unido por "; " (NC antiga só tem n.lei: vira 1 lei) */
+const RNC_LEIS_MAX = 5;
+const ncLeis = n => { if (!n) return []; const l = Array.isArray(n.leis) ? n.leis : (n.lei ? [n.lei] : []); return l.map(x => String(x || '').trim()).filter(Boolean); };
+const ncLeisTxt = n => ncLeis(n).join('; ');
+const ncLeisRot = n => ncLeis(n).length > 1 ? 'Leis / requisitos' : 'Lei / requisito';
 function rncPessoasSug() { const s = new Map(); const add = v => { const t = String(v || '').trim(), k = mdNorm(t); if (t.length >= 2 && !s.has(k)) s.set(k, t); };
   (S.users || []).filter(u => !u.bloqueado && u.perfil !== 'visitante').forEach(u => add(u.nome));
   (S.rnc || []).forEach(r => (r.ncs || []).forEach(n => { add(n.respNome); rncCoresp(n).forEach(c => add(c.nome)); }));
@@ -14081,14 +14086,14 @@ function rncOrdem(r) {
   l.forEach(n => { const k = n.area + '|' + String(n.local).toUpperCase(); if (pri[k] == null) pri[k] = n.n; });
   return l.sort((a, b) => ordA(a.area) - ordA(b.area) || pri[a.area + '|' + String(a.local).toUpperCase()] - pri[b.area + '|' + String(b.local).toUpperCase()] || a.n - b.n);
 }
-function rncLeis() { const s = new Set(); (S.rnc || []).forEach(r => (r.ncs || []).forEach(n => { if (n.lei) s.add(n.lei); })); return Array.from(s).sort((a, b) => a.localeCompare(b, 'pt-BR')); }
+function rncLeis() { const s = new Set(); (S.rnc || []).forEach(r => (r.ncs || []).forEach(n => { ncLeis(n).forEach(l => s.add(l)); })); return Array.from(s).sort((a, b) => a.localeCompare(b, 'pt-BR')); }
 function rncLocaisDe(area) { const s = (RNC_LOCAIS[area] || []).slice(); (S.rnc || []).forEach(r => (r.ncs || []).forEach(n => { if (n.area === area && n.local && !s.some(x => x.toUpperCase() === String(n.local).toUpperCase())) s.push(n.local); })); return s; }
 function rncTiposSug() { const s = RNC_TIPOS.slice(); (S.rnc || []).forEach(r => { if (r.tipo && s.indexOf(r.tipo) < 0) s.push(r.tipo); }); return s; }
 function rncReinc(r, nc) {
-  if (!nc.lei) return null;
-  const norm = x => String(x || '').trim().toUpperCase();
+  const norm = x => String(x || '').trim().toUpperCase(), ls = ncLeis(nc).map(norm);
+  if (!ls.length) return null;
   for (const o of (S.rnc || [])) { if (o.id === r.id || o.situacao === 'cancelada' || String(o.criadoEm) > String(r.criadoEm)) continue;
-    const m = (o.ncs || []).find(x => !x.cancelada && norm(x.local) === norm(nc.local) && norm(x.lei) === norm(nc.lei)); if (m) return { rnc: o.numero, n: m.n }; }
+    const m = (o.ncs || []).find(x => !x.cancelada && norm(x.local) === norm(nc.local) && ncLeis(x).some(l => ls.indexOf(norm(l)) >= 0)); if (m) return { rnc: o.numero, n: m.n }; }
   return null;
 }
 const rncPrazoSit = r => { if (!r.prazo) return ''; const d = difDias(hojeISO(), r.prazo); return d < 0 ? 'venceu há ' + (-d) + ' dia(s)' : d === 0 ? 'vence hoje' : 'faltam ' + d + ' dia(s)'; };
@@ -14303,7 +14308,7 @@ function apRender() {
   const resp = pode && S.ap.respEd
     ? '<select class="input ap-resp-sel" id="ap-resp" aria-label="Responsável">' + (n.respId ? '' : '<option value="" selected>' + esc(n.respNome || 'Escolha') + '</option>') + (S.users || []).filter(u => !u.bloqueado && u.perfil !== 'visitante').map(u => '<option value="' + esc(u.id) + '"' + (u.id === n.respId ? ' selected' : '') + '>' + esc(u.nome) + '</option>').join('') + '</select>'
     : campo('resp', n.respNome || '');
-  const opc = (k, t) => (n[k] || pode) ? '<dt>' + t + '</dt><dd>' + campo(k, n[k] || '', pode && !n[k] ? 'tocar para escrever' : '') + '</dd>' : '';
+  const opc = (k, t, dica) => (n[k] || pode) ? '<dt>' + t + '</dt><dd>' + campo(k, k === 'lei' ? ncLeisTxt(n) : (n[k] || ''), pode && !(k === 'lei' ? ncLeis(n).length : n[k]) ? (dica ? 'tocar para escrever (' + dica + ')' : 'tocar para escrever') : '') + '</dd>' : '';
   const tri = cls => '<div class="ap-tri ' + esc(cls) + '">' + fotos.map((id, j) => '<figure data-j="' + esc(j) + '"><img data-rncfoto="' + esc(id) + '" alt="Foto ' + (j + 1) + ' da ' + rncNum(n.n) + '"></figure>').join('') + '</div>';
   const setas = fotos.length > 1 ? '<button type="button" class="ap-seta e" data-action="rnc-ap-foto" data-id="-1" aria-label="Foto anterior">‹</button><button type="button" class="ap-seta d" data-action="rnc-ap-foto" data-id="1" aria-label="Próxima foto">›</button>' : '';
   const nAlt = apAlts(r).filter(a => !a.desfeitaEm).length, st = apStDe(n);
@@ -14313,7 +14318,7 @@ function apRender() {
     '<div class="ap-tit">' + campo('nc', n.nc) + '</div>' +
     '<dl class="ap-cps"><dt>Local</dt><dd class="ap-loc">' + campo('local', n.local) + '</dd><dt>Responsável</dt><dd>' + resp + ' <span class="ap-ci">· ' + (n.ciente ? 'ciente' : 'não ciente') + '</span></dd>' +
     ((rncCoresp(n).length || pode) ? '<dt>Corresponsáveis</dt><dd>' + campo('coresp', rncCorespTxt(n), pode && !rncCoresp(n).length ? 'tocar para escrever (separe por vírgula)' : '') + '</dd>' : '') + /* v2.102.44 */
-    '<dt>Prazo</dt><dd>' + fmtD(r.prazo) + '</dd>' + opc('lei', 'Lei / requisito') + opc('obs', 'Observação') + opc('sug', 'Sugestão') + '</dl>' +
+    '<dt>Prazo</dt><dd>' + fmtD(r.prazo) + '</dd>' + opc('lei', 'Leis / requisitos', 'separe por ponto e vírgula, até ' + RNC_LEIS_MAX) + opc('obs', 'Observação') + opc('sug', 'Sugestão') + '</dl>' +
     (pode ? '' : '<p class="ap-aviso">Só o Principal ou o líder indicado por ele corrige na apresentação.</p>') + '</div>' +
     '<div class="ap-fot">' + (fotos.length ? tri('ap-tp') + setas + '<div class="ap-fpe"><span class="ap-fc">Foto ' + esc(S.ap.foto + 1) + ' de ' + esc(fotos.length) + '</span><span class="sp"></span>' + apPtsH(fotos.length) + '<span class="sp"></span><span class="ap-hint">toque para ampliar</span></div>' : '<div class="ap-sem">Sem fotos nesta NC</div>') + '</div></div>' +
     '<div class="ap-rod"><button type="button" class="btn" data-action="rnc-ap-nc" data-id="-1"' + (ant ? '' : ' disabled') + '>‹ ' + (ant ? rncNum(ant.n) : 'Início') + '</button>' +
@@ -14367,6 +14372,12 @@ async function apSalvar(k, v) {
     String(v == null ? '' : v).split(/[,;]/).forEach(p => { const c = rncCorespDe(p); if (c && c.nome.length >= 2 && !vistos.has(mdNorm(c.nome)) && l.length < 10) { vistos.add(mdNorm(c.nome)); l.push(c); } });
     const txt = l.map(c => c.nome).join(', '); if (txt === rncCorespTxt(n)) { apRender(); return; }
     patch = { coresp: l }; de = { coresp: rncCoresp(n).map(c => ({ id: c.id || '', nome: c.nome })) }; antes = rncCorespTxt(n); depois = txt;
+  }
+  else if (k === 'lei') {
+    const vistos = new Set(), l = [];
+    String(v == null ? '' : v).split(/[;\n]/).forEach(p => { const t = p.replace(/\s+/g, ' ').trim(); if (t && !vistos.has(mdNorm(t)) && l.length < RNC_LEIS_MAX) { vistos.add(mdNorm(t)); l.push(t); } });
+    const txt = l.join('; '); if (txt === ncLeisTxt(n)) { apRender(); return; }
+    patch = { leis: l, lei: txt }; de = { leis: ncLeis(n), lei: n.lei || '' }; antes = ncLeisTxt(n); depois = txt;
   }
   else if (k === 'st') { const novo = apStDe(n) === 'iniciado' ? 'aberto' : 'iniciado'; patch = { apSt: novo }; de = { apSt: apStDe(n) }; antes = apStNome(apStDe(n)); depois = apStNome(novo); }
   else {
@@ -14463,10 +14474,28 @@ function openRncNc(rid, n) {
   const x = n ? (r.ncs || []).find(y => y.n === Number(n) && !y.cancelada) : null;
   const ult = rncNcs(r).slice(-1)[0];
   const gx = x ? gutDe(x.id) : null; /* v2.102.12 */
-  S.rncNc = x ? { rid: rid, id: x.id, n: x.n, area: x.area, local: x.local, nc: x.nc, lei: x.lei || '', resp: x.respId || (x.respNome ? '__outro' : ''), respTxt: x.respId ? '' : (x.respNome || ''), ciente: x.ciente, grav: x.grav, obs: x.obs || '', sug: x.sug || '', fotos: (x.fotosAntes || []).map(id => ({ id: id })), coresp: rncCoresp(x).map(c => ({ id: c.id || '', nome: c.nome })), gut: gx ? { g: gx.g, u: gx.u, t: gx.t } : { g: GUT_G_SUG[x.grav] || 0 }, gutGMan: !!gx, gutDono: gx ? gx.porId : '', gutDonoNome: gx ? gx.porNome : '' }
-    : { rid: rid, id: '', n: (Math.max(0, ...(r.ncs || []).map(y => y.n)) + 1), area: ult ? ult.area : 'campo', local: ult ? ult.local : '', nc: '', lei: '', resp: '', respTxt: '', ciente: null, grav: '', obs: '', sug: '', fotos: [], coresp: [], gut: {}, gutGMan: false, gutDono: '' };
+  S.rncNc = x ? { rid: rid, id: x.id, n: x.n, area: x.area, local: x.local, nc: x.nc, leis: ncLeis(x), resp: x.respId || (x.respNome ? '__outro' : ''), respTxt: x.respId ? '' : (x.respNome || ''), ciente: x.ciente, grav: x.grav, obs: x.obs || '', sug: x.sug || '', fotos: (x.fotosAntes || []).map(id => ({ id: id })), coresp: rncCoresp(x).map(c => ({ id: c.id || '', nome: c.nome })), gut: gx ? { g: gx.g, u: gx.u, t: gx.t } : { g: GUT_G_SUG[x.grav] || 0 }, gutGMan: !!gx, gutDono: gx ? gx.porId : '', gutDonoNome: gx ? gx.porNome : '' }
+    : { rid: rid, id: '', n: (Math.max(0, ...(r.ncs || []).map(y => y.n)) + 1), area: ult ? ult.area : 'campo', local: ult ? ult.local : '', nc: '', leis: [], resp: '', respTxt: '', ciente: null, grav: '', obs: '', sug: '', fotos: [], coresp: [], gut: {}, gutGMan: false, gutDono: '' };
   rncNcRender();
 }
+function rncLeiCampo(b) {
+  const l = b.leis || [], cheio = l.length >= RNC_LEIS_MAX;
+  return '<div class="cr-box lei-box"><label class="fm-l" for="rnc-lei">Até ' + esc(RNC_LEIS_MAX) + ' leis / requisitos <small>(' + esc(l.length) + ' de ' + esc(RNC_LEIS_MAX) + ') · escreva ou escolha e toque em Adicionar</small></label>' +
+    (l.length ? '<div class="cr-l">' + l.map((x, i) => '<span class="cr-chip">' + esc(x) + '<button type="button" data-action="rnc-lei-x" data-id="' + esc(i) + '" aria-label="Tirar ' + esc(x) + '">×</button></span>').join('') + '</div>' : '') +
+    '<div class="cr-in"><input class="input" id="rnc-lei" data-sug="rnc-lei-l" autocomplete="off" placeholder="' + (cheio ? 'Limite de ' + esc(RNC_LEIS_MAX) + ' leis' : 'Ex.: NR-31 (31.17) · GG IFA AF 3.2') + '"' + (cheio ? ' disabled' : '') + ' value="' + esc(cheio ? '' : (b.leiTxt || '')) + '"><button type="button" class="btn" data-action="rnc-lei-add"' + (cheio ? ' disabled' : '') + '>Adicionar</button></div>' +
+    '<datalist id="rnc-lei-l">' + rncLeis().map(x => '<option value="' + esc(x) + '">').join('') + '</datalist></div>';
+}
+function rncLeiAdd(rerender) {
+  const b = S.rncNc, inp = $('#rnc-lei'); if (!b || !inp) return false;
+  const t = String(inp.value || '').replace(/\s+/g, ' ').trim(); if (!t) return false;
+  b.leis = b.leis || [];
+  if (b.leis.some(x => mdNorm(x) === mdNorm(t))) { inp.value = ''; b.leiTxt = ''; return false; }
+  if (b.leis.length >= RNC_LEIS_MAX) { apMsg('No máximo ' + RNC_LEIS_MAX + ' leis por NC.'); return false; }
+  b.leis.push(t); inp.value = ''; b.leiTxt = '';
+  if (rerender) { rncNcLer(); rncNcRender(); const n = $('#rnc-lei'); if (n) try { n.focus(); } catch {} }
+  return true;
+}
+document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target && e.target.id === 'rnc-lei') { e.preventDefault(); rncLeiAdd(true); } });
 function rncCorespCampo(b) {
   const l = b.coresp || [];
   return '<div class="cr-box"><label class="fm-l" for="rnc-cr">Corresponsáveis <small>(opcional) · quem mais está envolvido; serve para filtrar e imprimir por pessoa</small></label>' +
@@ -14493,7 +14522,7 @@ function rncNcLer() {
   const v = id => { const e = $('#' + id); return e ? e.value : null; };
   if (v('rnc-local-o') != null && b.local === '__outro') b.localTxt = v('rnc-local-o');
   if (v('rnc-local') != null) { const t = String(v('rnc-local')).trim(), m = rncLocaisDe(b.area).find(l => l.toUpperCase() === t.toUpperCase()); b.local = m || t; b.localTxt = ''; } /* v2.102.41 */
-  ['nc', 'lei', 'obs', 'sug'].forEach(k => { const x = v('rnc-' + k); if (x != null) b[k] = x; });
+  if ($('#rnc-lei')) b.leiTxt = $('#rnc-lei').value; /* v2.102.47: rascunho do campo de leis */ ['nc', 'obs', 'sug'].forEach(k => { const x = v('rnc-' + k); if (x != null) b[k] = x; });
   if (v('rnc-resp') != null) b.resp = v('rnc-resp');
   if (v('rnc-resp-o') != null) b.respTxt = v('rnc-resp-o');
   if (v('rnc-gut-mot') != null) b.gutMot = v('rnc-gut-mot'); /* v2.102.12 */
@@ -14512,7 +14541,7 @@ function rncNcRender() {
     
     passo(3, 'Fotos do antes <small>até ' + RNC_MAX_FOTOS + '</small>', 'fotos') + rncFotosHTML() +
     passo(4, 'Não conformidade <small>o que está errado</small>', 'nc') + '<textarea class="input" id="rnc-nc" rows="3" placeholder="Ex.: banheiro sem sabonete e sem papel toalha">' + esc(b.nc) + '</textarea>' +
-    passo(5, 'Lei / requisito aplicável', 'lei') + '<input class="input" id="rnc-lei" data-sug="rnc-lei-l" autocomplete="off" placeholder="Ex.: NR-31 (31.17) · GG IFA AF 3.2" value="' + esc(b.lei) + '"><datalist id="rnc-lei-l">' + rncLeis().map(x => '<option value="' + esc(x) + '">').join('') + '</datalist>' +
+    passo(5, 'Lei / requisito aplicável', 'lei') + rncLeiCampo(b) +
     passo(6, 'Responsável e ciência', 'resp') + '<select class="input" id="rnc-resp"><option value="">Escolha o responsável…</option>' + us.map(u => '<option value="' + esc(u.id) + '"' + (b.resp === u.id ? ' selected' : '') + '>' + esc(u.nome) + '</option>').join('') + '<option value="__outro"' + (b.resp === '__outro' ? ' selected' : '') + '>Outra pessoa (escrever o nome)</option></select>' +
     '<input class="input" id="rnc-resp-o" placeholder="Nome do responsável" autocomplete="off" value="' + esc(b.respTxt) + '"' + (b.resp === '__outro' ? '' : ' hidden') + ' style="margin-top:8px">' +
     '<div class="ap-oc" style="margin-top:8px">' + ch('ciente', '1', b.ciente === true, 'Estava ciente') + ch('ciente', '0', b.ciente === false, 'Não estava ciente') + '</div>' +
@@ -14631,6 +14660,7 @@ function rncCh(t) {
 async function rncNcOk(proxima) {
   const b = S.rncNc; if (!b) return; rncNcLer();
   if ($('#rnc-cr') && String($('#rnc-cr').value || '').trim()) rncCorespAdd(false); /* v2.102.44 */
+  if ($('#rnc-lei') && String($('#rnc-lei').value || '').trim()) { if (!rncLeiAdd(false) && (b.leis || []).length >= RNC_LEIS_MAX) { apMsg('Já são ' + RNC_LEIS_MAX + ' leis: tire uma para trocar.'); return; } }
   const r = rncDe(b.rid); if (!r || !rncPode(r) || rncSit(r) !== 'registro') return;
   const local = b.local === '__outro' ? String(b.localTxt || '').trim() : b.local;
   const respNome = b.resp === '__outro' ? String(b.respTxt || '').trim() : b.resp ? nomeDe(b.resp) : '';
@@ -14648,7 +14678,7 @@ async function rncNcOk(proxima) {
   if (b.salvando) return; b.salvando = true;
   const id = b.id || uid(), f = rncFotosGravar(b, r.id, id, 'antes');
   const antes = (r.ncs || []).find(x => x.id === id);
-  const nc = Object.assign({}, antes || {}, { id: id, n: b.n, area: b.area, local: local, nc: String(b.nc).trim(), lei: String(b.lei || '').trim(), respId: b.resp === '__outro' ? '' : b.resp, respNome: respNome, ciente: b.ciente, grav: b.grav, obs: String(b.obs || '').trim(), sug: String(b.sug || '').trim(), fotosAntes: f.ids,
+  const nc = Object.assign({}, antes || {}, { id: id, n: b.n, area: b.area, local: local, nc: String(b.nc).trim(), leis: (b.leis || []).slice(0, RNC_LEIS_MAX), lei: (b.leis || []).slice(0, RNC_LEIS_MAX).join('; '), respId: b.resp === '__outro' ? '' : b.resp, respNome: respNome, ciente: b.ciente, grav: b.grav, obs: String(b.obs || '').trim(), sug: String(b.sug || '').trim(), fotosAntes: f.ids,
     coresp: (b.coresp || []).filter(c => mdNorm(c.nome) !== mdNorm(respNome)).map(c => ({ id: c.id || '', nome: c.nome })) }); /* v2.102.44 */
   if (!antes) Object.assign(nc, { criadoEm: nowISO(), porId: S.user.id, porNome: S.user.nome });
   const ncs = (r.ncs || []).filter(x => x.id !== id).concat([nc]).sort((a, c) => a.n - c.n);
@@ -15210,7 +15240,7 @@ function prF() { S.prF = S.prF || { ano: hojeISO().slice(0, 4), per: '', por: '6
 function prPerTxt() { const f = prF(); return f.ano + (f.per ? ' · ' + (f.per[0] === 'T' ? f.per[1] + 'º trimestre' : f.per[1] + 'º semestre') : ''); }
 function prChave(por, r, n) {
   if (por === 'local') return String(n.local || '').trim();
-  if (por === 'lei') return String(n.lei || '').trim();
+  if (por === 'lei') return ncLeis(n)[0] || ''; /* v2.102.47: o Pareto por lei conta todas (ver paretoDados) */
   if (por === 'grav') return (RNC_GRAV[n.grav] || [''])[0];
   if (por === 'area') return n.area ? rncAreaNome(n.area) : '';
   const p = planoDe(n.id); return p ? ((ishiPriDe(p) || {}).m || p.m6 || '') : '';
@@ -15219,7 +15249,7 @@ function prChave(por, r, n) {
 function paretoDados() {
   const f = prF(), rs = (S.rnc || []).filter(r => r.situacao !== 'cancelada' && periodoOk(r.data, f.ano, f.per)), mapa = {};
   let total = 0;
-  rs.forEach(r => rncNcs(r).forEach(n => { const k0 = prChave(f.por, r, n), sem = !k0, k = sem ? '\u0000' : k0.toUpperCase(); if (!mapa[k]) { mapa[k] = { nome: sem ? PAR_SEM[f.por] : k0, n: 0, sem: sem }; } mapa[k].n++; total++; }));
+  rs.forEach(r => rncNcs(r).forEach(n => { (f.por === 'lei' ? (ncLeis(n).length ? ncLeis(n) : ['']) : [prChave(f.por, r, n)]).forEach(k0 => { const sem = !k0, k = sem ? '\u0000' : k0.toUpperCase(); if (!mapa[k]) { mapa[k] = { nome: sem ? PAR_SEM[f.por] : k0, n: 0, sem: sem }; } mapa[k].n++; total++; }); })); /* v2.102.47 */
   let l = Object.keys(mapa).map(k => mapa[k]);
   const sem = l.filter(x => x.sem), com = l.filter(x => !x.sem).sort((a, b) => b.n - a.n || a.nome.localeCompare(b.nome, 'pt-BR'));
   let itens = com;
@@ -15267,7 +15297,7 @@ function paretoCorpo(d) {
   const f = prF(), nome = (PAR_POR.find(x => x[0] === f.por) || ['', ''])[1];
   if (!d.total) return '<p class="fm-dica">Nenhuma NC neste período.</p>';
   const vit = d.itens.filter(x => x.vital);
-  return '<div class="par-cq"><div class="par-fig">' + paretoSVG(d) + paretoSVG(d, false, true) + '</div>' +
+  return '<div class="par-cq">' + (f.por === 'lei' ? '<p class="fm-dica">Uma NC com mais de uma lei entra em cada uma delas: o total conta as leis, não as NCs.</p>' : '') + '<div class="par-fig">' + paretoSVG(d) + paretoSVG(d, false, true) + '</div>' +
     '<p class="par-res">' + esc(d.rncs) + (d.rncs > 1 ? ' RNCs' : ' RNC') + ' · ' + esc(d.total) + (d.total > 1 ? ' NCs' : ' NC') + ' · ' + (vit.length ? 'poucos vitais: <b>' + vit.map(x => esc(x.nome)).join(', ') + '</b> (' + esc(parPc(vit[vit.length - 1].acumR)) + '% das NCs)' : 'sem destaque') + '</p>' +
     '<table class="t par-t"><thead><tr><th>' + esc(nome) + '</th><th>NCs</th><th>%</th><th>% acum.</th></tr></thead><tbody>' + d.itens.map(x => '<tr' + (x.vital ? ' class="vital"' : '') + '><td>' + esc(x.nome) + '</td><td>' + esc(x.n) + '</td><td>' + esc(parPc(x.pctR)) + '%</td><td>' + esc(parPc(x.acumR)) + '%</td></tr>').join('') + '</tbody></table>' + paretoLista(d.itens, nome, 'NCs') + '</div>'; /* v2.102.26 */
 }
@@ -15767,7 +15797,7 @@ function openRncConf(id, n) {
   openSheet('<div class="rnc-top"><small>' + esc(r.numero) + ' · retorno · passo 4 de 5</small>' + rncStepper(r, false) + '</div>' +
     '<h3>Conferir · ' + rncNum(x.n) + ' <small class="rnc-de">' + (i + 1) + ' de ' + seq.length + '</small></h3><div class="rnc-prog">' + seq.map(y => '<i class="' + (y.id === x.id ? 'cur' : y.ret ? 'on ' + y.ret.res : '') + '"></i>').join('') + '</div><div id="ap-msg"></div>' +
     '<div class="rnc-ncc g-' + esc(x.grav) + '"><div class="h"><span>' + esc(rncAreaNome(x.area)) + ' › ' + esc(x.local) + '</span><span class="chip ' + g[1] + '">' + g[0] + '</span></div><p>' + esc(x.nc) + '</p>' +
-    keyval([['Responsável', x.respNome + (x.ciente ? ' · estava ciente' : ' · não estava ciente')]].concat(rncCoresp(x).length ? [['Corresponsáveis', rncCorespTxt(x)]] : []).concat([['Prazo', fmtD(r.prazo) + ' · ' + rncPrazoSit(r)]]).concat(x.lei ? [['Lei / requisito', x.lei]] : []).concat(x.sug ? [['Sugestão', x.sug]] : [])) +
+    keyval([['Responsável', x.respNome + (x.ciente ? ' · estava ciente' : ' · não estava ciente')]].concat(rncCoresp(x).length ? [['Corresponsáveis', rncCorespTxt(x)]] : []).concat([['Prazo', fmtD(r.prazo) + ' · ' + rncPrazoSit(r)]]).concat(ncLeis(x).length ? [[ncLeisRot(x), ncLeisTxt(x)]] : []).concat(x.sug ? [['Sugestão', x.sug]] : [])) +
     ((x.fotosAntes || []).length ? '<div class="rnc-fotos ro">' + x.fotosAntes.map(f => '<span class="rnc-th"><img data-rncfoto="' + esc(f) + '" alt=""></span>').join('') + '</div>' : '') + '</div>' +
     '<div class="pl-resp pl-conf"><span>Análise: ' + planoChip(x) + ' · resp. ' + esc(planoResp(r, x).nome || '—') + '</span><button type="button" class="btn sm" data-action="rnc-plano" data-id="' + esc(id) + '" data-nc="' + esc(x.id) + '">Abrir a análise</button></div>' + /* v2.102.13 */
     '<div class="ap-sec" data-g="res">Foi resolvida?</div><div class="ap-oc rnc-res">' + ch('resolvida', 'Resolvida') + ch('parcial', 'Parcial') + ch('nao', 'Não resolvida') + '</div>' +
@@ -16010,7 +16040,7 @@ async function rncImprimirPe(id, modo) {
     blocos.push(sec + '<div class="ri rn-ap ar-it rnc-it"><div class="ri-t"><span class="ri-n">' + esc(rncNum(n.n)) + '</span><span class="ri-tt">' + esc(n.local) + '</span><span class="ri-dt">' + esc(fmtD(r.data)) + '</span></div>' +
       '<div class="ri-tags"><span class="ri-tag" style="background:' + esc(G[n.grav]) + '">GRAVIDADE: ' + esc(String(g[0]).toUpperCase()) + '</span>' + (gutDe(n.id) ? '<span class="ri-tag" style="background:' + esc((GUT_FX[gutDe(n.id).faixa] || GUT_FX.baixo)[2]) + '">GUT ' + esc(gutDe(n.id).gut) + ' · ' + esc(String((GUT_FX[gutDe(n.id).faixa] || GUT_FX.baixo)[0]).toUpperCase()) + '</span>' : '') +
         (fech ? '<span class="ri-tag" style="background:' + esc(rt ? R[n.ret.res] : '#8a8576') + '">' + esc(rt ? String(rt[0]).toUpperCase() : 'SEM RETORNO') + '</span>' : '<span class="ri-tag ri-st">ABERTA</span>') + (ri ? '<span class="ri-tag ri-st">REINCIDENTE</span>' : '') + '</div>' +
-      '<div class="ri-c">' + campo('Constatação', n.nc) + campo('Lei / requisito', n.lei) + campo('Responsável', (n.respNome || '') + (n.ciente ? ' · estava ciente' : ' · não estava ciente')) + campo('Corresponsáveis', rncCorespTxt(n)) +
+      '<div class="ri-c">' + campo('Constatação', n.nc) + campo(ncLeisRot(n), ncLeisTxt(n)) + campo('Responsável', (n.respNome || '') + (n.ciente ? ' · estava ciente' : ' · não estava ciente')) + campo('Corresponsáveis', rncCorespTxt(n)) +
         campo('Observação', n.obs) + campo('Ação sugerida', n.sug) + (ri ? campo('Reincidência', 'mesmo local e requisito na ' + ri.rnc + ' (' + rncNum(ri.n) + ')') : '') +
         (fech ? campo('Feito na hora', ct.texto) + campo('Causa', pl.causa) + campo('Categoria (6M)', pl.m6) +
           (acoesAtivas(n.id).length ? campo('Ações', acoesAtivas(n.id).length + ' no plano · ' + acoesAtivas(n.id).filter(a => a.st === 'feita').length + ' feita(s)' + (acoesAtivas(n.id).some(a => acaoSt(a) === 'atrasada') ? ' · ' + acoesAtivas(n.id).filter(a => acaoSt(a) === 'atrasada').length + ' atrasada(s)' : '')) : '') +
@@ -16079,7 +16109,7 @@ async function rncImprimir(id, modo) {
     '<div class="rp-ft"><span>' + impresso + '</span><span>' + esc(r.numero) + ' · folha ' + esc(pg) + ' de ' + totP + '</span></div></section>';
   const W = 186, HF = 72;
   const folha = n => { const g = RNC_GRAV[n.grav], ri = rncReinc(r, n), rt = n.ret ? RNC_RES[n.ret.res] : null;
-    const campos = [['Lei / requisito', n.lei || '—'], ['Responsável', n.respNome + (n.ciente ? ' · estava ciente' : ' · não estava ciente')]].concat(rncCoresp(n).length ? [['Corresponsáveis', rncCorespTxt(n)]] : []).concat([['Prazo', fmtD(r.prazo)]]).concat(n.obs ? [['Observação', n.obs]] : []).concat(n.sug ? [['Sugestão', n.sug]] : []).concat(ri ? [['Reincidência', 'mesmo local e requisito na ' + ri.rnc + ' (' + rncNum(ri.n) + ')']] : []);
+    const campos = [[ncLeisRot(n), ncLeisTxt(n) || '—'], ['Responsável', n.respNome + (n.ciente ? ' · estava ciente' : ' · não estava ciente')]].concat(rncCoresp(n).length ? [['Corresponsáveis', rncCorespTxt(n)]] : []).concat([['Prazo', fmtD(r.prazo)]]).concat(n.obs ? [['Observação', n.obs]] : []).concat(n.sug ? [['Sugestão', n.sug]] : []).concat(ri ? [['Reincidência', 'mesmo local e requisito na ' + ri.rnc + ' (' + rncNum(ri.n) + ')']] : []);
     const nA = (n.fotosAntes || []).filter(f => RNC_CACHE[f]).length;
     const fa = rncFotosPrint(n.fotosAntes, W, fech ? HF : 92, i => 'Foto ' + (i + 1) + ' · ' + rncNum(n.n) + ' · antes'), fd = fech && n.ret ? rncFotosPrint(n.ret.fotosDepois, W, HF, i => 'Foto ' + (nA + i + 1) + ' · ' + rncNum(n.n) + ' · depois') : '';
     const baixo = fech && n.ret ? '<div class="rp-l"><div class="rp-res" style="background:' + R[n.ret.res] + '">' + rt[0] + '</div><div class="rp-big">' + esc(n.ret.texto) + '</div><div class="rp-kv"><span>Conferido por</span><b>' + esc(n.ret.porNome) + '</b><span>Em</span><b>' + fmtD(n.ret.data) + '</b>' + (n.ret.lib ? '<span>Liberada por</span><b>' + esc(n.ret.lib.porNome || '') + ': ' + esc(n.ret.lib.motivo) + '</b>' : '') + '</div></div><div class="rp-r">' + (fd || '<div class="rp-sf">Sem foto do depois</div>') + '</div>'
@@ -16171,6 +16201,8 @@ function rncAcao(act, id, t) {
     case 'rnc-cancelar': openRncMotivo(id, 'cancelar'); return true;
     case 'rnc-excluir': openRncExcluir(id); return true; /* v2.102.42 */
     case 'rnc-cr-add': rncCorespAdd(true); return true; /* v2.102.44 */
+    case 'rnc-lei-add': rncLeiAdd(true); return true; /* v2.102.47 */
+    case 'rnc-lei-x': { const b = S.rncNc; if (b && b.leis) { rncNcLer(); b.leis.splice(Number(id), 1); rncNcRender(); } return true; }
     case 'rnc-cr-x': { const b = S.rncNc; if (b && b.coresp) { rncNcLer(); b.coresp.splice(Number(id), 1); rncNcRender(); } return true; }
     case 'rnc-ap-abrir': apAbrir(id); return true; /* v2.102.43: modo Apresentação */
     case 'rnc-ap-iniciar': { const s = $('#ap-corr'); apIniciar(id, s ? s.value : null); return true; }
@@ -18893,7 +18925,7 @@ async function nrmClResp(rid, itId, v) {
   const st = nrmClSt(r, itId);
   if (st === v) return;
   if (st === 'nc') { const nc = (r.ncs || []).find(x => x.id === r.cl[itId].ncId); toast('Este item já virou a ' + rncNum(nc.n) + '. Para mudar a resposta, abra a NC e use "Tirar esta NC".', 'err'); return; }
-  if (v === 'nc') { S.nrmClNc = { rid: rid, itId: itId }; openRncNc(rid, 0); const b = S.rncNc; if (!b) return; b.clItem = itId; b.lei = it.cod + ' · ' + (r.normaNome || '') + ' ' + (r.edNome || ''); b.clTexto = it.texto; rncNcRender(); return; }
+  if (v === 'nc') { S.nrmClNc = { rid: rid, itId: itId }; openRncNc(rid, 0); const b = S.rncNc; if (!b) return; b.clItem = itId; b.leis = [it.cod + ' · ' + (r.normaNome || '') + ' ' + (r.edNome || '')]; b.clTexto = it.texto; rncNcRender(); return; }
   const cl = Object.assign({}, r.cl || {}); cl[itId] = { r: v, cod: it.cod, texto: it.texto, porNome: S.user.nome, ts: nowISO() };
   try { await Data.col('sv2_rnc').update(rid, { cl: cl, atualizadoEm: nowISO() }); r.cl = cl; nrmClAtualiza(rid); const s = $('#nrm-cl-cont'); if (s) s.textContent = nrmClContTxt(nrmClConta(r)); const fl = $('#nrm-cl-f'); if (fl) fl.innerHTML = nrmClFiltrosHTML(r); }
   catch (e) { nrmMsg(errMsg(e)); }
