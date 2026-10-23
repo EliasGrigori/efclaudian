@@ -1528,6 +1528,51 @@ svg.ic-i{width:1.1em;height:1.1em;vertical-align:-.18em;flex:none}
 .fed-bt .btn{flex:1;justify-content:center;min-height:46px;white-space:nowrap;font-size:14.5px;padding:0 10px}
 .fed-bt .btn[disabled]{opacity:.45}
 .rnc-hd{display:flex;align-items:center;gap:8px;margin:-2px 0 4px}.rnc-hd-i{flex:1;min-width:0;font-size:12.5px;color:var(--text-muted);line-height:1.35}.rnc-hd-b{display:flex;gap:6px;flex:none}.rnc-hd-b .btn.sm{min-width:38px;justify-content:center}.rnc-h3{margin-top:2px} /* v2.102.42: cabeçalho da RNC */
+/* v2.102.43: modo Apresentação (tela cheia) */
+.overlay.ap-ov{align-items:stretch;justify-content:stretch;background:var(--bg)}
+.overlay.ap-ov .sheet{max-width:none!important;width:100%;height:100%;max-height:none;border-radius:0;border:0;padding:0;overflow:hidden;box-shadow:none;display:flex;flex-direction:column}
+#ap-tela{display:flex;flex-direction:column;flex:1;min-height:0;position:relative;background:var(--surface);color:var(--text)}
+.ap-top{display:flex;align-items:center;gap:8px;padding:8px max(14px,env(safe-area-inset-left));border-bottom:1px solid var(--border);font-size:13px;color:var(--text-muted);flex:none;padding-top:calc(8px + env(safe-area-inset-top))}
+.ap-top .ap-cod{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}.ap-top .ap-pos{white-space:nowrap}.ap-top .ap-pos b{color:var(--text)}.ap-top .btn{white-space:nowrap}
+.ap-corpo{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+.ap-txt{padding:22px clamp(16px,2.4vw,34px);display:flex;flex-direction:column;gap:14px;overflow-y:auto;min-width:0}
+.ap-n{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.ap-n .ap-num{font-weight:900;color:var(--primary);font-size:15px}
+.ap-tit{font-size:clamp(22px,2.5vw,34px);line-height:1.22;font-weight:800;text-wrap:balance}
+.ap-cps{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;align-items:baseline;margin:0}
+.ap-cps dt{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);font-weight:700;white-space:nowrap}
+.ap-cps dd{margin:0;font-size:clamp(16px,1.6vw,21px);line-height:1.38;min-width:0;overflow-wrap:anywhere}
+.ap-cps dd.ap-loc{font-weight:800}.ap-cps .ap-ci{color:var(--text-muted);font-size:.8em}
+.apf.mud::after{content:'!';display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;margin-left:6px;font-size:12px;font-weight:900;background:var(--warn);color:var(--surface);vertical-align:3px;border-radius:3px}
+.apf.ed{cursor:text;border-bottom:1px dotted var(--border);outline:none}.apf.ed:hover{border-bottom-color:var(--text-muted)}.apf.ed:focus{background:color-mix(in srgb,var(--warn) 16%,transparent);border-bottom:1px solid var(--warn)}
+.apf[data-apf='resp'].ed{cursor:pointer}.apf.vz:empty::before{content:attr(data-ph);color:var(--text-dim);font-weight:400}
+.ap-resp-sel{font:inherit;font-size:16px;padding:4px 8px;max-width:100%}
+.ap-fot{background:#0d0f13;color:#f1f2f5;position:relative;display:flex;flex-direction:column;min-height:0;min-width:0}
+.ap-tri{flex:1;min-height:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}.ap-tri::-webkit-scrollbar{display:none}
+.ap-tri figure{flex:0 0 100%;margin:0;scroll-snap-align:center;display:flex;align-items:center;justify-content:center;padding:12px;cursor:zoom-in}
+.ap-tri img{width:100%;height:100%;object-fit:contain;display:block}
+.ap-fpe{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:13px;flex:none}.ap-fpe .sp{flex:1}
+.ap-pts{display:flex;gap:6px}.ap-pts i{width:22px;height:4px;background:rgba(255,255,255,.3)}.ap-pts i.on{background:#f1f2f5}
+.ap-seta{width:42px;height:42px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.4);color:#f1f2f5;font-size:22px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;position:absolute;top:50%;transform:translateY(-50%);border-radius:var(--r-ctl)}
+.ap-seta.e{left:10px}.ap-seta.d{right:10px}
+.ap-sem{flex:1;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.55);font-size:15px;padding:20px;text-align:center}
+.ap-rod{display:flex;align-items:center;justify-content:center;gap:10px;padding:8px max(14px,env(safe-area-inset-left));padding-bottom:calc(8px + env(safe-area-inset-bottom));border-top:1px solid var(--border);flex:none}
+.ap-rod .btn{min-width:120px;justify-content:center}
+.ap-st{min-width:150px;justify-content:center;font-weight:800}.ap-st.aberto{color:var(--crit);border-color:var(--crit)}.ap-st.iniciado{color:var(--ok);border-color:var(--ok);background:var(--ok-soft)}
+.ap-st i{width:9px;height:9px;border-radius:50%;background:currentColor;display:inline-block;margin-right:7px}.ap-st.mud::after{content:'!';margin-left:6px;color:var(--warn)}
+.ap-lb{position:absolute;inset:0;background:#0d0f13;color:#f1f2f5;display:flex;flex-direction:column;z-index:5}
+.ap-lb .ap-tri figure{cursor:zoom-out;padding:8px}
+.ap-lbt{display:flex;align-items:center;gap:10px;padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top));font-size:13px}.ap-lbt .sp{flex:1}
+.ap-gav{position:absolute;inset:0 0 0 auto;width:min(100%,420px);background:var(--surface);border-left:1px solid var(--border);z-index:6;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.ap-gav-h{display:flex;align-items:center;gap:10px;padding:12px 14px;padding-top:calc(12px + env(safe-area-inset-top));border-bottom:1px solid var(--border)}.ap-gav-h .sp{flex:1}
+.ap-gav ol,.ap-hist{list-style:none;margin:0;padding:0;overflow-y:auto;flex:1}
+.ap-gav li,.ap-hist li{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:3px;font-size:14px}
+.ap-gav li .q,.ap-hist li .q{font-size:12px;color:var(--text-muted)}.ap-gav li del,.ap-hist li del{color:var(--text-muted)}.ap-gav li ins,.ap-hist li ins{text-decoration:none;font-weight:700}
+.ap-gav li.dsf,.ap-hist li.dsf{opacity:.6}.ap-gav .vz{padding:16px 14px;color:var(--text-muted);font-size:14px}
+.ap-aviso{font-size:13px;color:var(--text-muted);padding:6px 0 0}
+.rnc-li .ap-mk{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;margin-left:6px;font-size:11px;font-weight:900;background:var(--warn);color:var(--surface);border-radius:3px;vertical-align:2px}
+.rnc-li .ap-ini{font-size:11px;font-weight:800;color:var(--ok)}
+.rnc-ap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--text-muted);border:1px solid var(--border);border-radius:var(--r-ctl);padding:8px 10px;margin:8px 0}.rnc-ap b{color:var(--text)}.rnc-ap .sp{flex:1}
+@media(max-width:760px){.ap-corpo{display:flex;flex-direction:column;overflow-y:auto}.ap-fot{flex:none;aspect-ratio:4/3;order:-1}.ap-hint{display:none}.ap-txt{overflow:visible;padding:14px 16px;gap:10px}.ap-cps{gap:6px 12px}.ap-top .ap-cod{display:none}.ap-top{gap:6px}.ap-top .btn{padding:0 9px;font-size:12.5px}.ap-rod{gap:8px}.ap-rod .btn{min-width:0;flex:1;padding:0 6px}.ap-st{min-width:0}.ap-fpe{position:absolute;inset:auto 0 0 0;background:rgba(0,0,0,.45)}.ap-fot>.ap-seta{display:none}}
 .fed-bt{justify-content:center}.fed-bt .btn{flex:0 1 150px;min-height:38px;font-size:13.5px;font-weight:700;background:#2b2b31;color:#fff;border:1px solid #5d5d66}.fed-bt .btn:hover{background:#3a3a42}.fed-bt .btn.primary{background:#f2c230;color:#1b1b1b;border-color:#f2c230}.fed-bt .btn.primary:hover{background:#ffd34d}.fed-bt .btn[disabled]{opacity:.5} /* v2.102.42: menores e visíveis em qualquer tema (pedido do Elias) */
 .fed-ferr{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;padding:calc(10px + env(safe-area-inset-top,0px)) 10px 6px}
 .fed-grp{display:flex;gap:4px;align-items:center;background:rgba(255,255,255,.1);border-radius:var(--r-ctl);padding:4px}
@@ -3035,7 +3080,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.42 · Editor de fotos com botões menores e visíveis; Lixeira da RNC (antes de enviar)';
+const APP_VERSION = 'v2.102.43 · Modo Apresentação da RNC (passo 2): texto grande, fotos que ampliam, correção ao vivo com histórico';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -3948,7 +3993,7 @@ function openSheet(html, opts) {
   const f = $('input,button.btn.primary', ov); if (f && !igual && !(opts && opts.noFocus)) { try { f.focus(); } catch (e) {} }
   return ov.firstChild;
 }
-function closeSheet() { try { raFecha(); } catch {} const o = $('#ov'); if (o && !S._reabre) { try { const sh0 = o.querySelector('.sheet'); if (sh0) S._ultima = shSnap(sh0); } catch {} if (S._pilhaT) clearTimeout(S._pilhaT); S._pilhaT = setTimeout(() => { S._pilha = []; S._ultima = null; S._pilhaT = null; }, 0); } /* v2.102.21 */ if (o && !S._reabre && !S._voltar && SH_H.on) { SH_H.on = false; SH_H.ign++; try { history.back(); } catch { SH_H.ign--; } } /* v2.102.42 */ if (o) { o.parentNode.removeChild(o); if (!S._reabre && S._focoAntes) { const f = S._focoAntes; S._focoAntes = null; if (document.contains(f)) try { f.focus({ preventScroll: true }); } catch {} } } const mn = $('#tf-menu'); if (mn && mn.dataset.k === 'men') mn.hidden = true; }
+function closeSheet() { try { raFecha(); } catch {} const o = $('#ov'); if (o && !S._reabre && S.ap) { try { apSair(); } catch {} } /* v2.102.43 */ if (o && !S._reabre) { try { const sh0 = o.querySelector('.sheet'); if (sh0) S._ultima = shSnap(sh0); } catch {} if (S._pilhaT) clearTimeout(S._pilhaT); S._pilhaT = setTimeout(() => { S._pilha = []; S._ultima = null; S._pilhaT = null; }, 0); } /* v2.102.21 */ if (o && !S._reabre && !S._voltar && SH_H.on) { SH_H.on = false; SH_H.ign++; try { history.back(); } catch { SH_H.ign--; } } /* v2.102.42 */ if (o) { o.parentNode.removeChild(o); if (!S._reabre && S._focoAntes) { const f = S._focoAntes; S._focoAntes = null; if (document.contains(f)) try { f.focus({ preventScroll: true }); } catch {} } } const mn = $('#tf-menu'); if (mn && mn.dataset.k === 'men') mn.hidden = true; }
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !S.lockado) closeSheet(); });
 document.addEventListener('input', e => { if (e.target && e.target.id === 'rz-apelido') rzResAtu(); if (e.target && e.target.id === 'cn-preco') { e.target.setAttribute('data-man', '1'); colPrecoAtualiza(false); } }); /* v2.102.4: + preço da amostra */ /* v2.89.1 */ /* v2.87.0: com a tela bloqueada, Esc não mexe no que está por baixo */
 document.addEventListener('keydown', e => { const t = e.target; if (t && t.classList && t.classList.contains('os-in') && (e.key === 'Enter' || (e.key === 'Tab' && !e.shiftKey))) { e.preventDefault(); osProximo(t); } });
@@ -14124,7 +14169,7 @@ function openRnc(id) {
     fechada: ['Concluída', 'RNC fechada em ' + fmtD(diaLocal(r.fechadaEm)) + '. ' + res + ' de ' + seq.length + ' resolvida(s).'],
     cancelada: ['Cancelada', r.canceladaMotivo || ''] }[s];
   const b = (act, t, prim, extra) => '<button class="btn' + (prim ? ' primary' : '') + '" data-action="' + act + '" data-id="' + esc(r.id) + '"' + (extra || '') + '>' + t + '</button>';
-  const acao = !pode ? '' : s === 'registro' ? b('rnc-nc', '+ Registrar ' + rncNum(seq.length + 1), true) + (seq.length ? b('rnc-enviar', 'Enviar RNC (' + seq.length + ')') : '')
+  const acao = !pode ? '' : s === 'registro' ? b('rnc-nc', '+ Registrar ' + rncNum(seq.length + 1), true) + (seq.length ? b('rnc-ap-abrir', 'Apresentar') + b('rnc-enviar', 'Enviar RNC (' + seq.length + ')') : '') /* v2.102.43 */
     : s === 'retorno' ? b('rnc-conf', 'Conferir ' + (falta.length ? rncNum(falta[0].n) : ''), true, ' data-n="' + (falta.length ? falta[0].n : '') + '"')
     : s === 'pronta' ? b('rnc-fechar', 'Fechar a RNC', true) + b('rnc-conf', 'Rever a conferência', false, ' data-n=""') : '';
   let area = '';
@@ -14133,7 +14178,7 @@ function openRnc(id) {
   if (risco) ls.sort((a, c) => ((gutDe(c.id) || {}).gut || 0) - ((gutDe(a.id) || {}).gut || 0) || a.n - c.n);
   const lista = ls.map(n => { let h = ''; if (!risco && n.area !== area) { area = n.area; h = '<div class="rnc-sec">' + esc(rncAreaNome(n.area)) + '</div>'; }
     const rt = n.ret ? RNC_RES[n.ret.res] : null, g = RNC_GRAV[n.grav] || RNC_GRAV.baixa, ri = rncReinc(r, n);
-    return h + '<button class="rnc-li g-' + esc(n.grav) + '" data-action="rnc-item" data-id="' + esc(r.id) + '" data-n="' + n.n + '"><span class="rnc-n">' + rncNum(n.n) + '</span><span class="rnc-li-t"><b>' + esc(n.nc) + '</b><small>' + esc(n.local) + ' · ' + esc(n.respNome || '') + (n.ciente ? ' · ciente' : ' · não ciente') + (ri ? ' · reincidente' : '') + '</small></span><span class="rnc-li-c"><span class="chip ' + g[1] + '">' + g[0] + '</span>' + gutChip(gutDe(n.id)) + (s === 'retorno' || s === 'pronta' || s === 'fechada' ? planoChip(n) + acoesChip(n) : '') + (rt ? '<span class="chip ' + rt[1] + '">' + rt[0] + '</span>' : s !== 'registro' ? '<span class="chip">sem retorno</span>' : '') + '</span></button>'; }).join('');
+    return h + '<button class="rnc-li g-' + esc(n.grav) + '" data-action="rnc-item" data-id="' + esc(r.id) + '" data-n="' + n.n + '"><span class="rnc-n">' + rncNum(n.n) + '</span><span class="rnc-li-t"><b>' + esc(n.nc) + (apNcMud(r, n.id) ? '<i class="ap-mk" title="Alterada na apresentação">!</i>' : '') + '</b><small>' + esc(n.local) + ' · ' + esc(n.respNome || '') + (n.ciente ? ' · ciente' : ' · não ciente') + (ri ? ' · reincidente' : '') + (apStDe(n) === 'iniciado' && s === 'registro' ? ' · <span class="ap-ini">Iniciado</span>' : '') + '</small></span><span class="rnc-li-c"><span class="chip ' + g[1] + '">' + g[0] + '</span>' + gutChip(gutDe(n.id)) + (s === 'retorno' || s === 'pronta' || s === 'fechada' ? planoChip(n) + acoesChip(n) : '') + (rt ? '<span class="chip ' + rt[1] + '">' + rt[0] + '</span>' : s !== 'registro' ? '<span class="chip">sem retorno</span>' : '') + '</span></button>'; }).join('');
   const impR = seq.length ? impBtn([{ a: 'rnc-print', id: r.id, m: 'abertura', t: 'RNC de abertura' }, { a: 'rnc-print', id: r.id, m: 'resumo', t: 'Abertura resumida (em pé)' }].concat(seq.some(n => n.ret) ? [{ a: 'rnc-print', id: r.id, m: 'fechamento', t: 'RNC de fechamento (em pé)' }] : []), { titulo: 'Imprimir a RNC' }) : '';
   /* v2.102.42 (pedido do Elias): situação, data e auditor em cima, na linha da impressora e da lixeira; o código da RNC embaixo, com a largura toda */
   openSheet('<div class="rnc-hd"><span class="rnc-hd-i">' + rncChip(r) + ' ' + fmtD(r.data) + ' · auditor ' + esc(r.auditorNome || '') + (r.acompanhante ? ' · com ' + esc(r.acompanhante) : '') + '</span><span class="rnc-hd-b">' + impR +
@@ -14142,10 +14187,181 @@ function openRnc(id) {
     rncStepper(r, true) +
     '<div class="rnc-agora"><b>' + agora[0] + '</b><span>' + esc(agora[1]) + '</span>' + (acao ? '<div class="rnc-agora-b">' + acao + '</div>' : '') + '</div>' +
     keyval([['Prazo para todas', fmtD(r.prazo) + (s === 'retorno' || s === 'registro' ? ' · ' + rncPrazoSit(r) : '') + ((r.prazoHist || []).length ? ' (prorrogado ' + r.prazoHist.length + 'x)' : '')]].concat(r.preparacao ? [['Preparação para', r.preparacao]] : [])) +
-    nrmRncBloco(r) + '<div class="dt-sec">Não conformidades <small>' + seq.length + ' · ' + (risco ? 'por risco (GUT), só para ver' : 'na ordem do relatório (Campo → Estrutura)') + '</small>' + (temGut ? '<button class="btn sm rnc-risco" data-action="rnc-risco" data-id="' + esc(r.id) + '">' + (risco ? 'Ordem do relatório' : 'Ver por risco') + '</button>' : '') + '</div>' + (lista || '<p class="fm-dica">Nenhuma ainda.</p>') +
+    nrmRncBloco(r) + (apAlts(r).length ? '<div class="rnc-ap"><span><b>Apresentação</b> · ' + apAlts(r).filter(a => !a.desfeitaEm).length + ' alteração(ões)' + (apAlts(r).some(a => a.desfeitaEm) ? ' · ' + apAlts(r).filter(a => a.desfeitaEm).length + ' desfeita(s)' : '') + ' · última em ' + fmtDT(apAlts(r).slice(-1)[0].em) + '</span><span class="sp"></span><button class="btn sm" data-action="rnc-ap-hist" data-id="' + esc(r.id) + '">Ver alterações</button></div>' : '') + /* v2.102.43 */
+    '<div class="dt-sec">Não conformidades <small>' + seq.length + ' · ' + (risco ? 'por risco (GUT), só para ver' : 'na ordem do relatório (Campo → Estrutura)') + '</small>' + (temGut ? '<button class="btn sm rnc-risco" data-action="rnc-risco" data-id="' + esc(r.id) + '">' + (risco ? 'Ordem do relatório' : 'Ver por risco') + '</button>' : '') + '</div>' + (lista || '<p class="fm-dica">Nenhuma ainda.</p>') +
     '<div class="row-actions eq-acoes">' + (rncFotoLista(r).length ? b('rnc-fotos', icoI('image') + 'Fotos (' + rncFotoLista(r).length + ')') : '') +
       (isSup(S.user) && (s === 'retorno' || s === 'registro') ? b('rnc-prorrogar', 'Prorrogar prazo') : '') + (isSup(S.user) && s !== 'fechada' && s !== 'cancelada' ? b('rnc-cancelar', 'Cancelar') : '') + '</div>', { noFocus: true }); /* v2.102.42: sem o botão Fechar (Esc, tocar fora ou o voltar do celular) */
 }
+
+/* ---------- v2.102.43: modo Apresentação da RNC (pedido do Elias; desenho aprovado em 22/10) ----------
+   Só no passo 2 (Registrando), antes de Enviar RNC. Uma NC por tela, na ordem do relatório.
+   Texto grande; fotos deslizam para o lado e ampliam ao toque. Quem corrige: o Principal ou o líder ★ que ele indicar
+   (r.apresCorretorId); toca direto no texto, local, responsável, lei, observação ou sugestão e corrige ali.
+   Toda correção (e a troca Em aberto ↔ Iniciado) entra em r.apresAlt (antes, depois, quem, quando) com o sinal "!"
+   no campo; Desfazer marca a alteração como desfeita (nada se apaga). A aprovação oficial continua sendo Enviar RNC. */
+const AP_CAMPOS = { nc: 'Texto da NC', local: 'Local', resp: 'Responsável', lei: 'Lei / requisito', obs: 'Observação', sug: 'Sugestão', st: 'Situação' };
+const apStDe = n => n && n.apSt === 'iniciado' ? 'iniciado' : 'aberto';
+const apStNome = v => v === 'iniciado' ? 'Iniciado' : 'Em aberto';
+function apCorretores(r) { const l = (S.users || []).filter(u => !u.bloqueado && u.perfil !== 'visitante' && (isSup(u) || (r && r.auditorId === u.id))); return l.sort((a, b) => String(a.nome).localeCompare(String(b.nome), 'pt-BR')); }
+function apPodeCorrigir(r) {
+  const u = S.user; if (!u || u.bloqueado || u.perfil === 'visitante' || !r || rncSit(r) !== 'registro') return false;
+  return isPrincipal(u) || (!!r.apresCorretorId && r.apresCorretorId === u.id && (isSup(u) || r.auditorId === u.id));
+}
+const apAlts = r => (r && Array.isArray(r.apresAlt)) ? r.apresAlt : [];
+const apMud = (r, ncId, k) => apAlts(r).some(x => x.ncId === ncId && x.campo === k && !x.desfeitaEm);
+const apNcMud = (r, ncId) => apAlts(r).some(x => x.ncId === ncId && !x.desfeitaEm);
+function apAbrir(rid) {
+  const r = rncDe(rid); if (!r || !rncPode(r) || rncSit(r) !== 'registro') return;
+  if (!rncNcs(r).length) { toast('Registre ao menos uma NC antes de apresentar.', 'err'); return; }
+  if (!isPrincipal(S.user)) { apIniciar(rid, null); return; }
+  const cs = apCorretores(r), cur = r.apresCorretorId || S.user.id;
+  openSheet('<h3>Apresentar a ' + esc(r.numero) + '</h3><div class="sub">Uma NC por tela, na ordem do relatório. As correções feitas na apresentação ficam no histórico da RNC.</div><div id="ap-msg"></div><div class="fm">' +
+    '<label class="fm-l" for="ap-corr">Quem corrige ao vivo</label><select class="input" id="ap-corr">' + cs.map(u => '<option value="' + esc(u.id) + '"' + (u.id === cur ? ' selected' : '') + '>' + esc(u.nome) + (u.id === S.user.id ? ' (você)' : '') + '</option>').join('') + '</select>' +
+    '<p class="fm-dica">Você (Principal) sempre pode corrigir. Se indicar um líder ★, ele também pode, nesta RNC.</p></div>' +
+    '<div class="row-actions"><button class="btn" data-action="rnc-open" data-id="' + esc(r.id) + '">Voltar</button><button class="btn primary" data-action="rnc-ap-iniciar" data-id="' + esc(r.id) + '">Iniciar a apresentação</button></div>', { noFocus: true });
+}
+async function apIniciar(rid, corrId) {
+  const r = rncDe(rid); if (!r || rncSit(r) !== 'registro') return;
+  if (corrId && isPrincipal(S.user) && corrId !== (r.apresCorretorId || '')) {
+    const nome = nomeDe(corrId), p = { apresCorretorId: corrId, apresCorretorNome: nome, atualizadoEm: nowISO() };
+    try { await Data.col('sv2_rnc').update(r.id, p); Object.assign(r, p); Audit.log({ acao: 'rnc_apres_corretor', entidade: 'rnc', entidadeId: r.id, resumo: r.numero + ': quem corrige na apresentação = ' + nome }); }
+    catch (e) { const m = $('#ap-msg'); if (m) m.innerHTML = '<div class="msg">' + esc(errMsg(e)) + '</div>'; return; }
+  }
+  S.ap = { rid: rid, i: 0, foto: 0, lb: false, gav: false, respEd: false, ini: nowISO(), qtd: 0 };
+  Audit.log({ acao: 'rnc_apres', entidade: 'rnc', entidadeId: r.id, resumo: r.numero + ': apresentação iniciada' });
+  openSheet('<div id="ap-tela" role="dialog" aria-label="Apresentação da ' + esc(r.numero) + '"></div>', { noFocus: true });
+  const ov = $('#ov'); if (ov) ov.classList.add('ap-ov');
+  apRender();
+}
+function apNc(r) { const ls = rncOrdem(r); if (!ls.length) return null; S.ap.i = Math.max(0, Math.min(ls.length - 1, S.ap.i)); return { ls: ls, n: ls[S.ap.i] }; }
+function apRender() {
+  const tela = $('#ap-tela'); if (!tela || !S.ap) return; const r = rncDe(S.ap.rid); if (!r) return;
+  const x = apNc(r); if (!x) { apSair(); return; }
+  const n = x.n, ls = x.ls, fotos = (n.fotosAntes || []).filter(Boolean), pode = apPodeCorrigir(r);
+  S.ap.foto = Math.max(0, Math.min(Math.max(0, fotos.length - 1), S.ap.foto));
+  const g = RNC_GRAV[n.grav] || RNC_GRAV.baixa, ant = ls[S.ap.i - 1], prox = ls[S.ap.i + 1];
+  const campo = (k, txt, ph) => '<span class="apf' + (apMud(r, n.id, k) ? ' mud' : '') + (pode ? ' ed' : '') + (ph ? ' vz' : '') + '" data-apf="' + k + '"' + (ph ? ' data-ph="' + esc(ph) + '"' : '') +
+    (pode && k !== 'resp' ? ' contenteditable="true" spellcheck="true"' : '') + (pode && k === 'resp' ? ' tabindex="0" role="button" title="Trocar o responsável"' : '') + '>' + esc(txt || '') + '</span>';
+  const resp = pode && S.ap.respEd
+    ? '<select class="input ap-resp-sel" id="ap-resp" aria-label="Responsável">' + (n.respId ? '' : '<option value="" selected>' + esc(n.respNome || 'Escolha') + '</option>') + (S.users || []).filter(u => !u.bloqueado && u.perfil !== 'visitante').map(u => '<option value="' + esc(u.id) + '"' + (u.id === n.respId ? ' selected' : '') + '>' + esc(u.nome) + '</option>').join('') + '</select>'
+    : campo('resp', n.respNome || '');
+  const opc = (k, t) => (n[k] || pode) ? '<dt>' + t + '</dt><dd>' + campo(k, n[k] || '', pode && !n[k] ? 'tocar para escrever' : '') + '</dd>' : '';
+  const tri = cls => '<div class="ap-tri ' + esc(cls) + '">' + fotos.map((id, j) => '<figure data-j="' + esc(j) + '"><img data-rncfoto="' + esc(id) + '" alt="Foto ' + (j + 1) + ' da ' + rncNum(n.n) + '"></figure>').join('') + '</div>';
+  const setas = fotos.length > 1 ? '<button type="button" class="ap-seta e" data-action="rnc-ap-foto" data-id="-1" aria-label="Foto anterior">‹</button><button type="button" class="ap-seta d" data-action="rnc-ap-foto" data-id="1" aria-label="Próxima foto">›</button>' : '';
+  const nAlt = apAlts(r).filter(a => !a.desfeitaEm).length, st = apStDe(n);
+  let h = '<div class="ap-top"><span class="ap-cod">' + esc(r.numero) + ' · ' + esc(r.tipo || '') + '</span><span class="ap-pos"><b>' + rncNum(n.n) + '</b> · ' + esc(S.ap.i + 1) + '/' + esc(ls.length) + '</span>' +
+    '<button type="button" class="btn sm" data-action="rnc-ap-gav">Alterações (' + esc(nAlt) + ')</button><button type="button" class="btn sm" data-action="rnc-ap-fim">Encerrar</button></div>' +
+    '<div class="ap-corpo"><div class="ap-txt"><div class="ap-n"><span class="ap-num">' + rncNum(n.n) + ' · ' + esc(rncAreaNome(n.area)) + '</span><span class="chip ' + esc(g[1]) + '">' + esc(g[0]) + '</span>' + gutChip(gutDe(n.id)) + '</div>' +
+    '<div class="ap-tit">' + campo('nc', n.nc) + '</div>' +
+    '<dl class="ap-cps"><dt>Local</dt><dd class="ap-loc">' + campo('local', n.local) + '</dd><dt>Responsável</dt><dd>' + resp + ' <span class="ap-ci">· ' + (n.ciente ? 'ciente' : 'não ciente') + '</span></dd>' +
+    '<dt>Prazo</dt><dd>' + fmtD(r.prazo) + '</dd>' + opc('lei', 'Lei / requisito') + opc('obs', 'Observação') + opc('sug', 'Sugestão') + '</dl>' +
+    (pode ? '' : '<p class="ap-aviso">Só o Principal ou o líder indicado por ele corrige na apresentação.</p>') + '</div>' +
+    '<div class="ap-fot">' + (fotos.length ? tri('ap-tp') + setas + '<div class="ap-fpe"><span class="ap-fc">Foto ' + esc(S.ap.foto + 1) + ' de ' + esc(fotos.length) + '</span><span class="sp"></span>' + apPtsH(fotos.length) + '<span class="sp"></span><span class="ap-hint">toque para ampliar</span></div>' : '<div class="ap-sem">Sem fotos nesta NC</div>') + '</div></div>' +
+    '<div class="ap-rod"><button type="button" class="btn" data-action="rnc-ap-nc" data-id="-1"' + (ant ? '' : ' disabled') + '>‹ ' + (ant ? rncNum(ant.n) : 'Início') + '</button>' +
+    '<button type="button" class="btn ap-st ' + st + (apMud(r, n.id, 'st') ? ' mud' : '') + '" data-action="rnc-ap-st"' + (pode ? '' : ' disabled') + ' title="' + (st === 'aberto' ? 'Tocar para marcar Iniciado' : 'Tocar para voltar para Em aberto') + '"><i></i>' + apStNome(st) + '</button>' +
+    '<button type="button" class="btn primary" data-action="' + (prox ? 'rnc-ap-nc' : 'rnc-ap-fim') + '" data-id="1">' + (prox ? rncNum(prox.n) + ' ›' : 'Encerrar ›') + '</button></div>';
+  if (S.ap.lb && fotos.length) h += '<div class="ap-lb" role="dialog" aria-label="Foto em tela cheia"><div class="ap-lbt"><b>' + rncNum(n.n) + '</b><span class="ap-fc">Foto ' + esc(S.ap.foto + 1) + ' de ' + esc(fotos.length) + '</span><span class="sp"></span><button type="button" class="btn sm" data-action="rnc-ap-lb-x">Fechar foto</button></div>' + tri('ap-tl') + setas + '</div>';
+  if (S.ap.gav) {
+    const vs = apAlts(r).slice().reverse();
+    h += '<aside class="ap-gav" aria-label="Alterações"><div class="ap-gav-h"><b>Alterações na apresentação</b><span class="sp"></span><button type="button" class="btn sm" data-action="rnc-ap-gav-x">Fechar</button></div>' +
+      (vs.length ? '<ol>' + vs.map(a => apAltLi(r, a, pode)).join('') + '</ol>' : '<p class="vz">Nenhuma alteração ainda. Toque no texto, no local ou no responsável para corrigir.</p>') + '</aside>';
+  }
+  tela.innerHTML = h;
+  rncFotosCarregar(tela);
+  $$('.ap-tri', tela).forEach(t => { t.scrollLeft = S.ap.foto * t.clientWidth; t.addEventListener('scroll', () => { if (!S.ap) return; const j = Math.round(t.scrollLeft / Math.max(1, t.clientWidth)); if (j !== S.ap.foto) { S.ap.foto = j; apPts(); } }, { passive: true }); });
+  if (S.ap.respEd) { const s = $('#ap-resp'); if (s) try { s.focus(); } catch {} }
+}
+function apPtsH(t) { return '<span class="ap-pts">' + Array.from({ length: t }, (x, j) => j === S.ap.foto ? '<i class="on"></i>' : '<i></i>').join('') + '</span>'; }
+function apAltLi(r, a, pode) {
+  const ult = apAlts(r).filter(x => x.ncId === a.ncId && x.campo === a.campo && !x.desfeitaEm).slice(-1)[0];
+  return '<li' + (a.desfeitaEm ? ' class="dsf"' : '') + '><span class="q">' + rncNum(a.n) + ' · ' + esc(AP_CAMPOS[a.campo] || a.campo) + ' · ' + esc(a.porNome || '') + ' · ' + fmtDT(a.em) + (a.desfeitaEm ? ' · desfeita por ' + esc(a.desfPorNome || '') : '') + '</span><del>' + esc(a.antes || '(vazio)') + '</del><ins>' + esc(a.depois || '(vazio)') + '</ins>' +
+    (pode && !a.desfeitaEm && ult && ult.id === a.id ? '<span><button type="button" class="btn sm" data-action="rnc-ap-desf" data-id="' + esc(a.id) + '">Desfazer</button></span>' : '') + '</li>';
+}
+function apPts() {
+  const tela = $('#ap-tela'), r = S.ap && rncDe(S.ap.rid); if (!tela || !r) return; const x = apNc(r); if (!x) return;
+  const t = (x.n.fotosAntes || []).filter(Boolean).length;
+  $$('.ap-pts i', tela).forEach((i, j) => { i.className = j === S.ap.foto ? 'on' : ''; });
+  $$('.ap-fc', tela).forEach(s => { s.textContent = 'Foto ' + (S.ap.foto + 1) + ' de ' + t; });
+}
+function apFoto(d) {
+  const r = S.ap && rncDe(S.ap.rid); if (!r) return; const x = apNc(r); if (!x) return;
+  const t = (x.n.fotosAntes || []).filter(Boolean).length; if (!t) return;
+  S.ap.foto = Math.max(0, Math.min(t - 1, S.ap.foto + d));
+  $$('#ap-tela .ap-tri').forEach(el => { try { el.scrollTo({ left: S.ap.foto * el.clientWidth, behavior: 'smooth' }); } catch { el.scrollLeft = S.ap.foto * el.clientWidth; } });
+  apPts();
+}
+function apIrNc(d) { if (!S.ap) return; const r = rncDe(S.ap.rid); if (!r) return; const tot = rncOrdem(r).length, j = S.ap.i + d; if (j < 0 || j >= tot) return; S.ap.i = j; S.ap.foto = 0; S.ap.lb = false; S.ap.respEd = false; apRender(); }
+async function apGrava(r, n, k, patch, de, antes, depois) {
+  const alt = { id: uid(), em: nowISO(), porId: S.user.id, porNome: S.user.nome, ncId: n.id, n: n.n, campo: k, antes: antes, depois: depois, de: de, para: patch };
+  const ncs = (r.ncs || []).map(y => y.id === n.id ? Object.assign({}, y, patch) : y), alts = apAlts(r).concat([alt]);
+  await Data.col('sv2_rnc').update(r.id, { ncs: ncs, apresAlt: alts, atualizadoEm: nowISO() });
+  r.ncs = ncs; r.apresAlt = alts; if (S.ap) S.ap.qtd++;
+  Audit.log({ acao: 'rnc_apres_alt', entidade: 'rnc', entidadeId: r.id, resumo: r.numero + ' · ' + rncNum(n.n) + ' · ' + (AP_CAMPOS[k] || k) + ': "' + antes + '" → "' + depois + '" (na apresentação)', antes: de, depois: patch });
+}
+async function apSalvar(k, v) {
+  if (!S.ap || S.ap.salvando) return; const r = rncDe(S.ap.rid); if (!r || !apPodeCorrigir(r)) { apRender(); return; }
+  const x = apNc(r); if (!x) return; const n = x.n;
+  let patch, de, antes, depois;
+  if (k === 'resp') { const u = (S.users || []).find(y => y.id === v); if (!u || u.id === n.respId) { S.ap.respEd = false; apRender(); return; } patch = { respId: u.id, respNome: u.nome }; de = { respId: n.respId || '', respNome: n.respNome || '' }; antes = n.respNome || ''; depois = u.nome; }
+  else if (k === 'st') { const novo = apStDe(n) === 'iniciado' ? 'aberto' : 'iniciado'; patch = { apSt: novo }; de = { apSt: apStDe(n) }; antes = apStNome(apStDe(n)); depois = apStNome(novo); }
+  else {
+    const t = String(v == null ? '' : v).replace(/\s+/g, ' ').trim(), velho = String(n[k] || '');
+    if (t === velho) return;
+    if (k === 'nc' && t.length < 5) { toast('O texto da NC precisa ter ao menos 5 letras. Nada foi mudado.', 'err'); apRender(); return; }
+    if (k === 'local' && t.length < 2) { toast('O local não pode ficar vazio. Nada foi mudado.', 'err'); apRender(); return; }
+    patch = {}; patch[k] = t; de = {}; de[k] = velho; antes = velho; depois = t;
+  }
+  S.ap.salvando = true;
+  try { await apGrava(r, n, k, patch, de, antes, depois); toast(k === 'st' ? rncNum(n.n) + ': ' + depois + '.' : 'Corrigido: ' + (AP_CAMPOS[k] || 'campo') + ' da ' + rncNum(n.n) + '.', 'ok'); }
+  catch (e) { toast('Não salvou: ' + errMsg(e), 'err'); }
+  finally { if (S.ap) { S.ap.salvando = false; S.ap.respEd = false; } }
+  apRender();
+}
+async function apDesfazer(aid) {
+  if (!S.ap) return; const r = rncDe(S.ap.rid); if (!r || !apPodeCorrigir(r)) return;
+  const a = apAlts(r).find(y => y.id === aid); if (!a || a.desfeitaEm) return;
+  const ult = apAlts(r).filter(x => x.ncId === a.ncId && x.campo === a.campo && !x.desfeitaEm).slice(-1)[0]; if (!ult || ult.id !== a.id) return;
+  const ncs = (r.ncs || []).map(y => y.id === a.ncId ? Object.assign({}, y, a.de || {}) : y);
+  const alts = apAlts(r).map(y => y.id === a.id ? Object.assign({}, y, { desfeitaEm: nowISO(), desfPorId: S.user.id, desfPorNome: S.user.nome }) : y);
+  try {
+    await Data.col('sv2_rnc').update(r.id, { ncs: ncs, apresAlt: alts, atualizadoEm: nowISO() }); r.ncs = ncs; r.apresAlt = alts;
+    Audit.log({ acao: 'rnc_apres_desf', entidade: 'rnc', entidadeId: r.id, resumo: r.numero + ' · ' + rncNum(a.n) + ' · ' + (AP_CAMPOS[a.campo] || a.campo) + ': desfeita (volta "' + a.antes + '")' });
+    toast('Alteração desfeita.', 'ok');
+  } catch (e) { toast('Não desfez: ' + errMsg(e), 'err'); }
+  apRender();
+}
+function apSair() { if (!S.ap) return; const r = rncDe(S.ap.rid), ini = S.ap.ini, q = apAlts(r).filter(a => String(a.em) >= ini && !a.desfeitaEm).length; S.ap = null; if (r) Audit.log({ acao: 'rnc_apres_fim', entidade: 'rnc', entidadeId: r.id, resumo: r.numero + ': apresentação encerrada · ' + q + ' alteração(ões)' }); return q; }
+function apEncerrar() {
+  if (!S.ap) return; const rid = S.ap.rid, q = apSair();
+  renderView(); openRnc(rid);
+  toast('Apresentação encerrada' + (q ? ': ' + q + ' alteração(ões) gravada(s)' : '') + '. Quando estiver tudo certo, use Enviar RNC.', 'ok');
+}
+function apHistorico(rid) {
+  const r = rncDe(rid); if (!r) return; const l = apAlts(r).slice().reverse();
+  openSheet('<h3>Alterações na apresentação · ' + esc(r.numero) + '</h3><div class="sub">' + l.filter(a => !a.desfeitaEm).length + ' valendo · ' + l.filter(a => a.desfeitaEm).length + ' desfeita(s). O sinal ! marca o campo alterado.</div>' +
+    '<ol class="ap-hist">' + l.map(a => apAltLi(r, a, false)).join('') + '</ol><div class="row-actions"><button class="btn" data-action="rnc-open" data-id="' + esc(r.id) + '">Voltar</button></div>', { noFocus: true });
+}
+/* edição direta: grava ao sair do campo; Enter confirma; Esc desfaz o que foi digitado; colar entra só como texto */
+document.addEventListener('focusout', e => { const s = e.target && e.target.closest && e.target.closest('#ap-tela [data-apf][contenteditable]'); if (!s || !S.ap) return; if (s.dataset.cancela) { delete s.dataset.cancela; apRender(); return; } apSalvar(s.getAttribute('data-apf'), s.textContent); });
+document.addEventListener('paste', e => { const s = e.target && e.target.closest && e.target.closest('#ap-tela [contenteditable]'); if (!s) return; e.preventDefault(); const t = ((e.clipboardData && e.clipboardData.getData('text/plain')) || '').replace(/\s+/g, ' '); try { document.execCommand('insertText', false, t); } catch {} });
+document.addEventListener('change', e => { if (e.target && e.target.id === 'ap-resp' && S.ap) apSalvar('resp', e.target.value); });
+document.addEventListener('focusout', e => { if (!e.target || e.target.id !== 'ap-resp' || !S.ap) return; setTimeout(() => { if (S.ap && S.ap.respEd && !S.ap.salvando && document.activeElement !== $('#ap-resp')) { S.ap.respEd = false; apRender(); } }, 200); });
+document.addEventListener('click', e => {
+  if (!S.ap || !e.target || !e.target.closest) return;
+  const rs = e.target.closest('#ap-tela .apf.ed[data-apf="resp"]'); if (rs) { S.ap.respEd = true; apRender(); return; }
+  if (e.target.closest('[data-action]')) return;
+  const fg = e.target.closest('#ap-tela .ap-tri figure'); if (fg) { S.ap.foto = Number(fg.getAttribute('data-j')) || 0; S.ap.lb = !fg.closest('.ap-lb'); apRender(); }
+});
+window.addEventListener('keydown', e => {
+  if (!S.ap || !$('#ap-tela')) return;
+  const ed = e.target && e.target.closest && e.target.closest('#ap-tela [contenteditable]');
+  if (ed) { if (e.key === 'Enter') { e.preventDefault(); ed.blur(); } else if (e.key === 'Escape') { e.preventDefault(); e.stopImmediatePropagation(); ed.dataset.cancela = '1'; ed.blur(); } return; }
+  if (e.target && e.target.id === 'ap-resp') { if (e.key === 'Escape') { e.preventDefault(); e.stopImmediatePropagation(); S.ap.respEd = false; apRender(); } return; }
+  if (e.key === 'Escape' && (S.ap.lb || S.ap.gav)) { e.preventDefault(); e.stopImmediatePropagation(); S.ap.lb = false; S.ap.gav = false; apRender(); return; }
+  if (e.key === 'ArrowRight') { e.preventDefault(); apFoto(1); } else if (e.key === 'ArrowLeft') { e.preventDefault(); apFoto(-1); }
+  else if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); apIrNc(1); } else if (e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); apIrNc(-1); }
+}, true);
+window.addEventListener('resize', () => { if (S.ap) $$('#ap-tela .ap-tri').forEach(t => { t.scrollLeft = S.ap.foto * t.clientWidth; }); });
 /* ---------- 1 · abrir ---------- */
 function openRncNova() {
   if (!isSup(S.user)) return;
@@ -15828,6 +16044,17 @@ function rncAcao(act, id, t) {
     case 'rnc-prorrogar': openRncMotivo(id, 'prorrogar'); return true;
     case 'rnc-cancelar': openRncMotivo(id, 'cancelar'); return true;
     case 'rnc-excluir': openRncExcluir(id); return true; /* v2.102.42 */
+    case 'rnc-ap-abrir': apAbrir(id); return true; /* v2.102.43: modo Apresentação */
+    case 'rnc-ap-iniciar': { const s = $('#ap-corr'); apIniciar(id, s ? s.value : null); return true; }
+    case 'rnc-ap-nc': apIrNc(Number(id)); return true;
+    case 'rnc-ap-foto': apFoto(Number(id)); return true;
+    case 'rnc-ap-st': apSalvar('st'); return true;
+    case 'rnc-ap-gav': if (S.ap) { S.ap.gav = true; apRender(); } return true;
+    case 'rnc-ap-gav-x': if (S.ap) { S.ap.gav = false; apRender(); } return true;
+    case 'rnc-ap-lb-x': if (S.ap) { S.ap.lb = false; apRender(); } return true;
+    case 'rnc-ap-desf': apDesfazer(id); return true;
+    case 'rnc-ap-fim': apEncerrar(); return true;
+    case 'rnc-ap-hist': apHistorico(id); return true;
     case 'rnc-lixo': openRncLixeira(); return true;
     case 'rnc-restaurar': rncRestaurar(id); return true;
   }
