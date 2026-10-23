@@ -1177,7 +1177,9 @@ button.rel-li:last-child{border-bottom:0}
 .foto-mk{position:absolute;left:3px;bottom:3px;display:inline-flex;align-items:center;gap:3px;height:22px;padding:0 7px;border-radius:var(--r-ctl);border:0;background:rgba(0,0,0,.66);color:#fff;font:700 11px/22px inherit;cursor:pointer}
 .foto-mk .ic-i{width:12px;height:12px}
 .alf-th,.rnc-th{position:relative}
-.lsug{position:relative}.lsug-l{border:1px solid var(--border);border-top:0;background:var(--surface);max-height:232px;overflow:auto}.lsug-i{display:flex;align-items:center;gap:8px;width:100%;min-height:40px;padding:8px 12px;border:0;border-bottom:1px solid var(--border);background:transparent;color:var(--text);font:inherit;text-align:left;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:pan-y}.lsug-i:last-child{border-bottom:0}.lsug-i:hover{background:var(--surface-2)}.lsug-vz{padding:10px 12px;font-size:12.5px;color:var(--text-muted)}.lsug-lixo{position:fixed;left:0;right:0;bottom:0;z-index:9999;display:flex;align-items:center;justify-content:center;gap:10px;min-height:76px;padding-bottom:env(safe-area-inset-bottom,0px);background:var(--surface);border-top:2px dashed var(--crit);color:var(--crit);font-size:14px;font-weight:700}.lsug-lixo .ic-i{width:26px;height:26px}.lsug-lixo.on{background:var(--crit);color:#fff}.lsug-i.arr{opacity:.35}.lsug-fan{position:fixed;z-index:10000;display:flex;align-items:center;padding:0 12px;background:var(--surface-3);border:1px solid var(--primary);box-shadow:0 8px 20px rgba(0,0,0,.35);color:var(--text);pointer-events:none}.lsug-rest{margin-top:6px} /* v2.102.41 (Nº 40): Local com sugestões */
+.lsug{position:relative}.lsug-l{border:1px solid var(--border);border-top:0;background:var(--surface);max-height:232px;overflow:auto}.lsug-i{display:flex;align-items:center;gap:8px;width:100%;min-height:40px;padding:8px 12px;border:0;border-bottom:1px solid var(--border);background:transparent;color:var(--text);font:inherit;text-align:left;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:pan-y}.lsug-i:last-child{border-bottom:0}.lsug-i:hover{background:var(--surface-2)}.lsug-vz{padding:10px 12px;font-size:12.5px;color:var(--text-muted)}.lsug-lixo{position:fixed;left:0;right:0;bottom:0;z-index:9999;display:flex;align-items:center;justify-content:center;gap:10px;min-height:76px;padding-bottom:env(safe-area-inset-bottom,0px);background:var(--surface);border-top:2px dashed var(--crit);color:var(--crit);font-size:14px;font-weight:700}.lsug-lixo .ic-i{width:26px;height:26px}.lsug-lixo.on{background:var(--crit);color:#fff}.lsug-i.arr{opacity:.35}.lsug-fan{position:fixed;z-index:10000;display:flex;align-items:center;padding:0 12px;background:var(--surface-3);border:1px solid var(--primary);box-shadow:0 8px 20px rgba(0,0,0,.35);color:var(--text);pointer-events:none}/* v2.102.41 (Nº 40): Local com sugestões; v2.102.45: sem o botão Mostrar as apagadas */
+/* v2.102.45: a lista de sugestões flutua embaixo (ou em cima) do campo, para servir a qualquer campo sem mexer no layout */
+.sug-pop{position:fixed;z-index:9998;border-top:1px solid var(--border);box-shadow:0 8px 20px rgba(0,0,0,.25);min-width:180px}
 .nc-orig{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.ap-card .ap-img .ic-i{width:30px;height:30px} /* v2.102.41: origem na aba Não conformidades */
 .rfg .rnc-th{padding:0;cursor:pointer}.rfg-p{position:absolute;left:4px;bottom:4px;background:rgba(0,0,0,.66);color:#fff;font-size:10.5px;font-weight:700;padding:1px 5px;border-radius:2px}.rfv{background:#111;border:1px solid var(--border);display:flex;justify-content:center;margin:6px 0}.rfv img{max-width:100%;max-height:62vh;object-fit:contain;display:block} /* v2.102.40: fotos da RNC */
 .eq-fi{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -3092,7 +3094,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.44 · Corresponsáveis nas NCs da auditoria interna; filtro e impressão por pessoa nas Não conformidades';
+const APP_VERSION = 'v2.102.45 · Todas as listas salvas no formato do Local da RNC (sugestões e lixeira para apagar da lista)';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -3230,7 +3232,7 @@ function openMeuPerfil() {
   openSheet('<h3>Meu perfil</h3><div class="sub">' + esc(perfilLabel(u)) + '</div><div id="mp-msg"></div>' +
     '<div class="mp-foto">' + avatarHTML(u, 96) + '<div class="mp-foto-bt"><label class="btn sm" for="mp-file">' + ((S.avatars || {})[u.id] ? 'Trocar foto' : 'Pôr foto') + '</label><input type="file" id="mp-file" accept="image/*" hidden>' +
     ((S.avatars || {})[u.id] ? '<button class="btn sm" data-action="mp-foto-rm">Remover foto</button>' : '') + '<small>A foto é reduzida no aparelho. Ao trocar ou remover, a anterior é eliminada (não fica histórico).</small></div></div>' +
-    '<div class="field"><label>Cargo / função</label><input class="input" id="mp-cargo" value="' + esc(u.cargo || '') + '" list="mp-cargos" autocomplete="off" placeholder="Ex.: Técnico de laboratório" maxlength="60"><datalist id="mp-cargos">' + cargos.map(c => '<option value="' + esc(c) + '">').join('') + '</datalist></div>' +
+    '<div class="field"><label>Cargo / função</label><input class="input" id="mp-cargo" value="' + esc(u.cargo || '') + '" data-sug="mp-cargos" autocomplete="off" placeholder="Ex.: Técnico de laboratório" maxlength="60"><datalist id="mp-cargos">' + cargos.map(c => '<option value="' + esc(c) + '">').join('') + '</datalist></div>' +
     '<div class="sec">Status</div><div class="seg3" id="mp-st">' + STATUS_PESSOA.map(x => '<button type="button" class="btn sm' + (statusDe(u) === x.id ? ' on primary' : '') + '" data-action="mp-st" data-id="' + x.id + '">' + esc(x.nome) + '</button>').join('') + '</div>' +
     '<p style="color:var(--text-muted);font-size:12.5px">Quando você está "Ausente / férias", os pedidos de quem responde a você também vão para o Principal.</p>' +
     '<div class="row-actions"><button class="btn" data-action="gear">Voltar</button><button class="btn primary" data-action="mp-save">Salvar</button></div>', { noFocus: true });
@@ -4661,8 +4663,8 @@ function openDocEdit(id) {
     '<div class="field"><label>Código</label><input class="input" id="de-cod" value="' + esc(d.codigo) + '" placeholder="Ex.: FOR 0062 (ou N/A)"></div>' +
     '<div class="field"><label>Título</label><input class="input" id="de-tit" value="' + esc(d.titulo) + '"></div>' +
     '<div class="field"><label>Tipo</label><select class="input" id="de-tipo"><option value="FORMULARIO"' + (d.tipo !== 'REGULATORIO' ? ' selected' : '') + '>Formulário</option><option value="REGULATORIO"' + (d.tipo === 'REGULATORIO' ? ' selected' : '') + '>Regulatório</option></select></div>' +
-    '<div class="field"><label>Setor</label><input class="input" id="de-setor" list="dl-setor" value="' + esc(d.setor) + '" autocomplete="off">' + sugestoes('dl-setor', S.docs.map(x => x.setor)) + '</div>' +
-    '<div class="field"><label>Responsável</label><input class="input" id="de-resp" list="dl-resp" value="' + esc(d.responsavel) + '" autocomplete="off">' + sugestoes('dl-resp', S.docs.map(x => x.responsavel)) + '</div>' +
+    '<div class="field"><label>Setor</label><input class="input" id="de-setor" data-sug="dl-setor" value="' + esc(d.setor) + '" autocomplete="off">' + sugestoes('dl-setor', S.docs.map(x => x.setor)) + '</div>' +
+    '<div class="field"><label>Responsável</label><input class="input" id="de-resp" data-sug="dl-resp" value="' + esc(d.responsavel) + '" autocomplete="off">' + sugestoes('dl-resp', S.docs.map(x => x.responsavel)) + '</div>' +
     '<div class="field"><label>Período</label><select class="input" id="de-per">' + opcoes(PERIODOS, d.periodo) + '</select></div>' +
     '<div class="field"><label>Validade (opcional, só para regulatório)</label><input class="input" type="date" id="de-venc" value="' + esc(d.vencimento || '') + '"><div style="font-size:12px;color:var(--text-muted);margin-top:4px">Se preencher, o vencimento passa a ser esta data (a do papel), em vez de "último + período".</div></div>' +
     '<div class="row-actions"><button class="btn" data-action="' + (id ? 'doc-open' : 'close') + '" data-id="' + esc(id || '') + '">' + (id ? 'Voltar' : 'Cancelar') + '</button><button class="btn primary" data-action="doc-save" data-id="' + esc(id || '') + '">Salvar</button></div>');
@@ -4695,7 +4697,7 @@ function openCaixaEdit(id) {
   openSheet('<h3>' + (id ? 'Editar caixa' : 'Nova caixa') + '</h3><div class="sub">A periodicidade de limpeza é de cada caixa.</div><div id="ce-msg"></div>' +
     '<div class="field"><label>Número da caixa</label><input class="input" id="ce-tag" value="' + esc(c.tag) + '" placeholder="Ex.: CXR36"></div>' +
     '<div class="field"><label>Água</label><select class="input" id="ce-tipo">' + opcoes(['Potável', 'Bruta'], c.tipo) + '</select></div>' +
-    '<div class="field"><label>Local</label><input class="input" id="ce-local" list="dl-local" value="' + esc(c.local) + '" autocomplete="off">' + sugestoes('dl-local', S.caixas.map(x => x.local)) + '</div>' +
+    '<div class="field"><label>Local</label><input class="input" id="ce-local" data-sug="dl-local" value="' + esc(c.local) + '" autocomplete="off">' + sugestoes('dl-local', S.caixas.map(x => x.local)) + '</div>' +
     '<div class="field"><label>Periodicidade da limpeza</label><select class="input" id="ce-per">' + opcoes(PERIODOS, c.periodo) + '</select></div>' +
     '<div class="row-actions"><button class="btn" data-action="' + (id ? 'cx-open' : 'close') + '" data-id="' + esc(id || '') + '">' + (id ? 'Voltar' : 'Cancelar') + '</button><button class="btn primary" data-action="cx-save" data-id="' + esc(id || '') + '">Salvar</button></div>');
 }
@@ -5692,7 +5694,7 @@ function openCloroNew(pre) {
   const agora = new Date(), passo = (n, t) => '<div class="fm-step"><i>' + n + '</i>' + t + '</div>';
   openSheet('<h3>Verificação de cloro</h3><div class="sub">' + fmtD(hojeISO()) + ' · ' + pad(agora.getHours()) + ':' + pad(agora.getMinutes()) + ' · ' + esc(S.user.nome) + '</div><div id="cv-msg"></div><div class="fm">' +
     passo(1, 'Ponto') + '<button type="button" class="fm-pick vazio" id="cv-ponto-bt" data-action="cl-pick">' + clPickBtnHTML('') + '</button><select class="input" id="cv-ponto" hidden tabindex="-1" aria-hidden="true">' + opt + '</select>' +
-    '<div id="cv-novo" hidden><div class="fm-row"><input class="input" id="cv-ncod" placeholder="Código (ex.: BR 07)" autocomplete="off" enterkeyhint="next"><input class="input" id="cv-nloc" list="dl-cl-loc" placeholder="Local" autocomplete="off" enterkeyhint="next">' + sugestoes('dl-cl-loc', S.bebs.map(b => b.local).concat(S.caixas.map(c => c.local))) + '</div>' +
+    '<div id="cv-novo" hidden><div class="fm-row"><input class="input" id="cv-ncod" placeholder="Código (ex.: BR 07)" autocomplete="off" enterkeyhint="next"><input class="input" id="cv-nloc" data-sug="dl-cl-loc" placeholder="Local" autocomplete="off" enterkeyhint="next">' + sugestoes('dl-cl-loc', S.bebs.map(b => b.local).concat(S.caixas.map(c => c.local))) + '</div>' +
     '<div class="fm-nota">' + (podeCadastrar(S.user) ? 'Entra ativo, com o seu nome.' : 'Fica pendente até o seu superior aprovar.') + '</div></div>' +
     passo(2, 'Resultado') + '<div class="fm-val"><input class="input" id="cv-valor" inputmode="decimal" placeholder="0,00" autocomplete="off" enterkeyhint="next"><span class="fm-un">ppm</span><span id="cv-prev"></span></div>' +
     '<div id="clf-slot">' + passo(3, 'Foto') + clFotoBlocoHTML() + '</div>' +
@@ -5949,7 +5951,7 @@ function openBebEdit(id) {
   const sits = sup ? ['ativo', 'manutencao', 'sem_verificacao'] : [];
   openSheet('<h3>' + (id ? 'Editar ' + esc(b.codigo) : 'Novo bebedouro') + '</h3><div class="sub">Tudo fica registrado na auditoria.</div><div id="be-msg"></div>' +
     '<div class="field"><label>Código</label><input class="input" id="be-cod" value="' + esc(b.codigo) + '" placeholder="Ex.: BR 07" autocomplete="off"></div>' +
-    '<div class="field"><label>Local</label><input class="input" id="be-loc" list="dl-be-loc" value="' + esc(b.local) + '" autocomplete="off">' + sugestoes('dl-be-loc', S.bebs.map(x => x.local).concat(S.caixas.map(c => c.local))) + '</div>' +
+    '<div class="field"><label>Local</label><input class="input" id="be-loc" data-sug="dl-be-loc" value="' + esc(b.local) + '" autocomplete="off">' + sugestoes('dl-be-loc', S.bebs.map(x => x.local).concat(S.caixas.map(c => c.local))) + '</div>' +
     (sup ? '<div class="field"><label>Situação</label><select class="input" id="be-sit">' + sits.map(s => '<option value="' + s + '"' + (b.situacao === s || (s === 'ativo' && (b.situacao === 'pendente' || b.situacao === 'recusado')) ? ' selected' : '') + '>' + SIT_BEB[s] + '</option>').join('') + '</select></div>' : '') +
     '<div class="field"><label>Descrição (opcional)</label><input class="input" id="be-desc" value="' + esc(b.descricao || '') + '" placeholder="Ex.: gelágua" autocomplete="off"></div>' +
     '<div class="row-actions"><button class="btn" data-action="' + (id ? 'beb-open' : 'beb-list') + '" data-id="' + esc(id || '') + '">Voltar</button><button class="btn primary" data-action="beb-save" data-id="' + esc(id || '') + '">Salvar</button></div>');
@@ -6175,8 +6177,8 @@ function openTalEdit(id) {
     '<div class="te-g"><div class="field"><label>Código</label><input class="input" id="te-cod" value="' + esc(t.codigo) + '" autocomplete="off"></div>' +
     '<div class="field"><label>Pivô</label><input class="input" id="te-piv" value="' + esc(t.pivo || '') + '" autocomplete="off"></div>' +
     '<div class="field"><label>Hectares</label><input class="input" id="te-ha" inputmode="decimal" value="' + esc(String(t.hectares).replace('.', ',')) + '" autocomplete="off"></div>' +
-    '<div class="field"><label>Cultura</label><input class="input" id="te-cul" list="dl-cul" value="' + esc(t.cultura || '') + '" autocomplete="off">' + sugestoes('dl-cul', S.talhoes.map(x => x.cultura)) + '</div>' +
-    '<div class="field"><label>Variedade</label><input class="input" id="te-var" list="dl-var" value="' + esc(t.variedade || '') + '" autocomplete="off">' + sugestoes('dl-var', S.talhoes.map(x => x.variedade)) + '</div></div>' +
+    '<div class="field"><label>Cultura</label><input class="input" id="te-cul" data-sug="dl-cul" value="' + esc(t.cultura || '') + '" autocomplete="off">' + sugestoes('dl-cul', S.talhoes.map(x => x.cultura)) + '</div>' +
+    '<div class="field"><label>Variedade</label><input class="input" id="te-var" data-sug="dl-var" value="' + esc(t.variedade || '') + '" autocomplete="off">' + sugestoes('dl-var', S.talhoes.map(x => x.variedade)) + '</div></div>' +
     '<div class="sec">Pontos por hectare (em branco = padrão do tipo)</div><div class="te-g3">' +
     '<div class="field"><label>Solo e Solo + Raiz</label><input class="input" id="te-ps" inputmode="numeric" value="' + esc(t.ptsSolo || '') + '" placeholder="padrão"></div>' +
     '<div class="field"><label>Folha</label><input class="input" id="te-pf" inputmode="numeric" value="' + esc(t.ptsFolha || '') + '" placeholder="padrão"></div>' +
@@ -7172,7 +7174,7 @@ function openColetado(ids) {
     passo(1, 'Áreas', sel.length ? 'As áreas que você marcou. Desmarque o que não veio; para pôr outra área, toque em "+ Adicionar".' : 'Marque as que chegaram juntas: mesmo dia, mesmos coletores.') +
       '<div id="cd-lista">' + cdListaHTML() + '</div>' +
     passo(2, 'Quando e quem', 'Pode lançar com data de dias atrás (amostras que ficaram guardadas).') +
-      '<div class="fm-row"><div>' + L('Data da coleta') + '<input class="input" type="date" id="cd-data" value="' + (fimRz || hojeISO()) + '" max="' + hojeISO() + '"></div><div>' + L('Coletores') + '<input class="input" id="cd-col" list="dl-cd-col" value="' + esc(colPre) + '" autocomplete="off">' + sugestoes('dl-cd-col', eqs.concat(S.users.map(u => u.nome))) + '</div></div>' +
+      '<div class="fm-row"><div>' + L('Data da coleta') + '<input class="input" type="date" id="cd-data" value="' + (fimRz || hojeISO()) + '" max="' + hojeISO() + '"></div><div>' + L('Coletores') + '<input class="input" id="cd-col" data-sug="dl-cd-col" value="' + esc(colPre) + '" autocomplete="off">' + sugestoes('dl-cd-col', eqs.concat(S.users.map(u => u.nome))) + '</div></div>' +
       (eqs.length ? '<div class="ap-chips cd-eqs">' + eqs.map(q => '<button type="button" class="ap-b' + (q === colPre ? ' on' : '') + '" data-action="cd-eq" data-id="' + esc(q) + '">' + esc(q) + '</button>').join('') + '</div>' : '') +
     passo(3, 'Campo') + '<div class="fm-row">' + (tiposProf.length ? '<div id="cd-prof-w"' + (sel.length && !sel.some(p => pgPedeProf(p.tipo)) ? ' hidden' : '') + '>' + L('Profundidade (solo e raiz)') + profSelHTML('cd-prof', profs, comum('prof')) + '</div>' : '') +
       '<div id="cd-est-w">' + L('Estádio') + '<input class="input" id="cd-est" list="dl-cd-est" value="' + esc(estPre) + '" autocomplete="off">' + sugestoes('dl-cd-est', ['FLORAÇÃO', 'FRUTIFICAÇÃO', 'VEGETATIVO', 'POUSIO']) + '</div></div>' +
@@ -7657,13 +7659,13 @@ function openColNew(tipo, id) {
     : '<div class="fm-dica">Cada análise marcada vira uma linha, com a sua etiqueta.</div><div class="fl-list" style="max-height:none">' + ans.map((a, i) => '<label class="fl-item"><input type="checkbox" class="cn-an" value="' + esc(a.id) + '"' + (i === 0 || tipo === 'COMPOSTO' ? ' checked' : '') + '><span>' + esc(a.nome) + (a.sigla ? ' (' + esc(a.sigla) + ')' : '') + '</span><span class="n">' + esc(a.lab || '—') + '</span></label>').join('') + '</div>';
   const talSel = semTal ? '' : '<button type="button" class="fm-pick vazio" id="cn-tal-bt" data-action="cn-tal-pick"></button><select class="input" id="cn-tal" data-tipo="' + esc(tipo) + '" hidden tabindex="-1" aria-hidden="true"><option value="">Escolha…</option>' + tal.map(t => '<option' + (t.codigo === c.talhao ? ' selected' : '') + '>' + esc(t.codigo) + '</option>').join('') + (fr ? '<option value="__outro"' + (outro ? ' selected' : '') + '>Outro local</option>' : '') + '</select>';
   const outroHTML = fr ? '<div id="cn-outro-w"' + (outro ? '' : ' hidden') + '>' + L('Nome do local') + '<input class="input" id="cn-outro" value="' + esc(outro ? c.talhao : '') + '" placeholder="Ex.: QUADRANTE 03-04" autocomplete="off" enterkeyhint="next">' +
-    '<div class="fm-row"><div>' + L('Cultura') + '<input class="input" id="cn-cult" list="dl-cul2" value="' + esc(c.cultura || '') + '" autocomplete="off" enterkeyhint="next">' + sugestoes('dl-cul2', S.talhoes.map(t => t.cultura)) + '</div>' +
-    '<div>' + L('Variedade') + '<input class="input" id="cn-var" list="dl-var2" value="' + esc(c.variedade || '') + '" autocomplete="off" enterkeyhint="next">' + sugestoes('dl-var2', S.talhoes.map(t => t.variedade)) + '</div></div></div>' : '';
+    '<div class="fm-row"><div>' + L('Cultura') + '<input class="input" id="cn-cult" data-sug="dl-cul2" value="' + esc(c.cultura || '') + '" autocomplete="off" enterkeyhint="next">' + sugestoes('dl-cul2', S.talhoes.map(t => t.cultura)) + '</div>' +
+    '<div>' + L('Variedade') + '<input class="input" id="cn-var" data-sug="dl-var2" value="' + esc(c.variedade || '') + '" autocomplete="off" enterkeyhint="next">' + sugestoes('dl-var2', S.talhoes.map(t => t.variedade)) + '</div></div></div>' : '';
   openSheet('<h3>' + (id ? 'Editar coleta' : colAv ? 'Coleta avulsa' : 'Nova coleta') + ' · ' + esc(TIPO_ANALISE_TXT[tipo]) + '</h3><div class="sub">' + (id ? (colCorrModo(c) ? '' : 'Fica registrado com antes e depois.') : fmtD(hojeISO()) + ' · ' + esc(S.user.nome)) + '</div><div id="cn-msg"></div>' + (id && colCorrModo(c) ? colAvisoCorr(c) : '') + '<div class="fm">' +
     passo(semTal ? 'Data' : 'Data e local') + L('Data da coleta') + '<input class="input" type="date" id="cn-data" value="' + esc(c.data) + '" max="' + hojeISO() + '">' + (semTal ? '' : L(fr ? 'Talhão / local' : 'Talhão') + talSel + outroHTML) +
     passo(id ? 'Análise' : 'Análises') + anHTML +
     passo('Coleta') + '<div class="fm-row"><div>' + L('Laboratório') + '<select class="input" id="cn-lab"><option value="">' + (id ? '—' : 'O de cada análise') + '</option>' + opcoes(cfgCol().labs, id ? c.lab : '') + '</select></div>' +
-      '<div>' + L('Coletor') + '<input class="input" id="cn-col" list="dl-coletor2" value="' + esc(c.coletor || '') + '" autocomplete="off" enterkeyhint="next">' + sugestoes('dl-coletor2', S.coletas.map(x => x.coletor).concat(S.users.map(u => u.nome))) + '</div></div>' +
+      '<div>' + L('Coletor') + '<input class="input" id="cn-col" data-sug="dl-coletor2" value="' + esc(c.coletor || '') + '" autocomplete="off" enterkeyhint="next">' + sugestoes('dl-coletor2', S.coletas.map(x => x.coletor).concat(S.users.map(u => u.nome))) + '</div></div>' +
       (comProf || comEst ? '<div class="fm-row">' + (comProf ? '<div>' + L('Profundidade') + profSelHTML('cn-prof', profs, c.prof || '') + '</div>' : '') +
         (comEst ? '<div>' + L('Estádio fenológico') + '<input class="input" id="cn-est" list="dl-est2" value="' + esc(c.estadio || '') + '" autocomplete="off" enterkeyhint="next">' + sugestoes('dl-est2', ['FLORAÇÃO', 'FRUTIFICAÇÃO', 'VEGETATIVO', 'POUSIO']) + '</div>' : '') + '</div>' : '') +
       camposExtras(tipo, c) +
@@ -10600,7 +10602,7 @@ function openApNC(id) {
   const a = S.apont.find(x => x.id === id); if (!a || !apSoSup()) return;
   const nomes = S.users.filter(u => !u.bloqueado).map(u => u.nome);
   openSheet('<h3>Abrir não conformidade</h3><div class="sub">' + esc(apCat(a.categoria).nome + ' · ' + a.setor) + '</div><div id="ap-msg"></div>' +
-    '<div class="field"><label>Responsável</label><input class="input" id="nc-resp" list="dl-nc-resp" autocomplete="off" placeholder="Quem vai resolver">' + sugestoes('dl-nc-resp', nomes) + '</div>' +
+    '<div class="field"><label>Responsável</label><input class="input" id="nc-resp" data-sug="dl-nc-resp" autocomplete="off" placeholder="Quem vai resolver">' + sugestoes('dl-nc-resp', nomes) + '</div>' +
     '<div class="field"><label>Prazo</label><input class="input" id="nc-prazo" type="date" value="' + addDias(hojeISO(), 7) + '"></div>' +
     '<div class="field"><label>Ação corretiva</label><textarea class="input" id="nc-acao" rows="3" placeholder="O que vai ser feito para não acontecer de novo"></textarea></div>' +
     '<div class="ap-foot">' + apVoltarBtn(id) + '<button class="btn primary" data-action="ap-nc-ok" data-id="' + esc(id) + '">Abrir NC</button></div>', { noFocus: true });
@@ -11581,7 +11583,7 @@ function openAlMovCorr(id) {
   const sai = m.tipo === 'saida';
   openSheet('<h3>Corrigir ' + (sai ? 'saída' : 'entrada') + '</h3><div class="sub">' + esc(m.itemNome) + ' · o valor antigo fica guardado no histórico</div><div id="al-msg"></div>' +
     '<div class="field"><label>Quantidade</label><input class="input" id="al-c-q" inputmode="decimal" autocomplete="off" value="' + esc(alQ(m.qtd).replace(/\./g, '')) + '"></div>' +
-    (sai ? '<div class="field"><label>Motivo da saída</label><input class="input" id="al-c-mot" autocomplete="off" value="' + esc(m.motivo) + '" list="al-mot-list"><datalist id="al-mot-list">' + alCfg().motivos.map(x => '<option value="' + esc(x) + '">').join('') + '</datalist></div>'
+    (sai ? '<div class="field"><label>Motivo da saída</label><input class="input" id="al-c-mot" autocomplete="off" value="' + esc(m.motivo) + '" data-sug="al-mot-list"><datalist id="al-mot-list">' + alCfg().motivos.map(x => '<option value="' + esc(x) + '">').join('') + '</datalist></div>'
       : '<div class="field"><label>Lote</label><input class="input" id="al-c-lote" autocomplete="off" value="' + esc(m.lote) + '"></div><div class="field"><label>Validade</label><input class="input" type="date" id="al-c-val" value="' + esc(m.validade) + '"></div><div class="field"><label>Valor unitário R$</label><input class="input" id="al-c-preco" inputmode="decimal" autocomplete="off" value="' + esc(String(m.preco || '').replace('.', ',')) + '"></div><div class="field"><label>Nº do documento</label><input class="input" id="al-c-doc" autocomplete="off" value="' + esc(m.doc || '') + '"></div>') +
     '<div class="field"><label>Por que está corrigindo?</label><textarea class="input" id="al-mot-g" rows="2"></textarea></div>' +
     '<div class="row-actions"><button class="btn" data-action="close">Voltar</button><button class="btn primary" data-action="al-mov-corr-ok" data-id="' + esc(m.id) + '">Corrigir</button></div>', { noFocus: true });
@@ -11807,7 +11809,7 @@ function openAlCfg() {
 }
 function alKitsEdHTML() {
   const itens = alAtivos();
-  return '<datalist id="al-ke-labs">' + Object.keys(alLabsConhecidos()).map(k => '<option value="' + esc(alLabsConhecidos()[k]) + '">').join('') + '</datalist>' + S.alKitsEd.map((k, n) => '<div class="al-kit-ed"><div class="al-cf-g"><div class="field"><label>Nome do kit</label><input class="input" id="al-ke-nome-' + n + '" value="' + esc(k.nome) + '" autocomplete="off"></div><div class="field"><label>Motivo</label><input class="input" id="al-ke-mot-' + n + '" value="' + esc(k.motivo || '') + '" autocomplete="off"></div><div class="field"><label>Laboratório (para onde vai)</label><input class="input" id="al-ke-lab-' + n + '" value="' + esc(k.lab || alLabDaSaida({ kit: '', motivo: (k.nome || '') + ' ' + (k.motivo || '') })) + '" list="al-ke-labs" autocomplete="off" placeholder="Ex.: IBRA"></div></div>' +
+  return '<datalist id="al-ke-labs">' + Object.keys(alLabsConhecidos()).map(k => '<option value="' + esc(alLabsConhecidos()[k]) + '">').join('') + '</datalist>' + S.alKitsEd.map((k, n) => '<div class="al-kit-ed"><div class="al-cf-g"><div class="field"><label>Nome do kit</label><input class="input" id="al-ke-nome-' + n + '" value="' + esc(k.nome) + '" autocomplete="off"></div><div class="field"><label>Motivo</label><input class="input" id="al-ke-mot-' + n + '" value="' + esc(k.motivo || '') + '" autocomplete="off"></div><div class="field"><label>Laboratório (para onde vai)</label><input class="input" id="al-ke-lab-' + n + '" value="' + esc(k.lab || alLabDaSaida({ kit: '', motivo: (k.nome || '') + ' ' + (k.motivo || '') })) + '" data-sug="al-ke-labs" autocomplete="off" placeholder="Ex.: IBRA"></div></div>' +
     k.itens.map((x, j) => '<div class="al-kl"><select class="input" id="al-ke-i-' + n + '-' + j + '">' + itens.map(i => '<option value="' + esc(i.id) + '"' + (i.id === x.itemId ? ' selected' : '') + '>' + esc(i.nome) + '</option>').join('') + '</select><input class="input" id="al-ke-q-' + n + '-' + j + '" value="' + esc(alQ(x.qtd)) + '" inputmode="decimal" style="max-width:80px;text-align:center" autocomplete="off"><button type="button" class="al-x" data-action="al-ke-irm" data-id="' + n + '-' + j + '" aria-label="Tirar">✕</button></div>').join('') +
     '<div class="seg3" style="margin-top:6px"><button type="button" class="btn sm" data-action="al-ke-iadd" data-id="' + n + '">+ Item</button><button type="button" class="btn sm" data-action="al-ke-rm" data-id="' + n + '">Excluir kit</button></div></div>').join('') || '<p style="color:var(--text-muted);font-size:13px">Nenhum kit.</p>';
 }
@@ -13880,7 +13882,7 @@ function openLancNew(tipo, id) {
   openSheet('<h3>' + (tipo === 'caixa' ? 'Lançar limpeza' : 'Lançar entrega') + '</h3><div class="sub">' + esc(nomeAlvo(tipo, it)) + (doc ? ' · ' + stChip(s.st) : '') + '</div><div id="ln-msg"></div>' +
     (doc ? '<div class="ln-info"><span>Último no app: <b>' + (s.ultimo ? fmtD(s.ultimo) : '—') + '</b></span><span>' + esc(it.periodo || '') + '</span>' + (s.prox ? '<span>Vencia em <b>' + fmtD(s.prox) + '</b></span>' : '') + '</div>' : '') +
     '<div class="field"><label>' + (tipo === 'caixa' ? 'Data da limpeza' : 'Data do último preenchimento') + '</label><input class="input" type="date" id="ln-data" value="' + (doc ? '' : hojeISO()) + '" max="' + hojeISO() + '">' + (doc ? '<div class="fm-dica">É a data que está no papel. O próximo vencimento conta a partir dela.</div>' : '') + '</div>' +
-    (doc ? '<div class="field"><label>Quem entregou</label><input class="input" id="ln-quem" list="ln-quem-l" autocomplete="off" value="' + esc(quem) + '" placeholder="Nome de quem trouxe o documento"><datalist id="ln-quem-l">' + lancQuemLista().map(n => '<option value="' + esc(n) + '">').join('') + '</datalist></div>' +
+    (doc ? '<div class="field"><label>Quem entregou</label><input class="input" id="ln-quem" data-sug="ln-quem-l" autocomplete="off" value="' + esc(quem) + '" placeholder="Nome de quem trouxe o documento"><datalist id="ln-quem-l">' + lancQuemLista().map(n => '<option value="' + esc(n) + '">').join('') + '</datalist></div>' +
       '<div class="ln-auto">' + icoI('ampulheta') + '<span>Entregue em <b>' + fmtD(hojeISO()) + ' às ' + pad(agora.getHours()) + ':' + pad(agora.getMinutes()) + '</b><small>entra sozinho, com o seu nome (' + esc(S.user.nome) + ')</small></span></div>' : '') +
     '<div class="field"><label>Observação (opcional)</label><textarea class="input" id="ln-obs"></textarea></div>' +
     (doc && it.tipo === 'REGULATORIO' && it.vencimento ? (podeCadastrar(S.user)
@@ -14431,7 +14433,7 @@ function openRncNova() {
   const us = S.users.filter(u => !u.bloqueado && u.perfil !== 'visitante');
   const L = t => '<label class="fm-l">' + t + '</label>', passo = (n, t) => '<div class="fm-step"><i>' + n + '</i>' + t + '</div>';
   openSheet('<h3>Nova auditoria interna</h3><div class="sub">' + rncNovoNumero() + ' · passo 1 de 5 · depois você registra as não conformidades uma por uma.</div><div id="ap-msg"></div><div class="fm">' +
-    passo(1, 'Que auditoria') + L('Tipo (escolha ou escreva)') + '<input class="input" id="rn-tipo" list="rn-tipo-l" autocomplete="off" placeholder="Ex.: Global G.A.P."><datalist id="rn-tipo-l">' + rncTiposSug().map(x => '<option value="' + esc(x) + '">').join('') + '</datalist>' + nrmRncCampo() + /* v2.70.0 */
+    passo(1, 'Que auditoria') + L('Tipo (escolha ou escreva)') + '<input class="input" id="rn-tipo" data-sug="rn-tipo-l" autocomplete="off" placeholder="Ex.: Global G.A.P."><datalist id="rn-tipo-l">' + rncTiposSug().map(x => '<option value="' + esc(x) + '">').join('') + '</datalist>' + nrmRncCampo() + /* v2.70.0 */
     L('Preparação para (opcional)') + '<input class="input" id="rn-prep" autocomplete="off" placeholder="Ex.: auditoria externa Global G.A.P. em 20/10/2026">' +
     passo(2, 'Quem audita') + '<div class="fm-row"><div>' + L('Auditor') + '<select class="input" id="rn-aud">' + us.map(u => '<option value="' + esc(u.id) + '"' + (u.id === S.user.id ? ' selected' : '') + '>' + esc(u.nome) + '</option>').join('') + '<option value="__outro">Outra pessoa (escrever)</option></select><input class="input" id="rn-aud-o" placeholder="Nome do auditor" autocomplete="off" hidden style="margin-top:6px"></div><div>' + L('Acompanhado por (opcional)') + '<input class="input" id="rn-acomp" autocomplete="off"></div></div>' +
     passo(3, 'Quando') + '<div class="fm-row"><div>' + L('Data da auditoria') + '<input class="input" type="date" id="rn-data" value="' + hojeISO() + '" max="' + hojeISO() + '"></div><div>' + L('Prazo para resolver todas') + '<input class="input" type="date" id="rn-prazo" min="' + hojeISO() + '"></div></div>' +
@@ -14469,7 +14471,7 @@ function rncCorespCampo(b) {
   const l = b.coresp || [];
   return '<div class="cr-box"><label class="fm-l" for="rnc-cr">Corresponsáveis <small>(opcional) · quem mais está envolvido; serve para filtrar e imprimir por pessoa</small></label>' +
     (l.length ? '<div class="cr-l">' + l.map((c, i) => '<span class="cr-chip">' + esc(c.nome) + '<button type="button" data-action="rnc-cr-x" data-id="' + esc(i) + '" aria-label="Tirar ' + esc(c.nome) + '">×</button></span>').join('') + '</div>' : '') +
-    '<div class="cr-in"><input class="input" id="rnc-cr" list="rnc-cr-l" autocomplete="off" placeholder="Nome (da lista ou escrito)"><button type="button" class="btn" data-action="rnc-cr-add">Adicionar</button></div>' +
+    '<div class="cr-in"><input class="input" id="rnc-cr" data-sug="rnc-cr-l" autocomplete="off" placeholder="Nome (da lista ou escrito)"><button type="button" class="btn" data-action="rnc-cr-add">Adicionar</button></div>' +
     '<datalist id="rnc-cr-l">' + rncPessoasSug().map(x => '<option value="' + esc(x) + '">').join('') + '</datalist></div>';
 }
 function rncCorespAdd(rerender) {
@@ -14506,11 +14508,11 @@ function rncNcRender() {
     '<h3>Registrar · ' + rncNum(b.n) + '</h3><div class="sub">' + (b.clItem ? '<b>Do checklist:</b> ' + esc(b.clTexto || '') + '<br>' : '') + (b.id ? 'Corrigindo antes de enviar' : 'NC ' + b.n + ' de ' + tot + ' · a ordem do registro é a ordem da conferência') + '</div><div id="ap-msg"></div>' +
     passo(1, 'Área', 'area') + '<div class="ap-oc">' + RNC_AREAS.map(a => ch('area', a[0], b.area === a[0], a[1])).join('') + '</div>' +
     passo(2, 'Local <small>escreva; as sugestões aparecem embaixo</small>', 'local') + /* v2.102.41 (Nº 40): campo com sugestões no lugar dos botões */
-    '<div class="lsug"><input class="input" id="rnc-local" placeholder="Digite ou escolha o local" autocomplete="off" value="' + esc(b.local === '__outro' ? (b.localTxt || '') : (b.local || '')) + '"><div class="lsug-l" id="rnc-local-l" hidden></div>' +
-    '<div class="lsug-lixo" hidden>' + icoI('lixo') + 'Solte aqui para apagar a sugestão</div></div>' + (lsugOcultos().length ? '<button type="button" class="fm-link lsug-rest" data-action="rnc-lsug-rest">Mostrar as sugestões apagadas (' + esc(lsugOcultos().length) + ')</button>' : '') +
+    '<input class="input" id="rnc-local" data-sug="rnc-local" placeholder="Digite ou escolha o local" autocomplete="off" value="' + esc(b.local === '__outro' ? (b.localTxt || '') : (b.local || '')) + '">' + /* v2.102.45: mecanismo comum; apagou da lista, perdeu (pedido do Elias, 23/10: sem "Mostrar as apagadas") */
+    
     passo(3, 'Fotos do antes <small>até ' + RNC_MAX_FOTOS + '</small>', 'fotos') + rncFotosHTML() +
     passo(4, 'Não conformidade <small>o que está errado</small>', 'nc') + '<textarea class="input" id="rnc-nc" rows="3" placeholder="Ex.: banheiro sem sabonete e sem papel toalha">' + esc(b.nc) + '</textarea>' +
-    passo(5, 'Lei / requisito aplicável', 'lei') + '<input class="input" id="rnc-lei" list="rnc-lei-l" autocomplete="off" placeholder="Ex.: NR-31 (31.17) · GG IFA AF 3.2" value="' + esc(b.lei) + '"><datalist id="rnc-lei-l">' + rncLeis().map(x => '<option value="' + esc(x) + '">').join('') + '</datalist>' +
+    passo(5, 'Lei / requisito aplicável', 'lei') + '<input class="input" id="rnc-lei" data-sug="rnc-lei-l" autocomplete="off" placeholder="Ex.: NR-31 (31.17) · GG IFA AF 3.2" value="' + esc(b.lei) + '"><datalist id="rnc-lei-l">' + rncLeis().map(x => '<option value="' + esc(x) + '">').join('') + '</datalist>' +
     passo(6, 'Responsável e ciência', 'resp') + '<select class="input" id="rnc-resp"><option value="">Escolha o responsável…</option>' + us.map(u => '<option value="' + esc(u.id) + '"' + (b.resp === u.id ? ' selected' : '') + '>' + esc(u.nome) + '</option>').join('') + '<option value="__outro"' + (b.resp === '__outro' ? ' selected' : '') + '>Outra pessoa (escrever o nome)</option></select>' +
     '<input class="input" id="rnc-resp-o" placeholder="Nome do responsável" autocomplete="off" value="' + esc(b.respTxt) + '"' + (b.resp === '__outro' ? '' : ' hidden') + ' style="margin-top:8px">' +
     '<div class="ap-oc" style="margin-top:8px">' + ch('ciente', '1', b.ciente === true, 'Estava ciente') + ch('ciente', '0', b.ciente === false, 'Não estava ciente') + '</div>' +
@@ -14521,46 +14523,81 @@ function rncNcRender() {
     '<div class="ap-foot"><button type="button" class="btn" data-action="' + (b.clItem ? 'nrm-cl' : 'rnc-open') + '" data-id="' + esc(r.id) + '">Voltar</button>' + (b.id ? '<button type="button" class="btn primary" data-action="rnc-nc-ok" data-id="0">Salvar</button>' : '<button type="button" class="btn" data-action="rnc-nc-ok" data-id="0">Salvar</button><button type="button" class="btn primary" data-action="rnc-nc-ok" data-id="1">' + (b.clItem ? 'Salvar e voltar' : 'Salvar e registrar a ' + rncNum(b.n + 1)) + '</button>') + '</div>', { noFocus: true });
   fmNumerar(); rncFotosCarregar($('.sheet'));
 }
-/* ---------- v2.102.41 (Nº 40): sugestões do Local ----------
-   Toque = escolhe. Tocar e segurar = aparece a lixeira; arrastar até ela = a sugestão some da lista
-   (só neste aparelho, para esta pessoa; nenhuma NC muda). "Mostrar as sugestões apagadas" traz de volta. */
-const LSUG_K = () => 'sv2-loc-oculto-' + ((S.user && S.user.id) || '');
-function lsugOcultos() { try { const l = JSON.parse(Store.get(LSUG_K()) || '[]'); return Array.isArray(l) ? l : []; } catch { return []; } }
-function lsugOcultar(v) { const l = lsugOcultos(), k = String(v).toUpperCase(); if (l.indexOf(k) < 0) l.push(k); try { Store.set(LSUG_K(), JSON.stringify(l)); } catch {} }
-function rncLocSug(area, q) {
-  const oc = lsugOcultos(), n = mdNorm(q || '');
-  return rncLocaisDe(area).filter(l => oc.indexOf(String(l).toUpperCase()) < 0 && (!n || mdNorm(l).indexOf(n) >= 0) && mdNorm(l) !== n).slice(0, 12);
+/* ---------- v2.102.45: sugestões no formato do Local, em todo campo com lista salva ----------
+   (nasceu no Local da RNC, v2.102.41 Nº 40.) Campo marcado com data-sug (o id da lista): a lista segue no <datalist> com esse id,
+   só como fonte. Filtra ao digitar; toque = escolhe; tocar e segurar = aparece a lixeira; arrastar até ela = a sugestão some da lista
+   (só neste aparelho, para esta pessoa, por campo; nada que já foi salvo muda). "Mostrar as sugestões apagadas" traz de volta. */
+const SUG_G = { 'dl-cul': 'cultura', 'dl-cul2': 'cultura', 'dl-var': 'variedade', 'dl-var2': 'variedade', 'dl-coletor2': 'coletor', 'dl-cd-col': 'coletor', 'dl-pf-col': 'coletor', 'dl-prg-col': 'coletor',
+  'dl-local': 'local-agua', 'dl-be-loc': 'local-agua', 'dl-cl-loc': 'local-agua', 'ln-quem-l': 'quem-entregou', 'rlm-quem-l': 'quem-entregou' }; /* campos que mostram a mesma coisa dividem as apagadas */
+const LSUG_K = () => 'sv2-loc-oculto-' + ((S.user && S.user.id) || ''); /* chave do Local, igual à da v2.102.41 (quem já apagou não perde) */
+const SUG_K = g => g === 'rnc-local' ? LSUG_K() : 'sv2-sug-oculto-' + g + '-' + ((S.user && S.user.id) || '');
+const SUG = { inp: null, mudo: false, seg: 0 };
+const sugCampo = t => (t && t.matches && t.matches('input[data-sug]')) ? t : null;
+const sugGrupo = inp => inp.id === 'rnc-local' ? 'rnc-local' : (SUG_G[inp.getAttribute('data-sug')] || inp.getAttribute('data-sug') || inp.id);
+function sugOcultos(g) { try { const l = JSON.parse(Store.get(SUG_K(g)) || '[]'); return Array.isArray(l) ? l : []; } catch { return []; } }
+function sugOcultar(g, v) { const l = sugOcultos(g), k = String(v).toUpperCase(); if (l.indexOf(k) < 0) l.push(k); try { Store.set(SUG_K(g), JSON.stringify(l)); } catch {} }
+function sugFiltra(lista, g, q) {
+  const oc = sugOcultos(g), n = mdNorm(q || ''), vistos = new Set();
+  return lista.filter(l => { const k = String(l || '').toUpperCase(); if (!k || vistos.has(k)) return false; vistos.add(k); return oc.indexOf(k) < 0 && (!n || mdNorm(l).indexOf(n) >= 0) && mdNorm(l) !== n; }).slice(0, 12);
 }
-function lsugMostra() {
-  const inp = $('#rnc-local'), box = $('#rnc-local-l'), b = S.rncNc; if (!inp || !box || !b) return;
-  const l = rncLocSug(b.area, inp.value);
-  box.innerHTML = l.length ? l.map(x => '<button type="button" class="lsug-i" data-v="' + esc(x) + '">' + esc(x) + '</button>').join('') : '<div class="lsug-vz">' + (b.area ? 'Nenhuma sugestão. O que você escrever vira um local novo.' : 'Escolha a área para ver as sugestões.') + '</div>';
-  box.hidden = false;
+function rncLocSug(area, q) { return sugFiltra(rncLocaisDe(area), 'rnc-local', q); }
+function sugFonte(inp) {
+  const dl = document.getElementById(inp.getAttribute('data-sug')); return dl ? Array.from(dl.querySelectorAll('option')).map(o => o.getAttribute('value') || '') : [];
 }
-document.addEventListener('focusin', e => { if (e.target && e.target.id === 'rnc-local') lsugMostra(); });
-document.addEventListener('input', e => { if (e.target && e.target.id === 'rnc-local') lsugMostra(); });
-document.addEventListener('focusout', e => { if (!e.target || e.target.id !== 'rnc-local') return; setTimeout(() => { const box = $('#rnc-local-l'), a = document.activeElement; if (box && !LS.arr && !(a && a.closest && a.closest('.lsug'))) box.hidden = true; }, 180); });
+function sugPop() { let p = document.getElementById('sug-pop') || document.querySelector('.sug-pop'); if (!p) { p = document.createElement('div'); p.className = 'lsug-l sug-pop'; p.hidden = true; document.body.appendChild(p); p.addEventListener('mousedown', ev => ev.preventDefault()); } return p; }
+function sugLixo() { let z = document.querySelector('.lsug-lixo'); if (!z) { z = document.createElement('div'); z.className = 'lsug-lixo'; z.hidden = true; z.innerHTML = icoI('lixo') + 'Solte aqui para apagar a sugestão'; document.body.appendChild(z); } return z; }
+function sugEsconde() { const p = document.querySelector('.sug-pop'); if (p) p.hidden = true; }
+function sugPos() {
+  const inp = SUG.inp, p = document.querySelector('.sug-pop'); if (!inp || !p || p.hidden) return;
+  if (!document.contains(inp)) { sugEsconde(); return; }
+  const r = inp.getBoundingClientRect(), vv = window.visualViewport, vh = vv ? vv.height + vv.offsetTop : window.innerHeight;
+  const abaixo = vh - r.bottom - 6, acima = r.top - 6, cima = abaixo < 150 && acima > abaixo, h = Math.max(80, Math.min(232, cima ? acima : abaixo));
+  const w = Math.max(r.width, 180); p.style.width = w + 'px'; p.style.left = Math.max(4, Math.min(r.left, window.innerWidth - w - 4)) + 'px'; p.style.maxHeight = h + 'px';
+  if (cima) { p.style.top = 'auto'; p.style.bottom = (window.innerHeight - r.top) + 'px'; } else { p.style.bottom = 'auto'; p.style.top = r.bottom + 'px'; }
+}
+function sugMostra() {
+  const inp = SUG.inp; if (!inp) return; const g = sugGrupo(inp), p = sugPop();
+  const l = inp.id === 'rnc-local' ? rncLocSug((S.rncNc || {}).area, inp.value) : sugFiltra(sugFonte(inp), g, inp.value);
+  const vazio = inp.id === 'rnc-local' ? ((S.rncNc && S.rncNc.area) ? 'Nenhuma sugestão. O que você escrever vira um local novo.' : 'Escolha a área para ver as sugestões.') : 'Nenhuma sugestão. O que você escrever entra na lista.';
+  p.id = inp.id + '-l';
+  p.innerHTML = l.length ? l.map(x => '<button type="button" class="lsug-i" data-v="' + esc(x) + '">' + esc(x) + '</button>').join('') : '<div class="lsug-vz">' + esc(vazio) + '</div>';
+  p.hidden = false; sugPos();
+}
+document.addEventListener('focusin', e => {
+  const c = sugCampo(e.target);
+  if (c) { SUG.inp = c; sugMostra(); } else if (!(e.target && e.target.closest && e.target.closest('.sug-pop'))) sugEsconde();
+});
+document.addEventListener('input', e => { if (SUG.mudo) return; const c = sugCampo(e.target); if (c) { SUG.inp = c; sugMostra(); } });
+document.addEventListener('click', e => { const c = sugCampo(e.target); if (c) { SUG.inp = c; sugMostra(); } });
+document.addEventListener('focusout', e => {
+  if (!sugCampo(e.target)) return;
+  setTimeout(() => { const a = document.activeElement; if (!LS.arr && Date.now() - SUG.seg > 700 && a !== SUG.inp && !(a && a.closest && a.closest('.sug-pop'))) sugEsconde(); }, 180);
+});
+document.addEventListener('scroll', sugPos, true);
+window.addEventListener('resize', sugPos);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', sugPos);
 const LS = { t: 0, el: null, arr: false, x: 0, y: 0, ign: false, fan: null };
 function lsugAlvo(x, y) { const lixo = $('.lsug-lixo'); if (!lixo || lixo.hidden) return false; const q = lixo.getBoundingClientRect(); return x >= q.left && x <= q.right && y >= q.top - 12 && y <= q.bottom; }
 function lsugFim(ok, x, y) {
   clearTimeout(LS.t); const el = LS.el, lixo = $('.lsug-lixo'); let apagou = false;
-  if (LS.arr && el && ok && lsugAlvo(x, y)) { lsugOcultar(el.getAttribute('data-v')); apagou = true; }
+  if (LS.arr && el && ok && lsugAlvo(x, y) && SUG.inp) { sugOcultar(sugGrupo(SUG.inp), el.getAttribute('data-v')); apagou = true; }
   if (el) el.classList.remove('arr'); if (LS.fan) { LS.fan.remove(); LS.fan = null; }
   if (lixo) { lixo.hidden = true; lixo.classList.remove('on'); }
   if (LS.arr) { LS.ign = true; setTimeout(() => { LS.ign = false; }, 400); } LS.arr = false; LS.el = null;
-  if (apagou) { toast('Sugestão apagada da lista. As NCs não mudam.', 'ok'); lsugMostra(); }
+  if (apagou) { toast('Sugestão apagada da lista. O que já foi salvo não muda.', 'ok'); sugMostra(); }
 }
 function lsugArrastar(x, y) {
   if (LS.fan) LS.fan.style.transform = 'translate(' + (x - LS.x) + 'px,' + (y - LS.y) + 'px)';
   const lixo = $('.lsug-lixo'); if (lixo) lixo.classList.toggle('on', lsugAlvo(x, y));
 }
 document.addEventListener('pointerdown', e => {
+  if (e.target && e.target.closest && e.target.closest('.sug-pop')) SUG.seg = Date.now();
   const el = e.target && e.target.closest && e.target.closest('.lsug-i'); if (!el) return;
   LS.el = el; LS.x = e.clientX; LS.y = e.clientY; LS.arr = false; clearTimeout(LS.t);
   LS.t = setTimeout(() => { if (LS.el !== el) return; LS.arr = true; el.classList.add('arr');
     const q = el.getBoundingClientRect(), f = document.createElement('div'); f.className = 'lsug-fan'; f.textContent = el.getAttribute('data-v');
     f.style.cssText = 'left:' + q.left + 'px;top:' + q.top + 'px;width:' + q.width + 'px;height:' + q.height + 'px'; document.body.appendChild(f); LS.fan = f;
-    const lixo = $('.lsug-lixo'); if (lixo) lixo.hidden = false; try { navigator.vibrate && navigator.vibrate(20); } catch {} }, 450);
+    sugLixo().hidden = false; try { navigator.vibrate && navigator.vibrate(20); } catch {} }, 450);
 });
 document.addEventListener('pointermove', e => {
   if (!LS.el) return;
@@ -14575,7 +14612,10 @@ document.addEventListener('contextmenu', e => { if (e.target && e.target.closest
 document.addEventListener('click', e => {
   const el = e.target && e.target.closest && e.target.closest('.lsug-i'); if (!el) return;
   e.preventDefault(); e.stopPropagation(); if (LS.ign) { LS.ign = false; return; }
-  const inp = $('#rnc-local'), box = $('#rnc-local-l'); if (inp) inp.value = el.getAttribute('data-v'); if (box) box.hidden = true; rncNcLer();
+  const inp = SUG.inp; if (!inp) return;
+  SUG.mudo = true; inp.value = el.getAttribute('data-v');
+  inp.dispatchEvent(new Event('input', { bubbles: true })); inp.dispatchEvent(new Event('change', { bubbles: true })); SUG.mudo = false;
+  sugEsconde(); if (inp.id === 'rnc-local') rncNcLer();
 }, true);
 function rncCh(t) {
   const g = t.getAttribute('data-g'), v = t.getAttribute('data-id'), b = g === 'res' ? S.rncCf : (S.rncNc || S.rncCf); if (!b) return;
@@ -16090,7 +16130,6 @@ function rncAcao(act, id, t) {
     case 'rnc-par-por': prF().por = id; openRncPareto(); return true;
     case 'rnc-par-print': paretoImprimir(); return true;
     case 'rnc-open': openRnc(id); return true;
-    case 'rnc-lsug-rest': { try { Store.del(LSUG_K()); } catch {} rncNcLer(); rncNcRender(); toast('As sugestões apagadas voltaram.', 'ok'); return true; } /* v2.102.41 */
     case 'rnc-fotos': openRncFotos(id); return true; /* v2.102.40 */
     case 'rnc-fv': openRncFotoVer(id); return true;
     case 'rnc-fv-ed': rncFotoEditar(id); return true;
@@ -17364,10 +17403,10 @@ function pfPreparar(lista, titulo) {
   S._pf = { lista: lista.map(p => Object.assign({}, p)), titulo: titulo };
   const linhas = S._pf.lista.map((p, i) => { const comp = pgSoComposto(p.tipo);
     return '<div class="pf-li"><span><b>' + esc(p.talhao || '') + '</b><small>' + esc(p.tipo + (p.data ? ' · ' + fmtD(p.data).slice(0, 5) : '')) + '</small></span>' +
-      '<input class="input pf-col" data-i="' + i + '" value="' + esc(p.coletor || '') + '" placeholder="Coletor" autocomplete="off" list="dl-pf-col" aria-label="Coletor de ' + esc(p.talhao || '') + '">' +
+      '<input class="input pf-col" data-i="' + i + '" value="' + esc(p.coletor || '') + '" placeholder="Coletor" autocomplete="off" data-sug="dl-pf-col" aria-label="Coletor de ' + esc(p.talhao || '') + '">' +
       (comp ? '<span class="pf-sem">sem estádio</span>' : '<input class="input pf-est" data-i="' + i + '" value="' + esc(pfEstadioDe(p)) + '" placeholder="Estádio" autocomplete="off" list="dl-pf-est" aria-label="Estádio de ' + esc(p.talhao || '') + '">') + '</div>'; }).join('');
   openSheet('<div class="pf-win"><h3>Preparar folha de campo</h3><div class="sub">' + esc(titulo) + ' · ' + lista.length + ' área(s). O que você preencher aqui sai impresso; nada é gravado.</div>' +
-    '<div class="pf-todos"><b>Para todas</b><span class="pf-tl"><input class="input" id="pf-col-t" placeholder="Coletor" list="dl-pf-col" autocomplete="off"><button type="button" class="btn sm" data-action="pf-tc">Aplicar</button></span>' +
+    '<div class="pf-todos"><b>Para todas</b><span class="pf-tl"><input class="input" id="pf-col-t" placeholder="Coletor" data-sug="dl-pf-col" autocomplete="off"><button type="button" class="btn sm" data-action="pf-tc">Aplicar</button></span>' +
     '<span class="pf-tl"><input class="input" id="pf-est-t" placeholder="Estádio" list="dl-pf-est" autocomplete="off"><button type="button" class="btn sm" data-action="pf-te">Aplicar</button></span></div>' +
     sugestoes('dl-pf-col', pgEquipes()) + sugestoes('dl-pf-est', ['FLORAÇÃO', 'FRUTIFICAÇÃO', 'VEGETATIVO', 'POUSIO']) +
     '<div class="pf-cab"><span>Área</span><span>Nome do coletor</span><span>Estádio fenológico</span></div><div class="pf-lista">' + linhas + '</div>' +
@@ -18473,7 +18512,7 @@ function openRlmLancar() {
   openSheet('<h3>Lançar ' + docs.length + ' documento(s)</h3><div class="sub">Um lançamento para cada documento, com a data que está no papel de cada um.</div><div id="ln-msg"></div>' +
     '<div class="rlm-todas"><label class="fm-l">Mesma data para todos (opcional)</label><input class="input" type="date" id="rlm-todas" max="' + hojeISO() + '"></div>' +
     '<div class="rlm-l">' + docs.map((d, n) => { const s = situacao('doc', d); return '<div class="rlm-li"><div><b>' + esc(d.codigo ? d.codigo + ' · ' : '') + esc(d.titulo) + '</b><small>' + esc(d.periodo || '') + (s.ultimo ? ' · último ' + fmtD(s.ultimo) : '') + '</small></div><input class="input rlm-d" type="date" data-id="' + esc(d.id) + '" id="rlm-d-' + n + '" max="' + hojeISO() + '"></div>'; }).join('') + '</div>' +
-    '<div class="field"><label>Quem entregou</label><input class="input" id="rlm-quem" list="rlm-quem-l" autocomplete="off" value="' + esc(quem) + '" placeholder="Nome de quem trouxe os documentos"><datalist id="rlm-quem-l">' + lancQuemLista().map(n => '<option value="' + esc(n) + '">').join('') + '</datalist></div>' +
+    '<div class="field"><label>Quem entregou</label><input class="input" id="rlm-quem" data-sug="rlm-quem-l" autocomplete="off" value="' + esc(quem) + '" placeholder="Nome de quem trouxe os documentos"><datalist id="rlm-quem-l">' + lancQuemLista().map(n => '<option value="' + esc(n) + '">').join('') + '</datalist></div>' +
     '<div class="field"><label>Observação (opcional, vai em todos)</label><input class="input" id="rlm-obs" autocomplete="off"></div>' +
     (reg ? '<p class="fm-dica">Regulatório com validade: a validade nova se atualiza no lançamento de um por um.</p>' : '') +
     '<div class="row-actions"><button class="btn" data-action="close">Voltar</button><button class="btn primary" data-action="rlm-ok">Lançar ' + docs.length + '</button></div>', { noFocus: true });
@@ -19681,13 +19720,13 @@ function openRzProg(id, pk) {
   const linhas = l.map(a => { const x = pr[a.area] || {};
     return '<div class="prg-li' + (pr[a.area] ? ' on' : '') + '"><label class="prg-ck"><input type="checkbox" class="prg-m" data-a="' + esc(a.area) + '"' + (pr[a.area] ? ' checked' : '') + '><span><b>' + esc(a.area) + '</b><small>' + esc(prgLocal(a.area, r.tipo)) + '</small></span></label>' +
       '<input class="input prg-d" type="date" data-a="' + esc(a.area) + '" value="' + esc(x.data || '') + '" aria-label="Data prevista de ' + esc(a.area) + '"' + dis + '>' +
-      '<input class="input prg-c" data-a="' + esc(a.area) + '" list="dl-prg-col" value="' + esc(x.coletor || '') + '" placeholder="Coletores" autocomplete="off" aria-label="Coletores de ' + esc(a.area) + '"' + dis + '>' +
+      '<input class="input prg-c" data-a="' + esc(a.area) + '" data-sug="dl-prg-col" value="' + esc(x.coletor || '') + '" placeholder="Coletores" autocomplete="off" aria-label="Coletores de ' + esc(a.area) + '"' + dis + '>' +
       '<input class="input prg-p" data-a="' + esc(a.area) + '" inputmode="numeric" value="' + esc(String(x.pontos != null && x.pontos !== '' ? x.pontos : (pontosDe(r.tipo, a.area) || ''))) + '" aria-label="Pontos de ' + esc(a.area) + '"' + dis + '>' +
       (prof ? '<input class="input prg-f" data-a="' + esc(a.area) + '" list="dl-prg-prof" value="' + esc(x.prof || '') + '" placeholder="00-30" autocomplete="off" aria-label="Profundidade de ' + esc(a.area) + '"' + dis + '>' : '<span class="prg-na">—</span>') +
       (comp ? '<span class="prg-na">—</span>' : '<input class="input prg-e" data-a="' + esc(a.area) + '" list="dl-prg-est" value="' + esc(x.estadio || pfEstadioDe({ tipo: r.tipo, talhao: a.area })) + '" placeholder="Estádio" autocomplete="off" aria-label="Estádio de ' + esc(a.area) + '"' + dis + '>') + '</div>'; }).join('');
   const n = Object.keys(pr).length;
   openSheet('<div class="prg-win"><h3>Programar coleta</h3><div class="sub">' + esc(r.nome + ' · ' + (r.freq === 'U' ? 'coleta única' : p.nome) + ' (' + fmtD(p.ini).slice(0, 5) + ' a ' + fmtD(p.fim) + ')') + '. Marque as áreas da próxima saída e o que os coletores precisam saber. Fica em aberto: o plano continua marcando o que chegar.</div><div id="prg-msg"></div>' +
-    (pode ? '<div class="prg-todas"><b>Para as marcadas</b><input class="input" type="date" id="prg-d-t" aria-label="Data para as marcadas"><input class="input" id="prg-c-t" list="dl-prg-col" placeholder="Coletores" autocomplete="off">' +
+    (pode ? '<div class="prg-todas"><b>Para as marcadas</b><input class="input" type="date" id="prg-d-t" aria-label="Data para as marcadas"><input class="input" id="prg-c-t" data-sug="dl-prg-col" placeholder="Coletores" autocomplete="off">' +
       (prof ? '<input class="input" id="prg-f-t" list="dl-prg-prof" placeholder="Profund." autocomplete="off">' : '') + (comp ? '' : '<input class="input" id="prg-e-t" list="dl-prg-est" placeholder="Estádio" autocomplete="off">') +
       '<button type="button" class="btn sm" data-action="prg-aplicar">Aplicar</button></div>' : '') +
     sugestoes('dl-prg-col', pgEquipes()) + sugestoes('dl-prg-est', ['FLORAÇÃO', 'FRUTIFICAÇÃO', 'VEGETATIVO', 'POUSIO']) + sugestoes('dl-prg-prof', ['00-20', '00-30', '20-40']) +
