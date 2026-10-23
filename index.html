@@ -3094,7 +3094,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.45 · Todas as listas salvas no formato do Local da RNC (sugestões e lixeira para apagar da lista)';
+const APP_VERSION = 'v2.102.46 · Pré-visualização da impressão sem "Baixar" (fica Imprimir / PDF)';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -4341,7 +4341,7 @@ function runPrint(bodyHTML, titulo, orient, filtros, chave) {
   if (S.user && S.user.contaTeste) { chave = chave || dcChaveDoTitulo(titulo); titulo = 'TESTE (sem valor) · ' + titulo; } /* v2.89.0: impresso pela conta de teste (v2.89.1: o código do documento sai do título original) */
   DC_FOLHA = emPe ? { w: 194, alt: 279 } : { w: 285, alt: 196 };
   try { root.innerHTML = dcPaginar(bodyHTML, titulo, filtros, chave); } finally { DC_FOLHA = { w: 285, alt: 196 }; }
-  setTimeout(() => prevAbrir(), 60); /* v2.52.0: abre a pré-visualização (Imprimir / Baixar / Compartilhar) */
+  setTimeout(() => prevAbrir(), 60); /* v2.52.0: abre a pré-visualização (Imprimir / PDF · Compartilhar) */
 }
 function docHeaderHTML() { const d = cfgCol().doc; return '<div class="doc-h"><span><b>Setor:</b> ' + esc(d.setor) + '</span><span><b>Data da revisão:</b> ' + fmtD(d.dataRevisao) + '</span><span><b>Revisão:</b> ' + esc(d.revisao) + '</span></div>'; }
 function printTable(tid) {
@@ -9966,7 +9966,7 @@ function runPrintRaw(html) {
   const root = $('#print-root'); root.innerHTML = html;
   let st = $('#page-style'); if (!st) { st = document.createElement('style'); st.id = 'page-style'; document.head.appendChild(st); }
   st.textContent = '@page{size:A4 landscape;margin:6mm}';
-  setTimeout(() => prevAbrir(), 60); /* v2.52.0: abre a pré-visualização (Imprimir / Baixar / Compartilhar) */
+  setTimeout(() => prevAbrir(), 60); /* v2.52.0: abre a pré-visualização (Imprimir / PDF · Compartilhar) */
 }
 const ETQ_TIPOS = ['SOLO', 'NEMATOIDE', 'FOLHA', 'FRUTA', 'COMPOSTO'];
 function viewEtiquetas() {
@@ -17037,7 +17037,7 @@ ARQ_CONSULTA.push(['sv2_chat', 'ts']);
 chatLigar();
 
 /* ============ PRÉ-VISUALIZAÇÃO DA IMPRESSÃO E APP INSTALÁVEL (v2.52.0 · C7) ============
-   Imprimir agora abre a PRÉ-VISUALIZAÇÃO (as folhas como vão sair) com: Imprimir / PDF · Baixar (arquivo .html que
+   Imprimir agora abre a PRÉ-VISUALIZAÇÃO (as folhas como vão sair) com: Imprimir / PDF · (v2.102.46: o Baixar .html saiu) (arquivo .html que
    abre e imprime igual, sem internet) · Compartilhar (WhatsApp, e-mail… pela tela do Android) · Fechar.
    Funciona também onde o navegador não deixa imprimir direto (app instalado, telas de pré-visualização).
    Instalável: manifest + ícones + sw.js (cache da tela para abrir sem internet; os dados já ficam no cache do
@@ -17070,7 +17070,7 @@ function prevAbrir() {
   const podeComp = !!(navigator.share && navigator.canShare && (() => { try { return navigator.canShare({ files: [new File(['x'], 'a.html', { type: 'text/html' })] }); } catch (e) { return false; } })());
   ov.innerHTML = '<div class="prev-top"><b>Pré-visualização</b><span>' + esc(titulo) + ' · ' + n + ' folha' + (n > 1 ? 's' : '') + ' · ' + (/portrait/.test(pagina) ? 'A4 em pé' : 'A4 deitado') + '</span></div>' +
     '<iframe class="prev-fr" title="Folhas da impressão"></iframe>' +
-    '<div class="prev-bt"><button type="button" class="btn" data-action="prev-fechar">Fechar</button><button type="button" class="btn" data-action="prev-baixar">' + icoI('file') + 'Baixar</button>' +
+    '<div class="prev-bt"><button type="button" class="btn" data-action="prev-fechar">Fechar</button>' +
     (podeComp ? '<button type="button" class="btn" data-action="prev-compartilhar">Compartilhar</button>' : '') +
     '<button type="button" class="btn primary" data-action="prev-imprimir">' + icoI('print') + 'Imprimir / PDF</button></div>';
   document.body.appendChild(ov);
@@ -17088,12 +17088,11 @@ function prevFechar(manter) {
 async function prevAcao(act) {
   const d = S._printDoc;
   if (act === 'prev-fechar') { prevFechar(); return true; }
-  if (act === 'prev-imprimir') { try { window.print(); } catch (e) { toast('Este navegador não deixou imprimir. Use Baixar ou Compartilhar.', 'err'); } return true; }
+  if (act === 'prev-imprimir') { try { window.print(); } catch (e) { toast('Este navegador não deixou imprimir. Use o menu do navegador (Imprimir).', 'err'); } return true; }
   if (!d) return true;
-  if (act === 'prev-baixar') { bkBaixar(new Blob([d.html], { type: 'text/html' }), d.nome); toast('Arquivo baixado: ' + d.nome + ' — abra e imprima quando quiser.', 'ok'); return true; }
   if (act === 'prev-compartilhar') {
     try { await navigator.share({ files: [new File([d.html], d.nome, { type: 'text/html' })], title: d.titulo, text: d.titulo }); }
-    catch (e) { if (e && e.name !== 'AbortError') toast('Não deu para compartilhar. Use Baixar.', 'err'); }
+    catch (e) { if (e && e.name !== 'AbortError') toast('Não deu para compartilhar. Use Imprimir / PDF.', 'err'); }
     return true;
   }
   return false;
