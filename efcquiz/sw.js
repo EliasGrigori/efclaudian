@@ -1,5 +1,5 @@
-/* EFCQuiz v2.0.1 · funciona sem internet. Troque VERSAO a cada versão nova para atualizar o cache. */
-const VERSAO = "efcquiz-v2.0.1";
+/* EFCQuiz v2.1.1 · funciona sem internet. Troque VERSAO a cada versão nova para atualizar o cache. */
+const VERSAO = "efcquiz-v2.1.1";
 const ARQUIVOS = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg", "./icon-192.png", "./icon-512.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(VERSAO).then(c => c.addAll(ARQUIVOS)).then(() => self.skipWaiting())); });
 self.addEventListener("activate", e => { e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith("efcquiz-") && k !== VERSAO).map(k => caches.delete(k)))).then(() => self.clients.claim())); });
