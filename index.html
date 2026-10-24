@@ -55,6 +55,7 @@ input,select,textarea{font:inherit;color:inherit} /* v2.94.1: textarea saía com
 .msg{font-size:13px;margin:0 0 12px;padding:10px 12px;border-radius:var(--r-ctl);background:var(--crit-soft);color:var(--crit);border:1px solid var(--crit-soft)}
 .msg.info{background:var(--primary-soft);color:var(--text);border-color:var(--border-light)}
 /* v2.102.51: pergunta antes de descartar o que foi escrito (fica presa no topo da janela) */
+.row-actions:empty,.ap-foot:empty{display:none}
 .sh-desc{position:sticky;top:-20px;z-index:6;margin:-20px -18px 12px;padding:10px 18px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--warn-soft);border-bottom:1px solid var(--warn);color:var(--text);font-size:14px}
 .sh-desc b{flex:1 1 100%;font-weight:600}
 .input.falta{border-color:var(--crit);box-shadow:0 0 0 2px var(--crit-soft)}
@@ -3129,7 +3130,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.51 · Janelas: Esc, voltar e clique fora voltam um nível; formulário escrito pergunta antes de descartar; correções do Grok';
+const APP_VERSION = 'v2.102.52 · Janelas de detalhe e de lista sem o botão Fechar (voltar do celular, Esc e clique fora fecham)';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -3619,7 +3620,7 @@ const Sync = (function () {
   }
   function abrir() {
     openSheet('<h3>Sincronização</h3><div id="sync-lista">' + listaHTML() + '</div>' +
-      '<div class="row-actions"><button class="btn" data-action="sync-limpar" id="sync-limpar"' + (estado().erros ? '' : ' hidden') + '>Entendi, tirar os avisos</button><button class="btn primary" data-action="close">Fechar</button></div>');
+      '<div class="row-actions"><button class="btn" data-action="sync-limpar" id="sync-limpar"' + (estado().erros ? '' : ' hidden') + '>Entendi, tirar os avisos</button></div>');
   }
   /* tira só o AVISO local dos que não gravaram (não existe dado para apagar: ele nunca chegou à nuvem) */
   function limparErros() { fila = fila.filter(x => x.st !== 'erro'); mudou(); }
@@ -4610,7 +4611,7 @@ function openDocDetail(id) {
     bts.push('<button class="btn" data-action="doc-edit" data-id="' + esc(d.id) + '">Editar</button>');
   }
   if (podeLancar(S.user) && !d.desativado) bts.push('<button class="btn primary" data-action="lanc-new" data-ent="doc" data-id="' + esc(d.id) + '">Lançar entrega</button>');
-  bts.push('<button class="btn" data-action="close">Fechar</button>');
+  bts.push('');
   openSheet('<h3>' + esc(d.codigo) + ' — ' + esc(d.titulo) + '</h3><div class="sub">' + stChip(s.st) + '</div>' + keyval(kv) +
     '<div class="sec">Últimos lançamentos</div>' + listaLancHTML('doc', d.id) + '<div class="row-actions">' + bts.join('') + '</div>');
 }
@@ -4624,7 +4625,7 @@ function openCaixaDetail(id) {
     bts.push('<button class="btn" data-action="cx-edit" data-id="' + esc(c.id) + '">Editar</button>');
   }
   if (podeLancar(S.user) && !c.desativado) bts.push('<button class="btn primary" data-action="lanc-new" data-ent="caixa" data-id="' + esc(c.id) + '">Lançar limpeza</button>');
-  bts.push('<button class="btn" data-action="close">Fechar</button>');
+  bts.push('');
   openSheet('<h3>' + esc(c.tag) + ' — ' + esc(c.local) + '</h3><div class="sub">' + stChip(s.st) + '</div>' + keyval(kv) +
     '<div class="sec">Últimas limpezas</div>' + listaLancHTML('caixa', c.id) + '<div class="row-actions">' + bts.join('') + '</div>');
 }
@@ -4678,7 +4679,7 @@ function openLancDetail(id) {
   const bts = ['<button class="btn" data-action="hist-open" data-ent="lancamento" data-id="' + esc(l.id) + '">Histórico</button>'];
   if (pend) bts.push('<button class="btn" data-action="aprov-open" data-id="' + esc(pend.id) + '">Ver correção pendente</button>');
   else if (podeLancar(S.user)) bts.push('<button class="btn primary" data-action="corr-new" data-id="' + esc(l.id) + '">' + (isPrincipal(S.user) ? 'Corrigir' : 'Pedir correção') + '</button>');
-  bts.push('<button class="btn" data-action="close">Fechar</button>');
+  bts.push('');
   openSheet('<h3>' + esc(l.alvoNome) + '</h3><div class="sub">' + (l.alterado ? '<span class="chip warn">Alterado</span> ' : '') + (pend ? '<span class="chip warn">Correção pendente</span>' : '') + '</div>' +
     keyval([[l.alvoTipo === 'doc' ? 'Último preenchimento' : 'Data', fmtD(l.data)]].concat(l.entreguePor ? [['Entregue por', l.entreguePor], ['Entregue em', fmtD(l.entregueEm || diaLocal(l.ts)) + ' (automático)']] : []).concat([['Observação', l.obs || '—'], ['Lançado por', l.lancadoPorNome], ['Registrado em', fmtDT(l.ts)]])) + histHTML +
     (pend ? '<p style="color:var(--text-muted);font-size:13px;margin-top:10px">Aguardando: ' + esc((pend.paraIds || []).map(nomeDe).join(', ')) + '</p>' : '') +
@@ -5480,7 +5481,7 @@ function openCloroDetail(id) {
     bts.push('<button class="btn danger" data-action="cl-enc" data-id="' + esc(r.id) + '">Encerrar</button>');
   }
   if (r.situacao === 'bloqueado' && r.pedidoMotivo && !r.motivoResposta && r.lancadoPor === S.user.id) bts.push('<button class="btn primary" data-action="cl-resp" data-id="' + esc(r.id) + '">Responder motivo</button>');
-  bts.push('<button class="btn" data-action="close">Fechar</button>');
+  bts.push('');
   const stCh = sitCloroChip(r), mostraSt = !(sitCloroTxt(r) === faixaTxt(fx) || (r.situacao === 'ok' && r.pontoTipo === 'beb'));
   openSheet('<div class="dt-head"><div class="dt-big">' + ppm(valorFinal(r)) + '<small>ppm</small></div><div class="dt-id"><b>' + esc(r.pontoNome) + (r.local ? ' · ' + esc(r.local) : '') + '</b><div class="dt-chips">' + faixaChip(fx) + (mostraSt ? stCh : '') + (r.pendenteCadastro ? '<span class="chip">cadastro pendente</span>' : '') + '</div></div></div>' +
     '<div class="dt-grid">' + grid + '</div><div class="dt-sec">Linha do tempo</div><div class="dt-tl">' + tl + '</div>' + clFotoDetalheHTML(r) + clCorrHistHTML(r) +
@@ -6132,7 +6133,7 @@ function openBebList() {
   const cor = s => s === 'ativo' ? 'ok' : s === 'pendente' ? 'warn' : s === 'recusado' ? 'crit' : '';
   const html = '<div class="list">' + lista.map(b => '<button class="li" data-action="beb-open" data-id="' + esc(b.id) + '"><span class="dot' + (b.situacao === 'ativo' ? '' : ' aviso') + '"></span><span style="flex:1"><span class="t">' + esc(b.codigo) + '</span> <span class="chip ' + cor(b.situacao) + '">' + esc(SIT_BEB[b.situacao] || b.situacao) + '</span><br><span class="d">' + esc(b.local || 'Local a definir') + (b.descricao ? ' · ' + esc(b.descricao) : '') + '</span></span></button>').join('') + '</div>';
   openSheet('<h3>Bebedouros</h3><div class="sub">Só os ativos aparecem na verificação e nos velocímetros.</div>' + html +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button>' + (podeCadastrar(S.user) ? '<button class="btn primary" data-action="beb-edit" data-id="">Novo bebedouro</button>' : '') + '</div>');
+    '<div class="row-actions">' + (podeCadastrar(S.user) ? '<button class="btn primary" data-action="beb-edit" data-id="">Novo bebedouro</button>' : '') + '</div>');
 }
 function openBebDetail(id) {
   const b = S.bebs.find(x => x.id === id); if (!b) return;
@@ -6360,7 +6361,7 @@ function openCadastrosAntigo(aba) {
     corpo = '<div class="list">' + cfgCol().labs.map(l => '<div class="li"><span class="dot"></span><span class="t">' + esc(l) + '</span></div>').join('') + '</div>';
     if (pode) corpo += '<div class="field" style="margin-top:12px"><label>Novo laboratório</label><input class="input" id="lab-novo" autocomplete="off"></div><div class="row-actions"><button class="btn primary" data-action="lab-add">Adicionar</button></div>';
   }
-  openSheet('<h3>Cadastros das coletas</h3><div class="sub">' + (pode ? 'Tudo o que mudar fica registrado na auditoria.' : 'Só líder e Principal alteram.') + '</div>' + seg + corpo + '<div class="row-actions"><button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
+  openSheet('<h3>Cadastros das coletas</h3><div class="sub">' + (pode ? 'Tudo o que mudar fica registrado na auditoria.' : 'Só líder e Principal alteram.') + '</div>' + seg + corpo + '', { noFocus: true });
 }
 function openTalEdit(id) {
   const t = id ? S.talhoes.find(x => x.id === id) : { codigo: '', pivo: '', hectares: '', cultura: '', variedade: '', ativo: true };
@@ -6372,7 +6373,7 @@ function openTalEdit(id) {
     openSheet('<h3>' + esc(t.codigo) + (inativo ? ' <span class="chip">Inativo</span>' : '') + '</h3><div class="sub">Fazenda: ' + esc((fazendaDe(t.codigo) || {}).nome || '—') + '</div>' +
       keyval([['Pivô', t.pivo || '—'], ['Hectares', String(t.hectares).replace('.', ',')], ['Cultura', t.cultura || '—'], ['Variedade', t.variedade || '—']].concat(inativo && t.motivoInativo ? [['Motivo da inativação', t.motivoInativo]] : [])) +
       '<p style="color:var(--text-muted);font-size:12.5px;margin:10px 0">Só líder e Principal alteram os outros dados. Você pode pedir para ' + (inativo ? 'reativar' : 'desativar') + '.</p>' +
-      '<div class="row-actions"><button class="btn" data-action="close">Fechar</button>' + (pend ? '<button class="btn" data-action="aprov-open" data-id="' + esc(pend.id) + '">Ver pedido pendente</button>' : desatBtn) + '</div>');
+      '<div class="row-actions">' + (pend ? '<button class="btn" data-action="aprov-open" data-id="' + esc(pend.id) + '">Ver pedido pendente</button>' : desatBtn) + '</div>');
     return;
   }
   openSheet('<h3>' + (id ? 'Editar ' + esc(t.codigo) : 'Novo talhão') + (inativo ? ' <span class="chip">Inativo</span>' : '') + '</h3><div class="sub">Fazenda: ' + esc((fazendaDe(t.codigo) || {}).nome || 'pelo prefixo do código (RU, JD…)') + '. Os hectares multiplicam os pontos por hectare.</div><div id="te-msg"></div>' +
@@ -6408,7 +6409,7 @@ function openAnaEdit(id) {
     openSheet('<h3>' + esc(a.nome) + (inativo ? ' <span class="chip">Inativa</span>' : '') + '</h3><div class="sub">' + esc(TIPO_ANALISE_TXT[a.tipo] || a.tipo) + '</div>' +
       keyval([['Laboratório', a.lab || '—'], ['Sigla', a.sigla || '—'], ['Preço', a.valor ? brl(a.valor) : 'a preencher']].concat(inativo && a.motivoInativo ? [['Motivo da inativação', a.motivoInativo]] : [])) +
       '<p style="color:var(--text-muted);font-size:12.5px;margin:10px 0">Só líder e Principal alteram os outros dados. Você pode pedir para ' + (inativo ? 'reativar' : 'desativar') + '.</p>' +
-      '<div class="row-actions"><button class="btn" data-action="close">Fechar</button>' + (pend ? '<button class="btn" data-action="aprov-open" data-id="' + esc(pend.id) + '">Ver pedido pendente</button>' : desatBtn) + '</div>');
+      '<div class="row-actions">' + (pend ? '<button class="btn" data-action="aprov-open" data-id="' + esc(pend.id) + '">Ver pedido pendente</button>' : desatBtn) + '</div>');
     return;
   }
   openSheet('<h3>' + (id ? 'Editar análise' : 'Nova análise') + (inativo ? ' <span class="chip">Inativa</span>' : '') + '</h3><div class="sub">O preço alimenta o rateio. Amostras já lançadas mantêm o preço do dia.</div><div id="ae-msg"></div>' +
@@ -6460,7 +6461,7 @@ function openTipEdit(i) {
     openSheet('<h3>' + esc(t.nome) + (inativo ? ' <span class="chip">Inativo</span>' : '') + '</h3><div class="sub">Gera: ' + esc(tipoGera(t.nome).map(x => TIPO_ANALISE_TXT[x]).join(' + ')) + '</div>' +
       keyval([['Pontos por hectare (padrão)', String(t.pontosPorHa)], ['Profundidades', (t.profundidades || []).join(', ')]].concat(inativo && t.motivoInativo ? [['Motivo da inativação', t.motivoInativo]] : [])) +
       '<p style="color:var(--text-muted);font-size:12.5px;margin:10px 0">Só líder e Principal alteram os outros dados. Você pode pedir para ' + (inativo ? 'reativar' : 'desativar') + '.</p>' +
-      '<div class="row-actions"><button class="btn" data-action="close">Fechar</button>' + (pend ? '<button class="btn" data-action="aprov-open" data-id="' + esc(pend.id) + '">Ver pedido pendente</button>' : desatBtn) + '</div>');
+      '<div class="row-actions">' + (pend ? '<button class="btn" data-action="aprov-open" data-id="' + esc(pend.id) + '">Ver pedido pendente</button>' : desatBtn) + '</div>');
     return;
   }
   openSheet('<h3>' + esc(t.nome) + (inativo ? ' <span class="chip">Inativo</span>' : '') + '</h3><div class="sub">Gera: ' + esc(tipoGera(t.nome).map(x => TIPO_ANALISE_TXT[x]).join(' + ')) + '</div><div id="tp-msg"></div>' +
@@ -6749,7 +6750,7 @@ function openRzLista() {
   const l = (S.rodizios || []).slice().sort((a, b) => String(b.ano).localeCompare(String(a.ano)) || a.nome.localeCompare(b.nome, 'pt-BR'));
   openSheet('<h3>Planos de coleta</h3><div class="sub">Todos, inclusive os de anos anteriores e os desativados.</div>' +
     (l.length ? '<div class="list">' + l.map(r => '<button class="li" data-action="rz-open" data-id="' + esc(r.id) + '" data-p=""><span class="dot' + (r.ativo === false ? ' aviso' : '') + '"></span><span><span class="t">' + esc(r.nome) + (r.ativo === false ? ' · desativado' : '') + '</span><br><span class="d">' + esc(RZ_FREQ[r.freq] + ' · ' + (r.areas || []).length + ' áreas · ' + (r.analiseIds || []).length + ' análise(s)') + '</span></span><span class="chev">›</span></button>').join('') + '</div>' : '<p class="fm-dica">Nenhum plano de coleta ainda.</p>') +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button><button class="btn primary" data-action="rz-new">Nova programação</button></div>', { noFocus: true });
+    '<div class="row-actions"><button class="btn primary" data-action="rz-new">Nova programação</button></div>', { noFocus: true });
 }
 
 /* ---------- criar / editar (líder ★ e Principal) ---------- */
@@ -7073,7 +7074,7 @@ function procPagsGet(mat, rev, n) { const ps = []; for (let i = 0; i < n; i++) p
 function openProcVer(mat, q) {
   const p = procDe(mat), x = p && p[q]; if (!x) return;
   openSheet('<h3>Procedimento de coleta · ' + esc(procMatNome(mat)) + '</h3><div class="sub">' + procRev(x.rev) + ' · ' + x.pags + ' página(s)' + (q === 'pend' ? ' · aguardando confirmação' : '') + '</div><div class="pc-ver" id="pc-ver">Carregando…</div>' +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button><button class="btn primary imp-bt" data-action="pc-print" data-id="' + esc(mat) + '" data-q="' + esc(q) + '" title="Imprimir" aria-label="Imprimir">' + ico('print') + '</button></div>', { noFocus: true });
+    '<div class="row-actions"><button class="btn primary imp-bt" data-action="pc-print" data-id="' + esc(mat) + '" data-q="' + esc(q) + '" title="Imprimir" aria-label="Imprimir">' + ico('print') + '</button></div>', { noFocus: true });
   procPagsGet(mat, x.rev, x.pags).then(us => { const e = $('#pc-ver'); if (e) e.innerHTML = us.map((u, i) => u ? '<img src="' + imgSrc(u) + '" alt="Página ' + (i + 1) + '">' : '<p class="fm-dica">Página ' + (i + 1) + ' indisponível.</p>').join(''); });
 }
 async function procImprimir(mat, q) {
@@ -7212,7 +7213,7 @@ function openProcPedidos(mat) {
   openSheet('<h3>Pedidos de revisão</h3><div class="sub">Procedimento de ' + esc(procMatNome(mat)) + '</div>' +
     ((p.pedidos || []).slice().reverse().map(x => '<div class="pj-oc"><span><b>' + esc(x.texto) + '</b><small>' + esc(x.porNome + ' · ' + fmtDT(x.ts) + (x.respPor ? ' · ' + (x.status === 'rejeitado' ? 'rejeitado' : 'resposta') + ' de ' + x.respPor + (x.respMotivo ? ': ' + x.respMotivo : '') : '') + (x.feitoRev != null ? ' · entrou na ' + procRev(x.feitoRev) : '')) + '</small></span><span class="chip ' + st[x.status][1] + '">' + st[x.status][0] + '</span>' +
       (sup && x.status === 'aberto' ? '<div class="pj-ac"><button class="btn sm primary" data-action="pc-cor" data-id="' + esc(mat + '|' + x.id) + '">Iniciar correção</button><button class="btn sm" data-action="pc-ped-rej" data-id="' + esc(mat + '|' + x.id) + '">Rejeitar</button></div>' : '') + '</div>').join('') || '<p class="fm-dica">Nenhum pedido.</p>') +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
+    '', { noFocus: true });
 }
 async function procResponder(ref, status, mot) {
   const i = ref.indexOf('|'), mat = ref.slice(0, i), pid = ref.slice(i + 1), p = procDe(mat); if (!p || !isSup(S.user)) return;
@@ -7322,7 +7323,7 @@ function openProgDetail(id) {
     (cs.length ? '<div class="sec">Amostras</div>' + lst : '') + (st === 'coletada' ? '<p class="fm-dica">Para corrigir ou cancelar, abra a amostra (aba do material).</p>' : '') +
     '<div class="row-actions"><button class="btn" data-action="hist-open" data-ent="programacao" data-id="' + esc(p.id) + '">Histórico</button>' +
     (pode ? '<button class="btn" data-action="prog-cancel" data-id="' + esc(p.id) + '">Cancelar programação</button><button class="btn" data-action="prog-edit" data-id="' + esc(p.id) + '">Editar</button><button class="btn primary" data-action="cd-open" data-id="' + esc(p.id) + '">Coletado</button>' : '') +
-    '<button class="btn" data-action="close">Fechar</button></div>');
+    '</div>');
 }
 /* ---------- editar (só pendente) ---------- */
 function openProgEdit(id) {
@@ -8025,7 +8026,7 @@ function openColDetail(id) {
     if (pode) bts.push(c.enviado || enc ? '<button class="btn primary" data-action="col-env" data-id="' + esc(c.id) + '">' + (enc ? (prin ? 'Corrigir envio' : 'Pedir correção do envio') : 'Dados do envio') + '</button>' : '<button class="btn primary" data-action="col-enviar" data-id="' + esc(c.id) + '">Enviar</button>');
   }
   if (podeLancar(S.user) && c.laudo && c.situacao !== 'cancelada') bts.push(laudoCorrPend(c) ? '<button class="btn" data-action="le-fim" data-id="' + esc(c.id) + '">Laudo corrigido chegou</button>' : '<button class="btn" data-action="le-open" data-id="' + esc(c.id) + '">Laudo com erro</button>');
-  bts.push('<button class="btn" data-action="close">Fechar</button>');
+  bts.push('');
   const hist = (c.historico || []).slice().reverse();
   const histHTML = hist.length ? '<div class="sec">Correções aplicadas</div><div class="list">' + hist.map(h => '<div class="li"><span class="dot aviso"></span><span><span class="t">' + esc(mudancaColTxt(h)) + '</span><br><span class="d">Motivo: ' + esc(h.motivo || '—') + '</span><div class="meta">Pedido por ' + esc(h.pedidoPor) + ' · aprovado por ' + esc(h.aprovadoPor) + ' em ' + fmtDT(h.ts) + '</div></span></div>').join('') + '</div>' : '';
   openSheet('<h3>' + esc(TIPO_ANALISE_TXT[tipo]) + ' · ' + esc(c.talhao || c.loteComp || '') + '</h3><div class="sub">' + (c.situacao === 'cancelada' ? '<span class="chip">Cancelada</span>' : c.enviado ? '<span class="chip ok">Enviada</span>' : '<span class="chip warn">Não enviada</span>') +
@@ -8316,7 +8317,7 @@ function openPj(id) {
   openSheet('<h3>' + esc(p.nome) + '</h3><div class="sub">Projeto de coleta de água' + (p.legado ? ' · rodízio com mesclada e recoleta' : '') + '</div><div id="pj-msg"></div>' + keyval(kv) +
     '<div class="dt-sec">Próximas</div>' + (pend.length ? pend.map(linha).join('') : '<p class="fm-dica">Nenhuma data pela frente.</p>') +
     (feitas.length ? '<div class="dt-sec">Últimas</div>' + feitas.map(d => linha(Object.assign({ oc: d, sit: pjSit(p, d) }, pjEfetiva(p, d)), 9)).join('') : '') +
-    '<div class="row-actions">' + (sup ? '<button class="btn" data-action="pj-edit" data-id="' + esc(p.id) + '">Editar</button>' : '') + '<button class="btn primary" data-action="close">Fechar</button></div>', { noFocus: true });
+    '<div class="row-actions">' + (sup ? '<button class="btn" data-action="pj-edit" data-id="' + esc(p.id) + '">Editar</button>' : '') + '</div>', { noFocus: true });
 }
 /* o rodízio antigo só vira documento na primeira mudança */
 async function pjGarantir(p) {
@@ -8767,7 +8768,7 @@ function openAguaDetail(id) {
     '<button class="btn" data-action="hist-open" data-ent="coleta_agua" data-id="' + esc(c.id) + '">Histórico</button>' +
     (pode && !nc && !filha && !c.recoletaPedida && c.bebIds && c.bebIds.length ? '<button class="btn" data-action="ag-recoleta" data-id="' + esc(c.id) + '">Pedir recoleta</button>' : '') +
     (podeCadastrar(S.user) && c.situacao !== 'cancelada' ? '<button class="btn" data-action="ag-cancel" data-id="' + esc(c.id) + '">Cancelar</button>' : '') +
-    (pode ? '<button class="btn primary" data-action="ag-upd" data-id="' + esc(c.id) + '">Salvar</button>' : '') + '<button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
+    (pode ? '<button class="btn primary" data-action="ag-upd" data-id="' + esc(c.id) + '">Salvar</button>' : '') + '</div>', { noFocus: true });
 }
 function adResSet(v) {
   const sel = $('#ad-res'); if (!sel) return; sel.value = v;
@@ -8913,7 +8914,7 @@ function openAcao(id) {
     (pode ? '<div class="fm" style="margin-top:10px"><div class="fm-step"><i>+</i>Nova etapa</div><textarea class="input" id="ac-txt" rows="3" placeholder="O que foi feito nesta etapa">' + esc(S.acNovo.texto) + '</textarea>' +
       '<div id="ap-fotos-ac">' + apFotosHTML('ac') + '</div></div>' : '') +
     '<div class="row-actions">' + (c ? '<button class="btn" data-action="ag-open" data-id="' + esc(c.id) + '">Coleta</button>' : '') + '<button class="btn" data-action="ac-pdf" data-id="' + esc(id) + '">' + icoI('print') + 'PDF</button>' +
-    (pode ? '<button class="btn" data-action="ac-concluir" data-id="' + esc(id) + '">Concluir</button><button class="btn primary" data-action="ac-etapa" data-id="' + esc(id) + '">Registrar etapa</button>' : '<button class="btn primary" data-action="close">Fechar</button>') + '</div>', { noFocus: true });
+    (pode ? '<button class="btn" data-action="ac-concluir" data-id="' + esc(id) + '">Concluir</button><button class="btn primary" data-action="ac-etapa" data-id="' + esc(id) + '">Registrar etapa</button>' : '') + '</div>', { noFocus: true });
   agCarregarFotos($('.sheet'));
 }
 async function acEtapa(id, concluir) {
@@ -9191,7 +9192,7 @@ function openLabEdit(lab) {
     openSheet('<h3>' + esc(lab) + (inativo ? ' <span class="chip">Inativo</span>' : '') + '</h3>' +
       keyval([['Etiqueta de fruto', labModelo(lab) === 'completa' ? 'completa' : 'simples'], ['Laudo costuma chegar em', labPrazo(lab) + ' dia(s)']].concat(inativo && motivoAtualCad('lab', lab) ? [['Motivo da inativação', motivoAtualCad('lab', lab)]] : [])) +
       '<p style="color:var(--text-muted);font-size:12.5px;margin:10px 0">Só líder e Principal alteram os outros dados. Você pode pedir para ' + (inativo ? 'reativar' : 'desativar') + '.</p>' +
-      '<div class="row-actions"><button class="btn" data-action="close">Fechar</button>' + (pend ? '<button class="btn" data-action="aprov-open" data-id="' + esc(pend.id) + '">Ver pedido pendente</button>' : desatBtn) + '</div>', { noFocus: true });
+      '<div class="row-actions">' + (pend ? '<button class="btn" data-action="aprov-open" data-id="' + esc(pend.id) + '">Ver pedido pendente</button>' : desatBtn) + '</div>', { noFocus: true });
     return;
   }
   openSheet('<h3>' + esc(lab) + (inativo ? ' <span class="chip">Inativo</span>' : '') + '</h3><div class="sub">Modelo da etiqueta de fruto deste laboratório.</div>' +
@@ -9217,7 +9218,7 @@ function openFazEdit(i) {
     openSheet('<h3>' + esc(f.nome) + (inativo ? ' <span class="chip">Inativa</span>' : '') + '</h3>' +
       keyval([['Prefixo', f.prefixo], ['Número na rastreabilidade', f.numero]].concat(inativo && f.motivoInativo ? [['Motivo da inativação', f.motivoInativo]] : [])) +
       '<p style="color:var(--text-muted);font-size:12.5px;margin:10px 0">Só líder e Principal alteram os outros dados. Você pode pedir para ' + (inativo ? 'reativar' : 'desativar') + '.</p>' +
-      '<div class="row-actions"><button class="btn" data-action="close">Fechar</button>' + (pend ? '<button class="btn" data-action="aprov-open" data-id="' + esc(pend.id) + '">Ver pedido pendente</button>' : desatBtn) + '</div>');
+      '<div class="row-actions">' + (pend ? '<button class="btn" data-action="aprov-open" data-id="' + esc(pend.id) + '">Ver pedido pendente</button>' : desatBtn) + '</div>');
     return;
   }
   openSheet('<h3>' + (i === 'novo' ? 'Nova fazenda' : esc(f.nome) + (inativo ? ' <span class="chip">Inativa</span>' : '')) + '</h3><div class="sub">O prefixo é o início do código dos talhões (RU, JD…).</div><div id="fz-msg"></div>' +
@@ -9962,7 +9963,7 @@ function viewLotes() {
 function openLoteDetail(k) {
   const p = k.split('|'), l = coletasAtivas().filter(c => c.envio === p[0] && (c.lab || '—') === p[1]);
   openSheet('<h3>Lote ' + fmtD(p[0]) + ' · ' + esc(p[1]) + '</h3><div class="sub">' + l.length + ' coleta(s)</div><div class="list">' + l.map(c => '<button class="li" data-action="col-open" data-id="' + esc(c.id) + '"><span class="dot"></span><span><span class="t">' + esc(TIPO_ANALISE_TXT[c.tipo]) + ' · ' + esc(c.talhao || c.loteComp || '') + '</span><br><span class="d">' + esc(c.analiseNome) + (c.os ? ' · O.S ' + esc(c.os) : '') + ' · laudo ' + laudoSit(c).toLowerCase() + '</span></span></button>').join('') + '</div>' +
-    '<div class="row-actions">' + (podeLancar(S.user) ? (l.some(c => !c.os) ? '<button class="btn primary" data-action="os-rem" data-id="' + esc('c|' + k) + '">Informar O.S</button>' : '<button class="btn" data-action="os-corr" data-id="' + esc('r:c|' + k) + '">Corrigir O.S da remessa</button>') : '') + '<button class="btn" data-action="etq-ids" data-id="' + esc(l.map(c => c.id).join(',')) + '">Imprimir etiquetas</button><button class="btn" data-action="fx-open" data-id="' + esc('c|' + k) + '">Etiqueta da caixa</button><button class="btn" data-action="close">Fechar</button></div>');
+    '<div class="row-actions">' + (podeLancar(S.user) ? (l.some(c => !c.os) ? '<button class="btn primary" data-action="os-rem" data-id="' + esc('c|' + k) + '">Informar O.S</button>' : '<button class="btn" data-action="os-corr" data-id="' + esc('r:c|' + k) + '">Corrigir O.S da remessa</button>') : '') + '<button class="btn" data-action="etq-ids" data-id="' + esc(l.map(c => c.id).join(',')) + '">Imprimir etiquetas</button><button class="btn" data-action="fx-open" data-id="' + esc('c|' + k) + '">Etiqueta da caixa</button></div>');
 }
 
 /* ---------- criação de etiquetas (etapa D) ----------
@@ -10027,7 +10028,7 @@ function abrirEtqEdit(id) {
     openSheet('<h3>' + esc(m.nome) + (m.ativo === false ? ' <span class="chip">Inativo</span>' : '') + '</h3>' +
       keyval([['Material', TIPO_ANALISE_TXT[m.tipo] || m.tipo], ['Laboratório', m.lab || 'qualquer'], ['Campos', m.campos.map(f => f.label).join(', ')]].concat(m.ativo === false && m.motivoInativo ? [['Motivo da inativação', m.motivoInativo]] : [])) +
       '<p style="color:var(--text-muted);font-size:12.5px;margin:10px 0">Só líder e Principal editam os campos. Você pode pedir para ' + (m.ativo === false ? 'reativar' : 'desativar') + '.</p>' +
-      '<div class="row-actions"><button class="btn" data-action="close">Fechar</button>' + (pend ? '<button class="btn" data-action="aprov-open" data-id="' + esc(pend.id) + '">Ver pedido pendente</button>' : '<button class="btn' + (m.ativo === false ? ' primary' : '') + '" data-action="cad-desat" data-id="etqmodelo:' + esc(id) + '">' + (m.ativo === false ? 'Pedir reativação' : 'Pedir desativação') + '</button>') + '</div>');
+      '<div class="row-actions">' + (pend ? '<button class="btn" data-action="aprov-open" data-id="' + esc(pend.id) + '">Ver pedido pendente</button>' : '<button class="btn' + (m.ativo === false ? ' primary' : '') + '" data-action="cad-desat" data-id="etqmodelo:' + esc(id) + '">' + (m.ativo === false ? 'Pedir reativação' : 'Pedir desativação') + '</button>') + '</div>');
     return;
   }
   S.etqEdit = m ? { id: m.id, tipo: m.tipo, lab: m.lab || '', nome: m.nome, padrao: !!m.padrao, campos: m.campos.map(f => Object.assign({}, f)) } : { id: '', tipo: 'SOLO', lab: '', nome: '', padrao: false, campos: [] };
@@ -10692,7 +10693,7 @@ function openApDetail(id) {
     '<div class="ap-sec">Gravidade</div><div class="ap-m" style="margin:0">' + apGravChip(a) + '</div>' + (a.gravOrig && a.gravOrig !== a.grav ? '<div class="ap-hint">Riscada: como ' + esc(a.porNome) + ' registrou.</div>' : '') + gh +
     '<div style="margin-top:12px">' + keyval(kv) + '</div>' + (sup || a.porId === S.user.id ? '<button type="button" class="fm-link ap-orig-m" data-action="apo-mudar" data-id="' + esc(a.id) + '">Mudar a origem (rotina / auditoria interna)</button>' : '') + gal(a.fotosDepois, 'Fotos do depois') + nc + ac +
     '<details class="ap-hist"><summary>Histórico (' + hist.length + ')</summary>' + hist.map(h => '<div>' + fmtDT(h.ts) + ' · <b>' + esc(h.porNome) + '</b> — ' + esc(h.txt) + '</div>').join('') + '</details>' +
-    '<div class="row-actions"><button class="btn primary" data-action="close">Fechar</button></div>', { noFocus: true });
+    '', { noFocus: true });
   apCarregarFotos($('.sheet'));
 }
 function openApZoom(fid, apId, original) {
@@ -11174,7 +11175,7 @@ function openApSetores() {
   openSheet('<h3>Setores dos apontamentos</h3><div class="sub">Setor desativado some das escolhas novas, mas os apontamentos antigos continuam com ele.</div><div id="ap-msg"></div><div class="list">' +
     l.map((s, i) => '<div class="li"><span style="flex:1;min-width:0"><span class="t">' + esc(s.nome) + '</span>' + (s.ativo === false ? '<br><span class="d"><b style="color:var(--crit)">Inativo</b> — ' + esc(s.motivoInativo || '') + '</span>' : '') + '</span><button class="btn sm" data-action="ap-set-tg" data-id="' + i + '">' + (s.ativo === false ? 'Reativar' : 'Desativar') + '</button></div>').join('') + '</div>' +
     '<div class="field" style="margin-top:14px"><label>Novo setor</label><input class="input" id="ap-set-nome" autocomplete="off" placeholder="Ex.: Casa de bombas"></div>' +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button><button class="btn primary" data-action="ap-set-add">Acrescentar</button></div>', { noFocus: true });
+    '<div class="row-actions"><button class="btn primary" data-action="ap-set-add">Acrescentar</button></div>', { noFocus: true });
 }
 function apSetoresGravar(lista, resumo) {
   const doc = Object.assign({}, S.cfgAp || {}, { setores: lista, atualizadoEm: nowISO(), atualizadoPor: S.user.nome });
@@ -11463,13 +11464,13 @@ function viewAlmSol() {
   return vazioAl + imp + alRepCardHTML() + '<div class="al-sol-top">' + nova + seg + '</div>' + (cards ? '<div class="list">' + cards + '</div>' : '<div class="empty" style="margin:20px auto"><p>Nenhuma solicitação ' + (f === 'todas' ? '' : AL_SOL_ST[f][0].toLowerCase()) + '.</p></div>');
 }
 /* ---------- escolher item (saída, entrada, solicitação) ---------- */
-function alPickerHTML(acao, titulo, sub) {
+function alPickerHTML(acao, titulo, sub, volta) { /* v2.102.52: volta = ação do botão Voltar ('' = sem rodapé) */
   const mu = alMaisUsados(6), todos = alAtivos();
   return '<h3>' + esc(titulo) + '</h3><div class="sub">' + esc(sub) + '</div>' +
     '<input class="input" id="al-pk-busca" data-alvo="#al-pk-l" placeholder="Buscar item ou código" autocomplete="off" style="margin-bottom:10px">' +
     (mu.length ? '<div class="ap-sec" style="margin-top:4px">Mais usados</div><div class="ap-chips" style="margin-bottom:6px">' + mu.map(i => '<button class="ap-b" data-action="' + acao + '" data-id="' + esc(i.id) + '">' + esc(i.nome) + '</button>').join('') + '</div><div class="ap-sec">Todos</div>' : '') +
     '<div class="list" id="al-pk-l">' + todos.map(i => alItemBtn(i, acao)).join('') + '<div class="al-nada" hidden>Nenhum item com esse nome.</div></div>' +
-    '<div class="ap-foot"><button type="button" class="btn" data-action="close">Fechar</button></div>';
+    (volta ? '<div class="ap-foot"><button type="button" class="btn" data-action="' + esc(volta) + '">Voltar</button></div>' : '');
 }
 function alStepHTML(id, v, un) {
   return '<div class="al-step"><button type="button" data-action="al-q" data-id="' + id + '" data-d="-1" aria-label="Menos">−</button><input class="input" id="' + id + '" inputmode="decimal" autocomplete="off" value="' + esc(v) + '"><button type="button" data-action="al-q" data-id="' + id + '" data-d="1" aria-label="Mais">+</button></div>' + (un ? '<div class="ap-hint" style="text-align:center">' + esc(un) + '</div>' : '');
@@ -11562,7 +11563,7 @@ function alKitRender() {
   const k = alKitAtual(b), pc = alPC();
   if (b.modo === 'pick' && pc && !b.linhas.length) { alPCAbre(alPCEsq('al-ke-add', icoI('camadas') + 'Saída de vários itens', 'Clique nos itens para pôr na lista', ''), alPCVazio('Escolha o primeiro item')); return; }
   if (b.modo === 'pick' && pc) b.modo = '';
-  if (b.modo === 'pick') { openSheet(alPickerHTML('al-ke-add', 'Saída de vários itens', 'Escolha o primeiro item').replace('data-action="close">Fechar', (b.linhas.length ? 'data-action="al-ke-volta">Voltar' : 'data-action="close">Fechar')), { noFocus: true }); return; }
+  if (b.modo === 'pick') { openSheet(alPickerHTML('al-ke-add', 'Saída de vários itens', 'Escolha o primeiro item', b.linhas.length ? 'al-ke-volta' : ''), { noFocus: true }); return; }
   const titulo = k ? alKitIco(k) + esc('Kit ' + k.nome) : icoI('camadas') + 'Saída de vários itens';
   const cab = '<h3>' + titulo + '</h3><div class="sub">' + (k ? 'Confira as quantidades. Zere o que não for usar.' : 'Escolha os itens, a quantidade e diga para que foi.') + '</div><div id="al-msg"></div>';
   const pLin = b.linhas.map((l, n) => { const i = alItem(l.itemId), d = alDisp(l.itemId); return '<div class="al-kl"><div><b>' + esc(alNome(i)) + '</b><small>disponível ' + alQ(d) + ' ' + esc((i && i.un) || '') + (i && i.critico ? ' · <b class="al-crit-t">produto crítico</b>' : '') + '</small></div>' + alStepHTML('al-kq-' + n, l.qtd) + (k ? '' : '<button type="button" class="al-x" data-action="al-ke-rm2" data-id="' + n + '" aria-label="Tirar">✕</button>') + '</div>'; }).join('') +
@@ -11597,7 +11598,7 @@ function alEntRender() {
   const pc = alPC(), esq = sel => alPCEsq('al-ent-item', 'Entrada', 'Clique no item que chegou', sel || '');
   if (b.modo === 'pick' && pc && !b.linhas.length) { alPCAbre(esq(''), alPCVazio('Escolha o item que chegou')); return; }
   if (b.modo === 'pick' && pc) b.modo = 'lista';
-  if (b.modo === 'pick') { openSheet(alPickerHTML('al-ent-item', 'Entrada', 'Escolha o item que chegou').replace('data-action="close">Fechar', 'data-action="' + (b.linhas.length ? 'al-ent-volta">Voltar' : 'close">Fechar')), { noFocus: true }); return; }
+  if (b.modo === 'pick') { openSheet(alPickerHTML('al-ent-item', 'Entrada', 'Escolha o item que chegou', b.linhas.length ? 'al-ent-volta' : ''), { noFocus: true }); return; }
   if (b.modo === 'linha') {
     const c = b.cur, i = alItem(c.itemId), ob = i.controlaVal, ft = alFator(i);
     if (ft > 1 && !c.emb) c.emb = 'compra';
@@ -11674,7 +11675,7 @@ function openAlItem(id) {
     '<div class="row-actions">' + (alPode() && i.ativo !== false && alLotes(i.id).length ? '<button class="btn" data-action="al-ajuste" data-id="' + esc(i.id) + '">Ajustar saldo (contagem)</button>' : '') +
     (alSup() ? '<button class="btn" data-action="al-item-edit" data-id="' + esc(i.id) + '">Editar</button>' + (i.ativo === false ? '<button class="btn" data-action="al-item-reativar" data-id="' + esc(i.id) + '">Reativar</button>' : '<button class="btn" data-action="al-item-desat" data-id="' + esc(i.id) + '">Desativar</button>') : '') +
     (alSup() ? '' : '<span class="ap-hint" style="width:100%">Como secundário, o que você marcar aqui vai como pedido ao seu superior.</span>') +
-    '<button class="btn" data-action="hist-open" data-ent="almox_item" data-id="' + esc(i.id) + '">Histórico</button><button class="btn primary" data-action="close">Fechar</button></div>');
+    '<button class="btn" data-action="hist-open" data-ent="almox_item" data-id="' + esc(i.id) + '">Histórico</button></div>');
 }
 function alAbertosHTML(i, pode) {
   const abs = alAbertos(i.id);
@@ -11863,7 +11864,7 @@ function openAlConfLista() {
     '<details class="al-mais"' + (falta.length === ALM_SEED.itens.length ? ' open' : '') + '><summary>O que encontrei na planilha</summary><ul class="al-ach">' + alSeedAchados().map(t => '<li>' + esc(t) + '</li>').join('') + '</ul></details>' +
     (falta.length ? '<button class="ap-novo" style="margin-top:12px" data-action="al-conf" data-id="' + falta[0].k + '">Conferir o próximo: ' + esc(falta[0].nome) + '</button>' : '<div class="msg" style="background:var(--ok-soft);color:var(--ok);margin-top:12px">Conferência concluída.</div>') +
     '<input class="input" id="al-cf-busca" data-alvo="#al-cf-l" placeholder="Buscar" autocomplete="off" style="margin:4px 0 10px"><div class="list" id="al-cf-l">' + falta.concat(ALM_SEED.itens.filter(x => alSeedFeito(x.k))).map(linha).join('') + '<div class="al-nada" hidden>Nada com esse nome.</div></div>' +
-    '<div class="ap-foot"><button type="button" class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
+    '', { noFocus: true });
 }
 function openAlConf(k) {
   if (alSemPermissao(true)) return;
@@ -11935,7 +11936,7 @@ function openAlSolNova(pre) {
 function alSolNLer() { const b = S.alSolN; if (!b) return; ['numero', 'data', 'solicitante', 'liberador', 'previsao', 'obs'].forEach(f => { const e = $('#al-sn-' + f); if (e) b[f] = e.value; }); b.linhas.forEach((l, n) => { const e = $('#al-sn-q-' + n); if (e) l.qtd = e.value; }); }
 function alSolNRender() {
   const b = S.alSolN; if (!b) return;
-  if (b.pick) { openSheet(alPickerHTML('al-sn-item', 'Item da solicitação', 'Escolha o item').replace('data-action="close">Fechar', 'data-action="al-sn-volta">Voltar'), { noFocus: true }); return; }
+  if (b.pick) { openSheet(alPickerHTML('al-sn-item', 'Item da solicitação', 'Escolha o item', 'al-sn-volta'), { noFocus: true }); return; }
   openSheet('<h3>Nova solicitação</h3><div class="sub">Pedido ao almoxarifado central. Quando chegar, marque Atendida e a entrada já vem preenchida.' + (b.rep ? ' <b>Montada pela reposição automática: confira as quantidades e informe o Nº do documento.</b>' : '') + '</div><div id="al-msg"></div>' +
     '<div class="list">' + (b.linhas.length ? b.linhas.map((l, n) => { const i = alItem(l.itemId); return '<div class="al-kl"><div><b>' + esc(i.nome) + '</b><small>tem ' + alQ(alSaldo(i.id)) + ' ' + esc(i.un || '') + '</small></div><input class="input" id="al-sn-q-' + n + '" inputmode="decimal" value="' + esc(l.qtd) + '" style="max-width:90px;text-align:center;font-weight:800" autocomplete="off"><button type="button" class="al-x" data-action="al-sn-rm" data-id="' + n + '" aria-label="Tirar">✕</button></div>'; }).join('') : '<div class="al-nada">Nenhum item ainda.</div>') + '</div>' +
     '<button type="button" class="btn" style="width:100%;margin:10px 0 14px" data-action="al-sn-add">+ Adicionar item</button>' +
@@ -11966,7 +11967,7 @@ function openAlSol(id) {
     keyval([['Data', fmtD(x.data)], ['Solicitante', x.solicitante || '—'], ['Liberador', x.liberador || '—'], ['Previsão', x.previsao ? fmtD(x.previsao) : '—']].concat(x.obs ? [['Observação', x.obs]] : []).concat(x.situacao === 'atendida' ? [['Atendida em', fmtD(x.atendidaEm) + ' · ' + (x.atendidaPor || '')]] : []).concat(x.situacao === 'cancelada' ? [['Cancelada', (x.canceladaPor || '') + ' — ' + (x.canceladaMotivo || '')]] : [])) +
     '<div class="ap-sec">Itens</div><div class="list">' + (x.linhas || []).map(l => '<div class="li"><span class="dot"></span><span><span class="t">' + alQ(l.qtd) + ' · ' + esc(l.nome) + '</span>' + (!l.itemId || !alItem(l.itemId) ? '<br><span class="d">ainda não está nos materiais (confira na conferência inicial)</span>' : '') + '</span></div>').join('') + '</div>' +
     (pend && semItem.length ? '<div class="ap-hint">Ao marcar Atendida, os itens que ainda não estão nos materiais ficam de fora da entrada.</div>' : '') +
-    '<div class="row-actions">' + (pend ? '<button class="btn" data-action="al-sol-canc" data-id="' + esc(x.id) + '">Cancelar solicitação</button><button class="btn primary" data-action="al-sol-atender" data-id="' + esc(x.id) + '">Chegou: marcar Atendida</button>' : '') + '<button class="btn' + (pend ? '' : ' primary') + '" data-action="close">Fechar</button></div>');
+    '<div class="row-actions">' + (pend ? '<button class="btn" data-action="al-sol-canc" data-id="' + esc(x.id) + '">Cancelar solicitação</button><button class="btn primary" data-action="al-sol-atender" data-id="' + esc(x.id) + '">Chegou: marcar Atendida</button>' : '') + '</div>');
 }
 function alSolAtender(id) {
   const x = S.almSol.find(y => y.id === id); if (!x || alSemPermissao()) return;
@@ -12473,7 +12474,7 @@ function openEq(id) {
     (kc.length ? '<div class="dt-sec">Calibração</div>' + keyval(kc) : '') + '<div class="dt-sec">Linha do tempo</div><div class="eq-tl">' + (tl || '<p class="fm-dica">Nada registrado.</p>') + '</div>' +
     '<div class="row-actions eq-acoes">' + (pode && !baixa ? (e.tipo === 'qtd' ? b('eq-qtd', 'Quantidade') + b('eq-ev-transferencia', 'Transferir') + b('qb-nova', 'Quebrou', true) : e.transito ? '<button class="btn primary" data-action="trf-open" data-id="' + esc(e.transito) + '">Ver a transferência</button>' + b('eq-ev-dano', 'Dano') : (e.situacao === 'armazenado' ? b('eq-ev-usar', 'Pôr em uso', true) : b('eq-ev-guardar', 'Guardar')) + b('eq-ev-transferencia', 'Transferir') + b('eq-ev-dano', 'Dano') + b('eq-ev-manutencao', 'Manutenção')) : '') +
       (sup && !baixa && e.precisaCal && e.situacao === 'armazenado' ? b('eq-calguard', e.calGuardado ? 'Pausar calibração' : 'Calibrar mesmo guardado') : '') +
-      (sup && !baixa ? b('eq-cal', 'Calibração') + b('eq-plano', e.precisaCal ? 'Tirar do plano' : 'Precisa de calibração') + b('eq-editar', 'Atualizar') + b('eq-ev-baixa', 'Baixa') : '') + (sup && baixa ? b('eq-ev-reativar', 'Reativar') : '') + '<button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
+      (sup && !baixa ? b('eq-cal', 'Calibração') + b('eq-plano', e.precisaCal ? 'Tirar do plano' : 'Precisa de calibração') + b('eq-editar', 'Atualizar') + b('eq-ev-baixa', 'Baixa') : '') + (sup && baixa ? b('eq-ev-reativar', 'Reativar') : '') + '</div>', { noFocus: true });
   eqCarregarFotos(); alFotosCarregar();
 }
 function eqCarregarFotos() {
@@ -12728,7 +12729,7 @@ function openCal(id) {
     '<div class="row-actions eq-acoes"><button class="btn" data-action="cal-print" data-id="' + esc(id) + '">' + icoI('print') + 'Relatório</button>' +
       (sup && !fim && !(c.itens || []).some(i => i.aplicado) ? '<button class="btn" data-action="cal-cancelar" data-id="' + esc(id) + '">Cancelar</button>' : '') +
       (sup && !fim && (c.itens || []).some(i => !i.aplicado) ? '<button class="btn" data-action="cal-cot" data-id="' + esc(id) + '">Cotação</button><button class="btn primary" data-action="cal-real" data-id="' + esc(id) + '">Calibrado</button>' : '') +
-      '<button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
+      '</div>', { noFocus: true });
 }
 /* relatório A4 para o e-mail do prestador */
 function calPrint(id) {
@@ -12803,7 +12804,7 @@ async function calCancelarOk(id, motivo) {
 function openCalLista() {
   const l = (S.almCal || []).slice().sort((a, b) => String(b.numero).localeCompare(String(a.numero)));
   openSheet('<h3>Solicitações de calibração</h3><div class="sub">Todas, inclusive as encerradas e canceladas.</div>' + (l.length ? '<div class="list">' + l.map(c => '<button class="li" data-action="cal-open" data-id="' + esc(c.id) + '"><span class="dot"></span><span><span class="t">' + esc(c.numero) + ' · ' + (c.itens || []).length + ' equipamento(s)</span><br><span class="d">' + esc(c.prestador || '') + ' · ' + CAL_SIT[calSit(c)][0] + '</span></span><span class="chev">›</span></button>').join('') + '</div>' : '<p class="fm-dica">Nenhuma ainda.</p>') +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button>' + (eqSup() ? '<button class="btn primary" data-action="cal-nova">Nova solicitação</button>' : '') + '</div>', { noFocus: true });
+    '<div class="row-actions">' + (eqSup() ? '<button class="btn primary" data-action="cal-nova">Nova solicitação</button>' : '') + '</div>', { noFocus: true });
 }
 /* ---------- Rateios › Calibração ---------- */
 function linhasCal() {
@@ -12935,7 +12936,7 @@ function openInvContar(id) {
   openSheet('<h3>Contar · ' + esc(inv.numero) + '</h3><div class="sub">' + esc(inv.local) + ' · ' + pr.feitos + ' de ' + pr.total + ' contados. Toque no item e digite o que tem.</div>' +
     '<input class="input" id="inv-busca" data-alvo="#inv-lista" placeholder="Buscar item" autocomplete="off" style="margin:6px 0 8px">' +
     '<div id="inv-lista">' + INV_PARTES.filter(p => (inv.partes || {})[p[0]]).map(p => { const g = al.filter(a => a.parte === p[0]); return g.length ? '<div class="dt-sec">' + p[1] + ' (' + g.filter(a => ct[a.k]).length + '/' + g.length + ')</div>' + g.map(a => '<button class="inv-li' + (ct[a.k] ? ' ok' : '') + '" data-action="inv-item" data-id="' + esc(inv.id + '|' + a.k) + '" data-busca="' + esc((a.nome + ' ' + a.sub).toLowerCase()) + '"><span><b>' + esc(a.nome) + '</b><small>' + esc(a.sub) + '</small></span><span class="inv-st">' + (ct[a.k] ? (p[0] === 'equip' ? (ct[a.k].cont ? 'achado' : 'não achado') : 'contado') : 'falta') + '</span></button>').join('') : ''; }).join('') + '<p class="al-nada fm-dica" hidden>Nada com esse nome.</p></div>' +
-    '<div class="row-actions"><button class="btn primary" data-action="close">Fechar</button></div>', { noFocus: true });
+    '', { noFocus: true });
 }
 function openInvItem(ref) {
   const q = String(ref).split('|'), inv = invDe(q[0]), k = q.slice(1).join('|'); if (!inv || inv.situacao !== 'aberto') return;
@@ -13022,7 +13023,7 @@ function openInvRes(id) {
   const inv = invDe(id); if (!inv) return; const r = inv.resumo || {};
   openSheet('<h3>' + esc(inv.numero) + '</h3><div class="sub">' + esc(inv.local) + ' · ' + (inv.situacao === 'concluido' ? 'concluído em ' + fmtDT(inv.concluidoEm) + ' por ' + esc(inv.concluidoPor || '') : 'cancelado: ' + esc(inv.canceladoMotivo || '')) + '</div>' +
     keyval([['Contados', (r.contados || 0) + ' de ' + (r.total || 0)], ['Diferenças', String(r.difs || 0)]]) + ((r.ajustes || []).length ? '<div class="dt-sec">Ajustes</div><div class="eq-tl">' + r.ajustes.map(t => '<div class="eq-ev quantidade"><span class="eq-ev-t">' + esc(t) + '</span></div>').join('') + '</div>' : '') +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
+    '', { noFocus: true });
 }
 /* Meu dia: inventário passou de INV_DIAS ou está aberto */
 
@@ -13310,7 +13311,7 @@ function alPCEsq(acao, titulo, sub, selId) {
 }
 function alPCVazio(txt) {
   return '<div class="al-pc-vazio">' + ico('box') + '<b>' + esc(txt) + '</b><small>Busque pelo nome, código ou local e clique no item. O formulário abre aqui, sem fechar a lista.</small></div>' +
-    '<div class="ap-foot"><button type="button" class="btn" data-action="close">Fechar</button></div>';
+    '';
 }
 /* redesenha mantendo a busca e a rolagem da lista */
 function alPCAbre(esq, dir) {
@@ -13629,7 +13630,7 @@ function openAlMov(id) {
     (m.fotos && m.fotos.length ? '<div class="ap-sec">Foto</div>' + alFotosHTML(m.fotos, m.fotosApagadas, m.criadoEm) : '') + hist +
     '<div class="row-actions">' + (pode && m.tipo !== 'ajuste' ? '<button class="btn" data-action="al-mov-corr" data-id="' + esc(m.id) + '">Corrigir</button>' : '') + (pode && !alTemRef(m) ? '<button class="btn" data-action="al-mov-anular" data-id="' + esc(m.id) + '">Anular (lançado por engano)</button>' : '') +
     (i ? '<button class="btn" data-action="al-item" data-id="' + esc(i.id) + '">Ver o item</button>' : '') +
-    (decide ? '<button class="btn" data-action="alcr-nao" data-id="' + esc(m.id) + '">Não confere</button><button class="btn primary" data-action="alcr-conf" data-id="' + esc(m.id) + '">Confirmar saída</button><button class="btn" data-action="close">Fechar</button>' : '<button class="btn primary" data-action="close">Fechar</button>') + '</div>');
+    (decide ? '<button class="btn" data-action="alcr-nao" data-id="' + esc(m.id) + '">Não confere</button><button class="btn primary" data-action="alcr-conf" data-id="' + esc(m.id) + '">Confirmar saída</button>' : '') + '</div>');
   alFotosCarregar();
 }
 
@@ -13659,7 +13660,7 @@ function qbRender() {
     const l = qbVidrarias();
     openSheet('<h3>Vidraria quebrada</h3><div class="sub">Escolha a vidraria</div><input class="input" id="qb-busca" data-alvo="#qb-l" placeholder="Buscar vidraria" autocomplete="off" style="margin-bottom:10px">' +
       '<div class="list" id="qb-l">' + l.map(e => '<button class="al-it" data-action="qb-pick" data-id="' + esc(e.id) + '" data-busca="' + esc((e.nome + ' ' + (e.marca || '')).toLowerCase()) + '"><span class="al-it-n"><b>' + esc(e.nome) + '</b><small>' + esc(eqLocalTxt(e)) + '</small></span><span class="al-sal">' + eqQtd(e) + '<small>un.</small></span></button>').join('') + '<div class="al-nada" hidden>Nenhuma vidraria com esse nome.</div></div>' +
-      '<div class="ap-foot"><button type="button" class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
+      '', { noFocus: true });
     return;
   }
   const e = eqDe(b.equipId); if (!e) { b.equipId = ''; qbRender(); return; }
@@ -13724,7 +13725,7 @@ function qbRelRender() {
     '<div class="fm-row"><div><label class="fm-l">De</label><input class="input" type="date" id="qbr-de" value="' + esc(r.de) + '"></div><div><label class="fm-l">Até</label><input class="input" type="date" id="qbr-ate" value="' + esc(r.ate) + '" max="' + hojeISO() + '"></div></div>' +
     '<div class="rz-big" style="margin-top:10px"><b>' + un + ' un.</b><small>' + ps.length + ' pessoa(s) · ' + brl(tot) + '</small></div>' +
     (ps.length ? '<div class="rz-lista">' + ps.map(p => '<div class="rz-li falta"><span><b>' + esc(p.nome) + '</b><small>' + p.l.length + ' quebra(s) · ' + p.un + ' un. · ' + (p.valor ? brl(p.valor) : 'sem valor cadastrado') + '</small><small>' + esc(p.l.map(x => x.h.qtd + ' ' + x.e.nome).join(' · ')) + '</small></span><button class="btn sm" data-action="qb-rel-imp" data-id="' + esc(p.k) + '">' + icoI('print') + '</button></div>').join('') + '</div>' : '<p class="fm-dica">Nenhuma quebra registrada no período.</p>') +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button>' + (ps.length ? '<button class="btn primary imp-bt" data-action="qb-rel-imp" data-id="todos" title="Imprimir todos" aria-label="Imprimir todos">' + ico('print') + '</button>' : '') + '</div>', { noFocus: true });
+    '<div class="row-actions">' + (ps.length ? '<button class="btn primary imp-bt" data-action="qb-rel-imp" data-id="todos" title="Imprimir todos" aria-label="Imprimir todos">' + ico('print') + '</button>' : '') + '</div>', { noFocus: true });
 }
 function qbRelImprimir(k) {
   const r = S.qbr; if (!r) return;
@@ -13760,7 +13761,7 @@ function openTrfLista() {
   openSheet('<h3>Transferências</h3><div class="sub">Quem envia tira a foto da identificação; quem recebe tira a foto confirmando; o líder ★ de cada local confirma e a transferência se encerra.</div>' +
     '<div class="dt-sec">Em andamento</div>' + (ab.length ? '<div class="cal-ab">' + ab.map(li).join('') + '</div>' : '<p class="fm-dica">Nenhuma transferência em andamento.</p>') +
     (fe.length ? '<div class="dt-sec">Encerradas e canceladas</div><div class="cal-ab">' + fe.map(li).join('') + '</div>' : '') +
-    '<div class="row-actions eq-acoes">' + (eqSup() ? '<button class="btn" data-action="trf-resp">Responsáveis por local</button>' : '') + '<button class="btn" data-action="trf-rel-sem">' + icoI('print') + 'Relatório</button><button class="btn" data-action="close">Fechar</button>' + (podeLancar(S.user) ? '<button class="btn primary" data-action="trf-nova">Nova transferência</button>' : '') + '</div>', { noFocus: true });
+    '<div class="row-actions eq-acoes">' + (eqSup() ? '<button class="btn" data-action="trf-resp">Responsáveis por local</button>' : '') + '<button class="btn" data-action="trf-rel-sem">' + icoI('print') + 'Relatório</button>' + (podeLancar(S.user) ? '<button class="btn primary" data-action="trf-nova">Nova transferência</button>' : '') + '</div>', { noFocus: true });
 }
 function openTrfNova(pre) {
   if (!podeLancar(S.user)) return;
@@ -13854,7 +13855,7 @@ function openTrf(id) {
   openSheet('<h3>' + esc(t.numero) + '</h3><div class="sub">' + trfChip(t) + ' ' + esc(trfCurto(t.de)) + ' → ' + esc(trfCurto(t.para)) + '</div>' +
     '<div class="rz-lista">' + (t.itens || []).map(x => '<div class="rz-li ' + (s === 'encerrada' ? 'coletada' : s === 'cancelada' ? '' : 'programada') + '"><span><b>' + esc((x.tag ? x.tag + ' · ' : '') + x.nome) + '</b><small>' + (x.tipo === 'mat' ? trfMatSub(x) + (t.matRec && t.matRec[x.itemId] != null ? ' · chegou ' + alQ(t.matRec[x.itemId]) : '') : x.tipo === 'qtd' ? x.qtd + ' un. (vidraria)' : 'equipamento') + '</small></span></div>').join('') + '</div>' +
     '<div class="dt-sec">Linha do tempo</div>' + mesmo + '<div class="eq-tl">' + tl + '</div>' +
-    '<div class="row-actions eq-acoes">' + acoes + '<button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
+    '<div class="row-actions eq-acoes">' + acoes + '</div>', { noFocus: true });
   alFotosCarregar();
 }
 function openTrfReceber(id) {
@@ -15526,7 +15527,7 @@ function openRncPareto() { /* v2.102.27: barra única (ano, Período ▾, Agrupa
   const f = prF(), d = paretoDados();
   parFoco(openSheet('<h3>Pareto das NCs</h3><div class="sub">O que mais se repete nas auditorias internas. As barras até 80% do total são os "poucos vitais".</div>' +
     parTopo('rnc', f, PAR_POR, d.total) + paretoCorpo(d) +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button></div>', { noFocus: true }));
+    '', { noFocus: true }));
 }
 function paretoImprimir() {
   const f = prF(), d = paretoDados(); if (!d.total) { toast('Nenhuma NC neste período.'); return; }
@@ -15580,7 +15581,7 @@ function openApPareto() { /* v2.102.27: barra única (ano, Período ▾, Agrupar
   const f = papF(), d = papDados();
   parFoco(openSheet('<h3>Pareto dos apontamentos</h3><div class="sub">O que mais se repete no campo. As barras até 80% do total são os "poucos vitais". Os "Não procede" não entram.</div>' +
     parTopo('ap', f, PAP_POR, d.total) + papCorpo(d) +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button></div>', { noFocus: true }));
+    '', { noFocus: true }));
 }
 function apParetoImprimir() {
   const f = papF(), d = papDados(); if (!d.total) { toast('Nenhum apontamento neste período.'); return; }
@@ -16302,7 +16303,7 @@ function openRncLixeira() {
       return '<div class="li"><span style="flex:1;min-width:0"><span class="t">' + esc(r.numero) + ' · ' + esc(r.tipo || '') + ' · ' + esc(rncNcs(r).length) + ' NC(s)</span><br><span class="d">Excluída em ' + fmtD(diaLocal(r.lixeira.em)) + ' por ' + esc(r.lixeira.porNome || '') + ' · ' + esc(r.lixeira.motivo || '') + '<br>' +
         (fa ? 'Fotos apagadas em ' + fmtD(diaLocal(fa)) + '.' : 'As fotos serão apagadas em ' + fmtD(v) + '.') + '</span></span>' +
         (!fa && v > hojeISO() ? '<button class="btn sm" data-action="rnc-restaurar" data-id="' + esc(r.id) + '">Restaurar</button>' : '') + '</div>'; }).join('') + '</div>' : '<p class="fm-dica">A Lixeira está vazia.</p>') +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button></div>');
+    '');
 }
 async function rncRestaurar(id) {
   const r = rncDe(id); if (!r || !r.lixeira || !isSup(S.user) || r.lixeira.fotosApagadasEm) return;
@@ -16842,7 +16843,7 @@ function openDc() {
     '<div class="sec">Logo</div><div class="dc-logo-box">' + (dcLogo() ? '<img src="' + esc(dcLogo()) + '" alt="Logo">' : '<span class="dc-sem-logo">Sem logo</span>') + '<span><label class="btn sm">' + (c.logo ? 'Trocar o logo' : 'Enviar o logo') + '<input type="file" accept="image/*" class="dc-logo-in" hidden></label>' + (c.logo ? '<button class="btn sm" data-action="dc-logo-padrao">Tirar o logo</button>' : '') + '<small>' + (c.logo ? 'Logo da empresa.' : 'Sem logo, o cabeçalho mostra a razão social (Opções › Empresa).') + '</small></span></div>' +
     '<div class="sec">Relatórios</div><div class="list">' + DC_RELS.map(r => dcLinha(r[0])).join('') + '</div>' +
     '<div class="sec">Listas impressas (botão Imprimir das tabelas)</div><div class="list">' + DC_LISTAS.map(r => dcLinha(r[0])).join('') + '</div>' +
-    '<div class="row-actions"><button class="btn" data-action="gear">Voltar</button><button class="btn primary" data-action="close">Fechar</button></div>');
+    '<div class="row-actions"><button class="btn" data-action="gear">Voltar</button></div>');
 }
 function openDcEdit(k) {
   if (!isPrincipal(S.user)) return;
@@ -17170,7 +17171,7 @@ function openBackup() {
     '<div class="fm-dica" id="bk-st" aria-live="polite"></div>' +
     '<div class="sec">3 · Conferir um backup</div><div class="fm-dica">Escolha um arquivo .json de backup para ver a data e quantos registros ele tem. Não grava nada.</div><label class="btn sm">' + icoI('funnel') + 'Escolher o arquivo<input type="file" accept=".json,application/json" class="bk-conf-in" hidden></label><div id="bk-conf"></div>' +
     (c.hist.length ? '<div class="sec">Últimos</div>' + keyval(c.hist.slice(-5).reverse().map(x => [fmtDT(x.ts), (x.tipo === 'xlsx' ? 'Planilha' : x.tipo === 'json_fotos' ? 'Backup com fotos' : 'Backup') + ' · ' + x.porNome + ' · ' + bkTam(x.bytes)])) : '') +
-    '<div class="row-actions"><button class="btn" data-action="gear">Voltar</button><button class="btn primary" data-action="close">Fechar</button></div>');
+    '<div class="row-actions"><button class="btn" data-action="gear">Voltar</button></div>');
 }
 function bkMeuDia(u, add) {
   if (!isPrincipal(u) || !bkAtrasado()) return;
@@ -17276,7 +17277,7 @@ function arqRender() {
     (lista.length ? lista.map(linha).join('') : '<div class="fm-dica">Ainda não há registros.</div>') +
     '<div id="arq-det"></div>' +
     (c.hist.length ? '<div class="sec">Histórico</div>' + keyval(c.hist.slice(-6).reverse().map(h => [fmtDT(h.ts), (h.acao === 'fechar' ? 'Fechou ' : 'Reabriu ') + h.ano + ' · ' + h.porNome + (h.motivo ? ' · ' + h.motivo : '')])) : '') +
-    '<div class="row-actions"><button class="btn" data-action="gear">Voltar</button><button class="btn primary" data-action="close">Fechar</button></div>';
+    '<div class="row-actions"><button class="btn" data-action="gear">Voltar</button></div>';
 }
 function arqFecharPedir(ano) {
   const dados = S.arqDados; if (!dados) return; const det = $('#arq-det'); if (!det) return;
@@ -17466,7 +17467,7 @@ function openChat(chave) {
   const reg = t.de(id), m0 = chatMsgs(chave)[0], titulo = reg ? t.tit(reg) : (m0 ? m0.refTitulo : '');
   if (!chatPodeVer(S.user, tipo) && !chatMsgs(chave).some(m => (m.mencoes || []).includes(S.user.id))) { toast('Sem acesso a esta conversa.', 'err'); return; }
   openSheet('<h3>' + esc(t.nome) + '</h3><div class="sub">' + esc(titulo || '') + '</div><div class="chat-box" id="chat-box" data-chave="' + esc(chave) + '">' + chatCorpoHTML(chave) + '</div>' +
-    '<div class="row-actions">' + (reg && chatPodeVer(S.user, tipo) ? '<button class="btn" data-action="chat-reg" data-id="' + esc(chave) + '">Abrir o registro</button>' : '') + '<button class="btn primary" data-action="close">Fechar</button></div>', { noFocus: true });
+    '<div class="row-actions">' + (reg && chatPodeVer(S.user, tipo) ? '<button class="btn" data-action="chat-reg" data-id="' + esc(chave) + '">Abrir o registro</button>' : '') + '</div>', { noFocus: true });
   chatMarcarLido(chave); chatRolar();
   if (curArea().id === 'qualidade') renderView();
 }
@@ -17692,7 +17693,7 @@ function openTeste() {
       '<div class="field"><label>Configuração do projeto de teste</label><textarea class="input" id="teste-fb" rows="4" placeholder="const firebaseConfig = { apiKey: &quot;…&quot;, projectId: &quot;…&quot;, appId: &quot;…&quot; … }"></textarea></div><div id="teste-msg"></div>' +
       '<div class="row-actions" style="justify-content:flex-start"><button class="btn" data-action="teste-fb-salvar">Guardar neste aparelho</button>' +
       (fc ? (usando ? '<button class="btn primary" data-action="teste-fb-real">Voltar para o REAL</button>' : '<button class="btn primary" data-action="teste-fb-usar">Usar o projeto de teste neste aparelho</button>') : '') + '</div>') +
-    '<div class="row-actions"><button class="btn" data-action="gear">Voltar</button><button class="btn primary" data-action="close">Fechar</button></div>');
+    '<div class="row-actions"><button class="btn" data-action="gear">Voltar</button></div>');
 }
 function testeArquivo(inp) {
   const f = (inp.files || [])[0]; inp.value = ''; if (!f) return;
@@ -17805,7 +17806,7 @@ function pgAbrirLinha(r) {
   openSheet('<h3>' + esc(r.tipo) + ' · ' + esc(r.talhao) + '</h3><div class="sub"><span class="chip warn">Pendente</span> <span class="chip info">Plano</span></div>' +
     keyval([['Plano de coleta', r._pl.nome], ['Prazo', fmtD(r.prazo)], ['Pontos', String(r.pontos || '—')], ['Local', tl ? [tl.cultura, tl.variedade, tl.pivo].filter(Boolean).join(' · ') : '—']]) +
     '<div class="row-actions"><button class="btn" data-action="rz-open" data-id="' + esc(r._pl.rid) + '" data-p="' + esc(r._pl.pk) + '">Abrir o plano</button>' +
-    (pode ? '<button class="btn primary" data-action="cd-open" data-id="' + esc(r.id) + '">Coletado</button>' : '') + '<button class="btn" data-action="close">Fechar</button></div>');
+    (pode ? '<button class="btn primary" data-action="cd-open" data-id="' + esc(r.id) + '">Coletado</button>' : '') + '</div>');
 }
 
 /* ---------- janela "Coletas avulsas" ---------- */
@@ -17863,7 +17864,7 @@ function pfPreparar(lista, titulo) {
     '<span class="pf-tl"><input class="input" id="pf-est-t" placeholder="Estádio" list="dl-pf-est" autocomplete="off"><button type="button" class="btn sm" data-action="pf-te">Aplicar</button></span></div>' +
     sugestoes('dl-pf-col', pgEquipes()) + sugestoes('dl-pf-est', ['FLORAÇÃO', 'FRUTIFICAÇÃO', 'VEGETATIVO', 'POUSIO']) +
     '<div class="pf-cab"><span>Área</span><span>Nome do coletor</span><span>Estádio fenológico</span></div><div class="pf-lista">' + linhas + '</div>' +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button>' + impBtn([{ a: 'pf-imp', t: 'Imprimir preenchida' }, { a: 'pf-branco', t: 'Imprimir em branco' }], { up: true }) + '</div></div>', { noFocus: true });
+    '<div class="row-actions">' + impBtn([{ a: 'pf-imp', t: 'Imprimir preenchida' }, { a: 'pf-branco', t: 'Imprimir em branco' }], { up: true }) + '</div></div>', { noFocus: true });
 }
 function pfAcao(act) {
   const pf = S._pf; if (!pf) return false;
@@ -18210,7 +18211,7 @@ function openImp(tipo) {
     '<div class="imp-passo"><i>1</i><span>Baixe a planilha-modelo, preencha uma linha por ' + esc(T.linha) + ' e salve como .xlsx (ou .csv).</span><button class="btn sm" data-action="imp-modelo" data-id="' + tipo + '">Baixar a planilha-modelo</button></div>' +
     '<div class="imp-passo"><i>2</i><span>Escolha o arquivo preenchido. Nada é gravado antes de você conferir.</span><label class="btn sm">Escolher arquivo<input type="file" accept=".xlsx,.csv,.txt" class="imp-in" data-tipo="' + tipo + '" hidden></label></div>' +
     (a ? '<div class="imp-passo"><i>3</i><span>Confira: ' + (S._imp.nome ? esc(S._imp.nome) : 'arquivo') + '</span></div>' + impPreviaHTML(tipo, a) : '') +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button>' + (a && !a.erro && a.total ? '<button class="btn primary" data-action="imp-gravar" data-id="' + tipo + '">Importar ' + a.total + (T.unid || (tipo === 'est' ? ' item(ns)' : ' coleta(s)')) + '</button>' : '') + '</div></div>', { noFocus: true });
+    '<div class="row-actions">' + (a && !a.erro && a.total ? '<button class="btn primary" data-action="imp-gravar" data-id="' + tipo + '">Importar ' + a.total + (T.unid || (tipo === 'est' ? ' item(ns)' : ' coleta(s)')) + '</button>' : '') + '</div></div>', { noFocus: true });
 }
 function impProcessar(tipo, linhas, nome) {
   const T = IMP_CFG[tipo]; if (!T || !T.pode()) return null;
@@ -18310,7 +18311,7 @@ function openCq(x) {
       return '<div class="li"><span class="dot"></span><span style="flex:1"><span class="t">' + esc(cqLinhaTxt(l)) + '</span><br><span class="d">' + cqTipoTxt(l.eqTipo) + (Number(l.valor) > 0 ? ' · R$ ' + Number(l.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 }) + ' cada' : '') + (es.length ? ' · cadastrado: ' + esc(es.map(eqNomeC).join(', ')) : '') + (at && f && l.eqTipo !== 'qtd' && cqIds(l).length ? ' · falta ' + f : '') + '</span></span>' +
         (at && f && podeLancar(S.user) ? '<button class="btn sm" data-action="cq-cad" data-id="' + esc(x.id) + '" data-n="' + n + '">Cadastrar</button>' : '') + '</div>'; }).join('') + '</div>' +
     (at && falta ? '<div class="ap-hint">' + falta + ' item(ns) ainda não cadastrado(s) no inventário. Toque em Cadastrar: o cadastro abre já preenchido.</div>' : '') +
-    '<div class="row-actions">' + (pend ? '<button class="btn" data-action="al-sol-canc" data-id="' + esc(x.id) + '">Cancelar pedido</button><button class="btn primary" data-action="cq-atender" data-id="' + esc(x.id) + '">Chegou: marcar Atendida</button>' : '') + '<button class="btn' + (pend ? '' : ' primary') + '" data-action="close">Fechar</button></div>');
+    '<div class="row-actions">' + (pend ? '<button class="btn" data-action="al-sol-canc" data-id="' + esc(x.id) + '">Cancelar pedido</button><button class="btn primary" data-action="cq-atender" data-id="' + esc(x.id) + '">Chegou: marcar Atendida</button>' : '') + '</div>');
 }
 const cqIds = l => l.eqIds || [];
 const cqFalta = l => l.eqTipo === 'qtd' ? (cqIds(l).length ? 0 : 1) : Math.max(0, Math.round(Number(l.qtd) || 1) - cqIds(l).length);
@@ -18620,7 +18621,7 @@ function openCnq(alvo) {
       '<div class="cnq-grid">' + CNQ_PESSOAIS.map(c => cnqCardHTML(c, Number((doc.niveis || {})[c.k]) || 0, null, false, alvo)).join('') + '</div><div class="dt-sec">Raras</div>' + cnqRarasHTML(CNQ_RARAS, doc.raras || {}, false);
   }
   openSheet('<h3>Conquistas</h3><div class="sub">Só conta o que é válido, no máximo 1 por dia em cada uma. O nível nunca desce. Sem ranking.</div><div class="cnq-top">' + tabs + sel + '</div><div class="cnq-win">' + corpo + '</div>' +
-    '<div class="row-actions"><button class="btn primary" data-action="close">Fechar</button></div>', { noFocus: true });
+    '', { noFocus: true });
   const s = $('#cnq-sel'); if (s) s.addEventListener('change', () => { if (s.value) openCnq(s.value); });
 }
 function cnqAcao(act, id) {
@@ -19113,7 +19114,7 @@ function openNrm() {
   openSheet('<div class="nrm-win"><h3>Normas e editais</h3><div class="sub">As normas da auditoria interna e o edital de cada ano. Quando sair o edital novo, crie a nova edição: o app copia a anterior e você só ajusta o que mudou.</div><div id="ap-msg"></div>' +
     '<div class="dt-sec">Em uso <small>' + at.length + '</small></div>' + (at.length ? '<div class="list">' + at.map(li).join('') + '</div>' : '<p class="fm-dica">Nenhuma norma ainda. Cadastre a primeira.</p>') +
     (des.length ? '<div class="dt-sec">Desativadas <small>continuam guardadas</small></div><div class="list">' + des.map(li).join('') + '</div>' : '') +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button><button class="btn primary" data-action="nrm-nova">+ Nova norma</button></div></div>', { noFocus: true });
+    '<div class="row-actions"><button class="btn primary" data-action="nrm-nova">+ Nova norma</button></div></div>', { noFocus: true });
 }
 function openNrmNova() {
   if (!isSup(S.user)) return;
@@ -19199,7 +19200,7 @@ function openNrmEd(id) {
     '<div class="nrm-f">' + filtros.map(x => '<button type="button" class="tab' + (f.f === x[0] ? ' active' : '') + '" data-action="nrm-filtro" data-id="' + x[0] + '">' + x[1] + ' <b>' + x[2] + '</b></button>').join('') + '</div>' +
     '<input class="input nrm-q" id="nrm-q" placeholder="Buscar por código ou texto" autocomplete="off" value="' + esc(f.q) + '">' +
     '<div id="nrm-itens">' + nrmItensHTML(ed, d) + '</div>' +
-    '<div class="row-actions"><button class="btn" data-action="nrm-norma" data-id="' + esc(ed.normaId) + '">Voltar</button><button class="btn primary" data-action="close">Fechar</button></div></div>', { noFocus: true });
+    '<div class="row-actions"><button class="btn" data-action="nrm-norma" data-id="' + esc(ed.normaId) + '">Voltar</button></div></div>', { noFocus: true });
 }
 function nrmItensHTML(ed, d) {
   const f = S.nrmF || { f: 'todos', q: '' }, q = nrmCod(f.q);
@@ -19931,7 +19932,7 @@ function openCadLiberado(oldId, novoId) {
   openSheet('<h3>Acesso liberado</h3><div class="sub">' + esc(x.nome || '') + ' entra com o login <b>' + esc(x.login || '') + '</b> e a senha temporária, e vai completar o cadastro.</div><div id="ap-msg"></div>' +
     (pend.length ? '<div class="dt-sec">Pendências abertas no acesso antigo <small>' + pend.length + '</small></div>' + pend.map(p => '<div class="fm-dica">' + esc(p.txt) + '</div>').join('') +
       '<div class="row-actions"><button class="btn primary" data-action="cad-lib-pend" data-id="' + esc(oldId) + '" data-novo="' + esc(novoId) + '">Passar para o acesso novo</button></div>' : '<p class="fm-dica">Nenhuma pendência aberta no acesso antigo.</p>') +
-    '<div class="row-actions"><button class="btn" data-action="users">Usuários</button><button class="btn primary" data-action="close">Fechar</button></div>');
+    '<div class="row-actions"><button class="btn" data-action="users">Usuários</button></div>');
 }
 async function cadPassarPend(oldId, novoId) {
   const pend = cadPendencias(oldId); let n = 0;
@@ -20024,7 +20025,7 @@ function openV75Teste() {
       '<div class="row-actions" style="margin-top:10px"><button class="btn primary" data-action="v75-teste-ok">Marcar todos como teste (' + (ap.length + rn.length) + ')</button></div></div>'
       : '<p class="fm-dica">Nenhum apontamento ou auditoria interna valendo.</p>') +
     (t.ap.length || t.rn.length ? '<div class="dt-sec">Marcados como teste (' + (t.ap.length + t.rn.length) + ')</div>' + t.ap.map(x => li(x, 'ap')).join('') + t.rn.map(x => li(x, 'rn')).join('') : '') +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button></div>', { noFocus: true });
+    '', { noFocus: true });
 }
 async function v75MarcarTodos() {
   if (!isPrincipal(S.user)) return;
@@ -20185,7 +20186,7 @@ function openRzProg(id, pk) {
     sugestoes('dl-prg-col', pgEquipes()) + sugestoes('dl-prg-est', ['FLORAÇÃO', 'FRUTIFICAÇÃO', 'VEGETATIVO', 'POUSIO']) + sugestoes('dl-prg-prof', ['00-20', '00-30', '20-40']) +
     '<div class="prg-cab"><span><button type="button" class="fm-link" data-action="prg-todas">Marcar todas</button></span><span>Data prevista</span><span>Coletores</span><span>Pontos</span><span>Profund.</span><span>Estádio</span></div>' +
     '<div class="prg-lista">' + linhas + '</div>' +
-    '<div class="row-actions prg-ac"><span class="prg-cont" id="prg-cont">' + n + ' marcada(s)</span><button class="btn" data-action="close">Fechar</button>' +
+    '<div class="row-actions prg-ac"><span class="prg-cont" id="prg-cont">' + n + ' marcada(s)</span>' +
     (pode ? '<button class="btn" data-action="prg-salvar">Salvar</button>' : '') + impBtn([{ a: 'prg-imp', t: 'Imprimir as marcadas' }, { a: 'prg-branco', t: 'Imprimir em branco' }], { up: true }) + '</div></div>', { noFocus: true });
 }
 function prgLer() {
@@ -20901,7 +20902,7 @@ function openEmpresa() {
     '<div class="emp-g">' + campo('emp-razao', 'Razão social', esc(c.razao || ''), 'Ex.: Empresa Agropecuária Ltda', 'emp-l2') + campo('emp-nome', 'Nome curto (tela de entrar)', esc(c.nome || ''), 'Ex.: Fazenda Boa Vista') + campo('emp-cnpj', 'CNPJ (opcional)', esc(c.cnpj || ''), '00.000.000/0000-00') + '</div>' +
     unid('matriz', 'Matriz') + unid('filial', 'Filial') +
     '<div class="fm-dica">O logo das impressões continua em <b>Opções › Documento controlado</b>.' + (c.atualizadoEm ? ' Última alteração: ' + esc(fmtDT(c.atualizadoEm)) + ' · ' + esc(c.atualizadoPor || '') + '.' : '') + '</div>' +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button><button class="btn primary" data-action="emp-salvar">Salvar</button></div></div>');
+    '<div class="row-actions"><button class="btn primary" data-action="emp-salvar">Salvar</button></div></div>');
   void d;
 }
 async function empSalvar() {
@@ -21055,7 +21056,7 @@ function openBug(id) {
     '<div class="sec">Histórico</div><ul class="bug-hist">' + hist + '</ul><div id="bug-msg"></div>' +
     (pode ? '<div class="field"><label for="bug-txt">Resposta / motivo (vai para quem reportou · @ chama mais alguém)</label><textarea class="input" id="bug-txt" rows="2" data-men="bug"></textarea></div>' +
       '<div class="field bug-ver"><label for="bug-ver">Resolvido na versão</label><input class="input" id="bug-ver" value="' + esc(String(APP_VERSION).split(' ')[0]) + '" autocomplete="off"></div>' : '') +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button>' +
+    '<div class="row-actions">' +
     (pode ? (b.status !== 'analise' && bugAberto(b) ? '<button class="btn" data-action="bug-sit" data-id="' + esc(b.id) + '" data-s="analise">Em análise</button>' : '') +
       (b.status !== 'naoprocede' ? '<button class="btn" data-action="bug-sit" data-id="' + esc(b.id) + '" data-s="naoprocede">Não procede</button>' : '') +
       (b.status !== 'resolvido' ? '<button class="btn primary" data-action="bug-sit" data-id="' + esc(b.id) + '" data-s="resolvido">Resolvido</button>' : '') +
@@ -21828,7 +21829,7 @@ function tfFichaHTML(x) {
   if (x.status === 'cancelada') L.push(['Cancelamento', esc((x.canceladaPor || '') + ': ' + (x.canceladaMotivo || ''))]);
   L.push(['Área', esc(tfAreaDe(x))], ['Criada em', esc(fmtDT(x.criadoEm || ''))]);
   return '<div class="md2-ficha" data-id="' + esc(x.id) + '"><h3>' + esc(x.titulo) + '</h3><div class="md2-kv">' + L.map(r => '<span class="k">' + r[0] + '</span><span>' + r[1] + '</span>').join('') + '</div>' +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button><button class="btn primary" data-action="tf-ficha-abrir" data-id="' + esc(x.id) + '">Abrir a tarefa</button></div></div>';
+    '<div class="row-actions"><button class="btn primary" data-action="tf-ficha-abrir" data-id="' + esc(x.id) + '">Abrir a tarefa</button></div></div>';
 }
 function mdFichaSis(bid, i) {
   const b = (S._mdBl || mdBlocosSis()).find(z => z.id === bid), x = b && b.itens[i]; if (!x) { toast('Essa pendência já foi resolvida.'); renderView(); return; }
@@ -21950,7 +21951,7 @@ function tfEqPainel(k) {
     '<div class="tf-eqn">' + cel('Concluídas', N.feitas) + cel('No prazo', N.pct == null ? '—' : N.pct + '%') + cel('Em andamento', R.andam.length) + cel('Atrasadas', atr.length, atr.length ? 'r' : '') + cel('Canceladas', R.canc.length) + '</div>' +
     '<h4>Atrasadas</h4>' + (atr.length ? atr.slice(0, 8).map(x => '<div class="tf-eql"><span>' + esc(x.titulo) + '</span><small class="r">' + difDias(x.prazo, hojeISO()) + (difDias(x.prazo, hojeISO()) === 1 ? ' dia' : ' dias') + '</small></div>').join('') + (atr.length > 8 ? '<div class="tf-vazio">e mais ' + (atr.length - 8) + '</div>' : '') : '<div class="tf-vazio">Nenhuma.</div>') +
     '<h4>Atividades em aberto</h4>' + (A.length ? A.map(x => tfAbCartao(x, true)).join('') : '<div class="tf-vazio">Nenhuma atividade em aberto.</div>') +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button>' + (tfLid().indexOf(k) >= 0 ? '<button class="btn" data-action="tf-eq-passar" data-id="' + esc(k) + '">Passar tarefa</button>' : '') + '<button class="btn primary" data-action="tf-eq-rel" data-id="' + esc(k) + '">' + icoI('print') + 'Relatório da semana</button></div></div>', { noFocus: true });
+    '<div class="row-actions">' + (tfLid().indexOf(k) >= 0 ? '<button class="btn" data-action="tf-eq-passar" data-id="' + esc(k) + '">Passar tarefa</button>' : '') + '<button class="btn primary" data-action="tf-eq-rel" data-id="' + esc(k) + '">' + icoI('print') + 'Relatório da semana</button></div></div>', { noFocus: true });
 }
 
 /* ===== v2.102.0: ajuda (?) ===== */
@@ -22197,7 +22198,7 @@ function tfRelAbrir(pid) {
     (pess.length > 1 ? '<div class="field"><label for="rl-p">De quem</label><select class="input" id="rl-p" data-tf="rl-p">' + pess.map(k => '<option value="' + esc(k) + '"' + (k === pid ? ' selected' : '') + '>' + (k === S.user.id ? 'Eu (' + esc(tfNome(k)) + ')' : esc(tfNome(k))) + '</option>').join('') + '</select><div class="fm-dica">Você pode gerar o de um liderado para conferir.</div></div>' : '') +
     '<div class="field"><label for="rl-para">Para (superior)</label><input class="input" id="rl-para" autocomplete="off" value="' + esc(tfRelPara(S.user.id)) + '"></div>' +
     '<div class="field"><label for="rl-obs">Observações (vão no relatório)</label><textarea class="input" id="rl-obs" rows="3" placeholder="Ex.: auditoria Fair for Life na quinta"></textarea></div>' +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button><button class="btn" data-action="tf-rel-copiar">Copiar resumo para o e-mail</button><button class="btn primary" data-action="tf-rel-pdf">' + icoI('print') + 'Gerar PDF</button></div>', { noFocus: true });
+    '<div class="row-actions"><button class="btn" data-action="tf-rel-copiar">Copiar resumo para o e-mail</button><button class="btn primary" data-action="tf-rel-pdf">' + icoI('print') + 'Gerar PDF</button></div>', { noFocus: true });
 }
 function tfRelLer() { const v = id => String(($('#' + id) || {}).value || '').trim(); return { pid: v('rl-p') || S.user.id, sem: Number(v('rl-sem') || 0), para: v('rl-para'), obs: v('rl-obs') }; }
 function tfRelResumo(o) {
@@ -22242,7 +22243,7 @@ function tfAcao2(act, id, t) {
   if (act === 'tf-rel') { tfRelAbrir(); return true; }
   if (act === 'tf-rel-copiar') { const txt = tfRelResumo(tfRelLer());
     const ok = () => toast('Resumo copiado. Cole no corpo do e-mail e anexe o PDF.', 'ok');
-    try { navigator.clipboard.writeText(txt).then(ok, () => openSheet('<h3>Resumo para o e-mail</h3><div class="sub">Selecione e copie.</div><textarea class="input" rows="10" readonly>' + esc(txt) + '</textarea><div class="row-actions"><button class="btn primary" data-action="close">Fechar</button></div>')); } catch (er) { openSheet('<h3>Resumo para o e-mail</h3><textarea class="input" rows="10" readonly>' + esc(txt) + '</textarea><div class="row-actions"><button class="btn primary" data-action="close">Fechar</button></div>'); }
+    try { navigator.clipboard.writeText(txt).then(ok, () => openSheet('<h3>Resumo para o e-mail</h3><div class="sub">Selecione e copie.</div><textarea class="input" rows="10" readonly>' + esc(txt) + '</textarea>')); } catch (er) { openSheet('<h3>Resumo para o e-mail</h3><textarea class="input" rows="10" readonly>' + esc(txt) + '</textarea>'); }
     return true; }
   if (act === 'tf-rel-pdf') { const o = tfRelLer(), u = userById(o.pid) || S.user; closeSheet();
     Audit.log({ acao: 'imprimir', entidade: 'relatorio', entidadeId: 'tf_semana', resumo: 'Gerou o relatório semanal de atividades de ' + u.nome });
@@ -22556,7 +22557,7 @@ function openAuditDetail(r) {
   const diff = keys.length ? '<table class="diff"><tr><th>Campo</th><th>Antes</th><th>Depois</th></tr>' + keys.map(k => '<tr><td>' + esc(k) + '</td><td class="old">' + esc(a[k] == null ? '—' : typeof a[k] === 'object' ? JSON.stringify(a[k]) : a[k]) + '</td><td class="new">' + esc(d[k] == null ? '—' : typeof d[k] === 'object' ? JSON.stringify(d[k]) : d[k]) + '</td></tr>').join('') + '</table>' : '';
   openSheet('<h3>' + esc(r.acao) + '</h3><div class="sub">' + esc(r.resumo || '') + '</div>' +
     keyval([['Data e hora', fmtDT(r.ts)], ['Quem', r.userName + ' (' + (PERFIS[r.perfil] || r.perfil) + ')'], ['Onde', r.entidade || '—'], ['Registro', r.entidadeId || '—'], ['Autorizado por', r.autorizadoPor && r.autorizadoPor.nome || '—'], ['Versão do app', r.versao || '—']]) + diff +
-    '<div class="row-actions">' + (r.entidadeId ? '<button class="btn" data-action="hist-open" data-ent="' + esc(r.entidade) + '" data-id="' + esc(r.entidadeId) + '">Ver tudo deste registro</button>' : '') + '<button class="btn primary" data-action="close">Fechar</button></div>');
+    '<div class="row-actions">' + (r.entidadeId ? '<button class="btn" data-action="hist-open" data-ent="' + esc(r.entidade) + '" data-id="' + esc(r.entidadeId) + '">Ver tudo deste registro</button>' : '') + '</div>');
 }
 /* botão que leva do aviso direto ao que ele fala */
 function abrirRefBtn(n) {
@@ -22586,7 +22587,7 @@ function openNotifDetail(n) {
   const crit = n.nivel === 'critico' && !Notif.isConfirmed(n);
   openSheet('<h3>' + esc(n.titulo) + '</h3><div class="sub">' + nivelChip(n.nivel) + '</div><p style="margin-bottom:12px">' + esc(n.texto) + '</p>' +
     keyval([['Data e hora', fmtDT(n.ts)], ['Origem', n.origem || '—']]) +
-    '<div class="row-actions">' + (crit ? '<button class="btn danger" data-action="crit-confirm" data-id="' + esc(n.id) + '">Confirmar ciência</button>' : '') + abrirRefBtn(n) + '<button class="btn" data-action="close">Fechar</button></div>');
+    '<div class="row-actions">' + (crit ? '<button class="btn danger" data-action="crit-confirm" data-id="' + esc(n.id) + '">Confirmar ciência</button>' : '') + abrirRefBtn(n) + '</div>');
 }
 /* histórico de um registro só: tudo o que já aconteceu com ele */
 function openHistorico(ent, entId, titulo) {
@@ -22595,7 +22596,7 @@ function openHistorico(ent, entId, titulo) {
     ? '<div class="list">' + lista.map(r => '<button class="li" data-action="audit-open" data-id="' + esc(r.id) + '"><span class="dot"></span><span><span class="t">' + esc(r.acao) + '</span><br><span class="d">' + esc(r.resumo || '') + '</span><div class="meta">' + fmtDT(r.ts) + ' · ' + esc(r.userName) + '</div></span></button>').join('') + '</div>'
     : '<div class="empty" style="margin:12px auto"><p>Nada registrado para este item ainda.' + (isPrincipal(S.user) ? '' : ' (Só o Principal enxerga o histórico completo.)') + '</p></div>';
   openSheet('<h3>Histórico do registro</h3><div class="sub">' + esc(titulo || (ent + ' · ' + entId)) + '</div>' + html +
-    '<div class="row-actions"><button class="btn primary" data-action="close">Fechar</button></div>');
+    '');
 }
 function openUserDetail(id) {
   const x = userById(id); if (!x) return;
@@ -22608,7 +22609,7 @@ function openUserDetail(id) {
     keyval([['Cargo / função', x.cargo || '—'], ['Status', statusNome(statusDe(x))], ['Login', x.login], ['Criado em', x.criadoEm ? fmtDT(x.criadoEm) : '—']]) +
     '<div class="sec">Superiores</div>' + chips +
     '<div class="sec">Atribuições</div><div class="pill-list">' + (atribNomes(x).length ? atribNomes(x).map(n => '<span class="tag-sup">' + esc(n) + '</span>').join('') : '<span class="tag-sup">Nenhuma ainda</span>') + '</div>' +
-    '<div class="row-actions">' + (x.perfil !== 'visitante' ? '<button class="btn" data-action="cnq-ver" data-id="' + esc(x.id) + '">Conquistas</button>' : '') + '<button class="btn" data-action="hist-open" data-ent="usuario" data-id="' + esc(x.id) + '">Histórico</button>' + acoes + '<button class="btn" data-action="close">Fechar</button></div>');
+    '<div class="row-actions">' + (x.perfil !== 'visitante' ? '<button class="btn" data-action="cnq-ver" data-id="' + esc(x.id) + '">Conquistas</button>' : '') + '<button class="btn" data-action="hist-open" data-ent="usuario" data-id="' + esc(x.id) + '">Histórico</button>' + acoes + '</div>');
 }
 function openUserEdit(id) {
   const x = userById(id); if (!x || !isPrincipal(S.user)) return;
@@ -22640,7 +22641,7 @@ function openAprovDetail(id) {
   const pode = Aprov.podeDecidir(a);
   const dec = a.decisao ? keyval([['Decidido por', a.decisao.nome + ' (' + (PERFIS[a.decisao.perfil] || a.decisao.perfil) + ')'], ['Quando', fmtDT(a.decisao.ts)], ['Motivo', a.decisao.motivo || '—']]) : '';
   const campo = (pode && !Aprov.destinadoAMim(a) ? '<p class="msg info" style="margin-top:12px">Este pedido foi enviado para ' + esc((a.paraIds || []).map(nomeDe).join(', ') || 'ninguém') + '. Como Principal, você também pode decidir.</p>' : '') + (pode ? '<div class="field" style="margin-top:12px"><label>Motivo (obrigatório para reprovar)</label><textarea class="input" id="ap-motivo"></textarea></div>' : '');
-  const botoes = pode ? '<button class="btn danger" data-action="aprov-no" data-id="' + esc(a.id) + '">Reprovar</button><button class="btn primary" data-action="aprov-ok" data-id="' + esc(a.id) + '">Aprovar</button>' : '<button class="btn primary" data-action="close">Fechar</button>';
+  const botoes = pode ? '<button class="btn danger" data-action="aprov-no" data-id="' + esc(a.id) + '">Reprovar</button><button class="btn primary" data-action="aprov-ok" data-id="' + esc(a.id) + '">Aprovar</button>' : '';
   openSheet('<h3>' + esc(a.titulo) + '</h3><div class="sub">' + statusChip(a.status) + '</div>' +
     (a.descricao ? '<p style="margin-bottom:12px;white-space:pre-wrap">' + esc(a.descricao) + '</p>' : '') +
     (a.tipo === 'cloro_tratado' && a.refId ? '<p style="margin-bottom:12px"><button class="btn sm" data-action="cl-open" data-id="' + esc(a.refId) + '">Ver a verificação</button></p>' : '') +
@@ -22653,7 +22654,7 @@ function openBell() {
   const list = Notif.mine().slice(0, 30);
   const html = list.length ? '<div class="list">' + list.map(n => '<button class="li' + (Notif.isRead(n) ? '' : ' unread') + '" data-action="notif-open" data-id="' + esc(n.id) + '"><span class="dot ' + esc(n.nivel) + '"></span><span><span class="t">' + esc(n.titulo) + '</span><br><span class="d">' + esc(n.texto) + '</span><div class="meta">' + fmtDT(n.ts) + ' · ' + esc(n.origem || '') + '</div></span></button>').join('') + '</div>' : '<div class="empty" style="margin:12px auto"><p>Nenhuma notificação por enquanto.</p></div>';
   openSheet('<h3>Notificações</h3><div class="sub">' + Notif.unread().length + ' não lida(s)</div>' + html +
-    '<div class="row-actions"><button class="btn" data-action="close">Fechar</button><button class="btn" data-action="notif-readall">Marcar todas como lidas</button><button class="btn primary" data-action="notif-history">Ver histórico</button></div>');
+    '<div class="row-actions"><button class="btn" data-action="notif-readall">Marcar todas como lidas</button><button class="btn primary" data-action="notif-history">Ver histórico</button></div>');
 }
 function openGear() {
   const u = S.user;
@@ -22666,7 +22667,7 @@ function openGear() {
   const adm = isPrincipal(u) ? '<div class="sec">Administração</div><button class="menu-btn" data-action="adm-open">Administração<span>›</span></button><div class="op-adm-ov" id="op-adm" hidden><div class="op-adm" role="dialog" aria-label="Administração"><div class="op-adm-h"><button type="button" class="btn sm" data-action="adm-close">‹ Voltar</button><h3>Administração</h3></div><div class="op-adm-l">' + admItens + '</div></div></div>' : ''; /* v2.102.29: painel escondido; os botões continuam na tela */
   openSheet('<h3 class="op-h">Opções</h3><div class="op-top"><button class="menu-btn mp-linha" data-action="meu-perfil">' + avatarHTML(u, 40) + '<span><b>' + nomeFmt(u) + '</b>' + cnqTituloHTML(u) + '<small>' + esc((u.cargo ? u.cargo + ' · ' : '') + perfilLabel(u)) + ' · Meu perfil</small></span><span>›</span></button><button class="menu-btn mp-linha cnq-menu" data-action="cnq-open">' + cnqInsig('constancia', 5, 32) + '<span><b>Conquistas</b><small>As suas, as da equipe e as dos colegas · sem ranking</small></span><span>›</span></button></div><div class="op-cols"><div class="op-c1"><div class="sec">Tema</div>' + th + tabletMenuHTML() +
     (DEMO ? '<div class="sec">Modo teste</div>' + (testeOrigem() ? '<button class="menu-btn" data-action="teste-open">Ambiente de teste (cópia)<span>›</span></button>' : '') + '<button class="menu-btn" data-action="demo-off">Sair da demonstração e voltar para a nuvem<span>›</span></button>' : '') + '</div><div class="op-c2">' + adm + (rsPode(u) ? '<div class="sec">Relatórios</div><button class="menu-btn" data-action="rs-open">Relatórios da semana<span>›</span></button>' : '') + pwaMenuHTML() + '<div class="sec">Sobre</div>' + (DEMO ? '' : RC_NOTA) + keyval([['Versão', APP_VERSION], ['Dados', Data.mode === 'demo' ? 'Demonstração (só neste aparelho)' : 'Nuvem, sincronizado'], ['Conexão', Sync.texto()]]).replace('<span>Conexão</span><b>', '<span>Conexão</span><b id="sync-sobre">') + '<button class="menu-btn" data-action="arm-open">Espaço deste aparelho' + (Store.falha.cota || S._semCache === 22 ? ' <b class="arm-cheio">cheio</b>' : '') + '<span>›</span></button>' +
-    '</div></div><div class="row-actions op-foot"><button class="btn danger" data-action="logout">Sair</button><button class="btn" data-action="bloquear">Bloquear</button><button class="btn primary" data-action="close">Fechar</button></div>');
+    '</div></div><div class="row-actions op-foot"><button class="btn danger" data-action="logout">Sair</button><button class="btn" data-action="bloquear">Bloquear</button></div>');
 }
 /* v2.14.1 — os temas saem de dentro da bolinha para os lugares deles (e voltam ao tocar de novo) */
 function temaAbrir() {
@@ -22683,7 +22684,7 @@ function openUsers() {
   const rows = S.users.slice().sort((a, b) => String(a.nome).localeCompare(String(b.nome), 'pt-BR'));
   const lst = '<div class="list">' + rows.map(x => '<div class="li"><span style="flex:1;min-width:0"><span class="t">' + esc(x.nome) + '</span><br><span class="d">' + esc(x.login) + ' · ' + esc(perfilLabel(x)) + (x.bloqueado ? ' · <b style="color:var(--crit)">bloqueado</b>' : '') + '</span></span>' +
     (x.id !== S.user.id ? '<span style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">' + (x.perfil === 'secundario' ? '<button class="btn sm" data-action="user-star" data-id="' + esc(x.id) + '">' + (x.estrela ? 'Tirar ★' : 'Dar ★') + '</button>' : '') + '<button class="btn sm" data-action="user-block" data-id="' + esc(x.id) + '">' + (x.bloqueado ? 'Desbloquear' : 'Bloquear') + '</button><button class="btn sm" data-action="user-edit" data-id="' + esc(x.id) + '">Editar</button></span>' : '<span class="chip">Você</span>') + '</div>').join('') + '</div>';
-  openSheet('<h3>Usuários</h3><div class="sub">Ninguém é excluído: bloqueie para tirar o acesso.</div>' + lst + '<div class="row-actions"><button class="btn primary" data-action="user-new">Novo usuário</button><button class="btn" data-action="close">Fechar</button></div>');
+  openSheet('<h3>Usuários</h3><div class="sub">Ninguém é excluído: bloqueie para tirar o acesso.</div>' + lst + '<div class="row-actions"><button class="btn primary" data-action="user-new">Novo usuário</button></div>');
 }
 /* v2.89.1: senha temporária gerada (8 caracteres, sem letras/números parecidos), aparece para o Principal anotar */
 function senhaGerar() {
@@ -23098,7 +23099,7 @@ async function armAbrir(msg) {
     (temDemo ? '<p class="fm-dica">A demonstração guardada são dados de <b>teste</b> deste navegador (nunca foram para a nuvem). Apagar libera espaço e não mexe em nada da empresa.</p>' : '') +
     (!DEMO ? '<p class="fm-dica">Limpar o cache offline apaga só a cópia da nuvem guardada aqui; ela é baixada de novo ao abrir (demora um pouco mais e precisa de internet). Só é feito quando nada está aguardando envio.</p>' : '') +
     '<div class="row-actions">' + (temDemo ? '<button class="btn" data-action="arm-demo">' + (S._armDemoOk && Date.now() - S._armDemoOk < 15000 ? 'Toque de novo para apagar' : 'Apagar a demonstração guardada') + '</button>' : '') +
-    (!DEMO ? '<button class="btn" data-action="arm-cache">Limpar cache offline</button>' : '') + '<button class="btn primary" data-action="close">Fechar</button></div>');
+    (!DEMO ? '<button class="btn" data-action="arm-cache">Limpar cache offline</button>' : '') + '</div>');
 }
 function armApagarDemo() {
   if (DEMO) return;
