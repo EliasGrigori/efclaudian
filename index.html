@@ -54,6 +54,10 @@ input,select,textarea{font:inherit;color:inherit} /* v2.94.1: textarea saía com
 .btn svg{width:18px;height:18px}
 .msg{font-size:13px;margin:0 0 12px;padding:10px 12px;border-radius:var(--r-ctl);background:var(--crit-soft);color:var(--crit);border:1px solid var(--crit-soft)}
 .msg.info{background:var(--primary-soft);color:var(--text);border-color:var(--border-light)}
+/* v2.102.51: pergunta antes de descartar o que foi escrito (fica presa no topo da janela) */
+.sh-desc{position:sticky;top:-20px;z-index:6;margin:-20px -18px 12px;padding:10px 18px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--warn-soft);border-bottom:1px solid var(--warn);color:var(--text);font-size:14px}
+.sh-desc b{flex:1 1 100%;font-weight:600}
+.input.falta{border-color:var(--crit);box-shadow:0 0 0 2px var(--crit-soft)}
 /* ---------- shell ---------- */
 .shell{min-height:100dvh;padding-top:var(--banner-h,0px)}
 .rail{display:none}
@@ -3125,7 +3129,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.50 · Regra A28.2: cada NC é "Tratativa direta" ou "Com análise" (registro, troca com motivo, conferência e filtro)';
+const APP_VERSION = 'v2.102.51 · Janelas: Esc, voltar e clique fora voltam um nível; formulário escrito pergunta antes de descartar; correções do Grok';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -4008,12 +4012,51 @@ function toast(msg, tipo) {
 /* v2.102.42 (pedido do Elias): o gesto/botão voltar do celular fecha a janela aberta, em vez de sair do app.
    Ao abrir a 1ª janela entra um passo no histórico; voltar = fechar. Fechando de outro jeito, o passo sai (history.back) e o aviso é ignorado. */
 const SH_H = { on: false, ign: 0 };
-window.addEventListener('popstate', () => { if (SH_H.ign) { SH_H.ign--; return; } if (SH_H.on) { SH_H.on = false; if ($('#ov')) { S._voltar = true; try { closeSheet(); } finally { S._voltar = false; } } } });
+window.addEventListener('popstate', () => { if (SH_H.ign) { SH_H.ign--; return; } if (SH_H.on) { SH_H.on = false; if ($('#ov')) { S._voltar = true; try { shRecua(); } finally { S._voltar = false; } if ($('#ov') && !SH_H.on) { try { history.pushState({ efJanela: 1 }, ''); SH_H.on = true; } catch {} } } /* v2.102.51: voltar = um nível */ } });
 /* v2.102.42: guarda a rolagem de cada janela que ficou por baixo; ao voltar para ela (fechar o registro, salvar), reabre no mesmo ponto em vez de subir ao começo */
 function shSnap(sh) { const h3 = sh.querySelector('h3'); return { h: h3 ? h3.textContent : '', top: sh.scrollTop, dentro: Array.from(sh.querySelectorAll('*')).map((e, i) => e.scrollTop > 0 ? [i, e.scrollTop] : null).filter(Boolean) }; }
+/* v2.102.51 (pedido do Elias, 24/10): Esc, voltar do celular e clique fora voltam UM nível, como o botão Voltar: fecha só a janela de cima
+   (com 3 janelas abertas, 3 toques). Formulário com algo escrito pergunta antes: "Descartar o que escreveu?" (Continuar escrevendo · Descartar). */
+const shForm = sh => !!(sh && sh.querySelector('.row-actions .btn.primary'));
+function shPergunta(ov) {
+  const sh = ov.querySelector('.sheet'); if (!sh || sh.querySelector('.sh-desc')) return;
+  sh.insertAdjacentHTML('afterbegin', '<div class="sh-desc" role="alertdialog" aria-label="Descartar o que escreveu?"><b>Descartar o que escreveu?</b><button type="button" class="btn sm" data-action="sh-cont">Continuar escrevendo</button><button type="button" class="btn sm danger" data-action="sh-desc">Descartar</button></div>');
+  const c = sh.querySelector('[data-action="sh-cont"]'); if (c) try { c.focus({ preventScroll: true }); } catch {}
+}
+function shRecua() {
+  const ov = $('#ov'); if (!ov) return false;
+  const bar = ov.querySelector('.sh-desc'); if (bar) { bar.remove(); return true; } /* com a pergunta aberta, o 2º Esc/voltar = continuar escrevendo */
+  if (S.ap) { apEncerrar(); return true; } /* Apresentação: volta para a RNC, não fecha as duas */
+  const sh = ov.querySelector('.sheet');
+  if (ov.dataset.sujo === '1' && shForm(sh)) { shPergunta(ov); return true; }
+  const v = sh && Array.from(sh.querySelectorAll('.row-actions .btn')).find(b => /^(‹\s*)?Voltar(\s|$)/.test((b.textContent || '').trim()) && !b.disabled);
+  if (v) { v.click(); return true; }
+  closeSheet(); return true;
+}
+document.addEventListener('click', e => {
+  const b = e.target && e.target.closest && e.target.closest('[data-action="sh-cont"],[data-action="sh-desc"]'); if (!b) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  const ov = $('#ov'); if (!ov) return; const bar = ov.querySelector('.sh-desc'); if (bar) bar.remove();
+  if (b.getAttribute('data-action') === 'sh-desc') { delete ov.dataset.sujo; shRecua(); return; }
+  const f = ov.querySelector('.sheet textarea:not([disabled]),.sheet input.input:not([disabled])'); if (f) try { f.focus({ preventScroll: true }); } catch {}
+}, true);
+/* o que conta como "escreveu": texto digitado de verdade (não caixinha, não busca) */
+const SH_TXT = /^(text|number|date|time|datetime-local|month|tel|email|url|password|)$/;
+const shMarcaSujo = e => { if (!e.isTrusted) return; const t = e.target; if (!t || !t.closest) return; const ov = t.closest('#ov'); if (!ov) return;
+  if (!(t.tagName === 'TEXTAREA' || (t.tagName === 'INPUT' && SH_TXT.test(t.type || '')))) return; if (t.closest('.sh-desc,.chat-box')) return; ov.dataset.sujo = '1'; }; /* a conversa do registro tem o próprio Enviar */
+document.addEventListener('input', shMarcaSujo, true);
+/* v2.102.51 (BW): a tela de baixo guarda a rolagem quando a 1ª janela abre e volta para ela quando a última fecha */
+const rolSig = e => e.tagName + '.' + String(e.className || '').split(' ')[0];
+function rolSnapView() { const v = $('#view'); return { rota: S._rota, y: window.scrollY || 0, els: v ? Array.from(v.querySelectorAll('*')).map((e, i) => e.scrollTop > 0 || e.scrollLeft > 0 ? [i, e.scrollTop, e.scrollLeft, rolSig(e)] : null).filter(Boolean) : [] }; }
+function rolVoltaView(g) {
+  if (!g || g.rota !== S._rota || $('#ov')) return;
+  if ((window.scrollY || 0) + 4 < g.y) { try { window.scrollTo(0, g.y); } catch {} }
+  const els = $$('#view *'); g.els.forEach(x => { const e = els[x[0]]; if (!e || rolSig(e) !== x[3]) return; if (e.scrollTop + 4 < x[1]) e.scrollTop = x[1]; if (e.scrollLeft === 0 && x[2] > 4) e.scrollLeft = x[2]; });
+}
 function openSheet(html, opts) {
   /* v2.75.0: a mesma janela desenhada de novo (marcar uma caixinha, trocar um filtro) mantém a rolagem e não puxa o foco */
   const velha = $('#ov .sheet'); let fica = null;
+  const sujo0 = !!(velha && $('#ov').dataset.sujo === '1'); if (!velha) S._rolV = rolSnapView(); /* v2.102.51 */
   if (velha) fica = shSnap(velha);
   else if (S._ultima) fica = S._ultima; /* v2.102.42: fechou e abriu na mesma hora */
   S._ultima = null;
@@ -4021,7 +4064,7 @@ function openSheet(html, opts) {
   const ov = document.createElement('div');
   ov.className = 'overlay'; ov.id = 'ov';
   ov.innerHTML = '<div class="sheet" role="dialog" aria-modal="true">' + html + '</div>';
-  ov.addEventListener('mousedown', e => { if (e.target === ov) closeSheet(); });
+  ov.addEventListener('mousedown', e => { if (e.target === ov) shRecua(); }); /* v2.102.51: clique fora volta um nível */
   document.body.appendChild(ov);
   if (!SH_H.on) { try { history.pushState({ efJanela: 1 }, ''); SH_H.on = true; } catch {} } /* v2.102.42: o voltar do celular fecha a janela */
   const novoH = (ov.querySelector('.sheet h3') || {}).textContent || '';
@@ -4032,14 +4075,15 @@ function openSheet(html, opts) {
   if (igual0 && pil.length && pil[pil.length - 1].h === novoH) pil.pop();
   if (rest) fica = rest;
   const igual = igual0 || !!rest;
+  if (sujo0 && igual0) ov.dataset.sujo = '1'; /* v2.102.51: a mesma janela redesenhada continua "escrita" */
   try { ajJanela(ov); } catch (e) {} /* v2.102.0 */
   try { alinhaTabelas(ov); } catch {} /* v2.102.28 */
   if (igual) { const sh = ov.firstChild; sh.scrollTop = fica.top; const els = Array.from(sh.querySelectorAll('*')); fica.dentro.forEach(x => { if (els[x[0]]) els[x[0]].scrollTop = x[1]; }); }
   const f = $('input,button.btn.primary', ov); if (f && !igual && !(opts && opts.noFocus)) { try { f.focus(); } catch (e) {} }
   return ov.firstChild;
 }
-function closeSheet() { try { raFecha(); } catch {} const o = $('#ov'); if (o && !S._reabre && S.ap) { try { apSair(); } catch {} } /* v2.102.43 */ if (o && !S._reabre) { try { const sh0 = o.querySelector('.sheet'); if (sh0) S._ultima = shSnap(sh0); } catch {} if (S._pilhaT) clearTimeout(S._pilhaT); S._pilhaT = setTimeout(() => { S._pilha = []; S._ultima = null; S._pilhaT = null; }, 0); } /* v2.102.21 */ if (o && !S._reabre && !S._voltar && SH_H.on) { SH_H.on = false; SH_H.ign++; try { history.back(); } catch { SH_H.ign--; } } /* v2.102.42 */ if (o) { o.parentNode.removeChild(o); if (!S._reabre && S._focoAntes) { const f = S._focoAntes; S._focoAntes = null; if (document.contains(f)) try { f.focus({ preventScroll: true }); } catch {} } } const mn = $('#tf-menu'); if (mn && mn.dataset.k === 'men') mn.hidden = true; }
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && !S.lockado) closeSheet(); });
+function closeSheet() { try { raFecha(); } catch {} const o = $('#ov'); if (o && !S._reabre && S.ap) { try { apSair(); } catch {} } /* v2.102.43 */ if (o && !S._reabre) { try { const sh0 = o.querySelector('.sheet'); if (sh0) S._ultima = shSnap(sh0); } catch {} if (S._pilhaT) clearTimeout(S._pilhaT); S._pilhaT = setTimeout(() => { S._pilha = []; S._ultima = null; S._pilhaT = null; }, 0); } /* v2.102.21 */ if (o && !S._reabre && !S._voltar && SH_H.on) { SH_H.on = false; SH_H.ign++; try { history.back(); } catch { SH_H.ign--; } } /* v2.102.42 */ if (o) { o.parentNode.removeChild(o); if (!S._reabre) { const g = S._rolV; S._rolV = null; if (g) [0, 120, 350].forEach(ms => setTimeout(() => rolVoltaView(g), ms)); } /* v2.102.51 */ if (!S._reabre && S._focoAntes) { const f = S._focoAntes; S._focoAntes = null; if (document.contains(f)) try { f.focus({ preventScroll: true }); } catch {} } } const mn = $('#tf-menu'); if (mn && mn.dataset.k === 'men') mn.hidden = true; }
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !S.lockado) shRecua(); }); /* v2.102.51: Esc = um nível */
 document.addEventListener('input', e => { if (e.target && e.target.id === 'rz-apelido') rzResAtu(); if (e.target && e.target.id === 'cn-preco') { e.target.setAttribute('data-man', '1'); colPrecoAtualiza(false); } }); /* v2.102.4: + preço da amostra */ /* v2.89.1 */ /* v2.87.0: com a tela bloqueada, Esc não mexe no que está por baixo */
 document.addEventListener('keydown', e => { const t = e.target; if (t && t.classList && t.classList.contains('os-in') && (e.key === 'Enter' || (e.key === 'Tab' && !e.shiftKey))) { e.preventDefault(); osProximo(t); } });
 
@@ -10683,7 +10727,7 @@ function apAplicar(a, patch, msg) {
 }
 function apHistMais(a, txt) { return (a.hist || []).concat([{ ts: nowISO(), porNome: S.user.nome, txt: txt }]); }
 function apSoSup() { if (isSup(S.user)) return true; toast('Só o líder ★ ou o Principal mudam isso.', 'err'); return false; }
-function apMsg(t) { const m = $('#ap-msg'); if (m) m.innerHTML = '<div class="msg">' + esc(t) + '</div>'; }
+function apMsg(t) { const m = $('#ov #ap-msg') || $('#ap-msg'); if (m) { m.innerHTML = '<div class="msg">' + esc(t) + '</div>'; try { m.scrollIntoView({ block: 'nearest' }); } catch {} } } /* v2.102.51: a da janela de cima */
 function apVoltarBtn(id) { return S.apCtx === 'rn' ? '<button class="btn" data-action="close">Voltar</button>' : '<button class="btn" data-action="ap-open" data-id="' + esc(id) + '">Voltar</button>'; }
 
 /* reclassificar: a gravidade de quem registrou continua gravada */
@@ -14661,29 +14705,31 @@ function rncCorespCampo(b) {
   const l = b.coresp || [];
   return '<div class="cr-box"><label class="fm-l" for="rnc-cr">Corresponsáveis <small>(opcional) · quem mais está envolvido; serve para filtrar e imprimir por pessoa</small></label>' +
     (l.length ? '<div class="cr-l">' + l.map((c, i) => '<span class="cr-chip">' + esc(c.nome) + '<button type="button" data-action="rnc-cr-x" data-id="' + esc(i) + '" aria-label="Tirar ' + esc(c.nome) + '">×</button></span>').join('') + '</div>' : '') +
-    '<div class="cr-in"><input class="input" id="rnc-cr" data-sug="rnc-cr-l" autocomplete="off" placeholder="Nome (da lista ou escrito)"><button type="button" class="btn" data-action="rnc-cr-add">Adicionar</button></div>' +
+    '<div class="cr-in"><input class="input" id="rnc-cr" data-sug="rnc-cr-l" autocomplete="off" placeholder="Nome (da lista ou escrito)" value="' + esc(b.crTxt || '') + '"><button type="button" class="btn" data-action="rnc-cr-add">Adicionar</button></div>' +
     '<datalist id="rnc-cr-l">' + rncPessoasSug().map(x => '<option value="' + esc(x) + '">').join('') + '</datalist></div>';
 }
 function rncCorespAdd(rerender) {
   const b = S.rncNc, inp = $('#rnc-cr'); if (!b || !inp) return false;
+  rncNcLer(); /* v2.102.51: lê o responsável escolhido agora (antes comparava com o antigo) */
   const c = rncCorespDe(inp.value); if (!c) return false;
   if (c.nome.length < 3) { apMsg('Escreva o nome do corresponsável (ao menos 3 letras).'); return false; }
   b.coresp = b.coresp || [];
   const respNome = b.resp === '__outro' ? String(b.respTxt || '').trim() : b.resp ? nomeDe(b.resp) : '';
-  if (respNome && mdNorm(respNome) === mdNorm(c.nome)) { apMsg(c.nome + ' já é o responsável.'); inp.value = ''; return false; }
-  if (b.coresp.some(x => mdNorm(x.nome) === mdNorm(c.nome))) { inp.value = ''; return false; }
+  if (respNome && mdNorm(respNome) === mdNorm(c.nome)) { apMsg(respNome + ' já é o responsável.'); inp.value = ''; b.crTxt = ''; return false; }
+  if (b.coresp.some(x => mdNorm(x.nome) === mdNorm(c.nome))) { apMsg(c.nome + ' já está entre os corresponsáveis.'); inp.value = ''; b.crTxt = ''; return false; } /* v2.102.51: avisa */
   if (b.coresp.length >= 10) { apMsg('No máximo 10 corresponsáveis.'); return false; }
-  b.coresp.push(c); inp.value = '';
+  b.coresp.push(c); inp.value = ''; b.crTxt = '';
   if (rerender) { rncNcLer(); rncNcRender(); const n = $('#rnc-cr'); if (n) try { n.focus(); } catch {} }
   return true;
 }
 document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target && e.target.id === 'rnc-cr') { e.preventDefault(); rncCorespAdd(true); } });
+document.addEventListener('input', e => { const t = e.target; if (t && t.classList && t.classList.contains('falta') && String(t.value || '').trim()) t.classList.remove('falta'); }); /* v2.102.51 */
 function rncNcLer() {
   const b = S.rncNc; if (!b) return;
   const v = id => { const e = $('#' + id); return e ? e.value : null; };
   if (v('rnc-local-o') != null && b.local === '__outro') b.localTxt = v('rnc-local-o');
   if (v('rnc-local') != null) { const t = String(v('rnc-local')).trim(), m = rncLocaisDe(b.area).find(l => l.toUpperCase() === t.toUpperCase()); b.local = m || t; b.localTxt = ''; } /* v2.102.41 */
-  if ($('#rnc-lei')) b.leiTxt = $('#rnc-lei').value; /* v2.102.47: rascunho do campo de leis */ ['nc', 'obs', 'sug'].forEach(k => { const x = v('rnc-' + k); if (x != null) b[k] = x; });
+  if ($('#rnc-lei')) b.leiTxt = $('#rnc-lei').value; /* v2.102.47: rascunho do campo de leis */ if ($('#rnc-cr')) b.crTxt = $('#rnc-cr').value; /* v2.102.51: rascunho do corresponsável */ ['nc', 'obs', 'sug'].forEach(k => { const x = v('rnc-' + k); if (x != null) b[k] = x; });
   if (v('rnc-resp') != null) b.resp = v('rnc-resp');
   if (v('rnc-resp-o') != null) b.respTxt = v('rnc-resp-o');
   if (v('rnc-gut-mot') != null) b.gutMot = v('rnc-gut-mot'); /* v2.102.12 */
@@ -15392,8 +15438,7 @@ document.addEventListener('click', ev => {
 document.addEventListener('keydown', e => {
   if (e.key !== 'Escape' || S.lockado) return;
   const sh = $('#ov .sheet'); if (!sh) return;
-  const v = Array.from(sh.querySelectorAll('.row-actions .btn')).find(b => /^(‹\s*)?Voltar(\s|$)/.test((b.textContent || '').trim()) && !b.disabled);
-  if (v) { e.stopPropagation(); e.preventDefault(); v.click(); }
+  /* v2.102.51: o Esc agora passa por shRecua (pergunta antes de descartar e depois faz o mesmo que o Voltar) */
 }, true);
 /* v2.102.29: linha que rola de lado com degradê no fim (o degradê some quando chega ao fim) */
 function rolaFade(raiz) { Array.from((raiz || document).querySelectorAll('.rola-x')).forEach(el => { el.classList.toggle('fim', el.scrollWidth - el.clientWidth - el.scrollLeft <= 2); }); }
@@ -16237,12 +16282,12 @@ function openRncExcluir(id) {
   const r = rncDe(id); if (!r || !isSup(S.user) || rncSit(r) !== 'registro') return;
   openSheet('<h3>Excluir a auditoria</h3><div class="sub">' + esc(r.numero) + ' · ' + esc(rncNcs(r).length) + ' NC(s) registrada(s)</div><div id="ap-msg"></div>' +
     '<p class="fm-dica">Ela vai para a <b>Lixeira</b> e some da lista e das Não conformidades. Dá para restaurar em até ' + esc(RNC_LIXO_DIAS) + ' dias. Depois disso as fotos são apagadas; o registro fica guardado e oculto.</p>' +
-    '<div class="field"><label>Motivo</label><textarea class="input" id="al-mot-g" rows="2"></textarea></div>' +
+    '<div class="field"><label for="al-mot-g">Motivo <small>(obrigatório)</small></label><textarea class="input" id="al-mot-g" rows="2"></textarea></div>' +
     '<div class="row-actions"><button class="btn" data-action="rnc-open" data-id="' + esc(id) + '">Voltar</button><button class="btn primary" data-action="rnc-excluir-ok" data-id="' + esc(id) + '">' + icoI('lixo') + 'Mandar para a Lixeira</button></div>', { noFocus: true });
 }
 async function rncExcluirOk(id) {
   const r = rncDe(id); if (!r || !isSup(S.user) || rncSit(r) !== 'registro') return;
-  const mot = alMotG(); if (mot.length < 3) return apMsg('Escreva o motivo.');
+  const mot = alMotG(); if (mot.length < 3) { apMsg('Escreva o motivo (ao menos 3 letras) para mandar para a Lixeira.'); const t = $('#al-mot-g'); if (t) { t.classList.add('falta'); try { t.focus(); } catch {} } return; } /* v2.102.51 */
   const em = nowISO();
   await Data.col('sv2_rnc').update(id, { situacao: 'cancelada', canceladaEm: em, canceladaPor: S.user.nome, canceladaMotivo: 'Excluída (Lixeira): ' + mot,
     lixeira: { em: em, porId: S.user.id, porNome: S.user.nome, motivo: mot, situacaoAntes: r.situacao || '' } });
@@ -22648,6 +22693,7 @@ function senhaGerar() {
 }
 function nuGerar() { const e = $('#nu-senha'); if (!e) return; e.value = senhaGerar(); e.type = 'text'; e.dispatchEvent(new Event('input', { bubbles: true })); toast('Senha temporária gerada: anote e passe para a pessoa.', 'ok'); }
 function openNewUser() {
+  const volta = $('#ov') ? 'users' : 'close'; /* v2.102.51 */
   openSheet('<h3>Novo usuário</h3><div class="sub">O login é o nome que a pessoa digita para entrar.</div><div id="nu-msg"></div>' +
     '<div class="field"><label>Nome completo</label><input class="input" id="nu-nome" autocomplete="off"></div>' +
     '<div class="field"><label>Login</label><input class="input" id="nu-login" autocomplete="off" autocapitalize="none"></div>' +
@@ -22656,7 +22702,7 @@ function openNewUser() {
     '<div class="field"><label>Senha temporária (mínimo 6 dígitos; 8 para Principal)</label><div class="nu-senha-l"><input class="input" id="nu-senha" type="password" autocomplete="new-password"><button type="button" class="btn sm" data-action="nu-gerar">Gerar</button></div></div>' +
     '<p class="fm-dica">No primeiro login a pessoa é obrigada a confirmar o nome completo, cadastrar um e-mail válido e trocar esta senha.</p>' +
     '<div id="atrib-box">' + atribForm(atribTodas(false)) + '</div>' +
-    '<div class="row-actions"><button class="btn" data-action="users">Voltar</button><button class="btn primary" data-action="user-save">Criar usuário</button></div>');
+    '<div class="row-actions"><button class="btn" data-action="' + esc(volta) + '">Voltar</button><button class="btn primary" data-action="user-save">Criar usuário</button></div>');
   atribLigarPerfil('#nu-perfil');
 }
 
