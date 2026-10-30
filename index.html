@@ -161,6 +161,17 @@ input,select,textarea{font:inherit;color:inherit} /* v2.94.1: textarea saía com
 .th i{width:28px;height:28px;border-radius:50%;border:2px solid var(--border-light)}
 .th.active{border-color:var(--primary)}
 .sec{font-size:12.5px;font-weight:700;color:var(--text-muted);margin:16px 0 8px}
+.app-tiles{display:grid;gap:8px}
+.app-tile{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:8px 14px;border-radius:var(--r-ctl);background:var(--surface-2);border:1px solid var(--line);text-align:left;font-weight:600}
+.app-tile i{display:grid;place-items:center;flex:none;width:36px;height:36px;border-radius:var(--r-ctl);background:var(--accent,#7c3aed);color:#fff}
+.app-tile i svg{width:20px;height:20px}
+.app-tile span{display:grid;gap:1px;min-width:0;flex:1}
+.app-tile b{font-size:14px}
+.app-tile small{font-size:12px;font-weight:500;color:var(--text-muted)}
+.app-tile em{font-style:normal;font-size:12px;font-weight:700;color:var(--text-muted)}
+.app-tile:not(.off):hover{border-color:var(--accent,#7c3aed)}
+.app-tile.off{opacity:.6;cursor:default}
+.app-tile.off i{background:var(--text-muted)}
 .menu-btn{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:48px;padding:0 14px;border-radius:var(--r-ctl);background:var(--surface-2);margin-bottom:8px;font-weight:600;text-align:left}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:13px;color:var(--text-muted)}
 .kv b{color:var(--text);font-weight:600}
@@ -3130,7 +3141,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.52 · Janelas de detalhe e de lista sem o botão Fechar (voltar do celular, Esc e clique fora fecham)';
+const APP_VERSION = 'v2.102.53 · Acessos ao EFCquiz e ao EFCdocs em Opções (Principal e Líder ★)';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -22666,8 +22677,26 @@ function openGear() {
   const admItens = isPrincipal(u) ? '<button class="menu-btn" data-action="users">Usuários<span>›</span></button><button class="menu-btn" data-action="emp-open">Empresa (nome, unidades e endereços)<span>›</span></button><button class="menu-btn" data-action="dc-open">Documento controlado (cabeçalho das impressões)<span>›</span></button><button class="menu-btn" data-action="teste-open">Ambiente de teste' + (fbTesteAtivo() ? ' <span class="chip warn">em teste</span>' : '') + '<span>›</span></button><button class="menu-btn" data-action="arq-open" data-id="novo">Arquivo por ano' + (arqCfg().ateAno ? ' <small>fechado até ' + arqCfg().ateAno + '</small>' : '') + '<span>›</span></button><button class="menu-btn" data-action="v75-teste">Registros de teste<span>›</span></button><button class="menu-btn" data-action="bk-open">Backup e exportação' + (bkAtrasado() ? ' <span class="chip warn">fazer</span>' : '') + '<span>›</span></button><button class="menu-btn" data-action="alert-test">Testar alerta crítico neste aparelho<span>›</span></button>' : '';
   const adm = isPrincipal(u) ? '<div class="sec">Administração</div><button class="menu-btn" data-action="adm-open">Administração<span>›</span></button><div class="op-adm-ov" id="op-adm" hidden><div class="op-adm" role="dialog" aria-label="Administração"><div class="op-adm-h"><button type="button" class="btn sm" data-action="adm-close">‹ Voltar</button><h3>Administração</h3></div><div class="op-adm-l">' + admItens + '</div></div></div>' : ''; /* v2.102.29: painel escondido; os botões continuam na tela */
   openSheet('<h3 class="op-h">Opções</h3><div class="op-top"><button class="menu-btn mp-linha" data-action="meu-perfil">' + avatarHTML(u, 40) + '<span><b>' + nomeFmt(u) + '</b>' + cnqTituloHTML(u) + '<small>' + esc((u.cargo ? u.cargo + ' · ' : '') + perfilLabel(u)) + ' · Meu perfil</small></span><span>›</span></button><button class="menu-btn mp-linha cnq-menu" data-action="cnq-open">' + cnqInsig('constancia', 5, 32) + '<span><b>Conquistas</b><small>As suas, as da equipe e as dos colegas · sem ranking</small></span><span>›</span></button></div><div class="op-cols"><div class="op-c1"><div class="sec">Tema</div>' + th + tabletMenuHTML() +
-    (DEMO ? '<div class="sec">Modo teste</div>' + (testeOrigem() ? '<button class="menu-btn" data-action="teste-open">Ambiente de teste (cópia)<span>›</span></button>' : '') + '<button class="menu-btn" data-action="demo-off">Sair da demonstração e voltar para a nuvem<span>›</span></button>' : '') + '</div><div class="op-c2">' + adm + (rsPode(u) ? '<div class="sec">Relatórios</div><button class="menu-btn" data-action="rs-open">Relatórios da semana<span>›</span></button>' : '') + pwaMenuHTML() + '<div class="sec">Sobre</div>' + (DEMO ? '' : RC_NOTA) + keyval([['Versão', APP_VERSION], ['Dados', Data.mode === 'demo' ? 'Demonstração (só neste aparelho)' : 'Nuvem, sincronizado'], ['Conexão', Sync.texto()]]).replace('<span>Conexão</span><b>', '<span>Conexão</span><b id="sync-sobre">') + '<button class="menu-btn" data-action="arm-open">Espaço deste aparelho' + (Store.falha.cota || S._semCache === 22 ? ' <b class="arm-cheio">cheio</b>' : '') + '<span>›</span></button>' +
+    (DEMO ? '<div class="sec">Modo teste</div>' + (testeOrigem() ? '<button class="menu-btn" data-action="teste-open">Ambiente de teste (cópia)<span>›</span></button>' : '') + '<button class="menu-btn" data-action="demo-off">Sair da demonstração e voltar para a nuvem<span>›</span></button>' : '') + efcquizMenuHTML(u) + '</div><div class="op-c2">' + adm + (rsPode(u) ? '<div class="sec">Relatórios</div><button class="menu-btn" data-action="rs-open">Relatórios da semana<span>›</span></button>' : '') + pwaMenuHTML() + '<div class="sec">Sobre</div>' + (DEMO ? '' : RC_NOTA) + keyval([['Versão', APP_VERSION], ['Dados', Data.mode === 'demo' ? 'Demonstração (só neste aparelho)' : 'Nuvem, sincronizado'], ['Conexão', Sync.texto()]]).replace('<span>Conexão</span><b>', '<span>Conexão</span><b id="sync-sobre">') + '<button class="menu-btn" data-action="arm-open">Espaço deste aparelho' + (Store.falha.cota || S._semCache === 22 ? ' <b class="arm-cheio">cheio</b>' : '') + '<span>›</span></button>' +
     '</div></div><div class="row-actions op-foot"><button class="btn danger" data-action="logout">Sair</button><button class="btn" data-action="bloquear">Bloquear</button></div>');
+}
+/* v2.102.53: acessos a outros apps da família em Opções (só Principal e Líder ★), na coluna da esquerda.
+   EFCquiz abre em outra aba; no primeiro acesso leva ?ativar=1 (marca o aparelho; depois usa o mesmo login). Na demonstração abre o EFCquiz em demonstração.
+   EFCdocs: lugar reservado (desligado) até ele ficar pronto: troque EFCDOCS_URL pelo endereço e ele liga sozinho. */
+const EFCQUIZ_URL = 'https://eliasgrigori.github.io/EFCquiz/';
+const EFCDOCS_URL = '';
+function efcAppUrl(app) { return app === 'quiz' ? EFCQUIZ_URL + (DEMO ? '?demo=1' : '?ativar=1') : (EFCDOCS_URL ? EFCDOCS_URL + (DEMO ? '?demo=1' : '?ativar=1') : ''); }
+function efcquizMenuHTML(u) {
+  if (!isSup(u)) return '';
+  const tile = (app, nome, sub, ic, ligado) => '<button class="app-tile' + (ligado ? '' : ' off') + '" data-action="efc-app" data-id="' + app + '"' + (ligado ? '' : ' disabled aria-disabled="true"') + '><i>' + ic + '</i><span><b>' + nome + '</b><small>' + sub + '</small></span><em>' + (ligado ? '↗' : 'em breve') + '</em></button>';
+  return '<div class="sec">Outros apps</div><div class="app-tiles">' +
+    tile('quiz', 'EFCquiz', 'Treinamento e avaliação de eficácia', ico('check'), true) +
+    tile('docs', 'EFCdocs', 'Documentos', ico('file'), !!EFCDOCS_URL) + '</div>';
+}
+function efcAppAbrir(app) {
+  const url = efcAppUrl(app); if (!isSup(S.user) || !url) return;
+  let w = null; try { w = window.open(url, '_blank', 'noopener'); } catch (e) {}
+  if (!w) { try { location.href = url; } catch (e) {} }
 }
 /* v2.14.1 — os temas saem de dentro da bolinha para os lugares deles (e voltam ao tocar de novo) */
 function temaAbrir() {
@@ -23321,6 +23350,7 @@ document.addEventListener('click', e => {
     case 'sync-limpar': Sync.limparErros(); break;
     case 'gear': openGear(); break;
     case 'adm-open': opAdm(true); break; /* v2.102.29 */
+    case 'efc-app': efcAppAbrir(id); break; /* v2.102.53 */
     case 'adm-close': opAdm(false); break;
     case 'close': closeSheet(); break;
     case 'tema-abrir': temaAbrir(); break;

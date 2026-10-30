@@ -6,7 +6,7 @@
             (3) a fonte passa a ser guardada; (4) a instalação só vale se a tela foi guardada,
             e o que faltou (Firebase, ícones) é guardado de novo nas próximas aberturas.
    29/10/2026: a pasta /efcquiz/ (endereço antigo do EFCquiz) fica de fora: nada dela é guardado nem servido daqui. */
-const VERSAO = 'efclaudian-v2.102.52';
+const VERSAO = 'efclaudian-v2.102.53';
 const ESSENCIAIS = ['./index.html'];
 const TELA = ['./', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 const FORA = [
