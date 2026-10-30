@@ -4,7 +4,8 @@
    v2.84.0: (1) só guarda a tela se ela veio certa (não guarda página de erro nem de Wi-Fi com login);
             (2) com sinal fraco, espera a internet no máximo 3,5 s e abre a tela guardada;
             (3) a fonte passa a ser guardada; (4) a instalação só vale se a tela foi guardada,
-            e o que faltou (Firebase, ícones) é guardado de novo nas próximas aberturas. */
+            e o que faltou (Firebase, ícones) é guardado de novo nas próximas aberturas.
+   29/10/2026: a pasta /efcquiz/ (endereço antigo do EFCquiz) fica de fora: nada dela é guardado nem servido daqui. */
 const VERSAO = 'efclaudian-v2.102.52';
 const ESSENCIAIS = ['./index.html'];
 const TELA = ['./', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
@@ -46,6 +47,8 @@ function navegar(r) {
 self.addEventListener('fetch', ev => {
   const r = ev.request; if (r.method !== 'GET') return;
   const u = new URL(r.url);
+  /* endereço antigo do EFCquiz: vai direto à rede, para não trocar a tela guardada do EFClaudian pela dele */
+  if (u.origin === self.location.origin && u.pathname.indexOf('/efcquiz/') >= 0) return;
   const fonte = /(^|\.)fonts\.(googleapis|gstatic)\.com$/.test(u.hostname);
   /* Firestore / login: sempre direto (nunca guardar) */
   if (!fonte && (/googleapis\.com$|firebaseio\.com$|identitytoolkit|securetoken/.test(u.hostname) || u.pathname.indexOf('/google.firestore') >= 0)) return;
