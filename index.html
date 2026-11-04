@@ -133,6 +133,11 @@ input,select,textarea{font:inherit;color:inherit} /* v2.94.1: textarea saía com
 .sheet h3{font-size:17px;font-weight:700;margin-bottom:4px}
 .sheet .sub{color:var(--text-muted);font-size:13px;margin-bottom:14px}
 .sheet .row-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;flex-wrap:wrap}
+/* v2.102.54: seta ‹ de voltar à esquerda do título, sem fundo; área de toque maior que o desenho */
+.sheet .sh-seta{float:left;position:relative;width:26px;height:26px;margin:0 6px 0 -6px;padding:0;border:0;border-radius:8px;background:none;color:var(--text-muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.sheet .sh-seta::before{content:'';position:absolute;inset:-9px -6px -9px -9px}
+.sheet .sh-seta:hover,.sheet .sh-seta:focus-visible{background:var(--surface-3);color:var(--text)}
+.sheet h3.com-seta{overflow:hidden;min-height:26px}
 @media(min-width:860px){.overlay{align-items:center}.sheet{border-radius:var(--r-card)}}
 .toast-host{position:fixed;left:0;right:0;bottom:84px;z-index:120;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
 .toast{background:var(--surface-3);border:1px solid var(--border-light);padding:11px 16px;border-radius:var(--r-ctl);font-weight:600;font-size:13.5px;box-shadow:var(--shadow);max-width:88vw}
@@ -3141,7 +3146,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.53 · Acessos ao EFCquiz e ao EFCdocs em Opções (Principal e Líder ★)';
+const APP_VERSION = 'v2.102.54 · Seta ‹ de voltar no topo das janelas (no lugar do botão Voltar do rodapé)';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -4041,7 +4046,7 @@ function shRecua() {
   if (S.ap) { apEncerrar(); return true; } /* Apresentação: volta para a RNC, não fecha as duas */
   const sh = ov.querySelector('.sheet');
   if (ov.dataset.sujo === '1' && shForm(sh)) { shPergunta(ov); return true; }
-  const v = sh && Array.from(sh.querySelectorAll('.row-actions .btn')).find(b => /^(‹\s*)?Voltar(\s|$)/.test((b.textContent || '').trim()) && !b.disabled);
+  const v = sh && (sh.querySelector('.sh-seta') || Array.from(sh.querySelectorAll('.row-actions .btn')).find(b => /^(‹\s*)?Voltar(\s|$)/.test((b.textContent || '').trim()) && !b.disabled)); /* v2.102.54: a seta ‹ primeiro */
   if (v) { v.click(); return true; }
   closeSheet(); return true;
 }
@@ -4064,6 +4069,17 @@ function rolVoltaView(g) {
   if (!g || g.rota !== S._rota || $('#ov')) return;
   if ((window.scrollY || 0) + 4 < g.y) { try { window.scrollTo(0, g.y); } catch {} }
   const els = $$('#view *'); g.els.forEach(x => { const e = els[x[0]]; if (!e || rolSig(e) !== x[3]) return; if (e.scrollTop + 4 < x[1]) e.scrollTop = x[1]; if (e.scrollLeft === 0 && x[2] > 4) e.scrollLeft = x[2]; });
+}
+/* v2.102.54 (combinado em 24/10 15:52): o Voltar do rodapé vira a seta ‹ à esquerda do título. Só onde havia Voltar (há nível anterior).
+   A seta leva os mesmos data-* do botão que saiu, então o clique segue o mesmo caminho de antes. Fica fora do <h3> para o título (textContent) não mudar. */
+function shSeta(ov) {
+  const sh = ov.querySelector('.sheet'), h3 = sh && sh.querySelector('h3'); if (!h3 || h3.parentNode !== sh || sh.querySelector('.sh-seta')) return;
+  const v = Array.from(sh.querySelectorAll('.row-actions .btn,.ap-foot .btn')).find(b => /^(‹\s*)?Voltar(\s|$)/.test((b.textContent || '').trim()) && !b.disabled); if (!v) return;
+  const a = document.createElement('button'); a.type = 'button'; a.className = 'sh-seta'; a.setAttribute('aria-label', 'Voltar'); a.title = 'Voltar';
+  Array.from(v.attributes).forEach(x => { if (/^data-/.test(x.name)) a.setAttribute(x.name, x.value); });
+  a.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"/></svg>';
+  h3.classList.add('com-seta'); sh.insertBefore(a, h3);
+  const pai = v.parentNode; v.remove(); if (pai && !pai.children.length && /(^|\s)(row-actions|ap-foot)(\s|$)/.test(pai.className || '')) pai.remove();
 }
 function openSheet(html, opts) {
   /* v2.75.0: a mesma janela desenhada de novo (marcar uma caixinha, trocar um filtro) mantém a rolagem e não puxa o foco */
@@ -4089,6 +4105,7 @@ function openSheet(html, opts) {
   const igual = igual0 || !!rest;
   if (sujo0 && igual0) ov.dataset.sujo = '1'; /* v2.102.51: a mesma janela redesenhada continua "escrita" */
   try { ajJanela(ov); } catch (e) {} /* v2.102.0 */
+  try { shSeta(ov); } catch {} /* v2.102.54 */
   try { alinhaTabelas(ov); } catch {} /* v2.102.28 */
   if (igual) { const sh = ov.firstChild; sh.scrollTop = fica.top; const els = Array.from(sh.querySelectorAll('*')); fica.dentro.forEach(x => { if (els[x[0]]) els[x[0]].scrollTop = x[1]; }); }
   const f = $('input,button.btn.primary', ov); if (f && !igual && !(opts && opts.noFocus)) { try { f.focus(); } catch (e) {} }
