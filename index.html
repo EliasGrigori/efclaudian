@@ -1899,6 +1899,15 @@ textarea.input{font-family:inherit;font-size:inherit} /* v2.61.0: as caixas de t
 .alb-it{display:flex;flex-direction:column;align-items:flex-start;gap:1px;width:100%;text-align:left;background:transparent;border:0;border-top:1px solid var(--border);padding:9px 12px;color:var(--text);cursor:pointer}
 .alb-it:first-child{border-top:0}.alb-it.prim{background:var(--surface-2)}.alb-it:hover{background:var(--surface-2)}
 .alb-it b{font-size:14px}.alb-it small{font-size:12px;color:var(--text-muted)}
+
+/* v2.102.58: busca geral */
+.bg-in{width:100%}.bg-res{display:flex;flex-direction:column;gap:2px;max-height:min(56vh,440px);overflow:auto;margin-top:10px}
+.bg-gh{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);padding:10px 4px 4px}
+.bg-it{display:flex;flex-direction:column;align-items:flex-start;gap:1px;width:100%;text-align:left;background:transparent;border:0;border-radius:8px;padding:8px 10px;color:var(--text);cursor:pointer}
+.bg-it b{font-size:14px;font-weight:600}.bg-it small{font-size:12px;color:var(--text-muted)}
+.bg-it:hover,.bg-it.sel{background:var(--surface-2)}.bg-it.sel{box-shadow:inset 0 0 0 1px var(--primary)}
+.bg-vazio{color:var(--text-muted);font-size:13px;padding:12px 4px}
+.bg-dica{color:var(--text-muted);font-size:12px;margin-top:8px}
 .alb-nada{padding:10px 12px;font-size:13px;color:var(--text-muted)}
 @media(min-width:860px){.alb{max-width:520px}}
 
@@ -3156,7 +3165,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.57 · Tabelas: escolher as colunas e baixar a planilha (.xlsx)';
+const APP_VERSION = 'v2.102.58 · Busca geral: tecla / (ou a lupa no topo) acha documentos, caixas, materiais, equipamentos, coletas, RNC, tarefas e telas';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -19016,6 +19025,66 @@ function albInput(inp) {
   r.innerHTML = albResHTML(inp.value); r.hidden = albNorm(inp.value).length < 2;
 }
 function albEnter(inp) { const b = $('#alb-r .alb-it'); if (b) b.click(); }
+
+/* ============ v2.102.58 — BUSCA GERAL (ideia do Flow, aprovada 03/11): tecla / ou a lupa do topo ============
+   Acha, no que a pessoa pode ver: telas, documentos, caixas d'água, materiais, equipamentos, coletas, RNC, tarefas e usuários (Líder★/Principal).
+   Cada resultado abre o próprio registro. Todas as palavras digitadas precisam aparecer (sem acento, sem maiúscula). */
+const BG_MAX = 6;
+function bgCasa(q, campos) { const pal = albPalavras(q); if (!pal.length) return false; const tx = campos.filter(x => x != null && x !== '').join(' '), t = albPalavras(tx).join(' '), j = albNorm(tx); return pal.every(p => t.indexOf(p) >= 0 || j.indexOf(p) >= 0); }
+function bgBusca(q) {
+  const u = S.user, g = [];
+  const grupo = (nome, l) => { if (l.length) g.push({ nome: nome, itens: l.slice(0, BG_MAX), mais: Math.max(0, l.length - BG_MAX) }); };
+  if (!u || albNorm(q).length < 2) return g;
+  const tel = []; areasVisiveis().forEach(a => abasDe(a).forEach(t => { if (bgCasa(q, [a.titulo || a.nome, t.nome])) tel.push({ t: 'aba', id: a.id + '/' + t.id, nome: t.nome, sub: 'Tela · ' + (a.titulo || a.nome) }); }));
+  grupo('Telas', tel);
+  if (temAtrib(u, 'docs')) {
+    grupo('Documentos', (S.docs || []).filter(d => bgCasa(q, [d.codigo, d.titulo, d.setor, d.responsavel])).map(d => ({ t: 'doc', id: d.id, nome: (d.codigo ? d.codigo + ' · ' : '') + (d.titulo || ''), sub: [tipoDocTxt(d.tipo), d.setor, d.desativado ? 'desativado' : ''].filter(Boolean).join(' · ') })));
+    grupo('Caixas d’água', (S.caixas || []).filter(c => bgCasa(q, [c.tag, c.nome, c.local, c.setor, c.responsavel])).map(c => ({ t: 'cx', id: c.id, nome: c.tag || c.nome || 'Caixa', sub: [c.local || c.setor, c.desativado ? 'desativada' : ''].filter(Boolean).join(' · ') })));
+  }
+  if (temAtrib(u, 'almox')) {
+    const r = albBusca(q);
+    grupo('Equipamentos', r.filter(x => x.t === 'eq').map(x => ({ t: 'eq', id: x.id, nome: x.nome, sub: x.sub })));
+    grupo('Materiais', r.filter(x => x.t === 'mat').map(x => ({ t: 'mat', id: x.id, nome: x.nome, sub: x.sub })));
+  }
+  if (temAtrib(u, 'coletas')) grupo('Coletas', (S.coletas || []).filter(c => bgCasa(q, [c.tipo, c.talhao, c.analiseNome, c.loteComp, c.coletor, c.data ? fmtD(c.data) : ''])).sort((a, b) => String(b.data || '').localeCompare(String(a.data || ''))).map(c => ({ t: 'col', id: c.id, nome: [c.tipo, c.talhao, c.analiseNome].filter(Boolean).join(' · '), sub: [c.data ? fmtD(c.data) : '', c.situacao].filter(Boolean).join(' · ') })));
+  if (temAtrib(u, 'apont')) grupo('Auditoria interna (RNC)', (S.rnc || []).filter(r => bgCasa(q, [r.numero, r.tipo, r.auditorNome].concat((r.ncs || []).reduce((a, n) => a.concat([n.titulo, n.desc, n.descricao, n.local, n.respNome]), [])))).map(r => ({ t: 'rnc', id: r.id, nome: r.numero || 'RNC', sub: [r.tipo, r.auditorNome].filter(Boolean).join(' · ') })));
+  const lid = typeof tfLid === 'function' ? tfLid() : [];
+  grupo('Tarefas', tfTodas().filter(x => (x.respId === u.id || lid.indexOf(x.respId) >= 0) && bgCasa(q, [x.titulo])).map(x => ({ t: 'tf', id: x.id, nome: x.titulo, sub: (x.status === 'done' ? 'concluída' : 'em aberto') + (x.prazo ? ' · prazo ' + fmtD(x.prazo) : '') })));
+  if (isSup(u)) grupo('Usuários', (S.users || []).filter(p => bgCasa(q, [p.nome, p.login, p.cargo])).map(p => ({ t: 'user', id: p.id, nome: p.nome || p.login, sub: p.cargo || perfilLabel(p) })));
+  return g;
+}
+function bgAbrir(t, id) {
+  closeSheet();
+  if (t === 'aba') { mdIr(id); return; }
+  if (t === 'doc') openDocDetail(id); else if (t === 'cx') openCaixaDetail(id);
+  else if (t === 'mat') openAlItem(id); else if (t === 'eq') openEq(id);
+  else if (t === 'col') openColDetail(id); else if (t === 'rnc') openRnc(id);
+  else if (t === 'user') openUserDetail(id);
+  else if (t === 'tf') { const x = tfDe(id), e = tfE(); if (!x) return; e.ct = x.status === 'done' ? 'concluido' : 'aberto'; e.esc = x.respId === S.user.id ? 'minhas' : 'equipe'; e.busca = ''; mdIr('qualidade/meudia'); tfAbrir(id); }
+}
+function bgDesenha(sh, q) {
+  const r = $('#bg-res', sh), g = bgBusca(q); let k = 0;
+  if (albNorm(q).length < 2) { r.innerHTML = '<div class="bg-vazio">Digite o nome, o código ou parte do texto.</div>'; return; }
+  r.innerHTML = g.length ? g.map(x => '<div class="bg-gh">' + esc(x.nome) + '</div>' + x.itens.map(i => '<button type="button" class="bg-it' + (k++ === 0 ? ' sel' : '') + '" data-t="' + esc(i.t) + '" data-id="' + esc(i.id) + '"><b>' + esc(i.nome) + '</b>' + (i.sub ? '<small>' + esc(i.sub) + '</small>' : '') + '</button>').join('') + (x.mais ? '<div class="bg-vazio">+ ' + x.mais + ' (afine a busca)</div>' : '')).join('') : '<div class="bg-vazio">Nada encontrado para “' + esc(q) + '”.</div>';
+}
+function buscaGeral() {
+  if (!S.user || S.lockado) return;
+  const sh = openSheet('<h3>Buscar</h3><input class="input bg-in" id="bg-q" type="search" placeholder="Documento, material, coleta, RNC, tarefa, tela…" autocomplete="off" enterkeyhint="go" aria-label="Buscar"><div class="bg-res" id="bg-res"></div><div class="bg-dica">Setas para escolher, Enter para abrir. Atalho: tecla /</div>');
+  const inp = $('#bg-q', sh); bgDesenha(sh, '');
+  const sel = d => { const l = $$('#bg-res .bg-it', sh); if (!l.length) return; let i = l.findIndex(x => x.classList.contains('sel')); l.forEach(x => x.classList.remove('sel')); i = (i + d + l.length) % l.length; l[i].classList.add('sel'); l[i].scrollIntoView({ block: 'nearest' }); };
+  inp.addEventListener('input', () => bgDesenha(sh, inp.value));
+  inp.addEventListener('keydown', e => { if (e.key === 'ArrowDown') { e.preventDefault(); sel(1); } else if (e.key === 'ArrowUp') { e.preventDefault(); sel(-1); } else if (e.key === 'Enter') { e.preventDefault(); const b = $('#bg-res .bg-it.sel', sh); if (b) b.click(); } });
+  $('#bg-res', sh).addEventListener('click', e => { const b = e.target.closest('.bg-it'); if (b) bgAbrir(b.getAttribute('data-t'), b.getAttribute('data-id')); });
+  setTimeout(() => { try { inp.focus(); } catch {} }, 30);
+}
+document.addEventListener('keydown', ev => {
+  if (!S.user || S.lockado || $('#ov') || $('#prev') || ev.altKey) return;
+  const el = ev.target, digitando = el && /INPUT|TEXTAREA|SELECT/.test(el.tagName || '') || (el && el.isContentEditable);
+  const ctrlK = (ev.ctrlKey || ev.metaKey) && (ev.key === 'k' || ev.key === 'K');
+  if (!ctrlK && (ev.key !== '/' || ev.ctrlKey || ev.metaKey || digitando)) return;
+  if (!ctrlK && $('#tf-busca')) return; /* no Meu dia o / continua indo para a busca de tarefas; lá o Ctrl+K ou a lupa abrem a geral */
+  ev.preventDefault(); buscaGeral();
+});
 /* ---------- S8 ---------- */
 function alConsumoUsado(i) {
   const prev = Number(i && i.consumoPrev) || 0;
@@ -22850,7 +22919,7 @@ function renderShell() {
     nav.map(n => '<button class="rn' + (n.on ? ' active' : '') + '" data-action="area" data-id="' + n.x.id + '">' + ico(n.x.icon) + esc(n.x.titulo || n.x.nome) + '</button>').join('') +
     '<button class="rail-user" data-action="meu-perfil">' + avatarHTML(u, 36) + '<span class="ru-t"><b>' + nomeFmt(u, true) + '</b><span>' + esc(u.cargo || perfilLabel(u)) + (statusDe(u) !== 'ativo' ? ' · ' + esc(statusNome(statusDe(u))) : '') + '</span></span></button></aside>' +
     '<div class="col"><header class="topbar"><div class="topbar-row"><div class="tb-tit"><h1>' + esc(a.titulo || a.nome) + '</h1><span id="aj-aba"></span></div>' +
-    Sync.botaoHTML() + '<button class="iconbtn" data-action="bell" aria-label="Notificações">' + ico('bell') + '<span class="badge" id="bell-badge" hidden></span></button>' +
+    '<button class="iconbtn" data-action="busca-geral" aria-label="Buscar (tecla /)" title="Buscar (tecla /)">' + ico('lupa') + '</button>' + Sync.botaoHTML() + '<button class="iconbtn" data-action="bell" aria-label="Notificações">' + ico('bell') + '<span class="badge" id="bell-badge" hidden></span></button>' +
     '<button class="iconbtn" data-action="gear" aria-label="Opções">' + ico('gear') + '</button></div><nav class="tabs rola-x" id="tabs" aria-label="Seções"></nav></header>' +
     '<main class="main" id="view"></main></div></div>' +
     '<nav class="bottomnav" style="--n:' + areas.length + '" aria-label="Áreas">' +
@@ -23448,6 +23517,7 @@ document.addEventListener('click', e => {
     case 'area': S.rm = null; S.area = id; renderShell(); renderView(); window.scrollTo(0, 0); break;
     case 'tab': S.rm = null; S.tabs[curArea().id] = id; renderTabs(); renderView(); break;
     case 'bell': openBell(); break;
+    case 'busca-geral': buscaGeral(); break;
     case 'sync': Sync.abrir(); break;
     case 'sync-limpar': Sync.limparErros(); break;
     case 'gear': openGear(); break;
