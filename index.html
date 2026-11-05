@@ -682,6 +682,12 @@ body[data-theme="ponto"]::before{background:radial-gradient(rgba(60,60,110,.16) 
 .al-sal{font-size:21px;font-weight:800;text-align:right;white-space:nowrap;line-height:1}
 .al-sal small{display:block;font-size:11px;font-weight:600;color:var(--text-dim);margin-top:2px}
 .al-sal.zero{color:var(--crit)}
+/* v2.102.55: medidor saldo × mínimo (o traço é o mínimo; a barra cheia = 2× o mínimo) */
+.al-med{display:block;position:relative;height:4px;border-radius:2px;background:var(--surface-3);margin-top:6px;max-width:150px}
+.al-med i{position:absolute;inset:0 auto 0 0;border-radius:2px;background:var(--ok)}
+.al-med.min i{background:var(--warn)}.al-med.zero i{background:var(--crit)}
+.al-med u{position:absolute;top:-2px;bottom:-2px;left:50%;width:2px;background:var(--text-muted);opacity:.75}
+td .al-med{margin:6px auto 0;max-width:90px}
 .al-nada{padding:18px;text-align:center;color:var(--text-muted);font-size:13px}
 .al-kpis{grid-template-columns:repeat(2,1fr)}
 .al-kpis .kpi:last-child{grid-column:1/-1}
@@ -3146,7 +3152,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.54 · Seta ‹ de voltar no topo das janelas (no lugar do botão Voltar do rodapé)';
+const APP_VERSION = 'v2.102.55 · Estoque mínimo: medidor na lista de Materiais e aviso no sino ao cair abaixo do mínimo';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -11351,9 +11357,15 @@ function alBannerConf() {
   const feito = tot - falta;
   return '<button class="al-conf" data-action="al-conf-lista"><span><b>' + icoI('prancheta') + 'Conferência inicial</b><small>' + (feito ? feito + ' de ' + tot + ' itens conferidos. Continue de onde parou.' : 'Traga a situação atual da planilha, item por item: você confirma ou corrige.') + '</small></span><span class="al-conf-n">' + feito + '/' + tot + '</span></button>';
 }
+/* v2.102.55: medidor saldo × mínimo (só itens com mínimo, só na lista de Materiais) */
+function alMedidorHTML(i, sal) {
+  const m = Number(i.min); if (!(m > 0) || i.ativo === false) return '';
+  const pct = Math.max(0, Math.min(100, sal / (2 * m) * 100)), cl = sal <= 0 ? 'zero' : sal < m ? 'min' : '';
+  return '<span class="al-med ' + cl + '" title="Utilizável ' + esc(alQ(sal)) + ' · mínimo ' + esc(alQ(m)) + '" aria-hidden="true"><i style="width:' + pct.toFixed(0) + '%"></i><u></u></span>';
+}
 function alItemBtn(i, acao, extra) {
   const sal = alDisp(i.id), vc = alVenc(i.id);
-  return '<button class="al-it" data-action="' + acao + '" data-id="' + esc(i.id) + '" data-busca="' + alBuscaTxt(i) + '"><span class="al-it-n"><b>' + esc(i.nome) + '</b><small>' + esc([i.codigo, i.local].filter(Boolean).join(' · ')) + (extra ? ' ' + extra : '') + '</small></span><span class="al-sal' + (sal <= 0 ? ' zero' : '') + '">' + alQ(sal) + '<small>' + esc(i.un || '') + '</small>' + (vc > 0 ? '<small class="al-vc">vencido ' + alQ(vc) + '</small>' : '') + '</span></button>';
+  return '<button class="al-it" data-action="' + acao + '" data-id="' + esc(i.id) + '" data-busca="' + alBuscaTxt(i) + '"><span class="al-it-n"><b>' + esc(i.nome) + '</b><small>' + esc([i.codigo, i.local].filter(Boolean).join(' · ')) + (extra ? ' ' + extra : '') + '</small>' + (acao === 'al-item' ? alMedidorHTML(i, sal) : '') + '</span><span class="al-sal' + (sal <= 0 ? ' zero' : '') + '">' + alQ(sal) + '<small>' + esc(i.un || '') + '</small>' + (vc > 0 ? '<small class="al-vc">vencido ' + alQ(vc) + '</small>' : '') + '</span></button>';
 }
 /* v2.82: tela vazia do almoxarifado com o que fazer */
 function alVazioHTML(onde) {
@@ -11423,7 +11435,7 @@ function viewAlmMateriais() {
       { key: 'nome', label: 'Item', get: r => r.nome },
       { key: 'un', label: 'Un', get: r => r.un || '' },
       { key: 'loc', label: 'Localização', get: r => r.local || '' },
-      { key: 'sal', label: 'Utilizável', type: 'num', get: r => alDisp(r.id), fmt: r => alQ(alDisp(r.id)) },
+      { key: 'sal', label: 'Utilizável', type: 'num', get: r => alDisp(r.id), fmt: r => alQ(alDisp(r.id)), html: r => esc(alQ(alDisp(r.id))) + alMedidorHTML(r, alDisp(r.id)) }, /* v2.102.55: medidor também na tabela */
       { key: 'vcd', label: 'Vencido', type: 'num', get: r => alVenc(r.id), fmt: r => alVenc(r.id) > 0 ? alQ(alVenc(r.id)) : '—' },
       { key: 'min', label: 'Mínimo', type: 'num', get: r => Number(r.min) || 0 },
       { key: 'dura', label: 'Dura', type: 'num', get: r => { const d = alDiasFim(r); return d == null ? 99999 : d; }, fmt: r => { const d = alDiasFim(r); return d == null ? '—' : '~' + d + ' dia(s)'; } }, /* v2.66.0 */
@@ -11558,6 +11570,19 @@ function alAlocar(itemId, q, lotId) {
   const partes = []; let r = q;
   for (const l of ls) { if (r <= 1e-9) break; const t = alR(Math.min(l.saldo, r)); partes.push({ l: l, q: t }); r = alR(r - t); }
   return { partes: partes };
+}
+/* v2.102.55 (ideia do Flow, aprovada 03/11): se a saída faz o item passar de "no mínimo ou acima" para "abaixo", avisa no sino quem cuida do almoxarifado
+   (Principal e líder ★ com a atribuição do almoxarifado: os mesmos do bloco do Meu dia). Só no cruzamento: não repete a cada saída. Roda ANTES de montar as gravações (o saldo ainda é o de antes). */
+function alMinAvisa(lista) {
+  try {
+    const por = {}; (lista || []).forEach(x => { if (!x || !x.i) return; const o = por[x.i.id] || (por[x.i.id] = { i: x.i, q: 0 }); o.q += Number(x.q) || 0; });
+    const cruz = Object.keys(por).map(k => por[k]).map(x => { const antes = alDisp(x.i.id); return { i: x.i, antes: antes, dep: alR(antes - x.q) }; })
+      .filter(x => Number(x.i.min) > 0 && x.i.ativo !== false && x.antes >= Number(x.i.min) && x.dep < Number(x.i.min));
+    if (!cruz.length) return;
+    const para = (S.users || []).filter(u => !u.bloqueado && isSup(u) && temAtrib(u, 'almox')).map(u => u.id); if (!para.length) return;
+    const txt = cruz.map(x => x.i.nome + ': utilizável ' + alQ(x.dep) + ' ' + (x.i.un || '') + ' (mínimo ' + alQ(x.i.min) + ')').join(' · ');
+    Promise.resolve(Notif.send({ nivel: 'aviso', titulo: cruz.length === 1 ? 'Estoque abaixo do mínimo: ' + cruz[0].i.nome : cruz.length + ' itens do almoxarifado abaixo do mínimo', texto: txt + '. Saída lançada por ' + (S.user ? S.user.nome : '') + '.', para: para })).catch(() => {});
+  } catch {}
 }
 function alMovSaida(i, p, extra) {
   return Object.assign({ tipo: 'saida', itemId: i.id, itemNome: i.nome, lotRef: p.l.id, lote: p.l.lote, validade: p.l.validade, qtd: p.q, preco: p.l.preco, criadoEm: nowISO(), por: S.user.id, porNome: S.user.nome }, extra);
@@ -13560,6 +13585,7 @@ function alSaidaOk() {
   if (venc && (b.vencMot || '').trim().length < 3) return alMsg('Escreva o motivo para usar o lote vencido.');
   if (venc && crit && !(($('#al-crit-venc') || {}).checked)) return alMsg('Marque a confirmação do líder ★ para sair o lote vencido deste produto crítico.');
   if (!alTravar()) return;
+  alMinAvisa([{ i: i, q: q }]); /* v2.102.55: ANTES de montar as gravações (o saldo ainda é o de antes) */
   const grupo = a.partes.length > 1 ? uid() : '', f = alFotosGravar(b.fotos, 'mov:' + (grupo || 'saida'), 'saida');
   const critObj = crit ? alCritNovo(venc) : null, ps = f.ps.slice(), ids = [];
   a.partes.forEach(p => { const o = alMovSaida(i, p, { motivo: mot, obs: (b.obs || '').trim(), data: b.data, grupo: grupo }); if (alVencido(p.l)) o.vencidoMotivo = b.vencMot.trim(); if (f.ids.length) o.fotos = f.ids; if (critObj) o.critico = critObj; const mid = uid(); ids.push(mid); ps.push(Data.col('sv2_alm_mov').set(mid, o)); });
@@ -13588,6 +13614,7 @@ function alKitOk() {
   }
   if (!usar.length) return alMsg('Todas as quantidades estão zeradas.');
   if (!alTravar()) return;
+  alMinAvisa(usar.map(u => ({ i: u.i, q: u.q }))); /* v2.102.55: antes das gravações */
   const grupo = uid(), f = alFotosGravar(b.fotos, 'mov:' + grupo, 'saida'), ps = f.ps.slice(), crits = [];
   let critId = '';
   const nome = k ? k.nome : nomeKit;
