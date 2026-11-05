@@ -1908,6 +1908,7 @@ textarea.input{font-family:inherit;font-size:inherit} /* v2.61.0: as caixas de t
 .bg-it:hover,.bg-it.sel{background:var(--surface-2)}.bg-it.sel{box-shadow:inset 0 0 0 1px var(--primary)}
 .bg-vazio{color:var(--text-muted);font-size:13px;padding:12px 4px}
 .bg-dica{color:var(--text-muted);font-size:12px;margin-top:8px}
+.bg-it.bg-lin{flex-direction:row;align-items:baseline;gap:8px;padding:6px 10px}
 .alb-nada{padding:10px 12px;font-size:13px;color:var(--text-muted)}
 @media(min-width:860px){.alb{max-width:520px}}
 
@@ -3165,7 +3166,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.58 · Busca geral: tecla / (ou a lupa no topo) acha documentos, caixas, materiais, equipamentos, coletas, RNC, tarefas e telas';
+const APP_VERSION = 'v2.102.59 · Busca geral mostra as últimas telas e as mais usadas (atalhos)';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -19062,9 +19063,31 @@ function bgAbrir(t, id) {
   else if (t === 'user') openUserDetail(id);
   else if (t === 'tf') { const x = tfDe(id), e = tfE(); if (!x) return; e.ct = x.status === 'done' ? 'concluido' : 'aberto'; e.esc = x.respId === S.user.id ? 'minhas' : 'equipe'; e.busca = ''; mdIr('qualidade/meudia'); tfAbrir(id); }
 }
+
+/* ============ v2.102.59 — "ONDE VOCÊ ESTAVA" e "MAIS USADAS" (ideias do Flow, 05/11) ============
+   Cada pessoa tem, neste aparelho (localStorage, nada vai ao servidor), a contagem de quantas vezes abriu cada tela e a lista das últimas telas.
+   Aparecem na janela Buscar quando o campo está vazio: "Voltar para" (últimas, sem a tela atual) e "Mais usadas" (as 5 com mais aberturas, a partir de 2). */
+const USO_REC = 8, USO_TOP = 5;
+function usoLer() { try { const o = JSON.parse(localStorage.getItem('efc-uso-' + ((S.user && S.user.id) || '')) || '{}'); return { n: (o && o.n) || {}, r: Array.isArray(o && o.r) ? o.r : [] }; } catch { return { n: {}, r: [] }; } }
+function usoGravar(o) { try { localStorage.setItem('efc-uso-' + S.user.id, JSON.stringify(o)); } catch {} }
+function usoRegistra(a, t) {
+  if (!S.user || !a || !t || a.id === 'vazio') return;
+  if (S._usoU !== S.user.id) { S._usoU = S.user.id; S._usoUlt = ''; }
+  const k = a.id + '/' + t.id; if (S._usoUlt === k) return; S._usoUlt = k;
+  const o = usoLer(); o.n[k] = (o.n[k] || 0) + 1; o.r = [k].concat(o.r.filter(x => x !== k)).slice(0, USO_REC); usoGravar(o);
+}
+function usoTela(k) { const p = String(k).split('/'), a = areasVisiveis().find(x => x.id === p[0]), t = a && abasDe(a).find(x => x.id === p[1]); return t ? { t: 'aba', id: k, nome: t.nome, sub: a.titulo || a.nome } : null; }
+function bgVazioHTML() {
+  const o = usoLer(), atual = S._usoUlt || '';
+  const rec = o.r.filter(k => k !== atual).map(usoTela).filter(Boolean).slice(0, 4);
+  const top = Object.keys(o.n).filter(k => o.n[k] >= 2).sort((a, b) => o.n[b] - o.n[a]).map(k => { const x = usoTela(k); return x && Object.assign(x, { sub: x.sub + ' · ' + o.n[k] + ' vezes' }); }).filter(Boolean).slice(0, USO_TOP);
+  let k = 0;
+  const bloco = (nome, l) => l.length ? '<div class="bg-gh">' + esc(nome) + '</div>' + l.map(i => '<button type="button" class="bg-it bg-lin' + (k++ === 0 ? ' sel' : '') + '" data-t="' + esc(i.t) + '" data-id="' + esc(i.id) + '"><b>' + esc(i.nome) + '</b>' + (i.sub ? '<small>' + esc(i.sub) + '</small>' : '') + '</button>').join('') : '';
+  return '<div class="bg-vazio">Digite o nome, o código ou parte do texto.</div>' + bloco('Voltar para', rec) + bloco('Mais usadas', top);
+}
 function bgDesenha(sh, q) {
   const r = $('#bg-res', sh), g = bgBusca(q); let k = 0;
-  if (albNorm(q).length < 2) { r.innerHTML = '<div class="bg-vazio">Digite o nome, o código ou parte do texto.</div>'; return; }
+  if (albNorm(q).length < 2) { r.innerHTML = bgVazioHTML(); return; }
   r.innerHTML = g.length ? g.map(x => '<div class="bg-gh">' + esc(x.nome) + '</div>' + x.itens.map(i => '<button type="button" class="bg-it' + (k++ === 0 ? ' sel' : '') + '" data-t="' + esc(i.t) + '" data-id="' + esc(i.id) + '"><b>' + esc(i.nome) + '</b>' + (i.sub ? '<small>' + esc(i.sub) + '</small>' : '') + '</button>').join('') + (x.mais ? '<div class="bg-vazio">+ ' + x.mais + ' (afine a busca)</div>' : '')).join('') : '<div class="bg-vazio">Nada encontrado para “' + esc(q) + '”.</div>';
 }
 function buscaGeral() {
@@ -22933,6 +22956,7 @@ function renderTabs() {
 }
 function renderView() {
   const a = curArea(), t = curTab(a), host = $('#view'); if (!host || !t) return;
+  try { usoRegistra(a, t); } catch {} /* v2.102.59 */
   const y = window.scrollY; _charts = {};
   /* v2.37.0: mesma tela redesenhada (marcar linha no Rateio, na Remessa…) → a tabela fica onde estava */
   const tws = S._rota === a.id + '/' + t.id ? $$('#view .tw').map(e => [e.scrollTop, e.scrollLeft]) : [];
