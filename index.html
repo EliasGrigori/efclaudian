@@ -1067,6 +1067,7 @@ body[data-theme="nevoa"]::before{background:radial-gradient(60% 40% at 15% 10%,r
   .tbar .tdica{flex-basis:100%;order:9}
   .tbar h2{flex-basis:100%}
   .tbar .tprint{padding:0 10px}
+  .tbar .tcols,.tbar .txlsx{padding:0 10px}
   .tbar .tprint .tp-txt{display:none}
 }
 @media(min-width:860px){
@@ -2966,6 +2967,9 @@ table.t th.al-c .th-in .fbtn svg{width:13px;height:13px}
 table.t th.al-e .th-in{justify-content:flex-start}
 /* impressora na ponta direita da barra, mesmo quando a barra quebra de linha */
 .tbar .tprint,.tbar .imp-w,.rl-top .imp-w,.al-apre-ac .imp-w{margin-left:auto}
+/* v2.102.57: Colunas, Planilha e Imprimir juntos na ponta direita (só ícones) */
+.tbar .tcols{margin-left:auto}.tbar .tcols+.txlsx,.tbar .txlsx+.tprint{margin-left:0}.tbar .tcols,.tbar .txlsx{padding:0 10px}
+.tbar .tcols.on{border-color:var(--primary);color:var(--primary)}
 /* PDF: o mesmo alinhamento (vale também para as tabelas que já alinhavam números à direita) */
 #print-root table th.al-c,#print-root table td.al-c{text-align:center!important}
 #print-root table th.al-e,#print-root table td.al-e{text-align:left!important}
@@ -3152,7 +3156,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.56 · Meu dia: o botão Abrir dos cartões leva à lista já filtrada (estoque abaixo do mínimo, NCs)';
+const APP_VERSION = 'v2.102.57 · Tabelas: escolher as colunas e baixar a planilha (.xlsx)';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -3835,6 +3839,8 @@ const ICONS = {
   lixo: '<path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13M10.2 10.5v6.5M13.8 10.5v6.5"/>',
   print: '<path d="M7 9V3h10v6M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><rect x="7" y="14" width="10" height="7" rx="1"/>'
 };
+ICONS.colunas = '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9.5 4v16M14.5 4v16"/>'; /* v2.102.57 */
+ICONS.planilha = '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M8.5 12h7M8.5 16h7M12 12v6"/>';
 ICONS.camera = '<path d="M4 8h3l1.6-2.2h6.8L17 8h3v11H4z"/><circle cx="12" cy="13.2" r="3.6"/>';
 ICONS.lupa = '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>'; /* v2.94.0 */
 ICONS.info = '<circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.6v.4"/>';
@@ -4358,7 +4364,12 @@ window.addEventListener('resize', () => { const h = $('#banner-host'); if (h && 
 /* ============ TABELA (filtro estilo Excel, ordem A–Z, imprimir) ============ */
 const Tables = {}, TState = {};
 const cellText = (c, r) => { const v = c.fmt ? c.fmt(r) : c.get(r); return (v == null || v === '') ? '—' : String(v); };
-function tState(id) { return TState[id] || (TState[id] = { filters: {}, sort: null, limit: 200 }); }
+/* v2.102.57: colunas escondidas por tabela, lembradas neste aparelho */
+function tHideLer(id) { try { const v = JSON.parse(localStorage.getItem('efc-tcols-' + id) || '[]'); return new Set(Array.isArray(v) ? v : []); } catch { return new Set(); } }
+function tHideGravar(id, set) { try { if (set.size) localStorage.setItem('efc-tcols-' + id, JSON.stringify(Array.from(set))); else localStorage.removeItem('efc-tcols-' + id); } catch {} }
+const tFixa = c => c.label === '✓';
+function tCols(cfg) { const h = tState(cfg.id).hide; return cfg.cols.filter(c => tFixa(c) || !h.has(c.key)); }
+function tState(id) { return TState[id] || (TState[id] = { filters: {}, sort: null, limit: 200, hide: tHideLer(id) }); }
 function tRows(cfg) {
   const st = tState(cfg.id);
   let rows = cfg.rows.slice();
@@ -4390,18 +4401,58 @@ function tableHTML(cfg) {
   Tables[cfg.id] = cfg;
   const st = tState(cfg.id), rows = tRows(cfg), shown = rows.slice(0, st.limit);
   const nAtivos = Object.keys(st.filters).length;
-  const L = colLayout(cfg, cfg.rows);
-  const head = cfg.cols.map((c, ci) => {
+  const vcols = tCols(cfg), L = colLayout(Object.assign({}, cfg, { cols: vcols }), cfg.rows);
+  const head = vcols.map((c, ci) => {
     const on = !!st.filters[c.key], srt = st.sort && st.sort.key === c.key ? (st.sort.dir === 'desc' ? ' ▼' : ' ▲') : '';
     return '<th' + (L[ci].long ? ' class="wrap" style="min-width:' + L[ci].ch + 'ch"' : '') + '><div class="th-in"><span>' + esc(c.label) + '<span class="srt">' + srt + '</span></span><button class="fbtn' + (on ? ' on' : '') + '" data-action="t-filter" data-t="' + esc(cfg.id) + '" data-c="' + esc(c.key) + '" aria-label="Filtrar ' + esc(c.label) + '">' + ico('funnel') + '</button></div></th>';
   }).join('');
-  const body = shown.map((r, i) => '<tr' + (cfg.onRow ? ' class="click" data-action="t-row" data-t="' + esc(cfg.id) + '" data-i="' + i + '"' : '') + '>' + cfg.cols.map((c, ci) => '<td class="' + (L[ci].long ? 'wrap" style="min-width:' + L[ci].ch + 'ch' : 'nw') + '">' + (c.html ? c.html(r) : esc(cellText(c, r))) + '</td>').join('') + '</tr>').join('');
+  const body = shown.map((r, i) => '<tr' + (cfg.onRow ? ' class="click" data-action="t-row" data-t="' + esc(cfg.id) + '" data-i="' + i + '"' : '') + '>' + vcols.map((c, ci) => '<td class="' + (L[ci].long ? 'wrap" style="min-width:' + L[ci].ch + 'ch' : 'nw') + '">' + (c.html ? c.html(r) : esc(cellText(c, r))) + '</td>').join('') + '</tr>').join('');
   cfg._shown = shown;
   return '<div class="tbar tb-' + esc(cfg.id) + (cfg.dica ? ' has-dica' : '') + (cfg.centro ? ' t-centro' : '') + '">' + (cfg.antes ? '<span class="tantes">' + cfg.antes + '</span>' : '') + '<h2>' + esc(cfg.title) + '</h2>' + (cfg.junto ? '<span class="tjunto">' + cfg.junto + '</span>' : '') + (cfg.dica ? '<span class="tdica">' + esc(cfg.dica) + '</span>' : '') + (cfg.acoes ? '<span class="tacoes">' + cfg.acoes + '</span>' : '') + (nAtivos ? '<span class="count">' + rows.length + (rows.length === 1 ? ' registro' : ' registros') + ' · ' + nAtivos + ' filtro(s)</span>' : '') + /* v2.102.39: sem filtro, sem contador */
     (nAtivos || st.sort ? '<button class="btn sm" data-action="t-clear" data-t="' + esc(cfg.id) + '">Limpar filtros</button>' : '') +
+    '<button class="btn sm tcols' + (st.hide.size ? ' on' : '') + '" data-action="t-cols" data-t="' + esc(cfg.id) + '" title="Escolher colunas" aria-label="Escolher colunas">' + ico('colunas') + '</button>' +
+    '<button class="btn sm txlsx" data-action="t-xlsx" data-t="' + esc(cfg.id) + '" title="Baixar planilha (.xlsx)" aria-label="Baixar planilha (.xlsx)">' + ico('planilha') + '</button>' +
     '<button class="btn sm tprint" data-action="t-print" data-t="' + esc(cfg.id) + '" title="Imprimir / PDF" aria-label="Imprimir / PDF">' + ico('print') + '</button></div>' +
-    '<div class="tw"><table class="t"><thead><tr>' + head + '</tr></thead><tbody>' + (body || '<tr><td colspan="' + cfg.cols.length + '" style="text-align:center;color:var(--text-muted);padding:28px">Nenhum registro com esses filtros.</td></tr>') + '</tbody></table>' +
+    '<div class="tw"><table class="t"><thead><tr>' + head + '</tr></thead><tbody>' + (body || '<tr><td colspan="' + vcols.length + '" style="text-align:center;color:var(--text-muted);padding:28px">Nenhum registro com esses filtros.</td></tr>') + '</tbody></table>' +
     (rows.length > shown.length ? '<div class="tfoot"><button class="btn sm" data-action="t-more" data-t="' + esc(cfg.id) + '">Mostrar mais ' + Math.min(200, rows.length - shown.length) + '</button></div>' : '') + '</div>';
+}
+/* v2.102.57 — janela "Colunas" (marcar o que aparece) e planilha .xlsx do que está na tela */
+function openColunas(tid) {
+  const cfg = Tables[tid]; if (!cfg) return;
+  const st = tState(tid), lista = cfg.cols.filter(c => !tFixa(c)), sel = new Set(lista.filter(c => !st.hide.has(c.key)).map(c => c.key));
+  const sh = openSheet('<h3>Colunas</h3><div class="sub">Marque as colunas que aparecem nesta tabela, na planilha e na impressão. Fica lembrado neste aparelho.</div>' +
+    '<div class="fl-list" id="co-list">' + lista.map(c => '<label class="fl-item"><input type="checkbox" data-k="' + esc(c.key) + '"' + (sel.has(c.key) ? ' checked' : '') + '><span>' + esc(c.label) + '</span></label>').join('') + '</div>' +
+    '<div style="display:flex;gap:8px"><button class="btn sm" id="co-all" style="flex:1">Mostrar todas</button></div>' +
+    '<div id="co-av" class="sub" style="color:var(--crit);min-height:16px"></div><button class="btn primary block" id="co-ok" style="margin-top:4px">Aplicar</button>', { noFocus: true });
+  const lt = $('#co-list', sh);
+  lt.addEventListener('change', e => { const k = e.target.getAttribute('data-k'); if (k == null) return; if (e.target.checked) sel.add(k); else sel.delete(k); $('#co-av', sh).textContent = ''; });
+  $('#co-all', sh).addEventListener('click', () => { lista.forEach(c => sel.add(c.key)); $$('input[data-k]', lt).forEach(i => { i.checked = true; }); });
+  $('#co-ok', sh).addEventListener('click', () => {
+    if (!sel.size) { $('#co-av', sh).textContent = 'Deixe pelo menos uma coluna.'; return; }
+    st.hide = new Set(lista.filter(c => !sel.has(c.key)).map(c => c.key));
+    st.hide.forEach(k => { delete st.filters[k]; if (st.sort && st.sort.key === k) st.sort = null; });
+    tHideGravar(tid, st.hide); closeSheet(); renderView();
+  });
+}
+function tPlanilhaDados(cfg) {
+  const cols = tCols(cfg).filter(c => !ptOculta(c)), rows = tRows(cfg);
+  return { cab: cols.map(c => c.pl || c.label), linhas: rows.map(r => cols.map(c => {
+    if (c.type === 'num' && !c.fmt) { const v = c.get(r); if (typeof v === 'number' && isFinite(v)) return v; }
+    const t = cellText(c, r); return t === '—' ? '' : t;
+  })) };
+}
+function tExportXlsx(tid) {
+  const cfg = Tables[tid]; if (!cfg) return;
+  const d = tPlanilhaDados(cfg), usados = [], aba = bkAbaNome(cfg.title, usados);
+  const a = bkXlsxArquivos({}, { ts: nowISO(), por: (S.user && S.user.nome) || '' });
+  const wb = a.find(x => x.nome === 'xl/workbook.xml'); wb.dados = wb.dados.replace(/name="[^"]*"/, 'name="' + bkXml(aba) + '"');
+  a.find(x => x.nome === 'xl/worksheets/sheet1.xml').dados = bkAbaXml(d.cab, d.linhas);
+  const slug = String(cfg.title).normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Za-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 50) || 'tabela';
+  const nome = 'EFClaudian-' + slug + '-' + hojeISO() + '.xlsx';
+  S._tUltimaPlanilha = a;
+  bkBaixar(new Blob(bkZipPartes(a), { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), nome);
+  Audit.log({ acao: 'exportar_planilha', entidade: 'tabela', entidadeId: tid, resumo: 'Baixou a planilha de "' + cfg.title + '" (' + d.linhas.length + ' linhas, ' + d.cab.length + ' colunas)' });
+  toast('Planilha baixada: ' + nome, 'ok');
 }
 function openFilter(tid, ckey) {
   const cfg = Tables[tid]; if (!cfg) return;
@@ -17805,7 +17856,7 @@ function ptLarguras(specs) {
 function ptColgroup(pct) { return '<colgroup>' + pct.map(p => '<col style="width:' + p + '%">').join('') + '</colgroup>'; }
 /* tabela impressa a partir das colunas da tela (printTable) */
 function ptTabelaHTML(cfg, rows) {
-  const cols = cfg.cols.concat(cfg.printExtra || []).filter(c => !ptOculta(c));
+  const cols = tCols(cfg).concat(cfg.printExtra || []).filter(c => !ptOculta(c));
   const txt = rows.map(r => cols.map(c => ptTexto(c, r)));
   const pct = ptLarguras(cols.map((c, ci) => ({ label: c.pl || c.label, txts: txt.map(l => l[ci]), date: c.type === 'date', pw: c.pw, flex: !!c.pFlex })));
   return '<table class="pt">' + ptColgroup(pct) + '<thead><tr>' + cols.map(c => '<th>' + esc(c.pl || c.label) + '</th>').join('') + '</tr></thead><tbody>' +
@@ -23432,6 +23483,8 @@ document.addEventListener('click', e => {
     case 't-more': tState(t.getAttribute('data-t')).limit += 200; renderView(); break;
     case 't-clear': { const st = tState(t.getAttribute('data-t')); st.filters = {}; st.sort = null; renderView(); break; }
     case 't-print': printTable(t.getAttribute('data-t')); break;
+    case 't-cols': openColunas(t.getAttribute('data-t')); break;
+    case 't-xlsx': tExportXlsx(t.getAttribute('data-t')); break;
     case 'user-open': openUserDetail(id); break;
     case 'user-edit': openUserEdit(id); break;
     case 'user-save-edit': saveUserEdit(id); break;
