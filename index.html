@@ -3152,7 +3152,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.55 · Estoque mínimo: medidor na lista de Materiais e aviso no sino ao cair abaixo do mínimo';
+const APP_VERSION = 'v2.102.56 · Meu dia: o botão Abrir dos cartões leva à lista já filtrada (estoque abaixo do mínimo, NCs)';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -21843,7 +21843,7 @@ function mdSisHTML() {
     const G = B.filter(b => b.nivel === g[0]); if (!G.length) return;
     h += '<div class="md-sec ' + g[0] + '"><h4 class="md-sec-t">' + g[1] + ' <em>' + G.reduce((a, b) => a + b.itens.length, 0) + '</em></h4>' + G.map(b => {
       const todos = !!e.mdAbre[b.id], L = todos ? b.itens : b.itens.slice(0, 3);
-      return '<section class="md-card ' + b.nivel + '" data-md="' + esc(b.id) + '"><header><span class="md-ic">' + mdIcone(b.ir) + '</span><h3>' + esc(b.titulo) + '</h3><span class="md-n">' + b.itens.length + '</span><button class="md2-abr" data-action="md-ir" data-id="' + esc(b.ir) + '">Abrir</button></header>' +
+      return '<section class="md-card ' + b.nivel + '" data-md="' + esc(b.id) + '"><header><span class="md-ic">' + mdIcone(b.ir) + '</span><h3>' + esc(b.titulo) + '</h3><span class="md-n">' + b.itens.length + '</span><button class="md2-abr" data-action="md-ir" data-id="' + esc(b.ir) + '"' + (MD_FILTRO[b.id] ? ' data-b="' + esc(b.id) + '" title="Abre a lista já filtrada"' : '') + '>Abrir</button></header>' +
         L.map((x, i) => { const t = tfDaOrigem(mdChave(b, x));
           return '<div class="md-li"><span class="md2-x"><b>' + esc(x.t) + '</b><small>' + esc(x.d || '') + '</small></span>' +
             (t ? '<button class="md2-prog" data-action="tf-abrir" data-id="' + esc(t.id) + '" title="Abrir a tarefa">Programada · ' + esc(tfQuando(t)) + (t.respId !== S.user.id ? ' · ' + esc(tfCurto(t.respId)) : '') + '</button>'
@@ -21894,6 +21894,13 @@ function mdFichaSis(bid, i) {
   openSheet('<div class="md2-ficha"><h3>' + esc(x.t) + '</h3><div class="md2-kv">' + L.map(r => '<span class="k">' + r[0] + '</span><span>' + r[1] + '</span>').join('') + '</div><div class="fm-dica">Some sozinha quando o problema é resolvido na área de origem.</div>' +
     '<div class="row-actions"><button class="btn" data-action="tf-md-ir" data-id="' + esc(b.ir) + '">Abrir na área</button>' + (t ? '<button class="btn primary" data-action="tf-ficha-abrir" data-id="' + esc(t.id) + '">Ver a tarefa</button>' : '<button class="btn primary" data-action="tf-md-prog" data-id="' + esc(b.id) + '" data-i="' + i + '">Programar</button>') + '</div></div>');
 }
+/* v2.102.56 (ideia do Flow, aprovada 03/11): o "Abrir" do cartão do Meu dia já deixa a lista de destino filtrada. Só onde a tela tem filtro simples; os outros cartões abrem como antes. */
+const MD_FILTRO = {
+  'al-min': () => { S.alMatF = 'atencao'; },
+  'nc': b => { S.ncF = b && b.nivel === 'crit' ? 'vencidas' : 'abertas'; S.ncO = 'todas'; S.ncP = ''; S.ncT = 'todas'; }
+};
+function mdFiltroAplica(bid) { const f = MD_FILTRO[bid]; if (!f) return; f((S._mdBl || []).find(x => x.id === bid)); }
+document.addEventListener('click', e => { const b = e.target && e.target.closest && e.target.closest('[data-action="md-ir"][data-b]'); if (b) { try { mdFiltroAplica(b.getAttribute('data-b')); } catch {} } }, true);
 function mdIr(id) {
   closeSheet(); id = String(id || '');
   if (id === 'bk:') { openBackup(); return; } if (id === 'pc:') { procIrTela(); return; } if (id.indexOf('ac:') === 0) { openAcao(id.slice(3)); return; }
