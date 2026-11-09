@@ -3166,7 +3166,7 @@ table.t td{vertical-align:middle}
 <script>
 'use strict';
 /* ============ CONFIG ============ */
-const APP_VERSION = 'v2.102.59 · Busca geral mostra as últimas telas e as mais usadas (atalhos)';
+const APP_VERSION = 'v2.102.60 · Login: conserta sozinho o cache travado do aparelho';
 const COMPANY = 'EFClaudian';
 const FIREBASE_CONFIG = {
   apiKey: 'AIzaSyAm5bkvHaWaS3mMBmfFP-ug0kB2ve9GjQ4',
@@ -3483,7 +3483,7 @@ const Data = (function () {
         Store.set('sv2demo_auth', JSON.stringify(a));
         return id;
       }
-      const sec = firebase.apps.find(x => x.name === 'sec') || firebase.initializeApp(fbConfigAtual(), 'sec');
+      let sec = firebase.apps.find(x => x.name === 'sec'); if (!sec) { sec = firebase.initializeApp(fbConfigAtual(), 'sec'); appCheckLigar(sec); } /* v2.102.60: App Check também aqui */
       const c = await sec.auth().createUserWithEmailAndPassword(emailInterno || emailOf(login), senha);
       await sec.auth().signOut();
       return c.user.uid;
@@ -3518,7 +3518,9 @@ const Data = (function () {
       appCheckLigar(); /* v2.88.0: antes do Firestore e do login */
       fdb = firebase.firestore(); fauth = firebase.auth(); try { fauth.languageCode = 'pt'; } catch (e) {}
       try { await fauth.setPersistence(firebase.auth.Auth.Persistence.LOCAL); } catch (e) { try { await fauth.setPersistence(firebase.auth.Auth.Persistence.SESSION); S._authSessao = true; } catch {} } /* v2.76.0: o aparelho guarda a sessão; ao abrir, o app pede a senha (funciona sem internet). v2.102.9: se não der, guarda na aba */
-      try { await fdb.enablePersistence({ synchronizeTabs: true }); } catch (e) { console.warn('Sem cache offline:', e.code); S._semCache = (e && (e.name === 'QuotaExceededError' ? 22 : e.code)) || 'erro'; } /* v2.84.0: avisa na tela */
+      /* v2.102.60: se o cache do aparelho quebrou duas vezes seguidas, abre sem ele por 1 dia (o app funciona online normalmente) */
+      let semCache = false; try { semCache = Number(localStorage.getItem('ef-semcache-ate') || 0) > Date.now(); } catch {}
+      if (semCache) S._semCache = 'desligado'; else try { await fdb.enablePersistence({ synchronizeTabs: true }); } catch (e) { console.warn('Sem cache offline:', e.code); S._semCache = (e && (e.name === 'QuotaExceededError' ? 22 : e.code)) || 'erro'; } /* v2.84.0: avisa na tela */
       try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().then(v => { S._persistido = !!v; }).catch(() => {}); } catch {} /* v2.102.9: pede ao navegador para não apagar o cache sozinho */
     },
     async setupDone() {
@@ -3545,6 +3547,16 @@ const Data = (function () {
     async semPendentes(ms) { if (DEMO || !fdb) return true; try { return await Promise.race([fdb.waitForPendingWrites().then(() => true), new Promise(r => setTimeout(() => r(false), ms || 2500))]); } catch (e) { return false; } },
     /* apaga só a CÓPIA da nuvem guardada neste navegador (cache offline). Depois disso a página precisa recarregar. */
     async limparCache() { if (DEMO || !fdb) return false; try { await fdb.terminate(); } catch {} await fdb.clearPersistence(); return true; },
+    /* v2.102.60 ("The client has already been terminated" ao entrar): o Firestore se desliga sozinho quando o banco do
+       navegador (IndexedDB) quebra. Conserto: apaga só a cópia da nuvem guardada no aparelho e recarrega; o login continua.
+       Na 2ª vez seguida, abre sem cache por 1 dia. Nada da nuvem é apagado. */
+    async reparaCache() {
+      if (DEMO || !fdb) return;
+      let n = 0; try { n = Number(sessionStorage.getItem('ef-reparou') || 0); sessionStorage.setItem('ef-reparou', String(n + 1)); } catch {}
+      if (n >= 1) { try { localStorage.setItem('ef-semcache-ate', String(Date.now() + 864e5)); } catch {} }
+      try { await fdb.terminate(); } catch {} try { await fdb.clearPersistence(); } catch (e) { console.warn('clearPersistence', e); }
+      location.reload();
+    },
     /* v2.85.0: várias gravações juntas — ou entram todas, ou nenhuma (lote do Firestore; funciona sem internet) */
     novoId(name) { return DEMO || !fdb ? uid() : fdb.collection(name).doc().id; },
     lote(ops) {
@@ -23044,13 +23056,13 @@ const errMsg = e => ERR[e && e.code] || ('Erro: ' + ((e && (e.code || e.message)
 /* v2.88.0 — App Check com o Fraud Defense (reCAPTCHA Enterprise). A chave do site é pública (vai no código).
    Só no projeto principal: no "projeto de teste" e na demonstração não liga. Qualquer falha não impede o app. */
 const APPCHECK_CHAVE = '6LdLDeYtAAAAADNuye_RKI1MROdCo56DGI31jDS-';
-function appCheckLigar() {
-  S._appCheck = 'desligado';
+function appCheckLigar(app) { /* v2.102.60: app = outro app do Firebase (o 'sec', que cria contas); sem app = o principal */
+  if (!app) S._appCheck = 'desligado';
   try {
     if (DEMO || fbTesteAtivo() || !APPCHECK_CHAVE || !firebase.appCheck || !firebase.appCheck.ReCaptchaEnterpriseProvider) return false;
-    firebase.appCheck().activate(new firebase.appCheck.ReCaptchaEnterpriseProvider(APPCHECK_CHAVE), true);
-    S._appCheck = 'ligado'; return true;
-  } catch (e) { console.warn('App Check:', e && (e.code || e.message)); S._appCheck = 'erro'; return false; }
+    firebase.appCheck(app).activate(new firebase.appCheck.ReCaptchaEnterpriseProvider(APPCHECK_CHAVE), true);
+    if (!app) S._appCheck = 'ligado'; return true;
+  } catch (e) { console.warn('App Check:', e && (e.code || e.message)); if (!app) S._appCheck = 'erro'; return false; }
 }
 const RC_NOTA = '<p class="rc-nota">Protegido pelo reCAPTCHA · <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacidade</a> · <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Termos</a></p>';
 function authCard(inner) {
@@ -23126,6 +23138,10 @@ async function doSetup() {
 
 /* ============ SESSÃO ============ */
 function cleanupSession() { S.unsub.forEach(f => { try { f(); } catch {} }); S.unsub = []; S.rncGut = []; S.rncRisco = false; /* v2.102.12 */ S.rncPlano = []; S.rncPl = null; S.rncPlConf = null; /* v2.102.13 */ S.conq = []; S.apontTeste = []; S.rncTeste = []; S.avatars = {}; S.cloroFaltas = {}; S.almMovErro = ''; S.bugF = null; S.cfgAgua = null; /* v2.99.1 (L8) */ S.tarefas = []; S.cfgTf = null; S.tf = null; S.bugs = []; S.cfgEmp = null; S._empMig = false; S.chat = []; S.chatF = 'todas'; S.cfgDoc = null; S.cfgBk = null; S.cfgArq = null; S.arqDados = null; S.arqVer = null; S.rnc = []; S.normas = []; S.normasEd = []; S.nrmF = null; S.nrmClF = null; S.nrmImpEd = null; S.rncNc = null; S.rncCf = null; S.almEq = []; S.almTransf = []; S.trf = null; S.trfR = null; S.qb = null; S.qbr = null; S.almCal = []; S.almInv = []; S.invNovo = null; S.invMot = null; S.invFreq = null; S.rcSel = null; S.rcF = null; S.eqF = 'todos'; S.eqEv = null; S.eqConf = null; S.rodizios = []; S.respEd = null; S.rzEd = null; S.aguaproj = []; S.aguapontos = []; S.pjEd = null; S.procs = []; S.procNovo = null; S.users = []; S.notifs = []; S.audit = []; S.aprov = []; S.resumos = []; S.docs = []; S.caixas = []; S.lanc = []; S.bebs = []; S.cloro = []; S.talhoes = []; S.analises = []; S.cfgCol = null; S.etqmodelos = []; S.apont = []; S.cfgAp = null; S.almItens = []; S.almMov = []; S.almSol = []; S.cfgAlm = null; S.almPref = null; S.almEquip = []; S.alMes = null; S.prog = []; S.coletas = []; S.aguacol = []; S.alerted = new Set(); S.testBanner = null; }
+/* v2.102.60: cache do aparelho travado (Firestore desligado) — conserta sozinho no máximo 2 vezes por aba */
+const efTerminado = e => /already been terminated|client has been terminated|IndexedDB|INTERNAL ASSERTION/i.test(String((e && (e.message || e.code)) || e || ''));
+function efPodeReparar() { try { return Number(sessionStorage.getItem('ef-reparou') || 0) < 2; } catch { return false; } }
+window.addEventListener('unhandledrejection', ev => { if (!DEMO && efTerminado(ev.reason) && efPodeReparar()) { try { toast('Consertando o cache do aparelho…'); } catch {} Data.reparaCache(); } });
 async function onAuth(id) {
   if (S.busy) return;
   cleanupSession();
@@ -23140,7 +23156,7 @@ async function onAuth(id) {
     lgParar();
     if (S.loginPending) lgTransicao(p); /* v2.72.0 */
     S.lockUlt = Date.now(); /* v2.73.0 */
-    S.user = p; applyTheme(p.tema || Store.get('sv2-theme') || 'dark');
+    S.user = p; applyTheme(p.tema || Store.get('sv2-theme') || 'dark'); try { sessionStorage.removeItem('ef-reparou'); } catch {} /* v2.102.60 */
     /* v2.76.0: abriu o app com a sessão guardada (não acabou de digitar a senha) → pede a senha por cima, com a paisagem
        v2.87.0: a tela de senha entra ANTES de montar o app (antes o app aparecia por ~0,25 s) */
     const lkNovo = S.loginPending || S.entrouAgora; S.entrouAgora = false;
@@ -23148,7 +23164,11 @@ async function onAuth(id) {
     startSession(); renderShell(); renderView(); cadSincEmail(p); /* v2.74.0 */
     Promise.resolve(S._lkProm).then(() => { if (LOCK_HASH && S.user && S.user.id === p.id) lkSalvar(p.id); });
     if (S.loginPending) { S.loginPending = false; Audit.log({ acao: 'login', entidade: 'sessao', resumo: p.nome + ' entrou no app' }); }
-  } catch (e) { console.error(e); S.loginPending = false; await showLogin('Não foi possível carregar seu perfil. ' + (navigator.onLine ? errMsg(e) : 'Sem conexão.')); }
+  } catch (e) {
+    console.error(e); S.loginPending = false;
+    if (efTerminado(e) && efPodeReparar()) { Data.reparaCache(); return; } /* v2.102.60 */
+    await showLogin('Não foi possível carregar seu perfil. ' + (!navigator.onLine ? 'Sem conexão.' : efTerminado(e) ? 'O cache deste aparelho travou. Feche todas as abas do EFClaudian e do EFCwork e abra de novo; se continuar, avise o administrador.' : e && e.code === 'permission-denied' ? 'O Firebase recusou a leitura: confira as regras ou o App Check.' : errMsg(e)));
+  }
 }
 /* v2.89.0: o aviso diz a causa (22 = o navegador está sem espaço para guardar) */
 function semCacheTxt(c) {
